@@ -11,10 +11,8 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Jeremy&#39;s blog | Jeremy&#39;s blog</title>
+        <title>写来的都是过去 | Jeremy&#39;s blog</title>
 
-        
-            <link rel="alternate" type="application/rss" href="https://jeremyyin.com/index.xml">
         
 
         <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
@@ -103,98 +101,49 @@
                     <div class="col-sm-12">
                             
 
-    
-  <div class="container" style="padding-top: 2rem">
-      <div class="row">
-          <div class="col-sm-12">
-           <div id="search-searchbar"></div>
-           <div class="post-list" id="search-hits" style="padding-top: 1rem"></div>
-        </div>
-      </div>
-    </div>
-  
-  
-  
-  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch-theme-algolia.min.css">
+    <article>
+        <h1>写来的都是过去</h1>
+        <p>第六周快过完，写完又测试完了5个API，大概分三个项目完成，今天刚完成第三个。</p>
 
-  
-  <script>
-  const search = instantsearch({
-    appId: '5AK65RDSWI',
-    apiKey: '5cb2e03f3d9cc9b8f4ecac0245ec0a8d',
-    indexName: 'jeremyyin.com',
-    searchParameters: {
-      restrictSearchableAttributes: [
-        'title',
-        'content'
-      ]
-    }
-  });
-  
-  const hitTemplate = function(hit) {
-    let date = '';
-    if (hit.date) {
-      date = moment.unix(hit.date).format('MMM D, YYYY');
-    }
-    const url = hit.url;
-    const title = hit._highlightResult.title.value;
-    const content = hit._highlightResult.html.value;
-  
-    return `
-      <div class="post-item">
-        <h2><a class="post-link" href="${url}">${title}</a></h2>
-        <span class="post-meta">${date}</span>
-        <div class="post-snippet">${content}</div>
-      </div>
-    `;
-  }
-  
-  
-  search.addWidget(
-    instantsearch.widgets.searchBox({
-      container: '#search-searchbar',
-      placeholder: 'Search into posts...',
-      poweredBy: true // This is required if you're on the free Community plan
-    })
-  );
-  
-  search.addWidget(
-    instantsearch.widgets.hits({
-      container: '#search-hits',
-      templates: {
-        item: hitTemplate
-      }
-    })
-  );
-  
-  search.start();
-  </script>
-  
-  <style>
-  .ais-search-box {
-    max-width: 100%;
-    margin-bottom: 15px;
-  }
-  .post-item {
-    margin-bottom: 30px;
-  }
-  .post-link .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-     
-  }
-  .post-snippet .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-    font-weight: bold;
-  }
-  .post-snippet img {
-    display: none;
-  }
-  </style>
+<p>又预备开始下一个“小”项目。</p>
+
+<p>说小，是格局小，而又很大，如果格局放大来看的话。</p>
+
+<p>不论将来多大，且看且行。</p>
+
+<p>说，写出来的都是过去。</p>
+
+<p>是因为，事情做完了，松一口气，刚好会有机会回望过去的时间，然后，再转头望向未来。</p>
+
+<p>我总是以为我能在事情完毕之后能说出点什么，然而并没有。</p>
+
+<p>几乎等事情差不多快完毕的时候，目光已经开始转向下一个目标。</p>
+
+<p>不过还是可以回顾下之前的某些时刻。</p>
+
+<p>之前说，带上恐惧前行，我想是确实有必要的。</p>
+
+<p>在好奇心已经无法支撑起前进的步伐，那么靠恐惧来推动，是现实的做法。</p>
+
+<p>只是，如果不能Hold住这种恐惧，让我很怕的事情就是被恐惧压垮，身心俱疲。</p>
+
+<p>我又是想多了吧，想项目多时候，我就是往多极了想，然后再被打回原形。</p>
+
+<p>这样也挺好的，务实。</p>
+
+<hr />
+
+<p>其实好像还有一些其它事情总是在某些时候在脑海里冒出来，然而等到能有机会写的时候，几乎又消失得全然不见。</p>
+
+<p>所以就先这样吧，能写什么就写什么，不该对这个有顾虑。</p>
+
+<p>今年，会随回乡大军回家，来年又随大军回城。</p>
+
+<p>其实等那会儿已经2月了，也不必介意吧，不就是2017而已。</p>
+
+<p>下次，还是有想法就行动起来吧，无论什么；很多事情，会被时间抹掉的。</p>
+
+    </article>
 
 
                   </div>

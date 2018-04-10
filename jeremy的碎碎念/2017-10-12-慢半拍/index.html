@@ -11,10 +11,8 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Jeremy&#39;s blog | Jeremy&#39;s blog</title>
+        <title>慢半拍 | Jeremy&#39;s blog</title>
 
-        
-            <link rel="alternate" type="application/rss" href="https://jeremyyin.com/index.xml">
         
 
         <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
@@ -103,98 +101,53 @@
                     <div class="col-sm-12">
                             
 
-    
-  <div class="container" style="padding-top: 2rem">
-      <div class="row">
-          <div class="col-sm-12">
-           <div id="search-searchbar"></div>
-           <div class="post-list" id="search-hits" style="padding-top: 1rem"></div>
-        </div>
-      </div>
-    </div>
-  
-  
-  
-  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch-theme-algolia.min.css">
+    <article>
+        <h1>慢半拍</h1>
+        <p>在《绿光森林》中欧文在某个时刻对苏菲说：adajiu，被苏菲追问一通。而其源由于音乐专业术语：adagio，欧文搞音乐的嘛，自然。</p>
 
-  
-  <script>
-  const search = instantsearch({
-    appId: '5AK65RDSWI',
-    apiKey: '5cb2e03f3d9cc9b8f4ecac0245ec0a8d',
-    indexName: 'jeremyyin.com',
-    searchParameters: {
-      restrictSearchableAttributes: [
-        'title',
-        'content'
-      ]
-    }
-  });
-  
-  const hitTemplate = function(hit) {
-    let date = '';
-    if (hit.date) {
-      date = moment.unix(hit.date).format('MMM D, YYYY');
-    }
-    const url = hit.url;
-    const title = hit._highlightResult.title.value;
-    const content = hit._highlightResult.html.value;
-  
-    return `
-      <div class="post-item">
-        <h2><a class="post-link" href="${url}">${title}</a></h2>
-        <span class="post-meta">${date}</span>
-        <div class="post-snippet">${content}</div>
-      </div>
-    `;
-  }
-  
-  
-  search.addWidget(
-    instantsearch.widgets.searchBox({
-      container: '#search-searchbar',
-      placeholder: 'Search into posts...',
-      poweredBy: true // This is required if you're on the free Community plan
-    })
-  );
-  
-  search.addWidget(
-    instantsearch.widgets.hits({
-      container: '#search-hits',
-      templates: {
-        item: hitTemplate
-      }
-    })
-  );
-  
-  search.start();
-  </script>
-  
-  <style>
-  .ais-search-box {
-    max-width: 100%;
-    margin-bottom: 15px;
-  }
-  .post-item {
-    margin-bottom: 30px;
-  }
-  .post-link .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-     
-  }
-  .post-snippet .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-    font-weight: bold;
-  }
-  .post-snippet img {
-    display: none;
-  }
-  </style>
+<p>至于为什么还记得有这么一幕，我也不知道，反正这些年它时不时地就会冒出来一下，比如这次又冒出来了。</p>
+
+<p>当时无所事事，也没啥可玩弄的物件，也没啥可去的地方，以此度过不问世事的年纪，当也是很好的娱乐了。</p>
+
+<p>后来不知何时起，直接把连续剧类全部默认拉入了黑名单，除非特别有机缘，否则是不会去看的，所以这些年看过的剧也可能手指头能数得过来了，还好，电影可能数不完。</p>
+
+<p>当年在学校时一部《蜗居》惹的满世界的讨论，可今天再回看，编剧组的脑洞还是不够大啊，或者说，可能想象力的胆子也还不够大，谁又能想象数年之后，这满世界的如此荒芜呢。</p>
+
+<p>还是威廉帅。</p>
+
+<p>时间没有被拿去刷剧，那时间就总有地方用掉了，不然怎么从哪里多出那么多时间可以用来颓废。每次电影看完，还不忘记再去豆瓣瞧瞧别人怎么说，又或者是有和疑问与不解的地方，可终究能记住某些瞬间的，没有多少，感受都到骨子里了吧，或许是这样安慰着自己就是可以的。</p>
+
+<p>自打毕业来深圳已快近 6 年，回想起，可能有两段时间是忘记了日月星辰。一段可能是拿着伍昊的两本 Excel 书的时候，另外一段，我觉着应该是把物流跟踪信息自动更新以及建立起订单数据共享操作服务的那两个月，Python 此时算是入了门。</p>
+
+<p>回望下，往严重了讲，那可能是关系着后来自己生死存亡的两段时间。</p>
+
+<p>一些事情发生的时候，一环接着一环，谁也不知道未来会发生什么，但是呢，又貌似冥冥之中，这些话，可能之前也讲过了，一种体会而已。</p>
+
+<p>不过呢，Python 操作 Excel 也是顺手得很了：</p>
+
+<blockquote>
+<p>使用 Python，我们有个软件包（库）叫 Pandas，很多人总叫它“熊猫”，而其实大多数时候用中文输入法直接输的时候输入法总是给我提示“潘大师”，或许，这个人确实很流弊吧，可我始终也不知道是谁。</p>
+
+<p>一行 <code>df = pd.read_excel(&quot;filename.xlsx&quot;)</code> 把数据读起来，再有各种数据操作几下，想干嘛干嘛，计算个几百万行也就零点几秒的事情，然后又是一行 <code>df.to_excel(&quot;filename_output.xlsx&quot;)</code> 就把数据输出到文件了，爽快的不得了，谁让看数据的话，还是 Excel 来的直接又暴力呢。</p>
+
+<p>最近使用它的透视表用的爽滑得很：</p>
+
+<p><code>df_pivot = df.pivot_table(index=[...], aggfunc={...})</code> ，数据再多也不在话下吧。</p>
+</blockquote>
+
+<p>“列操作”的思维从 Excel 那里已深有体会，而到了 Pandas 这里，深刻得不能再深刻了，也不用说“数据类型一致性”的规范有多么重要了，现在看到谁在 Excel 单元格里面使用 <code>-</code> 作为零值占位符简直就想立马一棒子挥过去对吧。还好，Python 也能从容面对各种数据奇葩，难看的是脸。</p>
+
+<p>写 Python 最喜欢 Mac，可是 Excel 还是 Windows 流弊，不得不叹气，Parallels 这个不仁不义的，macOS 一升级发大版本它就跟着发新版本跟你说咱们又可以付款升级了亲，升级只要……</p>
+
+<p>可一年不到你就都已经发两个大版本了，真是懒得理你。</p>
+
+<p>去年有人推荐的《信号》，存都存了，最后依然没看，后来了我跑去看《虫师》了，实在说不出来是治愈系还是致郁系，可却是是一个人躲起来看很舒服的。</p>
+
+<p>对了，据说四川辣酱火了，果然还是火爆了，都是因为《Rick and Morty》，如果你连过我的热点 Wi-Fi ，你是否还记得曾问我这密码怎么辣么复杂，可其实一点也不复杂对吧。</p>
+
+<p>“人”这种生物才复杂。</p>
+
+    </article>
 
 
                   </div>

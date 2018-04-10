@@ -11,10 +11,8 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Jeremy&#39;s blog | Jeremy&#39;s blog</title>
+        <title>那些闯入的 Bugs | Jeremy&#39;s blog</title>
 
-        
-            <link rel="alternate" type="application/rss" href="https://jeremyyin.com/index.xml">
         
 
         <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
@@ -103,98 +101,55 @@
                     <div class="col-sm-12">
                             
 
-    
-  <div class="container" style="padding-top: 2rem">
-      <div class="row">
-          <div class="col-sm-12">
-           <div id="search-searchbar"></div>
-           <div class="post-list" id="search-hits" style="padding-top: 1rem"></div>
-        </div>
-      </div>
-    </div>
-  
-  
-  
-  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch-theme-algolia.min.css">
+    <article>
+        <h1>那些闯入的 Bugs</h1>
+        <p>住在山边边的一个好处是离道路远些，路面噪音会少一些。</p>
 
-  
-  <script>
-  const search = instantsearch({
-    appId: '5AK65RDSWI',
-    apiKey: '5cb2e03f3d9cc9b8f4ecac0245ec0a8d',
-    indexName: 'jeremyyin.com',
-    searchParameters: {
-      restrictSearchableAttributes: [
-        'title',
-        'content'
-      ]
-    }
-  });
-  
-  const hitTemplate = function(hit) {
-    let date = '';
-    if (hit.date) {
-      date = moment.unix(hit.date).format('MMM D, YYYY');
-    }
-    const url = hit.url;
-    const title = hit._highlightResult.title.value;
-    const content = hit._highlightResult.html.value;
-  
-    return `
-      <div class="post-item">
-        <h2><a class="post-link" href="${url}">${title}</a></h2>
-        <span class="post-meta">${date}</span>
-        <div class="post-snippet">${content}</div>
-      </div>
-    `;
-  }
-  
-  
-  search.addWidget(
-    instantsearch.widgets.searchBox({
-      container: '#search-searchbar',
-      placeholder: 'Search into posts...',
-      poweredBy: true // This is required if you're on the free Community plan
-    })
-  );
-  
-  search.addWidget(
-    instantsearch.widgets.hits({
-      container: '#search-hits',
-      templates: {
-        item: hitTemplate
-      }
-    })
-  );
-  
-  search.start();
-  </script>
-  
-  <style>
-  .ais-search-box {
-    max-width: 100%;
-    margin-bottom: 15px;
-  }
-  .post-item {
-    margin-bottom: 30px;
-  }
-  .post-link .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-     
-  }
-  .post-snippet .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-    font-weight: bold;
-  }
-  .post-snippet img {
-    display: none;
-  }
-  </style>
+<p>离树木近一些的好处是一眼过去便是自然，空气会稍微好一些。</p>
+
+<p>然而期望值还能有多高呢，仅此而已罢了。</p>
+
+<p>却，有件事情不得不提一下：Bugs 。</p>
+
+<p>它们总是在某个不明所以的时间里闯入，然后等你看到，躺尸在地上。</p>
+
+<p>不能碰它，它并没有逝去。</p>
+
+<p>不能靠近它，或许会臭你一脸。</p>
+
+<p>如果，不小心翻它过来，它还是会爬，也有可能会飞。</p>
+
+<p>我不是那种见到蚂蚁如果踩到会认为是荼毒生灵的人，但是，这 Bug ，是我干不掉它。</p>
+
+<p>我只能认输。</p>
+
+<p>但是，这是什么大不了的事情呢？</p>
+
+<p>不，出现在这里，是绝对有原因的：它是雌的。</p>
+
+<p>你问我是怎么知道的，颗颗，自然不是我用看的，而是，我猜的。</p>
+
+<p>如果见到一只 Bug ，而立马要做的事情其实是：检查毛巾是否有被异物附着。</p>
+
+<p>为此，也废过一些毛巾。</p>
+
+<p>偶尔，还会出现在晾晒的衣物上面，可这还能怎么办，当然是选择原谅它：并把虫卵撇下来冲入下水道。</p>
+
+<p>至于蚊子、蜂，等等各种飞虫，还是少见勿怪了。</p>
+
+<p>住在森林里？别逗了，都不够喂蚊子的。</p>
+
+<p>—分割线</p>
+
+<p>同样有 Bug 的困扰，可有些能干掉啊。</p>
+
+<p>如果，面对一个总跟你说“我觉得这个其实很简单，你可能想太复杂了，你看这样……”，但是又不相信统计学知识的老板，你该怎么办？可是偶然间还会兴奋地谈起人工智能，这又是要闹哪样？</p>
+
+<p>我能闹怎样，当然是选择原谅他咯。</p>
+
+<p>这世界，谁容易呢，没谁。</p>
+
+    </article>
 
 
                   </div>

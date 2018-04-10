@@ -11,10 +11,8 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Jeremy&#39;s blog | Jeremy&#39;s blog</title>
+        <title>我与计算机的那些事儿 | Jeremy&#39;s blog</title>
 
-        
-            <link rel="alternate" type="application/rss" href="https://jeremyyin.com/index.xml">
         
 
         <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
@@ -103,98 +101,53 @@
                     <div class="col-sm-12">
                             
 
-    
-  <div class="container" style="padding-top: 2rem">
-      <div class="row">
-          <div class="col-sm-12">
-           <div id="search-searchbar"></div>
-           <div class="post-list" id="search-hits" style="padding-top: 1rem"></div>
-        </div>
-      </div>
-    </div>
-  
-  
-  
-  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch-theme-algolia.min.css">
+    <article>
+        <h1>我与计算机的那些事儿</h1>
+        <p>首先在发上一篇「春节随想」的时候，那时候会想可能接下来会就里面的一些话题作一些展开，不过今天看，我暂时就不写它们了，写点其它的。</p>
 
-  
-  <script>
-  const search = instantsearch({
-    appId: '5AK65RDSWI',
-    apiKey: '5cb2e03f3d9cc9b8f4ecac0245ec0a8d',
-    indexName: 'jeremyyin.com',
-    searchParameters: {
-      restrictSearchableAttributes: [
-        'title',
-        'content'
-      ]
-    }
-  });
-  
-  const hitTemplate = function(hit) {
-    let date = '';
-    if (hit.date) {
-      date = moment.unix(hit.date).format('MMM D, YYYY');
-    }
-    const url = hit.url;
-    const title = hit._highlightResult.title.value;
-    const content = hit._highlightResult.html.value;
-  
-    return `
-      <div class="post-item">
-        <h2><a class="post-link" href="${url}">${title}</a></h2>
-        <span class="post-meta">${date}</span>
-        <div class="post-snippet">${content}</div>
-      </div>
-    `;
-  }
-  
-  
-  search.addWidget(
-    instantsearch.widgets.searchBox({
-      container: '#search-searchbar',
-      placeholder: 'Search into posts...',
-      poweredBy: true // This is required if you're on the free Community plan
-    })
-  );
-  
-  search.addWidget(
-    instantsearch.widgets.hits({
-      container: '#search-hits',
-      templates: {
-        item: hitTemplate
-      }
-    })
-  );
-  
-  search.start();
-  </script>
-  
-  <style>
-  .ais-search-box {
-    max-width: 100%;
-    margin-bottom: 15px;
-  }
-  .post-item {
-    margin-bottom: 30px;
-  }
-  .post-link .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-     
-  }
-  .post-snippet .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-    font-weight: bold;
-  }
-  .post-snippet img {
-    display: none;
-  }
-  </style>
+<p>已经过去的这个周末，弄了一件事情：把一台性能够用但却已近乎被放弃的笔记本电脑从死亡边沿拯救回来，用主人公后来的话说是：它又活了。</p>
+
+<p>所以，这也算是大学那几年的折腾，曾经付出那些时间，在今天依然能体现出的效用吧。</p>
+
+<p>如果往前追溯，我想我了解到有「计算机」这个词的时间，应该是在小学六年级，几节不那么特别有趣的课，和一本小小的册子书，后来几年中，好像还时常能看到它冒出来，现在它在哪里，我应该是不知道了。</p>
+
+<p>在后来的很长一段时间里，大概持续五六年时间，我一直认为未来我可能不会有多少机会手写字了，因为，如果既然有了计算机这么厉害的东西，用它来写字，会是多么厉害的事情。</p>
+
+<p>当然，后来确实是如此，科技改变了很多东西。也让我，现在连名字都不会好好写了，还好签名可以个性化，哈。</p>
+
+<p>现在，我尽瞎折腾：做程序员，写点代码，了解互联网web技术，将来做做网站，做做数据处理和分析，以及自己随便玩玩看似有点难度的东西；或者学点设计，折腾下图片、音频、视频，还有文字。</p>
+
+<p>如果往回看，今天的选择可能在曾经的某日就已作下。</p>
+
+<p>曾经有人跟我说，你这么厉害可以去做程序员啊……</p>
+
+<p>或许，说者无意，听者有心了吧。</p>
+
+<p>2008年那个时候心心念想给自己弄台电脑，但是持续好些时间，这期间没能给自己折腾上一台电脑（还不是因为穷），倒是全学校到处跑别人宿舍做义务电脑技术员了。直到后来接近毕业了，自己开始工作了才真的买下了真正属于自己的第一台笔记本电脑，那欣喜的感觉至今犹深。</p>
+
+<p>至于过手的电脑的数量，我认真想想可能其实不是很多，毕竟有段时间与校外的电脑公司达成合作关系，由于自己对产品选择的想法以及并未将其作为重要的经济来源，而确实仅仅只是给身边朋友提供一些咨询服务的缘故，过手数量说出来可能都羞涩了。</p>
+
+<p>基于「科技改变生活」的理念，混迹于计算机硬件、系统、软件等类型网站，想想过去的那些时间，也是乐在其中吧。</p>
+
+<p>而现在，也慢慢地发现态度的改变，在认为把它们当工具的前提下，已经不推崇花时间去折腾这些东西了，能一次搞定，能花钱买好的，就尽量一次性买能承受得起的最好的那个。</p>
+
+<p>毕竟回头看过去的时间，发现时间才是最宝贵的，如果能不受经济所限，自然是尽早去冲着事务目标去行动才是，而不是被工具所限制而延迟了很多本该想做的事情和决定。</p>
+
+<hr />
+
+<p>其实一直想分享几个我所关注的公众号出来，不过一直没行动，因为多图文排版要编辑图片，虽然直接贴原始的二维码也是可以，不过我认为太粗暴了，虽然早期他们也是这么干过。</p>
+
+<p>然后，想分享我关注的，主要也是想借他们来表示下我的一些喜好和观点，作为朋友，除了吃吃喝喝，还是要了解点想法不是，所以等我下次写吧。</p>
+
+<p>今天我把底部菜单更换为了我个人的二维码，点击「加微信」就能收到一张二维码，新来的朋友可以加一下。</p>
+
+<p>要是没有什么特别的考虑的话，我想，最先100位订阅，就作为种子订阅用户吧，超过一百订阅之后我就把它撤下来。</p>
+
+<p>当然其实还可以有另外一个想法，我觉得我可以一年接待5个人以内的计算机咨询业务，基本的可能会是提供选配咨询服务，如果有必要可能也提供面对面拆封组装，以及一些系统与软件安装，当然也可以额外提供一些使用建议和软件使用等（我有所了解范围内的知识）咨询，至于既然是服务，那么就是要收费的，但是收费标准嘛，完全看人看心情，不过可以给个数字作参考：50/h。如果你有需求，我会先给你洗脑我的理念，如果你愿意，咱们再谈事情，嘻。</p>
+
+<p>有钱才能任性。</p>
+
+    </article>
 
 
                   </div>

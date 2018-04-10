@@ -11,10 +11,8 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Jeremy&#39;s blog | Jeremy&#39;s blog</title>
+        <title>现已加入 Algolia 搜索服务 | Jeremy&#39;s blog</title>
 
-        
-            <link rel="alternate" type="application/rss" href="https://jeremyyin.com/index.xml">
         
 
         <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
@@ -103,98 +101,21 @@
                     <div class="col-sm-12">
                             
 
-    
-  <div class="container" style="padding-top: 2rem">
-      <div class="row">
-          <div class="col-sm-12">
-           <div id="search-searchbar"></div>
-           <div class="post-list" id="search-hits" style="padding-top: 1rem"></div>
-        </div>
-      </div>
-    </div>
-  
-  
-  
-  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.3.3/dist/instantsearch-theme-algolia.min.css">
+    <article>
+        <h1>现已加入 Algolia 搜索服务</h1>
+        <p>大约在一年前左右，瞅到 <a href="https://cn.vuejs.org/index.html">Vue.js</a> 使用的站内搜索与别的网站有些不一样，不仅仅不一样，而且有些特别。如果是在 Windows 系统上面曾经有谁用过 Everything 这个软件或者类似替代品的话，能知道它的实时输入搜索是多好的体验，得知道曾经系统自带的搜索功能就是等于几乎没有。</p>
 
-  
-  <script>
-  const search = instantsearch({
-    appId: '5AK65RDSWI',
-    apiKey: '5cb2e03f3d9cc9b8f4ecac0245ec0a8d',
-    indexName: 'jeremyyin.com',
-    searchParameters: {
-      restrictSearchableAttributes: [
-        'title',
-        'content'
-      ]
-    }
-  });
-  
-  const hitTemplate = function(hit) {
-    let date = '';
-    if (hit.date) {
-      date = moment.unix(hit.date).format('MMM D, YYYY');
-    }
-    const url = hit.url;
-    const title = hit._highlightResult.title.value;
-    const content = hit._highlightResult.html.value;
-  
-    return `
-      <div class="post-item">
-        <h2><a class="post-link" href="${url}">${title}</a></h2>
-        <span class="post-meta">${date}</span>
-        <div class="post-snippet">${content}</div>
-      </div>
-    `;
-  }
-  
-  
-  search.addWidget(
-    instantsearch.widgets.searchBox({
-      container: '#search-searchbar',
-      placeholder: 'Search into posts...',
-      poweredBy: true // This is required if you're on the free Community plan
-    })
-  );
-  
-  search.addWidget(
-    instantsearch.widgets.hits({
-      container: '#search-hits',
-      templates: {
-        item: hitTemplate
-      }
-    })
-  );
-  
-  search.start();
-  </script>
-  
-  <style>
-  .ais-search-box {
-    max-width: 100%;
-    margin-bottom: 15px;
-  }
-  .post-item {
-    margin-bottom: 30px;
-  }
-  .post-link .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-     
-  }
-  .post-snippet .ais-Highlight {
-    color: #31b9aa;
-    font-style: normal;
-    font-weight: bold;
-  }
-  .post-snippet img {
-    display: none;
-  }
-  </style>
+<p>做搜索，绝不仅仅是看起来的那么简单，大到 Google 和 Bing 这种搜索巨头，小到记事本里面的查找搜索，大大小小各类搜索需求，搜索，是人的主动寻找行为，比起无意识的随便浏览，是高效很多的。</p>
+
+<p>Algolia，据说是来自法国的初创公司，国内还没有看到有大面积的使用，虽然说搜索重要，可并不是谁都做的好，特别是站内搜索，多数的产品都是食之无味弃之可惜，但现今这款产品，醒目得很。</p>
+
+<p>至于具体的技术细节，我也没去洗洗研究，还不如直接上手多试几次搜索看看，看这体验如何。</p>
+
+<p>这次就不多说了，再会。</p>
+
+<p>其实是编辑器多次无故奔溃，丢失上一次保存之后的东西，我很无语啊。</p>
+
+    </article>
 
 
                   </div>
