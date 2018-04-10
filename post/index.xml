@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Jeremy&#39;s blog</title>
-    <link>localhost/post/</link>
+    <link>https://jeremyyin.com/post/</link>
     <description>Recent content in Posts on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="localhost/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jeremyyin.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>2008 年是个好年纪</title>
-      <link>localhost/post/2017-11-06-2008%E5%B9%B4%E6%98%AF%E4%B8%AA%E5%A5%BD%E5%B9%B4%E7%BA%AA/</link>
+      <link>https://jeremyyin.com/post/2017-11-06-2008%E5%B9%B4%E6%98%AF%E4%B8%AA%E5%A5%BD%E5%B9%B4%E7%BA%AA/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-11-06-2008%E5%B9%B4%E6%98%AF%E4%B8%AA%E5%A5%BD%E5%B9%B4%E7%BA%AA/</guid>
+      <guid>https://jeremyyin.com/post/2017-11-06-2008%E5%B9%B4%E6%98%AF%E4%B8%AA%E5%A5%BD%E5%B9%B4%E7%BA%AA/</guid>
       <description>Dear Jeremy,
 展信佳。许久未能再与你回信，真是很不好意思。我现在正在 2017 年末，再过一个多月，离你正好就快 10 年了。我挺喜欢现在的这个时间的，现在大家也不用写信了，我只在这里的一个商场里面见到过，那是写给不具名的未来，也不知道地址的，可能最终，就飘向了某个无人的空间了吧。现在，我们都用智能手机了，对，就是 Jobs 那种的，用手指点来点去的那种，不过比那个高级多了，可以装很多程序了。当然，病毒也是可以装进去的。
 你问我走得快不快，我不知道，总是就这么走来了，前一次我跟你说我去那公司才真实地收获了一些 Money，然后又挥霍一空的事情吧，是啊，挥霍一空的感觉真是好喜欢又恐惧，后来真是好险啊。
@@ -34,10 +34,10 @@ yours Jeremy</description>
     
     <item>
       <title>if True or if not True</title>
-      <link>localhost/post/2016-12-23-if-true-or-if-not-true/</link>
+      <link>https://jeremyyin.com/post/2016-12-23-if-true-or-if-not-true/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-12-23-if-true-or-if-not-true/</guid>
+      <guid>https://jeremyyin.com/post/2016-12-23-if-true-or-if-not-true/</guid>
       <description>明天就是平安夜，我打算今晚啃个苹果。
 以程序员的角色上岗工作已经正式3周过去了，这算是正式地公告一下。
 放在几年前我从未想过我会正式地成为一名可以自己编程写代码的人，可是在这几年的工作中逐渐地接触到一些事务，使得我认为在未来的日子里，不会自己写几行程序代码的人们总是会有一些很难过的坎儿。
@@ -57,10 +57,10 @@ yours Jeremy</description>
     
     <item>
       <title>《顺便帮朋友接孩子放学》</title>
-      <link>localhost/post/2017-04-28-%E9%A1%BA%E4%BE%BF%E5%B8%AE%E6%9C%8B%E5%8F%8B%E6%8E%A5%E5%AD%A9%E5%AD%90%E6%94%BE%E5%AD%A6/</link>
+      <link>https://jeremyyin.com/post/2017-04-28-%E9%A1%BA%E4%BE%BF%E5%B8%AE%E6%9C%8B%E5%8F%8B%E6%8E%A5%E5%AD%A9%E5%AD%90%E6%94%BE%E5%AD%A6/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-04-28-%E9%A1%BA%E4%BE%BF%E5%B8%AE%E6%9C%8B%E5%8F%8B%E6%8E%A5%E5%AD%A9%E5%AD%90%E6%94%BE%E5%AD%A6/</guid>
+      <guid>https://jeremyyin.com/post/2017-04-28-%E9%A1%BA%E4%BE%BF%E5%B8%AE%E6%9C%8B%E5%8F%8B%E6%8E%A5%E5%AD%A9%E5%AD%90%E6%94%BE%E5%AD%A6/</guid>
       <description>你爸为什么今天还加班呢？
 有时候是会加班
 你英语这次考多少分呢？
@@ -75,10 +75,10 @@ yours Jeremy</description>
     
     <item>
       <title>一年快过去了还是要说点什么</title>
-      <link>localhost/post/2016-12-30-%E4%B8%80%E5%B9%B4%E5%BF%AB%E8%BF%87%E5%8E%BB%E4%BA%86%E8%BF%98%E6%98%AF%E8%A6%81%E8%AF%B4%E7%82%B9%E4%BB%80%E4%B9%88/</link>
+      <link>https://jeremyyin.com/post/2016-12-30-%E4%B8%80%E5%B9%B4%E5%BF%AB%E8%BF%87%E5%8E%BB%E4%BA%86%E8%BF%98%E6%98%AF%E8%A6%81%E8%AF%B4%E7%82%B9%E4%BB%80%E4%B9%88/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-12-30-%E4%B8%80%E5%B9%B4%E5%BF%AB%E8%BF%87%E5%8E%BB%E4%BA%86%E8%BF%98%E6%98%AF%E8%A6%81%E8%AF%B4%E7%82%B9%E4%BB%80%E4%B9%88/</guid>
+      <guid>https://jeremyyin.com/post/2016-12-30-%E4%B8%80%E5%B9%B4%E5%BF%AB%E8%BF%87%E5%8E%BB%E4%BA%86%E8%BF%98%E6%98%AF%E8%A6%81%E8%AF%B4%E7%82%B9%E4%BB%80%E4%B9%88/</guid>
       <description>2016就快过去了，而我总是写不好这四个数字，无论今年在多少本书上面曾写下了它，就如同我也写不好我的名字一样，毕竟如今我连字都不会写了。
 这张图片，现在看起来，我觉得里面包含着我个人今年的许多信息。我持续地在思考着一些事情，一些关于曾经做过的一些事情，所以我今天又打开它来看，并截下了这张图。
 这些年，我更加坚定地认为当前所做的一切都将在未来某个时间，让你回头的时候，发现很多事情，在很久以前，就已经悄悄地埋下了种子，而当时并不会认为这会有多么大的价值和明显的用处。
@@ -97,10 +97,10 @@ yours Jeremy</description>
     
     <item>
       <title>一款小小的物流数据产品</title>
-      <link>localhost/post/2018-02-05-%E4%B8%80%E6%AC%BE%E5%B0%8F%E5%B0%8F%E7%9A%84%E7%89%A9%E6%B5%81%E6%95%B0%E6%8D%AE%E4%BA%A7%E5%93%81/</link>
+      <link>https://jeremyyin.com/post/2018-02-05-%E4%B8%80%E6%AC%BE%E5%B0%8F%E5%B0%8F%E7%9A%84%E7%89%A9%E6%B5%81%E6%95%B0%E6%8D%AE%E4%BA%A7%E5%93%81/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2018-02-05-%E4%B8%80%E6%AC%BE%E5%B0%8F%E5%B0%8F%E7%9A%84%E7%89%A9%E6%B5%81%E6%95%B0%E6%8D%AE%E4%BA%A7%E5%93%81/</guid>
+      <guid>https://jeremyyin.com/post/2018-02-05-%E4%B8%80%E6%AC%BE%E5%B0%8F%E5%B0%8F%E7%9A%84%E7%89%A9%E6%B5%81%E6%95%B0%E6%8D%AE%E4%BA%A7%E5%93%81/</guid>
       <description>今年应该是冷死了，上周感冒，后来我反思原因，可能就是在办公室冻着了。
 现在完全不敢再说不怕冷了，可惜家里空调开了也并无大作用，昨天偶然机会在星巴克小坐一会儿，我突然觉得那才是我能正常待下去思考的温度。
 农历新年就快要到来了，之前做了个小小的物流数据产品：国际快递燃油附加费率。觉得还是需要拿出来溜溜，可之前一直没决心搞下那几张图片，今晚索性就搞上几张图片，现在这个网站整体上，总算是可以拿出去还算是能看的了。
@@ -120,10 +120,10 @@ yours Jeremy</description>
     
     <item>
       <title>下雨跟我走在哪里并无什么关联</title>
-      <link>localhost/post/2016-11-26-%E5%AE%83%E4%B8%8B%E9%9B%A8%E8%B7%9F%E6%88%91%E8%B5%B0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B9%B6%E6%97%A0%E4%BB%80%E4%B9%88%E5%85%B3%E8%81%94/</link>
+      <link>https://jeremyyin.com/post/2016-11-26-%E5%AE%83%E4%B8%8B%E9%9B%A8%E8%B7%9F%E6%88%91%E8%B5%B0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B9%B6%E6%97%A0%E4%BB%80%E4%B9%88%E5%85%B3%E8%81%94/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-11-26-%E5%AE%83%E4%B8%8B%E9%9B%A8%E8%B7%9F%E6%88%91%E8%B5%B0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B9%B6%E6%97%A0%E4%BB%80%E4%B9%88%E5%85%B3%E8%81%94/</guid>
+      <guid>https://jeremyyin.com/post/2016-11-26-%E5%AE%83%E4%B8%8B%E9%9B%A8%E8%B7%9F%E6%88%91%E8%B5%B0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B9%B6%E6%97%A0%E4%BB%80%E4%B9%88%E5%85%B3%E8%81%94/</guid>
       <description>首先恭祝F&amp;amp;N乔迁之喜；打完火锅回来走出地铁站，发生如下一幕：
 将雨伞从伞袋中抽出，此动作应当如剑客般，面对迎面而来的对手，脚步急促有韵而沉稳，左手握鞘右手拔剑，双眼犀利有神，当剑起翘落，然后按下开伞开关雨伞随即展开，此时，淡然走向雨中留下身后无数功与名。
 回来深圳给我的感觉好像下了好久的雨，却然而被一同打完火锅的伙伴们提醒道：前天没下雨，昨天也是大太阳，一整天都是。
@@ -142,10 +142,10 @@ yours Jeremy</description>
     
     <item>
       <title>买个域名：jeremyyin.com</title>
-      <link>localhost/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</link>
+      <link>https://jeremyyin.com/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</guid>
+      <guid>https://jeremyyin.com/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</guid>
       <description>如果按商业角度来讲，我是该把所有下列域名全部给注册了的：
 jeremyyin.co jeremyyin.net jeremyyin.org jeremyyin.me jeremyyin.cc jeremyyin.vip jeremyyin.cn  甚至可能还有：
 jeremyy.in ...  以及还可能有：
@@ -161,10 +161,10 @@ jeremy.yin  可惜并没有，不然我就更加要买下了。
     
     <item>
       <title>从奢望爱情到为爱忧心</title>
-      <link>localhost/post/2017-01-14-%E4%BB%8E%E5%A5%A2%E6%9C%9B%E7%88%B1%E6%83%85%E5%88%B0%E4%B8%BA%E7%88%B1%E5%BF%A7%E5%BF%83/</link>
+      <link>https://jeremyyin.com/post/2017-01-14-%E4%BB%8E%E5%A5%A2%E6%9C%9B%E7%88%B1%E6%83%85%E5%88%B0%E4%B8%BA%E7%88%B1%E5%BF%A7%E5%BF%83/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-01-14-%E4%BB%8E%E5%A5%A2%E6%9C%9B%E7%88%B1%E6%83%85%E5%88%B0%E4%B8%BA%E7%88%B1%E5%BF%A7%E5%BF%83/</guid>
+      <guid>https://jeremyyin.com/post/2017-01-14-%E4%BB%8E%E5%A5%A2%E6%9C%9B%E7%88%B1%E6%83%85%E5%88%B0%E4%B8%BA%E7%88%B1%E5%BF%A7%E5%BF%83/</guid>
       <description>凌晨一点半，环卫工人在为马路中间的绿化带种花。
 司机跟着导航，不知所措地闯入了单行道，转头走入深南却又发现不可左转。
 晚上的凤凰路还是灯红酒绿车水马龙，等到发现了前面路被封住，只好下了车。
@@ -198,10 +198,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>关于一些事情的事情</title>
-      <link>localhost/post/2017-01-15-%E5%85%B3%E4%BA%8E%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85%E7%9A%84%E4%BA%8B%E6%83%85/</link>
+      <link>https://jeremyyin.com/post/2017-01-15-%E5%85%B3%E4%BA%8E%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85%E7%9A%84%E4%BA%8B%E6%83%85/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-01-15-%E5%85%B3%E4%BA%8E%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85%E7%9A%84%E4%BA%8B%E6%83%85/</guid>
+      <guid>https://jeremyyin.com/post/2017-01-15-%E5%85%B3%E4%BA%8E%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85%E7%9A%84%E4%BA%8B%E6%83%85/</guid>
       <description>关于即将决定要去学习的IT类技术 自从15年决定开始正式学Python来搞事情，今年，也算是进入了第三年了，进入全职工作，所以真枪实弹地搞事情，实力自然会上一个台阶，至于过程，就都丢给时间和机会去磨砺。
 现在主要做的事情是网站后台服务API的开发，搞懂这背后的事情，就基本搞懂了后台服务端。
 计划增加这些任务：学习JavaScript、CSS，深入学习HTML。
@@ -226,10 +226,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>关联了两个小程序</title>
-      <link>localhost/post/2018-01-11-%E5%85%B3%E8%81%94%E4%BA%86%E4%B8%A4%E6%AC%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</link>
+      <link>https://jeremyyin.com/post/2018-01-11-%E5%85%B3%E8%81%94%E4%BA%86%E4%B8%A4%E6%AC%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2018-01-11-%E5%85%B3%E8%81%94%E4%BA%86%E4%B8%A4%E6%AC%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</guid>
+      <guid>https://jeremyyin.com/post/2018-01-11-%E5%85%B3%E8%81%94%E4%BA%86%E4%B8%A4%E6%AC%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</guid>
       <description>新年伊始，咱们这又来了新朋友，欢迎你们！
 过去的一年我大概算了下，咱们这是：月更。平均一个月更新一次，有时候间隔长一些，有时候频繁点点。
 新的一年，没什么特别意外的话，我还会继续时不时地写一点点东西。在更新频率上，我对于现在我持续在看的那些号相比，他们的文字能力我只能是羡慕了，他们一年几十万字的产出，内容覆盖相关的多个方面，专业度与人文广度，非一般人可企及。
@@ -246,10 +246,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>写来的都是过去</title>
-      <link>localhost/post/2017-01-12-%E5%86%99%E6%9D%A5%E7%9A%84%E9%83%BD%E6%98%AF%E8%BF%87%E5%8E%BB/</link>
+      <link>https://jeremyyin.com/post/2017-01-12-%E5%86%99%E6%9D%A5%E7%9A%84%E9%83%BD%E6%98%AF%E8%BF%87%E5%8E%BB/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-01-12-%E5%86%99%E6%9D%A5%E7%9A%84%E9%83%BD%E6%98%AF%E8%BF%87%E5%8E%BB/</guid>
+      <guid>https://jeremyyin.com/post/2017-01-12-%E5%86%99%E6%9D%A5%E7%9A%84%E9%83%BD%E6%98%AF%E8%BF%87%E5%8E%BB/</guid>
       <description>第六周快过完，写完又测试完了5个API，大概分三个项目完成，今天刚完成第三个。
 又预备开始下一个“小”项目。
 说小，是格局小，而又很大，如果格局放大来看的话。
@@ -273,10 +273,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>努力投身 Python 3 的怀抱</title>
-      <link>localhost/post/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</link>
+      <link>https://jeremyyin.com/post/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</guid>
+      <guid>https://jeremyyin.com/post/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</guid>
       <description>15 年开始学习 Python 的时候，看遍了大家关于应该选择 Python 2 还是 Python 3 的讨论和争执，还有，妥协。
 按照我买电子产品“买新不买旧，买好不买差”的原则，我毅然决定先从了 Python 3 再说。
 是的，争执无意义，行动才是根本。
@@ -301,10 +301,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>勇敢想更多，做更多</title>
-      <link>localhost/post/2016-12-17-%E5%8B%87%E6%95%A2%E6%83%B3%E6%9B%B4%E5%A4%9A%E5%81%9A%E6%9B%B4%E5%A4%9A/</link>
+      <link>https://jeremyyin.com/post/2016-12-17-%E5%8B%87%E6%95%A2%E6%83%B3%E6%9B%B4%E5%A4%9A%E5%81%9A%E6%9B%B4%E5%A4%9A/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-12-17-%E5%8B%87%E6%95%A2%E6%83%B3%E6%9B%B4%E5%A4%9A%E5%81%9A%E6%9B%B4%E5%A4%9A/</guid>
+      <guid>https://jeremyyin.com/post/2016-12-17-%E5%8B%87%E6%95%A2%E6%83%B3%E6%9B%B4%E5%A4%9A%E5%81%9A%E6%9B%B4%E5%A4%9A/</guid>
       <description>吸星大法
 我们是在金庸的影视剧中长大的孩子，身边朋友有看金庸大部头长大的，我没有机会去看金庸的全本，只是在影视剧中看到一些这样或者那样的影子。
 而我，还看的不认真，对于角色与情节，并说不上什么话来，可能还错误百出。
@@ -333,10 +333,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>带上恐惧前行，有多远走多远</title>
-      <link>localhost/post/2016-12-05-%E5%B8%A6%E4%B8%8A%E6%81%90%E6%83%A7%E5%89%8D%E8%A1%8C%E6%9C%89%E5%A4%9A%E8%BF%9C%E8%B5%B0%E5%A4%9A%E8%BF%9C/</link>
+      <link>https://jeremyyin.com/post/2016-12-05-%E5%B8%A6%E4%B8%8A%E6%81%90%E6%83%A7%E5%89%8D%E8%A1%8C%E6%9C%89%E5%A4%9A%E8%BF%9C%E8%B5%B0%E5%A4%9A%E8%BF%9C/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-12-05-%E5%B8%A6%E4%B8%8A%E6%81%90%E6%83%A7%E5%89%8D%E8%A1%8C%E6%9C%89%E5%A4%9A%E8%BF%9C%E8%B5%B0%E5%A4%9A%E8%BF%9C/</guid>
+      <guid>https://jeremyyin.com/post/2016-12-05-%E5%B8%A6%E4%B8%8A%E6%81%90%E6%83%A7%E5%89%8D%E8%A1%8C%E6%9C%89%E5%A4%9A%E8%BF%9C%E8%B5%B0%E5%A4%9A%E8%BF%9C/</guid>
       <description>上班第二天，面对一切，毫无头绪，也同时又些事情，需要妥协，就当为一次机会。
 面对陌生，总是恐惧。
 有时候不敢回望过去，过去都是恐惧的影子，挥也挥不去。
@@ -352,10 +352,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>慢半拍</title>
-      <link>localhost/post/2017-10-12-%E6%85%A2%E5%8D%8A%E6%8B%8D/</link>
+      <link>https://jeremyyin.com/post/2017-10-12-%E6%85%A2%E5%8D%8A%E6%8B%8D/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-10-12-%E6%85%A2%E5%8D%8A%E6%8B%8D/</guid>
+      <guid>https://jeremyyin.com/post/2017-10-12-%E6%85%A2%E5%8D%8A%E6%8B%8D/</guid>
       <description>在《绿光森林》中欧文在某个时刻对苏菲说：adajiu，被苏菲追问一通。而其源由于音乐专业术语：adagio，欧文搞音乐的嘛，自然。
 至于为什么还记得有这么一幕，我也不知道，反正这些年它时不时地就会冒出来一下，比如这次又冒出来了。
 当时无所事事，也没啥可玩弄的物件，也没啥可去的地方，以此度过不问世事的年纪，当也是很好的娱乐了。
@@ -381,10 +381,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>成为一个怎样的创造者</title>
-      <link>localhost/post/2017-05-20-%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E5%88%9B%E9%80%A0%E8%80%85/</link>
+      <link>https://jeremyyin.com/post/2017-05-20-%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E5%88%9B%E9%80%A0%E8%80%85/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-05-20-%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E5%88%9B%E9%80%A0%E8%80%85/</guid>
+      <guid>https://jeremyyin.com/post/2017-05-20-%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E5%88%9B%E9%80%A0%E8%80%85/</guid>
       <description>去售后取回了新的iPad，世界之窗的星巴克还是不适合久坐。
 所以想着去个新的地方，华侨城或许是可以的。不过在去的路上来到了华侨城这边的一家星巴克，感觉还可以。
 所以，现在已经坐了很久了。
@@ -407,10 +407,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>我与 Mac 的渊源</title>
-      <link>localhost/post/2017-03-01-%E6%88%91%E4%B8%8E-mac-%E7%9A%84%E6%B8%8A%E6%BA%90/</link>
+      <link>https://jeremyyin.com/post/2017-03-01-%E6%88%91%E4%B8%8E-mac-%E7%9A%84%E6%B8%8A%E6%BA%90/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-03-01-%E6%88%91%E4%B8%8E-mac-%E7%9A%84%E6%B8%8A%E6%BA%90/</guid>
+      <guid>https://jeremyyin.com/post/2017-03-01-%E6%88%91%E4%B8%8E-mac-%E7%9A%84%E6%B8%8A%E6%BA%90/</guid>
       <description>2004 年进入高中，正式开始接触网吧，而后不久学校每间教室开始安装电脑，而后开始组建起专门的计算机教室，带网的。
 QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自己也申请过一些，都几乎忘记和放弃使用了。
 2007 年进入大学，有机会去网吧的机会多了很多，但是，网吧的设备比计算机教室的条件差很多，硬件和软件都差很多。也是同年，学校新开几个计算机公共教室，收费使用，差不多就是网吧模式了，一般都由申请学校补贴的同学们管理着，等于拿时间换点生活费，要是喜欢计算机我觉得可以，要是不喜欢的，我认为是不必要的，现在看来，一切拿最宝贵的时间换低廉的回报的，都不值得。
@@ -437,10 +437,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>我与计算机的那些事儿</title>
-      <link>localhost/post/2017-02-27-%E6%88%91%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</link>
+      <link>https://jeremyyin.com/post/2017-02-27-%E6%88%91%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-02-27-%E6%88%91%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</guid>
+      <guid>https://jeremyyin.com/post/2017-02-27-%E6%88%91%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</guid>
       <description>首先在发上一篇「春节随想」的时候，那时候会想可能接下来会就里面的一些话题作一些展开，不过今天看，我暂时就不写它们了，写点其它的。
 已经过去的这个周末，弄了一件事情：把一台性能够用但却已近乎被放弃的笔记本电脑从死亡边沿拯救回来，用主人公后来的话说是：它又活了。
 所以，这也算是大学那几年的折腾，曾经付出那些时间，在今天依然能体现出的效用吧。
@@ -466,10 +466,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>我们家的空调29度</title>
-      <link>localhost/post/2016-06-29-%E6%88%91%E4%BB%AC%E5%AE%B6%E7%9A%84%E7%A9%BA%E8%B0%8329%E5%BA%A6/</link>
+      <link>https://jeremyyin.com/post/2016-06-29-%E6%88%91%E4%BB%AC%E5%AE%B6%E7%9A%84%E7%A9%BA%E8%B0%8329%E5%BA%A6/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-06-29-%E6%88%91%E4%BB%AC%E5%AE%B6%E7%9A%84%E7%A9%BA%E8%B0%8329%E5%BA%A6/</guid>
+      <guid>https://jeremyyin.com/post/2016-06-29-%E6%88%91%E4%BB%AC%E5%AE%B6%E7%9A%84%E7%A9%BA%E8%B0%8329%E5%BA%A6/</guid>
       <description>有时候想想，我们生活的空间也是足够恶劣的了。
 办公室，工地开了一年多，duanduanduan地搞了半年多，dingdingding地搞了半年多，我又开始怀疑接下来的日子里，wuwuwu的节奏怕是难以逃离了。
 不通风，不透气，开窗嘈杂，关窗憋屈。
@@ -495,10 +495,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>我暂时，不改了</title>
-      <link>localhost/post/2016-12-01-%E6%88%91%E6%9A%82%E6%97%B6%E4%B8%8D%E6%94%B9%E4%BA%86/</link>
+      <link>https://jeremyyin.com/post/2016-12-01-%E6%88%91%E6%9A%82%E6%97%B6%E4%B8%8D%E6%94%B9%E4%BA%86/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-12-01-%E6%88%91%E6%9A%82%E6%97%B6%E4%B8%8D%E6%94%B9%E4%BA%86/</guid>
+      <guid>https://jeremyyin.com/post/2016-12-01-%E6%88%91%E6%9A%82%E6%97%B6%E4%B8%8D%E6%94%B9%E4%BA%86/</guid>
       <description>无论是否是因为我带的MacBook Pro在帮我镇场，还是无形中有个意识在提示我晚一点再写，先去洗漱完再推新版，总之，现在，我不改它了，就让它默默地在哪里挂着吧。这也算，是这一段经历的记录，以及，它所需要经历的过程。
 明儿个，如果没有什么特别的意外，特别特别的意外，能让做出决定的事情中途变卦，如果没有的话，明儿个开始我就去上班啦。
 十二月的第一天，十二月的第二天，十二月的第三天，十二月的第四天，十二月的第五天……
@@ -523,10 +523,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>春节里的随想备忘录</title>
-      <link>localhost/post/2017-02-08-%E6%98%A5%E8%8A%82%E9%87%8C%E7%9A%84%E9%9A%8F%E6%83%B3%E5%A4%87%E5%BF%98%E5%BD%95/</link>
+      <link>https://jeremyyin.com/post/2017-02-08-%E6%98%A5%E8%8A%82%E9%87%8C%E7%9A%84%E9%9A%8F%E6%83%B3%E5%A4%87%E5%BF%98%E5%BD%95/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-02-08-%E6%98%A5%E8%8A%82%E9%87%8C%E7%9A%84%E9%9A%8F%E6%83%B3%E5%A4%87%E5%BF%98%E5%BD%95/</guid>
+      <guid>https://jeremyyin.com/post/2017-02-08-%E6%98%A5%E8%8A%82%E9%87%8C%E7%9A%84%E9%9A%8F%E6%83%B3%E5%A4%87%E5%BF%98%E5%BD%95/</guid>
       <description>11年11月抵达深圳这个城市，至今已好几年过去。
 最初的两年，由于一些原因而未在春节回家，也因此，给人留下了我专门过年不回家的印象。
 不过，不必辩驳什么，有时候回，有时候不回，自己也记不清，别人当然只能记得不回的那些事儿。
@@ -555,10 +555,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>橘子可能要坏了</title>
-      <link>localhost/post/2016-11-30-%E6%A9%98%E5%AD%90%E5%8F%AF%E8%83%BD%E8%A6%81%E5%9D%8F%E4%BA%86/</link>
+      <link>https://jeremyyin.com/post/2016-11-30-%E6%A9%98%E5%AD%90%E5%8F%AF%E8%83%BD%E8%A6%81%E5%9D%8F%E4%BA%86/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-11-30-%E6%A9%98%E5%AD%90%E5%8F%AF%E8%83%BD%E8%A6%81%E5%9D%8F%E4%BA%86/</guid>
+      <guid>https://jeremyyin.com/post/2016-11-30-%E6%A9%98%E5%AD%90%E5%8F%AF%E8%83%BD%E8%A6%81%E5%9D%8F%E4%BA%86/</guid>
       <description>我记得小时候家里大概在这个时候总是会攒上一大袋子橘子，个头不是很大皮又很好剥开的那种，然后就经常三个五个地从袋子里掏出来吃。
 具体叫啥名儿，或许我又不清楚了，或许是我们离江西近，有些苗子都是那边引进来的吧，江西的小柑橘还是蛮有名的。
 近些年，几乎很少有机会吃到，也没有经常要去买水果和零食的习惯，毕竟自己平常大多数时候不是嘴馋的货。
@@ -579,10 +579,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>然起伏 然等待 然焦虑 然妥协</title>
-      <link>localhost/post/2016-11-29-%E7%84%B6%E8%B5%B7%E4%BC%8F-%E7%84%B6%E7%AD%89%E5%BE%85-%E7%84%B6%E7%84%A6%E8%99%91-%E7%84%B6%E5%A6%A5%E5%8D%8F/</link>
+      <link>https://jeremyyin.com/post/2016-11-29-%E7%84%B6%E8%B5%B7%E4%BC%8F-%E7%84%B6%E7%AD%89%E5%BE%85-%E7%84%B6%E7%84%A6%E8%99%91-%E7%84%B6%E5%A6%A5%E5%8D%8F/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-11-29-%E7%84%B6%E8%B5%B7%E4%BC%8F-%E7%84%B6%E7%AD%89%E5%BE%85-%E7%84%B6%E7%84%A6%E8%99%91-%E7%84%B6%E5%A6%A5%E5%8D%8F/</guid>
+      <guid>https://jeremyyin.com/post/2016-11-29-%E7%84%B6%E8%B5%B7%E4%BC%8F-%E7%84%B6%E7%AD%89%E5%BE%85-%E7%84%B6%E7%84%A6%E8%99%91-%E7%84%B6%E5%A6%A5%E5%8D%8F/</guid>
       <description>眼看着就是30 November了，这天再过去，就剩2016的最后一个月。
 虽然，从农历计算还有些日子，然，我也是焦虑的。
 我不怎么管农历的事情。
@@ -605,10 +605,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>现已加入 Algolia 搜索服务</title>
-      <link>localhost/post/2018-03-19-%E7%8E%B0%E5%B7%B2%E5%8A%A0%E5%85%A5-algolia-%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1/</link>
+      <link>https://jeremyyin.com/post/2018-03-19-%E7%8E%B0%E5%B7%B2%E5%8A%A0%E5%85%A5-algolia-%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2018-03-19-%E7%8E%B0%E5%B7%B2%E5%8A%A0%E5%85%A5-algolia-%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1/</guid>
+      <guid>https://jeremyyin.com/post/2018-03-19-%E7%8E%B0%E5%B7%B2%E5%8A%A0%E5%85%A5-algolia-%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1/</guid>
       <description>大约在一年前左右，瞅到 Vue.js 使用的站内搜索与别的网站有些不一样，不仅仅不一样，而且有些特别。如果是在 Windows 系统上面曾经有谁用过 Everything 这个软件或者类似替代品的话，能知道它的实时输入搜索是多好的体验，得知道曾经系统自带的搜索功能就是等于几乎没有。
 做搜索，绝不仅仅是看起来的那么简单，大到 Google 和 Bing 这种搜索巨头，小到记事本里面的查找搜索，大大小小各类搜索需求，搜索，是人的主动寻找行为，比起无意识的随便浏览，是高效很多的。
 Algolia，据说是来自法国的初创公司，国内还没有看到有大面积的使用，虽然说搜索重要，可并不是谁都做的好，特别是站内搜索，多数的产品都是食之无味弃之可惜，但现今这款产品，醒目得很。
@@ -619,10 +619,10 @@ Algolia，据说是来自法国的初创公司，国内还没有看到有大面�
     
     <item>
       <title>给一个列表去重复却又要保留顺序</title>
-      <link>localhost/post/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</link>
+      <link>https://jeremyyin.com/post/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</guid>
+      <guid>https://jeremyyin.com/post/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</guid>
       <description>collections.OrderedDict.fromkeys(list).keys() 在python中，有时候有需要用到保留原始顺序而又能去掉重复的列表。
 而在python自身的基本数据结构里面，给list去除重复可以用set(list)来进行操作而得到一个没有重复的set集合，但是这样也就把list元素原有的先后出现的顺序而被打乱了，打的乱七八糟的。
 会写pytho的也可能会找到很多的解决办法，有容易的有复杂的有高级的。
@@ -635,10 +635,10 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
     
     <item>
       <title>落叶不知秋</title>
-      <link>localhost/post/2016-08-08-%E8%90%BD%E5%8F%B6%E4%B8%8D%E7%9F%A5%E7%A7%8B/</link>
+      <link>https://jeremyyin.com/post/2016-08-08-%E8%90%BD%E5%8F%B6%E4%B8%8D%E7%9F%A5%E7%A7%8B/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-08-08-%E8%90%BD%E5%8F%B6%E4%B8%8D%E7%9F%A5%E7%A7%8B/</guid>
+      <guid>https://jeremyyin.com/post/2016-08-08-%E8%90%BD%E5%8F%B6%E4%B8%8D%E7%9F%A5%E7%A7%8B/</guid>
       <description>我以为秋天的来临会使得自己变得更加的喜悦，然而，它并没有。
 我想去外面走走，骑车或者是走路都可以，可是并没有。
 有更吸引人的东西在招摇着。
@@ -668,10 +668,10 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
     
     <item>
       <title>造个轮子</title>
-      <link>localhost/post/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</link>
+      <link>https://jeremyyin.com/post/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</guid>
+      <guid>https://jeremyyin.com/post/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</guid>
       <description>技术，是个好东西。
 有能力利用技术造出一些有用的东西，也是再也欣喜不过了。
 我们都知道造房子有点难度，构建高楼大厦就更加有技术难度，从设计到施工，没任何人全能精通。造汽车就也难了，虽然也是从设计到制造，可知识又是数不过来的多，更不用说制造经验和制造水平。
@@ -697,10 +697,10 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
     
     <item>
       <title>遇见木心美术馆是个意外</title>
-      <link>localhost/post/2016-06-28-%E9%81%87%E8%A7%81%E6%9C%A8%E5%BF%83%E7%BE%8E%E6%9C%AF%E9%A6%86%E6%98%AF%E4%B8%AA%E6%84%8F%E5%A4%96/</link>
+      <link>https://jeremyyin.com/post/2016-06-28-%E9%81%87%E8%A7%81%E6%9C%A8%E5%BF%83%E7%BE%8E%E6%9C%AF%E9%A6%86%E6%98%AF%E4%B8%AA%E6%84%8F%E5%A4%96/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-06-28-%E9%81%87%E8%A7%81%E6%9C%A8%E5%BF%83%E7%BE%8E%E6%9C%AF%E9%A6%86%E6%98%AF%E4%B8%AA%E6%84%8F%E5%A4%96/</guid>
+      <guid>https://jeremyyin.com/post/2016-06-28-%E9%81%87%E8%A7%81%E6%9C%A8%E5%BF%83%E7%BE%8E%E6%9C%AF%E9%A6%86%E6%98%AF%E4%B8%AA%E6%84%8F%E5%A4%96/</guid>
       <description>记得，早些时候去了乌镇。
 今天，想起来Keep一下。
 歇着，便又想起来木心美术馆的样子。
@@ -733,10 +733,10 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
     
     <item>
       <title>那些闯入的 Bugs</title>
-      <link>localhost/post/2017-05-22-%E9%82%A3%E4%BA%9B%E9%97%AF%E5%85%A5%E7%9A%84-bugs/</link>
+      <link>https://jeremyyin.com/post/2017-05-22-%E9%82%A3%E4%BA%9B%E9%97%AF%E5%85%A5%E7%9A%84-bugs/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-05-22-%E9%82%A3%E4%BA%9B%E9%97%AF%E5%85%A5%E7%9A%84-bugs/</guid>
+      <guid>https://jeremyyin.com/post/2017-05-22-%E9%82%A3%E4%BA%9B%E9%97%AF%E5%85%A5%E7%9A%84-bugs/</guid>
       <description>住在山边边的一个好处是离道路远些，路面噪音会少一些。
 离树木近一些的好处是一眼过去便是自然，空气会稍微好一些。
 然而期望值还能有多高呢，仅此而已罢了。
@@ -764,10 +764,10 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
     
     <item>
       <title>错过再多</title>
-      <link>localhost/post/2017-09-08-%E9%94%99%E8%BF%87%E5%86%8D%E5%A4%9A/</link>
+      <link>https://jeremyyin.com/post/2017-09-08-%E9%94%99%E8%BF%87%E5%86%8D%E5%A4%9A/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-09-08-%E9%94%99%E8%BF%87%E5%86%8D%E5%A4%9A/</guid>
+      <guid>https://jeremyyin.com/post/2017-09-08-%E9%94%99%E8%BF%87%E5%86%8D%E5%A4%9A/</guid>
       <description>这标题没写完，可能原应该是：错过再多，也不要错过自己。
 到底错过了什么，时年二十多岁，如果没有由头，恐怕贸贸然是讲不不起来的。
 近日前，曾有人给我留了这么一句：
@@ -786,10 +786,10 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
     
     <item>
       <title>面试与旅行一样，稍近一步打破一丝幻象</title>
-      <link>localhost/post/2016-11-23-%E9%9D%A2%E8%AF%95%E4%B8%8E%E6%97%85%E8%A1%8C%E4%B8%80%E6%A0%B7%E7%A8%8D%E8%BF%91%E4%B8%80%E6%AD%A5%E6%89%93%E7%A0%B4%E4%B8%80%E4%B8%9D%E5%B9%BB%E8%B1%A1/</link>
+      <link>https://jeremyyin.com/post/2016-11-23-%E9%9D%A2%E8%AF%95%E4%B8%8E%E6%97%85%E8%A1%8C%E4%B8%80%E6%A0%B7%E7%A8%8D%E8%BF%91%E4%B8%80%E6%AD%A5%E6%89%93%E7%A0%B4%E4%B8%80%E4%B8%9D%E5%B9%BB%E8%B1%A1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2016-11-23-%E9%9D%A2%E8%AF%95%E4%B8%8E%E6%97%85%E8%A1%8C%E4%B8%80%E6%A0%B7%E7%A8%8D%E8%BF%91%E4%B8%80%E6%AD%A5%E6%89%93%E7%A0%B4%E4%B8%80%E4%B8%9D%E5%B9%BB%E8%B1%A1/</guid>
+      <guid>https://jeremyyin.com/post/2016-11-23-%E9%9D%A2%E8%AF%95%E4%B8%8E%E6%97%85%E8%A1%8C%E4%B8%80%E6%A0%B7%E7%A8%8D%E8%BF%91%E4%B8%80%E6%AD%A5%E6%89%93%E7%A0%B4%E4%B8%80%E4%B8%9D%E5%B9%BB%E8%B1%A1/</guid>
       <description>从9月底到11月底，中间度过了两个月。
 两个月，经历了两次间隔不久的旅程。
 一次，从湘西走到川北，再去到雾城。
@@ -817,10 +817,10 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
     
     <item>
       <title>颓废感的来源</title>
-      <link>localhost/post/2017-10-11-%E9%A2%93%E5%BA%9F%E6%84%9F%E7%9A%84%E6%9D%A5%E6%BA%90/</link>
+      <link>https://jeremyyin.com/post/2017-10-11-%E9%A2%93%E5%BA%9F%E6%84%9F%E7%9A%84%E6%9D%A5%E6%BA%90/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/post/2017-10-11-%E9%A2%93%E5%BA%9F%E6%84%9F%E7%9A%84%E6%9D%A5%E6%BA%90/</guid>
+      <guid>https://jeremyyin.com/post/2017-10-11-%E9%A2%93%E5%BA%9F%E6%84%9F%E7%9A%84%E6%9D%A5%E6%BA%90/</guid>
       <description>按说我不酗酒不抽烟不赌博不嫖娼不沉迷游戏，实在不忍也就自己放飞机，尽量不带给别人负面情绪，不增加他人负担，明面儿上别人说理性沉稳、不急不躁，这确实应没啥太多说头了。
 可有一感觉挡不住：颓废感。
 时常想，那些手里夹着烟孤身行走抑或是依靠栏杆的人们，他们手里夹着的其实到底应该是什么？当吞吐之间，吸收与释放的又该是什么？

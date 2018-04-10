@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pythons on Jeremy&#39;s blog</title>
-    <link>localhost/python/</link>
+    <link>https://jeremyyin.com/python/</link>
     <description>Recent content in Pythons on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="localhost/python/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://jeremyyin.com/python/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>if True or if not True</title>
-      <link>localhost/python/2016-12-23-if-true-or-if-not-true/</link>
+      <link>https://jeremyyin.com/python/2016-12-23-if-true-or-if-not-true/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/python/2016-12-23-if-true-or-if-not-true/</guid>
+      <guid>https://jeremyyin.com/python/2016-12-23-if-true-or-if-not-true/</guid>
       <description>明天就是平安夜，我打算今晚啃个苹果。
 以程序员的角色上岗工作已经正式3周过去了，这算是正式地公告一下。
 放在几年前我从未想过我会正式地成为一名可以自己编程写代码的人，可是在这几年的工作中逐渐地接触到一些事务，使得我认为在未来的日子里，不会自己写几行程序代码的人们总是会有一些很难过的坎儿。
@@ -35,10 +35,10 @@
     
     <item>
       <title>努力投身 Python 3 的怀抱</title>
-      <link>localhost/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</link>
+      <link>https://jeremyyin.com/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</guid>
+      <guid>https://jeremyyin.com/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</guid>
       <description>15 年开始学习 Python 的时候，看遍了大家关于应该选择 Python 2 还是 Python 3 的讨论和争执，还有，妥协。
 按照我买电子产品“买新不买旧，买好不买差”的原则，我毅然决定先从了 Python 3 再说。
 是的，争执无意义，行动才是根本。
@@ -63,10 +63,10 @@
     
     <item>
       <title>给一个列表去重复却又要保留顺序</title>
-      <link>localhost/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</link>
+      <link>https://jeremyyin.com/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</guid>
+      <guid>https://jeremyyin.com/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</guid>
       <description>collections.OrderedDict.fromkeys(list).keys() 在python中，有时候有需要用到保留原始顺序而又能去掉重复的列表。
 而在python自身的基本数据结构里面，给list去除重复可以用set(list)来进行操作而得到一个没有重复的set集合，但是这样也就把list元素原有的先后出现的顺序而被打乱了，打的乱七八糟的。
 会写pytho的也可能会找到很多的解决办法，有容易的有复杂的有高级的。
@@ -79,10 +79,10 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
     
     <item>
       <title>造个轮子</title>
-      <link>localhost/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</link>
+      <link>https://jeremyyin.com/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>localhost/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</guid>
+      <guid>https://jeremyyin.com/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</guid>
       <description>技术，是个好东西。
 有能力利用技术造出一些有用的东西，也是再也欣喜不过了。
 我们都知道造房子有点难度，构建高楼大厦就更加有技术难度，从设计到施工，没任何人全能精通。造汽车就也难了，虽然也是从设计到制造，可知识又是数不过来的多，更不用说制造经验和制造水平。
