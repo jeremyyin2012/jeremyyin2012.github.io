@@ -1,4 +1,19 @@
 .post-link {
     color: black;
-    padding-top: 2rem;
+    margin-top: 2rem;
+}
+.post-link:hover{
+    color: #31b9aa;
+}
+
+
+
+.post-item-title a {
+    color: black;
+    margin-top: 2rem;
+}
+.post-item-title a:hover{
+    color: #31b9aa;
+    font-style: normal;
+    font-weight: bold;
 }

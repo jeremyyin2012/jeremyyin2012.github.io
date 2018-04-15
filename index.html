@@ -104,7 +104,7 @@
                             
 
     
-  <div class="container" style="padding-top: 2rem">
+  <div class="container">
       <div class="row">
           <div class="col-sm-12">
            <div id="search-searchbar"></div>
@@ -127,10 +127,12 @@
     apiKey: '5cb2e03f3d9cc9b8f4ecac0245ec0a8d',
     indexName: 'jeremyyin.com',
     searchParameters: {
-      restrictSearchableAttributes: [
-        'title',
-        'content'
-      ]
+      restrictSearchableAttributes: ['title', 'content'],
+      attributesToRetrieve: ['title', 'content', 'relpermalink', 'date'],
+      hitsPerPage: 10,
+      attributesToHighlight: ['title', 'content'],
+      attributesToSnippet: ['content:120'],
+      snippetEllipsisText: '…'
     }
   });
   
@@ -139,14 +141,14 @@
     if (hit.date) {
       date = moment.unix(hit.date).format('MMM D, YYYY');
     }
-    const url = hit.url;
+    const url = hit.relpermalink;
     const title = hit._highlightResult.title.value;
-    const content = hit._highlightResult.html.value;
+    const content = hit._snippetResult.content.value;
   
     return `
       <div class="post-item">
         <h2><a class="post-link" href="${url}">${title}</a></h2>
-        <span class="post-meta">${date}</span>
+        <span class="post-meta text-muted">${date}</span>
         <div class="post-snippet">${content}</div>
       </div>
     `;
