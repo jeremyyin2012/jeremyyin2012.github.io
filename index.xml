@@ -6,10 +6,27 @@
     <description>Recent content on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 13 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>小站构建工具已成功切换到 Hugo</title>
+      <link>https://jeremyyin.com/post/2018-04-18-%E5%B0%8F%E7%AB%99%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E5%88%87%E6%8D%A2%E5%88%B0-hugo/</link>
+      <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/post/2018-04-18-%E5%B0%8F%E7%AB%99%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E5%88%87%E6%8D%A2%E5%88%B0-hugo/</guid>
+      <description>最开始，我这使用的是 Jekyll 来处理 Markdown 文件生成网站文件。
+前些时候，我筹备给它换到使用 Hugo 来处理。其中的一个主要原因，是因为：
+ 我想每个类别存一个文件夹，比如可以单独归类的：Python、……；不能归类的：其它杂碎的文章…… 如果需要修改某一个目录的名称，或是重新为某一批文章进行归类整理，我不想要去每一个 .md 文件里去逐个修改，虽然存在可能我写个 .py 脚本来处理这个事情，但是始终不是个很好的操作。  出于我在想把一些可独立成文件夹的东西搬进来存着，比如一些工具的文档什么的，所以这个独立文件夹存储的确实很明确，所以就着手进行了。
+然后，结果有些东西就被我搞砸了，却没能有立即的完善解决方案和工具可用。
+不过现在终于弄好了，其实比想象中的更加容易些，没那么复杂了，总体上有这么几点拿出来说道说道的。
+首先我们使用反向推导的逻辑来思考如果需要修复搜索服务需要哪些东西：
+ Algolia 的 API 是最终我们可操作更新索引内容的工具，有 Python 版的官方包，直接可接入基础的几个 API 操作，测试完成 在利用它 API 更新数据之前我们需要有数据，这个数据是什么，它其实是一个 json 文件，一个包含了多个文章字段索引内容的 list 那么就是如何得到这个 json 文件的事情了，自己写个工具来生成？这也是我曾考虑过的，然而其实后来发现有更好的方案，Hugo 支持多种模版输出，而其中便包含了可以输出 json 的方式，只要定义一个模版页面即可，而这个模版页面，自己贸然写可能有点难度，但是如果搜一搜，其实有人家写好的可以借鉴使用 那就是测试利用这个 json 模版输出 json 内容的问题了  所以接下来测试了几番，为什么是几番，因为有些需求需要自己处理下，比如：
+ 有些不需要索引的页面需要去除 为了方便查看本次更新要对 json 文件进行二次处理，排序等等 字段命名是否合理，要改的就改  这些小问题都是 Python 直接操作会很方便，所以写个脚本来操作，加入 sh 文件里面使得在构建的时候就顺便自动也帮忙处理下 json 文件，确认没啥问题再更新 Algolia 索引数据，完美完成。
+当然在逐个步骤尝试的过程中还有遇到一些其它的问题，比如到底应该调用 addObjects add_objects 还是 update_objects save_objects 等等这些细节，不过这个去翻翻 Algolia 的文档就能明确的到答案的啦。</description>
+    </item>
     
     <item>
       <title>我是如何搞砸了本站搜索服务的</title>
