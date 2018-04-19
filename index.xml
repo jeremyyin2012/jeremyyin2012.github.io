@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>01 在 macOS 上安装</title>
+      <title>Saleor 01: 在 macOS 上安装</title>
       <link>https://jeremyyin.com/saleor/getting-started/01_installation-macos/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -32,7 +32,7 @@ $ brew install python3 Git 使用 Homebrew 安装 Git:</description>
     </item>
     
     <item>
-      <title>02 在 Windows 上安装</title>
+      <title>Saleor 02: 在 Windows 上安装</title>
       <link>https://jeremyyin.com/saleor/getting-started/02_installation-windows/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -55,7 +55,7 @@ Compilers 下载并安装最新版本的 Visual C++ build tools.
     </item>
     
     <item>
-      <title>03 在 Linux 上安装</title>
+      <title>Saleor 03: 在 Linux 上安装</title>
       <link>https://jeremyyin.com/saleor/getting-started/03_installation-linux/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -75,7 +75,7 @@ Debian / Ubuntu Debian 9.0 Stretch 或以上, Ubuntu 16.04 Xenial 或以上:</de
     </item>
     
     <item>
-      <title>04 设置</title>
+      <title>Saleor 04: 设置</title>
       <link>https://jeremyyin.com/saleor/getting-started/04_configuration/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -103,7 +103,7 @@ Example: postgres://user:password@psql.example.com/database
     </item>
     
     <item>
-      <title>05 创建一个管理员账户</title>
+      <title>Saleor 05: 创建一个管理员账户</title>
       <link>https://jeremyyin.com/saleor/getting-started/05_superuser/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -115,7 +115,7 @@ $ python manage.py createsuperuser 按照提示提供您的电子邮件地址和
     </item>
     
     <item>
-      <title>06 调试工具</title>
+      <title>Saleor 06: 调试工具</title>
       <link>https://jeremyyin.com/saleor/getting-started/06_dev-tools-2/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -128,7 +128,7 @@ Silk Silk 开启与否可以通过环境变量来控制
     </item>
     
     <item>
-      <title>07 测试数据</title>
+      <title>Saleor 07: 测试数据</title>
       <link>https://jeremyyin.com/saleor/getting-started/07_example-data/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -138,7 +138,7 @@ $ python manage.py populatedb</description>
     </item>
     
     <item>
-      <title>08 使用 Docker 进行开发</title>
+      <title>Saleor 08: 使用 Docker 进行开发</title>
       <link>https://jeremyyin.com/saleor/customization/08_docker/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -154,7 +154,7 @@ Warning
     </item>
     
     <item>
-      <title>09 自定义模版</title>
+      <title>Saleor 09: 自定义模版</title>
       <link>https://jeremyyin.com/saleor/customization/09_templates/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -164,7 +164,7 @@ Warning
     </item>
     
     <item>
-      <title>10 自定义邮件</title>
+      <title>Saleor 10: 自定义邮件</title>
       <link>https://jeremyyin.com/saleor/customization/10_emails/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -178,7 +178,7 @@ $ npm run build-emails</description>
     </item>
     
     <item>
-      <title>11 自定义 CSS 和 JavaScript</title>
+      <title>Saleor 11: 自定义 CSS 和 JavaScript</title>
       <link>https://jeremyyin.com/saleor/customization/11_frontend/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
