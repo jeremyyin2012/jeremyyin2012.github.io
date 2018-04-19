@@ -73,11 +73,15 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="/python/">Python</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/post/">Others</a>
+                    <a class="nav-link" href="/saleor/">Saleor</a>
                 </li>
 
                 <li class="nav-item">
@@ -120,14 +124,11 @@
 <p>字典的key有个特性是不会重复，python默认的字典的key也是无序的，这是由它本身的特性决定的，但是有人结合了list的特性，制造了这个有序字典的数据结构，它输出的key和value都是有序的。</p>
 
 <p>所以利用它的这些特性，这样理论上就会很容易就能得到有序的没有重复的list了。</p>
-
-<pre><code>import collections
-datalist = ['1', '4', '3', '2', '2', '4']
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">import collections
+datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39;, &#39;2&#39;, &#39;4&#39;]
 newlist = collections.OrderedDict.fromkeys(datalist).keys()
 print(newlist)
-['1', '4', '3', '2']
-</code></pre>
-
+[&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39;]</pre></div>
 <p>这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。</p>
 
 <p>好了，这里其实是第一次正经测试markdown语法来写文章的内容，目前看起来貌似还蛮美观的吭。</p>

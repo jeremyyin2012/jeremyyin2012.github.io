@@ -6,10 +6,205 @@
     <description>Recent content on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 18 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>01 在 macOS 上安装</title>
+      <link>https://jeremyyin.com/saleor/getting-started/01_installation-macos/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/getting-started/01_installation-macos/</guid>
+      <description>准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。
+Node.js 建议是 Version 8 或更高版本。
+Node.js downloads page
+PostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。
+PostgreSQL download page
+你一定要记住在安装的时候所设定的管理员密码。
+Command Line Tools for Xcode 下载并安装最新版本的 &amp;ldquo;Command Line Tools (macOS 10.x) for Xcode 9.x&amp;rdquo;.
+Downloads for Apple Developers page
+然后运行：
+$ xcode-select --install Homebrew 运行下面的命令安装 Homebrew:
+$ /usr/bin/ruby -e &amp;#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&amp;#34; Python 3 使用 Homebrew 安装最新版本的 Python 3:
+$ brew install python3 Git 使用 Homebrew 安装 Git:</description>
+    </item>
+    
+    <item>
+      <title>02 在 Windows 上安装</title>
+      <link>https://jeremyyin.com/saleor/getting-started/02_installation-windows/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/getting-started/02_installation-windows/</guid>
+      <description>我们在 64-bit Windows 系统上进行安装
+准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。
+Python 下载最新的 3.6 版 Windows 安装包，然后根据说明进行安装。
+Python download page
+记得勾选 &amp;ldquo;Add Python 3.6 to PATH&amp;ldquo;
+Node.js 建议是 Version 8 或更高版本。
+Node.js downloads page
+记得勾选 &amp;ldquo;Add to PATH&amp;ldquo;
+PostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。
+PostgreSQL download page
+你一定要记住在安装的时候所设定的管理员密码。
+GTK+ 下载 64-bit Windows installer
+记得勾选 &amp;ldquo;Set up PATH environment variable to include GTK+&amp;ldquo;
+Compilers 下载并安装最新版本的 Visual C++ build tools.
+安装  克隆这个仓库 （或是使用你自己的副本）：</description>
+    </item>
+    
+    <item>
+      <title>03 在 Linux 上安装</title>
+      <link>https://jeremyyin.com/saleor/getting-started/03_installation-linux/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/getting-started/03_installation-linux/</guid>
+      <description>如果你偏向于使用容器服务或者是对配置 PostgreSQL, Redis and Elasticsearch 存在问题，可以尝试 Using Docker for Development 相关教程。
+准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。
+Python 3 Saleor 建议使用 Python 3.4 或者更高版本。大多数 Linux 系统都有一个内置已经安装好的版本，但是如果不是，那就要去了解下如何安装 Python 3.6.
+Node.js 建议是 Version 8 或更高版本。
+查看 installation instructions.
+Note  Debian 和 Ubuntu 用户使用系统安装包进行安装 Node.js 的话依然还需要安装 nodejs-legacy
+
+PostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。
+PostgreSQL download page
+你一定要记住在安装的时候所设定的管理员密码。
+GTK+ 有一些功能，比如“创建 PDF”，需要额外的系统库支持。
+Debian / Ubuntu Debian 9.0 Stretch 或以上, Ubuntu 16.04 Xenial 或以上:</description>
+    </item>
+    
+    <item>
+      <title>04 设置</title>
+      <link>https://jeremyyin.com/saleor/getting-started/04_configuration/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/getting-started/04_configuration/</guid>
+      <description>我们是 12factor 方法和可移植代码的粉丝， 所以你仅仅使用环境变量就可以设置 Saleor 的大多数配置项。
+环境变量  ALLOWED_HOSTS
+控制 Django&amp;rsquo;s allowed hosts 设置，默认是 localhost。使用英文逗号分隔多个值。
+ CACHE_URL or REDIS_URL
+缓存数据库地址，默认是系统内存。我们推荐使用 Redis，Heroku 的 Redis 会自动导出这个配置。
+  Example: redis://redis.example.com:6379/0
+Warning
+
+如果你计划使用不止一个 WSGI 进程（或运行多个服务器/容器），则需要使用共享缓存服务器。否则，每个进程将拥有自己的每个用户会话的版本，这将导致用户被注销并丢失购物车。
+
+ DATABASE_URL
+默认是本地 PostgreSQL 实例。查看 Using Docker for Development 了解如何在 Docker container 里面运行本地数据库。  大多数 Heroku 的数据库都会自动导出这个设置。
+Example: postgres://user:password@psql.example.com/database
+ DEBUG
+控制 Django&amp;rsquo;s debug mode 默认是 True
+ DEFAULT_FROM_EMAIL
+电子邮件的默认发件人
+ EMAIL_URL
+电子邮件网关地址。默认是打印输出所有信息到终端。
+  Example: smtp://user:password@smtp.</description>
+    </item>
+    
+    <item>
+      <title>05 创建一个管理员账户</title>
+      <link>https://jeremyyin.com/saleor/getting-started/05_superuser/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/getting-started/05_superuser/</guid>
+      <description>Saleor 是基于 Django 开发的，所以你可以使用下面的命令来创建管理员账户
+$ python manage.py createsuperuser 按照提示提供您的电子邮件地址和密码。
+然后你就可以启动本地服务并访问 http://localhost:8000/dashboard/ 登录到后台管理界面。
+请注意，以这种方式创建用户会使其成为“超级用户”状态，这意味着无论分配给哪个组，它们都具有所有权限。</description>
+    </item>
+    
+    <item>
+      <title>06 调试工具</title>
+      <link>https://jeremyyin.com/saleor/getting-started/06_dev-tools-2/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/getting-started/06_dev-tools-2/</guid>
+      <description> 我们内建了一些调试工具。
+Django debug toolbar 如果 Django 是运行在 debug 模式下，Django Debug Toolbar 就是开启的。
+Silk Silk 开启与否可以通过环境变量来控制
+ ENABLE_SILK
+控制 django-silk. 默认是 False   设置环境变量  $ export ENABLE_SILK=&amp;#39;True&amp;#39;  从 requirements_dev.txt 安装库:  $ python -m pip install -r requirements_dev.txt  重启服务  </description>
+    </item>
+    
+    <item>
+      <title>07 测试数据</title>
+      <link>https://jeremyyin.com/saleor/getting-started/07_example-data/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/getting-started/07_example-data/</guid>
+      <description>如果您想要一些数据来测试您的新店面，您可以使用示例产品和订单填充数据库：
+$ python manage.py populatedb</description>
+    </item>
+    
+    <item>
+      <title>08 使用 Docker 进行开发</title>
+      <link>https://jeremyyin.com/saleor/customization/08_docker/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/08_docker/</guid>
+      <description>使用Docker构建软件，您可以运行和测试代码，而无需担心外部依赖性，如缓存服务器和数据库。
+Warning
+以下设置仅用于本地开发。请参阅 Docker 以获取 Docker 在生产环境的使用说明。
+本地准备工作 在执行以下步骤之前，您需要安装 Docker 和 docker-compose 。
+要构建资源库，您需要 node 和 webpack module bundler
+Warning
+我们的配置公开了 PostgreSQL，Redis 和 Elasticsearch 端口。如果由于端口冲突而运行此 Docker 文件时遇到问题，可以从 docker-compose.yml 文件中删除关于 &amp;lsquo;ports&amp;rsquo; 的部分。
+用法  安装 JavaScript 依赖：  $ npm install  准备静态资源库 assets:  $ npm run build-assets  创建 email:  $ npm run build-emails  使用 docker-compose 创建容器：  $ docker-compose build  准备数据库：  $ docker-compose run web python manage.</description>
+    </item>
+    
+    <item>
+      <title>09 自定义模版</title>
+      <link>https://jeremyyin.com/saleor/customization/09_templates/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/09_templates/</guid>
+      <description>商店前端模版默认是基于 [Bootstrap 4
+你可以在 /templates/ 文件下找到全部文件。</description>
+    </item>
+    
+    <item>
+      <title>10 自定义邮件</title>
+      <link>https://jeremyyin.com/saleor/customization/10_emails/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/10_emails/</guid>
+      <description> 发送邮件 邮件是使用 Django-Templated-Email 进行发送的。
+自定义邮件模版 电子邮件模板在 templates/templated_email 中，它有两个子目录。 source 包含 *.email 和 *.mjml 文件，彼此相邻，按应用程序名称分组。 这些 MJML 文件被编译为 *.html 并放入 compiled 目录。
+在 *.email 中的普通电子邮件通过引用编译的 *.html 文件来包含 HTML 版本。
+编译 MJML 源电子邮件使用 MJML ，并且在使用之前必须编译为HTML。
+要编译邮件的话就运行命令：
+$ npm run build-emails</description>
+    </item>
+    
+    <item>
+      <title>11 自定义 CSS 和 JavaScript</title>
+      <link>https://jeremyyin.com/saleor/customization/11_frontend/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/11_frontend/</guid>
+      <description>All static assets live in subdirectories of /saleor/static/.
+Stylesheets are written in Sass and rely on postcss and autoprefixer for cross-browser compatibility.
+JavaScript code is written according to the ES2015 standard and relies on Babel for transpilation and browser-specific polyfills.
+Everything is compiled together using webpack module bundler.
+The resulting files are written to /saleor/static/assets/ and should not be edited manually.
+During development it’s very convenient to have webpack automatically track changes made locally.</description>
+    </item>
+    
+    <item>
+      <title>开始翻译一个文档：Saleor</title>
+      <link>https://jeremyyin.com/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</guid>
+      <description>这篇文章要在10分钟内写完。
+今晚上开始着手翻译关于 Saleor 的文档，它是一个购物车程序，说它是个程序其实到也不完全是，准确说应该是它提供了一个整体参考方案，选用几个先进的不同产品进行组合，搭建起这么一个东西，相比其它一般性的购物车程序，我第一眼看过去就喜欢上它，demo 足够漂亮，响应速度也非常不错。
+再仔细看过了它所使用的功能组件和工具，都走在技术发展前沿，这点很不错，这表示你是在为未来而努力。
+我英文不咋滴，不过经过这一两年的接触，技术类的英文文档基本能看懂个大概意思，个别不懂的借助下词典工具或者翻译工具，比如系统自带词典和 Google 翻译。
+如今这个时代，语言不会是最大的障碍。
+今天完成了前面一些些，已经在小站放出来了，有兴趣可以看看，翻译可能存在一些问题，欢迎拍砖。
+好了，到这就发吧。</description>
+    </item>
     
     <item>
       <title>小站构建工具已成功切换到 Hugo</title>
@@ -118,10 +313,10 @@ Algolia，据说是来自法国的初创公司，国内还没有看到有大面�
       
       <guid>https://jeremyyin.com/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</guid>
       <description>如果按商业角度来讲，我是该把所有下列域名全部给注册了的：
-jeremyyin.co jeremyyin.net jeremyyin.org jeremyyin.me jeremyyin.cc jeremyyin.vip jeremyyin.cn  甚至可能还有：
-jeremyy.in ...  以及还可能有：
-xyin.com xyin.co //这个已经被注册了 ... jeremyx.com jeremyx.co ... xjeremy.com xjeremy.co ...  如果要是还有这个域名：
-jeremy.yin  可惜并没有，不然我就更加要买下了。
+jeremyyin.co jeremyyin.net jeremyyin.org jeremyyin.me jeremyyin.cc jeremyyin.vip jeremyyin.cn 甚至可能还有：
+jeremyy.in ... 以及还可能有：
+xyin.com xyin.co //这个已经被注册了 ... jeremyx.com jeremyx.co ... xjeremy.com xjeremy.co ... 如果要是还有这个域名：
+jeremy.yin 可惜并没有，不然我就更加要买下了。
 不过呢，又有啥必要呢，并不是不差钱的角儿，拿下个 jeremyyin.com 就差不多了，挂个能留下点文字的地方，够了。虽然不是什么足够短又足够好记的域名，不过却具有鲜明的个人主义色彩，这可以了。
 因为做了程序员的关系，自然没能免俗地去 https://pages.github.com 建立了一个仓库，这样，这些文字除了在微信公众号发布之外，也在 http://jeremyyin2012.github.io 留下了一个汇集之处。
 现在，如果再打开这个链接，它便会自动变成了 https://jeremyyin.com ，它们，现在更加个性化了。
@@ -846,7 +1041,7 @@ IT男们发现时间还久，不唱对不起这机会。
 我的方法 在python的collections包里面有个数据结构叫OrderedDict，有序字典。
 字典的key有个特性是不会重复，python默认的字典的key也是无序的，这是由它本身的特性决定的，但是有人结合了list的特性，制造了这个有序字典的数据结构，它输出的key和value都是有序的。
 所以利用它的这些特性，这样理论上就会很容易就能得到有序的没有重复的list了。
-import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39;, &#39;2&#39;, &#39;4&#39;] newlist = collections.OrderedDict.fromkeys(datalist).keys() print(newlist) [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39;]  这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。
+import collections datalist = [&amp;#39;1&amp;#39;, &amp;#39;4&amp;#39;, &amp;#39;3&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;4&amp;#39;] newlist = collections.OrderedDict.fromkeys(datalist).keys() print(newlist) [&amp;#39;1&amp;#39;, &amp;#39;4&amp;#39;, &amp;#39;3&amp;#39;, &amp;#39;2&amp;#39;] 这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。
 好了，这里其实是第一次正经测试markdown语法来写文章的内容，目前看起来貌似还蛮美观的吭。</description>
     </item>
     
@@ -892,7 +1087,7 @@ import collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://jeremyyin.com/about/</guid>
-      <description>Jeremy&#39;s Blog     {{ .Site.Title }} Home  Python  Others  About  RSS         目前主要是同步在我的微信公众号「JeremyYin」发布的文章。
+      <description>Jeremy&#39;s Blog     {{ .Site.Title }} Home  Post  Python  Saleor  About  RSS         目前主要是同步在我的微信公众号「JeremyYin」发布的文章。
 微信公众号：jeremyyincom
          Author | Jeremy Yin
 Python Engineer

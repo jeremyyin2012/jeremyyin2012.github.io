@@ -1,5 +1,101 @@
 [
     {
+        "content": "这篇文章要在10分钟内写完。\n今晚上开始着手翻译关于 Saleor 的文档，它是一个购物车程序，说它是个程序其实到也不完全是，准确说应该是它提供了一个整体参考方案，选用几个先进的不同产品进行组合，搭建起这么一个东西，相比其它一般性的购物车程序，我第一眼看过去就喜欢上它，demo 足够漂亮，响应速度也非常不错。\n再仔细看过了它所使用的功能组件和工具，都走在技术发展前沿，这点很不错，这表示你是在为未来而努力。\n我英文不咋滴，不过经过这一两年的接触，技术类的英文文档基本能看懂个大概意思，个别不懂的借助下词典工具或者翻译工具，比如系统自带词典和 Google 翻译。\n如今这个时代，语言不会是最大的障碍。\n今天完成了前面一些些，已经在小站放出来了，有兴趣可以看看，翻译可能存在一些问题，欢迎拍砖。\n好了，到这就发吧。\n",
+        "date": 1524096000,
+        "objectID": "9b7a7b469448ef9ea79b19c35b0b27b9",
+        "relpermalink": "/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/",
+        "section": "post",
+        "title": "开始翻译一个文档：Saleor"
+    },
+    {
+        "content": " 使用Docker构建软件，您可以运行和测试代码，而无需担心外部依赖性，如缓存服务器和数据库。\nWarning\n以下设置仅用于本地开发。请参阅 Docker 以获取 Docker 在生产环境的使用说明。\n本地准备工作 在执行以下步骤之前，您需要安装 Docker 和 docker-compose 。\n要构建资源库，您需要 node 和 webpack module bundler\nWarning\n我们的配置公开了 PostgreSQL，Redis 和 Elasticsearch 端口。如果由于端口冲突而运行此 Docker 文件时遇到问题，可以从 docker-compose.yml 文件中删除关于 &lsquo;ports&rsquo; 的部分。\n用法  安装 JavaScript 依赖：  $ npm install  准备静态资源库 assets:  $ npm run build-assets  创建 email:  $ npm run build-emails  使用 docker-compose 创建容器：  $ docker-compose build  准备数据库：  $ docker-compose run web python manage.py migrate $ docker-compose run web python manage.py collectstatic $ docker-compose run web python manage.py populatedb --createsuperuser 这个 --createsuperuser 开关会使用 admin@example.com 创建一个管理员账户，密码设置为 admin\n 启动容器：  $ docker-compose up 默认情况下，应用程序以调试模式启动，将自动重新加载代码并配置为在端口 8000 上侦听。\n",
+        "date": 1524096000,
+        "objectID": "c4ce1e7980f4980b0025582af3413e89",
+        "relpermalink": "/saleor/customization/08_docker/",
+        "section": "saleor",
+        "title": "08 使用 Docker 进行开发"
+    },
+    {
+        "content": "商店前端模版默认是基于 [Bootstrap 4\n你可以在 /templates/ 文件下找到全部文件。\n",
+        "date": 1524096000,
+        "objectID": "276f9e270abb2db0af0d1fe45fb0a324",
+        "relpermalink": "/saleor/customization/09_templates/",
+        "section": "saleor",
+        "title": "09 自定义模版"
+    },
+    {
+        "content": " 发送邮件 邮件是使用 Django-Templated-Email 进行发送的。\n自定义邮件模版 电子邮件模板在 templates/templated_email 中，它有两个子目录。 source 包含 *.email 和 *.mjml 文件，彼此相邻，按应用程序名称分组。 这些 MJML 文件被编译为 *.html 并放入 compiled 目录。\n在 *.email 中的普通电子邮件通过引用编译的 *.html 文件来包含 HTML 版本。\n编译 MJML 源电子邮件使用 MJML ，并且在使用之前必须编译为HTML。\n要编译邮件的话就运行命令：\n$ npm run build-emails",
+        "date": 1524096000,
+        "objectID": "9e8ec66ff258c0cddf803df828e6cd5d",
+        "relpermalink": "/saleor/customization/10_emails/",
+        "section": "saleor",
+        "title": "10 自定义邮件"
+    },
+    {
+        "content": "All static assets live in subdirectories of /saleor/static/.\nStylesheets are written in Sass and rely on postcss and autoprefixer for cross-browser compatibility.\nJavaScript code is written according to the ES2015 standard and relies on Babel for transpilation and browser-specific polyfills.\nEverything is compiled together using webpack module bundler.\nThe resulting files are written to /saleor/static/assets/ and should not be edited manually.\nDuring development it’s very convenient to have webpack automatically track changes made locally. This will also enable source maps that are extremely helpful when debugging.\nTo run webpack in watch mode run:\n$ npm start Warning\nFiles produced this way are not ready for production use. To prepare static assets for deployment run:\n$ npm run build-assets --production",
+        "date": 1524096000,
+        "objectID": "8c6b816643cb8b7e1bb6b7a8e2770eee",
+        "relpermalink": "/saleor/customization/11_frontend/",
+        "section": "saleor",
+        "title": "11 自定义 CSS 和 JavaScript"
+    },
+    {
+        "content": " 准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。\nNode.js 建议是 Version 8 或更高版本。\nNode.js downloads page\nPostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。\nPostgreSQL download page\n你一定要记住在安装的时候所设定的管理员密码。\nCommand Line Tools for Xcode 下载并安装最新版本的 &ldquo;Command Line Tools (macOS 10.x) for Xcode 9.x&rdquo;.\nDownloads for Apple Developers page\n然后运行：\n$ xcode-select --install Homebrew 运行下面的命令安装 Homebrew:\n$ /usr/bin/ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34; Python 3 使用 Homebrew 安装最新版本的 Python 3:\n$ brew install python3 Git 使用 Homebrew 安装 Git:\n$ brew install git Gtk+ 使用 Homebrew 安装 the graphical libraries necessary for PDF creation:\n$ brew install cairo pango gdk-pixbuf libffi 安装  克隆这个仓库 （或是使用你自己的副本）：\n$ git clone https://github.com/mirumee/saleor.git 进入目录：\n$ cd saleor/ 安装依赖库：\n在安装任何 Python 包之前，我们强烈推荐先创建一个虚拟环境。\ncreating a virtual environment\n$ pip install -r requirements.txt 设置一个环境变量 SECRET_KEY :\n我们有想过设一个默认值，但是我们最终决定不设默认值，因为怕有人直接用这个默认值上了生产环境，所以还是由你自己来设一个。\n$ export SECRET_KEY=&#39;&lt;mysecretkey&gt;&#39; Warning  秘钥（Secret key）应该是一个只有你们团队自己知道的独一无二的字符串，使用一个别人可能知道的 SECRET_KEY 会破坏 Django 的许多安全性保护，并可能导致特权升级和远程代码执行漏洞。\n参考：Django&rsquo;s documentation\n\n 创建一个 PostgreSQL 用户：\n除非你已经设置过，否则商店的用户名和密码都默认是 saleor ，请记得给你的用户设置 SUPERUSER 权限，这样它才可以创建数据库和数据库扩展。\n$ createuser --superuser --pwprompt saleor 当提示需要密码的时候输入 saleor\n 准备数据库:\n$ python manage.py migrate Warning  这个命令需要有创建数据库扩展的权限，如果你收到与 CREATE EXTENSION 相关的错误信息请参考用户创建步骤的说明。\n\n 安装前端依赖库:\n$ npm install Note  如果这一步安装失败请回到上面去确认下使用的 Node.js 版本是不是足够新。\n\n 准备前端资源文件:\n$ npm run build-assets 编译电子邮件:\n$ npm run build-emails 启动开发服务器:\n$ python manage.py runserver  ",
+        "date": 1524096000,
+        "objectID": "a111eb67b03e6b3b3fe4f1a0563f4582",
+        "relpermalink": "/saleor/getting-started/01_installation-macos/",
+        "section": "saleor",
+        "title": "01 在 macOS 上安装"
+    },
+    {
+        "content": " 我们在 64-bit Windows 系统上进行安装\n准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。\nPython 下载最新的 3.6 版 Windows 安装包，然后根据说明进行安装。\nPython download page\n记得勾选 &ldquo;Add Python 3.6 to PATH&ldquo;\nNode.js 建议是 Version 8 或更高版本。\nNode.js downloads page\n记得勾选 &ldquo;Add to PATH&ldquo;\nPostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。\nPostgreSQL download page\n你一定要记住在安装的时候所设定的管理员密码。\nGTK+ 下载 64-bit Windows installer\n记得勾选 &ldquo;Set up PATH environment variable to include GTK+&ldquo;\nCompilers 下载并安装最新版本的 Visual C++ build tools.\n安装  克隆这个仓库 （或是使用你自己的副本）：\n$ git clone https://github.com/mirumee/saleor.git 进入目录：\n$ cd saleor/ 安装依赖库：\n在安装任何 Python 包之前，我们强烈推荐先创建一个虚拟环境。\ncreating a virtual environment\n$ pip install -r requirements.txt 设置一个环境变量 SECRET_KEY :\n我们有想过设一个默认值，但是我们最终决定不设默认值，因为怕有人直接用这个默认值上了生产环境，所以还是由你自己来设一个。\n$ export SECRET_KEY=&#39;&lt;mysecretkey&gt;&#39; Warning  秘钥（Secret key）应该是一个只有你们团队自己知道的独一无二的字符串，使用一个别人可能知道的 SECRET_KEY 会破坏 Django 的许多安全性保护，并可能导致特权升级和远程代码执行漏洞。\n参考：Django&rsquo;s documentation\n\n 创建一个 PostgreSQL 用户：\n使用 pgAdmin 工具来为你的商店创建数据库用户\n除非你已经设置过，否则商店的用户名和密码都默认是 saleor ，请记得给你的用户设置 SUPERUSER 权限，这样它才可以创建数据库和数据库扩展。\n$ createuser --superuser --pwprompt saleor 当提示需要密码的时候输入 saleor\n 准备数据库:\n$ python manage.py migrate Warning  这个命令需要有创建数据库和数据库扩展的权限，如果你收到了相关的错误，请确认你是否分配了 SUPERUSER 权限。\n\n 安装前端依赖库:\n$ npm install Note  如果这一步安装失败请回到上面去确认下使用的 Node.js 版本是不是足够新。\n\n 准备前端资源文件:\n$ npm run build-assets 编译电子邮件:\n$ npm run build-emails 启动开发服务器:\n  $ python manage.py runserver",
+        "date": 1524096000,
+        "objectID": "276fed2c5a7d61620300036917a4ca38",
+        "relpermalink": "/saleor/getting-started/02_installation-windows/",
+        "section": "saleor",
+        "title": "02 在 Windows 上安装"
+    },
+    {
+        "content": " 如果你偏向于使用容器服务或者是对配置 PostgreSQL, Redis and Elasticsearch 存在问题，可以尝试 Using Docker for Development 相关教程。\n准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。\nPython 3 Saleor 建议使用 Python 3.4 或者更高版本。大多数 Linux 系统都有一个内置已经安装好的版本，但是如果不是，那就要去了解下如何安装 Python 3.6.\nNode.js 建议是 Version 8 或更高版本。\n查看 installation instructions.\nNote  Debian 和 Ubuntu 用户使用系统安装包进行安装 Node.js 的话依然还需要安装 nodejs-legacy\n\nPostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。\nPostgreSQL download page\n你一定要记住在安装的时候所设定的管理员密码。\nGTK+ 有一些功能，比如“创建 PDF”，需要额外的系统库支持。\nDebian / Ubuntu Debian 9.0 Stretch 或以上, Ubuntu 16.04 Xenial 或以上:\n$ sudo apt-get install build-essential python3-dev python3-pip python3-cffi libcairo2 libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 libffi-dev shared-mime-info Fedora $ sudo yum install redhat-rpm-config python-devel python-pip python-cffi libffi-devel cairo pango gdk-pixbuf2 Archlinux $ sudo pacman -S python-pip cairo pango gdk-pixbuf2 libffi pkg-config Gentoo $ emerge pip cairo pango gdk-pixbuf cffi 安装  克隆这个仓库 （或是使用你自己的副本）：\n$ git clone https://github.com/mirumee/saleor.git 进入目录：\n$ cd saleor/ 安装依赖库：\n在安装任何 Python 包之前，我们强烈推荐先创建一个虚拟环境。\ncreating a virtual environment\n$ pip install -r requirements.txt 设置一个环境变量 SECRET_KEY :\n我们有想过设一个默认值，但是我们最终决定不设默认值，因为怕有人直接用这个默认值上了生产环境，所以还是由你自己来设一个。\n$ export SECRET_KEY=&#39;&lt;mysecretkey&gt;&#39; Warning  秘钥（Secret key）应该是一个只有你们团队自己知道的独一无二的字符串，使用一个别人可能知道的 SECRET_KEY 会破坏 Django 的许多安全性保护，并可能导致特权升级和远程代码执行漏洞。\n参考：Django&rsquo;s documentation\n\n 创建一个 PostgreSQL 用户：\n查看详情 PostgreSQL&rsquo;s createuser command\nNote  你需要为你的项目创建一个用户， 用户名和密码可以在 DATABASE_URL 这个环境变量中找到。如果没有设置过的话那默认就都是 saleor\n\nWarning  当创建数据库时，Django 需要创建一些 PostgreSQL 扩展，如果数据库里面没有的话，这个操作需要管理员权限。\n对于本地开发，你可以给你的数据库使用管理员权限。但是如果是在外部正式环境的话，建议专门设立一个管理员用户去做数据库操作。\n\n 准备数据库:\n$ python manage.py migrate Warning  这个命令需要有创建数据库和数据库扩展的权限，如果你收到了与 CREATE EXTENSION 相关的错误，请确认你在创建用户的时候是否分配了 SUPERUSER 权限。\n\n 安装前端依赖库:\n$ npm install Note  如果这一步安装失败请回到上面去确认下使用的 Node.js 版本是不是足够新。\n\n 准备前端资源文件:\n$ npm run build-assets 编译电子邮件:\n$ npm run build-emails 启动开发服务器:\n  $ python manage.py runserver",
+        "date": 1524096000,
+        "objectID": "add610649062ac82a514001257a98075",
+        "relpermalink": "/saleor/getting-started/03_installation-linux/",
+        "section": "saleor",
+        "title": "03 在 Linux 上安装"
+    },
+    {
+        "content": " 我们是 12factor 方法和可移植代码的粉丝， 所以你仅仅使用环境变量就可以设置 Saleor 的大多数配置项。\n环境变量  ALLOWED_HOSTS\n控制 Django&rsquo;s allowed hosts 设置，默认是 localhost。使用英文逗号分隔多个值。\n CACHE_URL or REDIS_URL\n缓存数据库地址，默认是系统内存。我们推荐使用 Redis，Heroku 的 Redis 会自动导出这个配置。\n  Example: redis://redis.example.com:6379/0\nWarning\n\n如果你计划使用不止一个 WSGI 进程（或运行多个服务器/容器），则需要使用共享缓存服务器。否则，每个进程将拥有自己的每个用户会话的版本，这将导致用户被注销并丢失购物车。\n\n DATABASE_URL\n默认是本地 PostgreSQL 实例。查看 Using Docker for Development 了解如何在 Docker container 里面运行本地数据库。  大多数 Heroku 的数据库都会自动导出这个设置。\nExample: postgres://user:password@psql.example.com/database\n DEBUG\n控制 Django&rsquo;s debug mode 默认是 True\n DEFAULT_FROM_EMAIL\n电子邮件的默认发件人\n EMAIL_URL\n电子邮件网关地址。默认是打印输出所有信息到终端。\n  Example: smtp://user:password@smtp.example.com:465/?ssl=True\n INTERNAL_IPS\n控制 Django&rsquo;s internal IPs 设置。默认是 127.0.0.1  多个值用英文逗号分隔。\n SECRET_KEY\n控制 Django&rsquo;s secret key 设置。\n MAX_CART_LINE_QUANTITY\n控制可加入购物车单个产品的最大数量（这里我暂时也不太确定是指“单个购物车可添加产品的总数量/行数，还是指”单个产品的最大可购买数量“，原文：Controls maximum number of items in one cart line.）默认值是 50\n STATIC_URL\n控制资源文件的加载路径。默认是 /static/assets/\n  ",
+        "date": 1524096000,
+        "objectID": "899b09565a61af2edeb43607e8625ed1",
+        "relpermalink": "/saleor/getting-started/04_configuration/",
+        "section": "saleor",
+        "title": "04 设置"
+    },
+    {
+        "content": "Saleor 是基于 Django 开发的，所以你可以使用下面的命令来创建管理员账户\n$ python manage.py createsuperuser 按照提示提供您的电子邮件地址和密码。\n然后你就可以启动本地服务并访问 http://localhost:8000/dashboard/ 登录到后台管理界面。\n请注意，以这种方式创建用户会使其成为“超级用户”状态，这意味着无论分配给哪个组，它们都具有所有权限。\n",
+        "date": 1524096000,
+        "objectID": "a31f22e812cb53657ba14e3366e951fc",
+        "relpermalink": "/saleor/getting-started/05_superuser/",
+        "section": "saleor",
+        "title": "05 创建一个管理员账户"
+    },
+    {
+        "content": " 我们内建了一些调试工具。\nDjango debug toolbar 如果 Django 是运行在 debug 模式下，Django Debug Toolbar 就是开启的。\nSilk Silk 开启与否可以通过环境变量来控制\n ENABLE_SILK\n控制 django-silk. 默认是 False   设置环境变量  $ export ENABLE_SILK=&#39;True&#39;  从 requirements_dev.txt 安装库:  $ python -m pip install -r requirements_dev.txt  重启服务  ",
+        "date": 1524096000,
+        "objectID": "2497802aad65d43ec353c49384e28bb0",
+        "relpermalink": "/saleor/getting-started/06_dev-tools-2/",
+        "section": "saleor",
+        "title": "06 调试工具"
+    },
+    {
+        "content": "如果您想要一些数据来测试您的新店面，您可以使用示例产品和订单填充数据库：\n$ python manage.py populatedb",
+        "date": 1524096000,
+        "objectID": "ed238fd8a26606ffcbecdc4975976837",
+        "relpermalink": "/saleor/getting-started/07_example-data/",
+        "section": "saleor",
+        "title": "07 测试数据"
+    },
+    {
         "content": "最开始，我这使用的是 Jekyll 来处理 Markdown 文件生成网站文件。\n前些时候，我筹备给它换到使用 Hugo 来处理。其中的一个主要原因，是因为：\n 我想每个类别存一个文件夹，比如可以单独归类的：Python、……；不能归类的：其它杂碎的文章…… 如果需要修改某一个目录的名称，或是重新为某一批文章进行归类整理，我不想要去每一个 .md 文件里去逐个修改，虽然存在可能我写个 .py 脚本来处理这个事情，但是始终不是个很好的操作。  出于我在想把一些可独立成文件夹的东西搬进来存着，比如一些工具的文档什么的，所以这个独立文件夹存储的确实很明确，所以就着手进行了。\n然后，结果有些东西就被我搞砸了，却没能有立即的完善解决方案和工具可用。\n不过现在终于弄好了，其实比想象中的更加容易些，没那么复杂了，总体上有这么几点拿出来说道说道的。\n首先我们使用反向推导的逻辑来思考如果需要修复搜索服务需要哪些东西：\n Algolia 的 API 是最终我们可操作更新索引内容的工具，有 Python 版的官方包，直接可接入基础的几个 API 操作，测试完成 在利用它 API 更新数据之前我们需要有数据，这个数据是什么，它其实是一个 json 文件，一个包含了多个文章字段索引内容的 list 那么就是如何得到这个 json 文件的事情了，自己写个工具来生成？这也是我曾考虑过的，然而其实后来发现有更好的方案，Hugo 支持多种模版输出，而其中便包含了可以输出 json 的方式，只要定义一个模版页面即可，而这个模版页面，自己贸然写可能有点难度，但是如果搜一搜，其实有人家写好的可以借鉴使用 那就是测试利用这个 json 模版输出 json 内容的问题了  所以接下来测试了几番，为什么是几番，因为有些需求需要自己处理下，比如：\n 有些不需要索引的页面需要去除 为了方便查看本次更新要对 json 文件进行二次处理，排序等等 字段命名是否合理，要改的就改  这些小问题都是 Python 直接操作会很方便，所以写个脚本来操作，加入 sh 文件里面使得在构建的时候就顺便自动也帮忙处理下 json 文件，确认没啥问题再更新 Algolia 索引数据，完美完成。\n当然在逐个步骤尝试的过程中还有遇到一些其它的问题，比如到底应该调用 addObjects add_objects 还是 update_objects save_objects 等等这些细节，不过这个去翻翻 Algolia 的文档就能明确的到答案的啦。\n有兴趣就多试试这个站内搜索，反正我目前蛮喜欢的，同时这套工具也正式应用到了朋友的企业内容站。\n往后，可能就会多放点内容到这里，然后也可以多做几个带搜索的东西了。\n",
         "date": 1524009600,
         "objectID": "be089636392434089e65d1c360ef542a",
@@ -40,7 +136,7 @@
         "title": "关联了两个小程序"
     },
     {
-        "content": "如果按商业角度来讲，我是该把所有下列域名全部给注册了的：\njeremyyin.co jeremyyin.net jeremyyin.org jeremyyin.me jeremyyin.cc jeremyyin.vip jeremyyin.cn  甚至可能还有：\njeremyy.in ...  以及还可能有：\nxyin.com xyin.co //这个已经被注册了 ... jeremyx.com jeremyx.co ... xjeremy.com xjeremy.co ...  如果要是还有这个域名：\njeremy.yin  可惜并没有，不然我就更加要买下了。\n不过呢，又有啥必要呢，并不是不差钱的角儿，拿下个 jeremyyin.com 就差不多了，挂个能留下点文字的地方，够了。虽然不是什么足够短又足够好记的域名，不过却具有鲜明的个人主义色彩，这可以了。\n因为做了程序员的关系，自然没能免俗地去 https://pages.github.com 建立了一个仓库，这样，这些文字除了在微信公众号发布之外，也在 http://jeremyyin2012.github.io 留下了一个汇集之处。\n现在，如果再打开这个链接，它便会自动变成了 https://jeremyyin.com ，它们，现在更加个性化了。\n同时地，有了域名就可以设置自定义 DNS 解析，同时配合利用服务商的免费全球 CDN 加速，现在，加载速度更加快了，比 github.io 更快。\n我想，这样，如果未来有更多的东西放在上面，访问起来就更加舒服了。\n嗯，喜欢就好：jeremyyin.com 。\n",
+        "content": "如果按商业角度来讲，我是该把所有下列域名全部给注册了的：\njeremyyin.co jeremyyin.net jeremyyin.org jeremyyin.me jeremyyin.cc jeremyyin.vip jeremyyin.cn 甚至可能还有：\njeremyy.in ... 以及还可能有：\nxyin.com xyin.co //这个已经被注册了 ... jeremyx.com jeremyx.co ... xjeremy.com xjeremy.co ... 如果要是还有这个域名：\njeremy.yin 可惜并没有，不然我就更加要买下了。\n不过呢，又有啥必要呢，并不是不差钱的角儿，拿下个 jeremyyin.com 就差不多了，挂个能留下点文字的地方，够了。虽然不是什么足够短又足够好记的域名，不过却具有鲜明的个人主义色彩，这可以了。\n因为做了程序员的关系，自然没能免俗地去 https://pages.github.com 建立了一个仓库，这样，这些文字除了在微信公众号发布之外，也在 http://jeremyyin2012.github.io 留下了一个汇集之处。\n现在，如果再打开这个链接，它便会自动变成了 https://jeremyyin.com ，它们，现在更加个性化了。\n同时地，有了域名就可以设置自定义 DNS 解析，同时配合利用服务商的免费全球 CDN 加速，现在，加载速度更加快了，比 github.io 更快。\n我想，这样，如果未来有更多的东西放在上面，访问起来就更加舒服了。\n嗯，喜欢就好：jeremyyin.com 。\n",
         "date": 1513296000,
         "objectID": "68c0793ca05427f9ef0ff71aa84b75b2",
         "relpermalink": "/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/",
@@ -264,7 +360,7 @@
         "title": "遇见木心美术馆是个意外"
     },
     {
-        "content": " collections.OrderedDict.fromkeys(list).keys() 在python中，有时候有需要用到保留原始顺序而又能去掉重复的列表。\n而在python自身的基本数据结构里面，给list去除重复可以用set(list)来进行操作而得到一个没有重复的set集合，但是这样也就把list元素原有的先后出现的顺序而被打乱了，打的乱七八糟的。\n会写pytho的也可能会找到很多的解决办法，有容易的有复杂的有高级的。\n我的方法 在python的collections包里面有个数据结构叫OrderedDict，有序字典。\n字典的key有个特性是不会重复，python默认的字典的key也是无序的，这是由它本身的特性决定的，但是有人结合了list的特性，制造了这个有序字典的数据结构，它输出的key和value都是有序的。\n所以利用它的这些特性，这样理论上就会很容易就能得到有序的没有重复的list了。\nimport collections datalist = ['1', '4', '3', '2', '2', '4'] newlist = collections.OrderedDict.fromkeys(datalist).keys() print(newlist) ['1', '4', '3', '2']  这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。\n好了，这里其实是第一次正经测试markdown语法来写文章的内容，目前看起来貌似还蛮美观的吭。\n",
+        "content": " collections.OrderedDict.fromkeys(list).keys() 在python中，有时候有需要用到保留原始顺序而又能去掉重复的列表。\n而在python自身的基本数据结构里面，给list去除重复可以用set(list)来进行操作而得到一个没有重复的set集合，但是这样也就把list元素原有的先后出现的顺序而被打乱了，打的乱七八糟的。\n会写pytho的也可能会找到很多的解决办法，有容易的有复杂的有高级的。\n我的方法 在python的collections包里面有个数据结构叫OrderedDict，有序字典。\n字典的key有个特性是不会重复，python默认的字典的key也是无序的，这是由它本身的特性决定的，但是有人结合了list的特性，制造了这个有序字典的数据结构，它输出的key和value都是有序的。\n所以利用它的这些特性，这样理论上就会很容易就能得到有序的没有重复的list了。\nimport collections datalist = [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39;, &#39;2&#39;, &#39;4&#39;] newlist = collections.OrderedDict.fromkeys(datalist).keys() print(newlist) [&#39;1&#39;, &#39;4&#39;, &#39;3&#39;, &#39;2&#39;] 这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。\n好了，这里其实是第一次正经测试markdown语法来写文章的内容，目前看起来貌似还蛮美观的吭。\n",
         "date": 1467072000,
         "objectID": "dda73aded3d48bc9e195bda3b56d735c",
         "relpermalink": "/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/",

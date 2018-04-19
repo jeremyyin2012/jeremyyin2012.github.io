@@ -3,6 +3,66 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jeremyyin.com/saleor/getting-started/01_installation-macos/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/getting-started/02_installation-windows/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/getting-started/03_installation-linux/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/getting-started/04_configuration/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/getting-started/05_superuser/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/getting-started/06_dev-tools-2/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/getting-started/07_example-data/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/customization/08_docker/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/customization/09_templates/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/customization/10_emails/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/customization/11_frontend/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/post/2018-04-18-%E5%B0%8F%E7%AB%99%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E5%88%87%E6%8D%A2%E5%88%B0-hugo/</loc>
     <lastmod>2018-04-18T00:00:00+00:00</lastmod>
   </url>
@@ -187,19 +247,25 @@
   
   <url>
     <loc>https://jeremyyin.com/</loc>
-    <lastmod>2018-04-18T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jeremyyin.com/post/</loc>
-    <lastmod>2018-04-18T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jeremyyin.com/python/</loc>
     <lastmod>2017-09-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
