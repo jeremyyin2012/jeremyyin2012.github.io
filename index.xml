@@ -300,10 +300,13 @@ Static Files 使用破折号分隔单词，因为它们最终会成为 URL 的�
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>https://jeremyyin.com/saleor/architecture/20_money/</guid>
-      <description>Saleor uses the Prices and django-prices libraries to store, calculate and display amounts of money, prices and ranges of those.
-Default currency All prices are entered and stored in a single default currency controlled by the [DEFAULT_CURRENCY setting]. Saleor can display prices in a user’s local currency (see [Open Exchange Rates integration]) but all purchases are charged in the default currency.
+      <description>Saleor 使用 Prices 和 django-prices 库去存储、计算和显示金额、价格与范围。
+默认货币 所有价格都输入并存储在由 [DEFAULT_CURRENCY 设置] 控制的单一默认货币中。Saleor 可以以用户本地货币显示价格 （参阅 [Open Exchange Rates integration]），但所有采购均以默认货币收取。
 Warning
-The currency is not stored in the database.</description>
+货币不存储在数据库中。在生产环境中更改默认货币不会重新计算任何现有订单。所有数字将保持不变，并且会被错误地显示为新货币。
+Money 和 TaxedMoney 在 Saleor 的代码库中，金额存在 Money 或 TaxedMoney 实例。
+Money 是以特定货币表示金额的类型：100 USD 是由 Money(100, &amp;lsquo;USD&amp;rsquo;) 表示。这种类型不包含对商业有用的任何附加信息，但是与 Decimal 不同，它实施保护和检查以计算和比较货币价值。Money amounts 使用 MoneyField 存储在 model 上，MoneyField 提供货币和储值金额的自己的安全检查。如果您需要使用 Money 对象的 Decimal （十进制数字），您可以在 amount 属性中找到它。
+Products （产品）和 shipping methods prices （运输方式价格）使用 MoneyField 进行存储，并假定为 gross amounts （总额）。然后使用 TaxedAmount（net = item.price，gross = item.price）方法将这些金额转换为 TaxedMoney 对象，然后在解决项目的最终价格（税前和折扣前）进行转换。</description>
     </item>
     
     <item>
