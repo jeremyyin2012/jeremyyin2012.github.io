@@ -183,12 +183,127 @@ $ npm run build-emails</description>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>https://jeremyyin.com/saleor/customization/11_frontend/</guid>
-      <description>All static assets live in subdirectories of /saleor/static/.
-Stylesheets are written in Sass and rely on postcss and autoprefixer for cross-browser compatibility.
-JavaScript code is written according to the ES2015 standard and relies on Babel for transpilation and browser-specific polyfills.
-Everything is compiled together using webpack module bundler.
-The resulting files are written to /saleor/static/assets/ and should not be edited manually.
-During development it’s very convenient to have webpack automatically track changes made locally.</description>
+      <description>所有的静态资源文件都在 /saleor/static/ 的子目录下面。
+样式表是使用 Sass 写的，使用 postcss 和 autoprefixer 来支持跨浏览器兼容性。
+JavaScript 代码是按 ES2015 标准写的， 使用 Babel 进行转换和补充浏览器兼容性。
+一切都是使用 webpack module bundler 进行编译。
+最终生成的文件都输出到 /saleor/static/assets/ ，你不要手动去编辑它们。
+webpack 会自动监测到本地文件的修改，这在开发过程中有非常大的好处。 在调试阶段，这同时开启非常有用的 source maps
+To run webpack in watch mode run:
+$ npm start Warning
+使用上面这种方式创建的文件并不是完全可以在生产环境下直接使用的，要使用下面的命令进行操作：
+$ npm run build-assets --production</description>
+    </item>
+    
+    <item>
+      <title>Saleor 12: 编写 Python 代码</title>
+      <link>https://jeremyyin.com/saleor/customization/12_backend/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/12_backend/</guid>
+      <description>管理依赖库 为了保证可重复安装，所有项目依赖性都使用 pip-tools 进行管理。 项目的直接依赖关系列在 requirements.in 中，并且运行 pip-compile 生成所有版本固定的 requirements.txt 。
+我们建议您使用此工作流程并在版本控制下保留 requirements.txt ，以确保所有计算机和环境都运行完全相同的代码。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 13: 国际化</title>
+      <link>https://jeremyyin.com/saleor/customization/13_i18n/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/13_i18n/</guid>
+      <description> 从 Transifex 获取翻译文件 首先要确保你已经安装了 Transifex 命令行客户端:
+$ pip install transifex-client 然后使用 pull 命令获取翻译文件:
+$ tx pull Note
+要为新创建的翻译建立目录你需要在使用 tx pull 命令的时候带上 --all 标志。
+编译消息目录 要想看到 Django 的翻译，这一步是必须要的.
+$ python manage.py compilemessages 提取消息进行翻译 这将使用代码中显示的消息更新英文文件。
+对于后端代码和模板：
+$ python manage.py makemessages -l en --extension=email,html,py,txt --ignore=&amp;#34;templates/templated_email/compiled/*&amp;#34; 对于 JavaScript 代码：
+$ python manage.py makemessages -l en -d djangojs --ignore=&amp;#34;_build/*&amp;#34; --ignore=&amp;#34;node_modules/*&amp;#34; </description>
+    </item>
+    
+    <item>
+      <title>Saleor 14: 运行测试</title>
+      <link>https://jeremyyin.com/saleor/customization/14_tests/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/14_tests/</guid>
+      <description>在对代码进行任何永久更改之前，应确保它们不会破坏现有功能。
+该项目目前只包含很少的前端代码，因此测试套件仅涵盖后端代码。
+要运行后端测试，请使用 pytest:
+$ py.test 您还可以测试所有支持的 Django 和 Python 版本。 这通常只有在您想要将更改回送给 Saleor 时才需要。 要做到这一点，你可以使用 Tox:
+$ tox</description>
+    </item>
+    
+    <item>
+      <title>Saleor 15: 持续集成</title>
+      <link>https://jeremyyin.com/saleor/customization/15_ci/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/15_ci/</guid>
+      <description>商店附带一个可工作的 CircleCI 配置文件。 要使用它，请登录您的 CircleCI 帐户并启用您的存储库。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 16: 与 PyPy 3.5 配合使用</title>
+      <link>https://jeremyyin.com/saleor/customization/16_pypy/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/customization/16_pypy/</guid>
+      <description>Saleor 可以很好地与 PyPy 3.5 配合使用，并且在需要额外的性能时可以使用它。
+默认的 PostgreSQL 驱动程序与 PyPy 不兼容，所以您需要用基于 cffi 的驱动程序替换它。
+请参阅 psycopg2cffi 提供的安装说明。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 17: 编辑器配置</title>
+      <link>https://jeremyyin.com/saleor/contributing/17_editorconfig/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/contributing/17_editorconfig/</guid>
+      <description>EditorConfig 是一个标准配置文件，旨在确保跨多种编程环境的一致风格。
+Saleor 的存储库包含一个 .editorconfig file 文件，它描述了我们的格式要求。
+大多数编辑器和IDE都直接或通过插件支持该文件。 请参阅 list of supported editors and IDEs 以获取相关说明。
+请确保您的编程环境尊重此文件的内容，并且您将自动获得正确的缩进，编码和行尾。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 18: 编码风格</title>
+      <link>https://jeremyyin.com/saleor/contributing/18_coding-style/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/contributing/18_coding-style/</guid>
+      <description>Python 始终遵循 PEP 8 ，但请记住，一致性非常重要。
+String Literals 优先使用单引号加双引号，除非字符串本身包含需要不必要地转义的单引号。
+Wrapping Code When wrapping code follow the “hanging grid” format:
+some_dict = { &amp;#39;one&amp;#39;: 1, &amp;#39;two&amp;#39;: 2, &amp;#39;three&amp;#39;: 3}some_list = [ &amp;#39;foo&amp;#39;, &amp;#39;bar&amp;#39;, &amp;#39;baz&amp;#39;] Python是一种基于缩进的语言，我们相信漂亮，可读的代码比保存一行 git diff 更重要。 即使 Django 项目似乎鼓励这种编程风格，请避免使用括号，括号，方括号或悬挂逗号。下面这种是错误的做法：
+this_is_wrong = { &amp;#39;one&amp;#39;: 1, &amp;#39;two&amp;#39;: 2, &amp;#39;three&amp;#39;: 3, } 请在括号后立即打破多行代码，并避免依赖精确数量的空格进行对齐，下面这种做法也是错误的：
+also_wrong(&amp;#39;this is hard&amp;#39;, &amp;#39;to maintain&amp;#39;, &amp;#39;as it often needs to be realigned&amp;#39;) Linters 使用 isort 来维护一致的进口。
+使用 pylint 与 pylint-django 插件来捕获代码中的错误。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 19: 命名约定</title>
+      <link>https://jeremyyin.com/saleor/contributing/19_naming/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/contributing/19_naming/</guid>
+      <description>为了保持一致的代码结构，我们在命名文件时遵循一些规则。
+Python Modules 试着让名字反映文件的功能。 如果可能的话，避免使用通用文件名，例如 utils.py.
+Django Templates 使用下划线作为字词分隔符。
+Static Files 使用破折号分隔单词，因为它们最终会成为 URL 的一部分。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 19: 处理钱的金额</title>
+      <link>https://jeremyyin.com/saleor/architecture/20_money/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/20_money/</guid>
+      <description>Saleor uses the Prices and django-prices libraries to store, calculate and display amounts of money, prices and ranges of those.
+Default currency All prices are entered and stored in a single default currency controlled by the [DEFAULT_CURRENCY setting]. Saleor can display prices in a user’s local currency (see [Open Exchange Rates integration]) but all purchases are charged in the default currency.
+Warning
+The currency is not stored in the database.</description>
     </item>
     
     <item>

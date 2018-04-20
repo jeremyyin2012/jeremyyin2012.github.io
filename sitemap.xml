@@ -58,6 +58,51 @@
   </url>
   
   <url>
+    <loc>https://jeremyyin.com/saleor/customization/12_backend/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/customization/13_i18n/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/customization/14_tests/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/customization/15_ci/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/customization/16_pypy/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/contributing/17_editorconfig/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/contributing/18_coding-style/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/contributing/19_naming/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/architecture/20_money/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</loc>
     <lastmod>2018-04-19T00:00:00+00:00</lastmod>
   </url>

@@ -8,6 +8,38 @@
         "title": "开始翻译一个文档：Saleor"
     },
     {
+        "content": " Saleor uses the Prices and django-prices libraries to store, calculate and display amounts of money, prices and ranges of those.\nDefault currency All prices are entered and stored in a single default currency controlled by the [DEFAULT_CURRENCY setting]. Saleor can display prices in a user’s local currency (see [Open Exchange Rates integration]) but all purchases are charged in the default currency.\nWarning\nThe currency is not stored in the database. Changing the default currency in a production environment will not recalculate any existing orders. All numbers will remain the same and will be incorrectly displayed as the new currency.\nMoney and TaxedMoney In Saleor’s codebase, money amounts exist either as Money or TaxedMoney instances.\nMoney is a type representing amount of money in specific currency: 100 USD is represented by Money(100, ‘USD’). This type doesn’t hold any additional information useful for commerce but, unlike Decimal, it implements safeguards and checks for calculations and comparisions of monetary values. Money amounts are stored on model using MoneyField that provides its own safechecks on currency and precision of stored amount. If you ever need to get to the Decimal of your Moneyobject, you’ll find it on the amount property.\nProducts and shipping methods prices are stored using MoneyField and are assumed to be gross amounts. Those amounts are then naively converted to TaxedMoney objects using the TaxedAmount(net=item.price, gross=item.price) approach with conversion happening before resolving item’s final price (before taxes and discounts).\nNote\nIn future Saleor will support setting for store administrators to change this approach to use net values instead if this fits their business more.\nTaxedMoneyRange Sometimes a product may be available under more than single price due to it’s variants defining custom prices different from base brice. For such situations Product defines additional get_price_range and get_gross_price_range methods that return TaxedMoneyRange object defining minim and maximum prices on its start and stop attributes. This object is then used by the UI to differentatie between displaying price as “10 USD” or “from 10 USD” in case of products where prices differ between variants.\nTaxedMoneyRange is also used in for displaying other money ranges, like min and maximum cost and margin on product’s variant in dashboard.\n",
+        "date": 1524096000,
+        "objectID": "00a8f01d0123fa6e9725cb9f96c6191d",
+        "relpermalink": "/saleor/architecture/20_money/",
+        "section": "saleor",
+        "title": "Saleor 19: 处理钱的金额"
+    },
+    {
+        "content": "EditorConfig 是一个标准配置文件，旨在确保跨多种编程环境的一致风格。\nSaleor 的存储库包含一个 .editorconfig file 文件，它描述了我们的格式要求。\n大多数编辑器和IDE都直接或通过插件支持该文件。 请参阅 list of supported editors and IDEs 以获取相关说明。\n请确保您的编程环境尊重此文件的内容，并且您将自动获得正确的缩进，编码和行尾。\n",
+        "date": 1524096000,
+        "objectID": "7d41184e6db171884fce64efa139f281",
+        "relpermalink": "/saleor/contributing/17_editorconfig/",
+        "section": "saleor",
+        "title": "Saleor 17: 编辑器配置"
+    },
+    {
+        "content": " Python 始终遵循 PEP 8 ，但请记住，一致性非常重要。\nString Literals 优先使用单引号加双引号，除非字符串本身包含需要不必要地转义的单引号。\nWrapping Code When wrapping code follow the “hanging grid” format:\nsome_dict = { &#39;one&#39;: 1, &#39;two&#39;: 2, &#39;three&#39;: 3}some_list = [ &#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;] Python是一种基于缩进的语言，我们相信漂亮，可读的代码比保存一行 git diff 更重要。 即使 Django 项目似乎鼓励这种编程风格，请避免使用括号，括号，方括号或悬挂逗号。下面这种是错误的做法：\nthis_is_wrong = { &#39;one&#39;: 1, &#39;two&#39;: 2, &#39;three&#39;: 3, } 请在括号后立即打破多行代码，并避免依赖精确数量的空格进行对齐，下面这种做法也是错误的：\nalso_wrong(&#39;this is hard&#39;, &#39;to maintain&#39;, &#39;as it often needs to be realigned&#39;) Linters 使用 isort 来维护一致的进口。\n使用 pylint 与 pylint-django 插件来捕获代码中的错误。\n使用 pycodestyle 确保您的代码符合 PEP 8。\n使用 pycodestyle 检查您的文档字符串格式是否正确。\n",
+        "date": 1524096000,
+        "objectID": "e2a81bc44ef7db687613aee2bf8bc2e9",
+        "relpermalink": "/saleor/contributing/18_coding-style/",
+        "section": "saleor",
+        "title": "Saleor 18: 编码风格"
+    },
+    {
+        "content": " 为了保持一致的代码结构，我们在命名文件时遵循一些规则。\nPython Modules 试着让名字反映文件的功能。 如果可能的话，避免使用通用文件名，例如 utils.py.\nDjango Templates 使用下划线作为字词分隔符。\nStatic Files 使用破折号分隔单词，因为它们最终会成为 URL 的一部分。\n",
+        "date": 1524096000,
+        "objectID": "5430ac05b9c51dca1147f96ff8b87ffc",
+        "relpermalink": "/saleor/contributing/19_naming/",
+        "section": "saleor",
+        "title": "Saleor 19: 命名约定"
+    },
+    {
         "content": " 使用Docker构建软件，您可以运行和测试代码，而无需担心外部依赖性，如缓存服务器和数据库。\nWarning\n以下设置仅用于本地开发。请参阅 Docker 以获取 Docker 在生产环境的使用说明。\n本地准备工作 在执行以下步骤之前，您需要安装 Docker 和 docker-compose 。\n要构建资源库，您需要 node 和 webpack module bundler\nWarning\n我们的配置公开了 PostgreSQL，Redis 和 Elasticsearch 端口。如果由于端口冲突而运行此 Docker 文件时遇到问题，可以从 docker-compose.yml 文件中删除关于 &lsquo;ports&rsquo; 的部分。\n用法  安装 JavaScript 依赖：  $ npm install  准备静态资源库 assets:  $ npm run build-assets  创建 email:  $ npm run build-emails  使用 docker-compose 创建容器：  $ docker-compose build  准备数据库：  $ docker-compose run web python manage.py migrate $ docker-compose run web python manage.py collectstatic $ docker-compose run web python manage.py populatedb --createsuperuser 这个 --createsuperuser 开关会使用 admin@example.com 创建一个管理员账户，密码设置为 admin\n 启动容器：  $ docker-compose up 默认情况下，应用程序以调试模式启动，将自动重新加载代码并配置为在端口 8000 上侦听。\n",
         "date": 1524096000,
         "objectID": "c4ce1e7980f4980b0025582af3413e89",
@@ -32,12 +64,52 @@
         "title": "Saleor 10: 自定义邮件"
     },
     {
-        "content": "All static assets live in subdirectories of /saleor/static/.\nStylesheets are written in Sass and rely on postcss and autoprefixer for cross-browser compatibility.\nJavaScript code is written according to the ES2015 standard and relies on Babel for transpilation and browser-specific polyfills.\nEverything is compiled together using webpack module bundler.\nThe resulting files are written to /saleor/static/assets/ and should not be edited manually.\nDuring development it’s very convenient to have webpack automatically track changes made locally. This will also enable source maps that are extremely helpful when debugging.\nTo run webpack in watch mode run:\n$ npm start Warning\nFiles produced this way are not ready for production use. To prepare static assets for deployment run:\n$ npm run build-assets --production",
+        "content": "所有的静态资源文件都在 /saleor/static/ 的子目录下面。\n样式表是使用 Sass 写的，使用 postcss 和 autoprefixer 来支持跨浏览器兼容性。\nJavaScript 代码是按 ES2015 标准写的， 使用 Babel 进行转换和补充浏览器兼容性。\n一切都是使用 webpack module bundler 进行编译。\n最终生成的文件都输出到 /saleor/static/assets/ ，你不要手动去编辑它们。\nwebpack 会自动监测到本地文件的修改，这在开发过程中有非常大的好处。 在调试阶段，这同时开启非常有用的 source maps\nTo run webpack in watch mode run:\n$ npm start Warning\n使用上面这种方式创建的文件并不是完全可以在生产环境下直接使用的，要使用下面的命令进行操作：\n$ npm run build-assets --production",
         "date": 1524096000,
         "objectID": "8c6b816643cb8b7e1bb6b7a8e2770eee",
         "relpermalink": "/saleor/customization/11_frontend/",
         "section": "saleor",
         "title": "Saleor 11: 自定义 CSS 和 JavaScript"
+    },
+    {
+        "content": " 管理依赖库 为了保证可重复安装，所有项目依赖性都使用 pip-tools 进行管理。 项目的直接依赖关系列在 requirements.in 中，并且运行 pip-compile 生成所有版本固定的 requirements.txt 。\n我们建议您使用此工作流程并在版本控制下保留 requirements.txt ，以确保所有计算机和环境都运行完全相同的代码。\n",
+        "date": 1524096000,
+        "objectID": "760e9e79398750947a4a339bd9136489",
+        "relpermalink": "/saleor/customization/12_backend/",
+        "section": "saleor",
+        "title": "Saleor 12: 编写 Python 代码"
+    },
+    {
+        "content": " 从 Transifex 获取翻译文件 首先要确保你已经安装了 Transifex 命令行客户端:\n$ pip install transifex-client 然后使用 pull 命令获取翻译文件:\n$ tx pull Note\n要为新创建的翻译建立目录你需要在使用 tx pull 命令的时候带上 --all 标志。\n编译消息目录 要想看到 Django 的翻译，这一步是必须要的.\n$ python manage.py compilemessages 提取消息进行翻译 这将使用代码中显示的消息更新英文文件。\n对于后端代码和模板：\n$ python manage.py makemessages -l en --extension=email,html,py,txt --ignore=&#34;templates/templated_email/compiled/*&#34; 对于 JavaScript 代码：\n$ python manage.py makemessages -l en -d djangojs --ignore=&#34;_build/*&#34; --ignore=&#34;node_modules/*&#34; ",
+        "date": 1524096000,
+        "objectID": "b4dec3beb11179f8c0cdcb9012e8e76e",
+        "relpermalink": "/saleor/customization/13_i18n/",
+        "section": "saleor",
+        "title": "Saleor 13: 国际化"
+    },
+    {
+        "content": "在对代码进行任何永久更改之前，应确保它们不会破坏现有功能。\n该项目目前只包含很少的前端代码，因此测试套件仅涵盖后端代码。\n要运行后端测试，请使用 pytest:\n$ py.test 您还可以测试所有支持的 Django 和 Python 版本。 这通常只有在您想要将更改回送给 Saleor 时才需要。 要做到这一点，你可以使用 Tox:\n$ tox",
+        "date": 1524096000,
+        "objectID": "08b5034a352bbf96ca1fa1183aa8fc83",
+        "relpermalink": "/saleor/customization/14_tests/",
+        "section": "saleor",
+        "title": "Saleor 14: 运行测试"
+    },
+    {
+        "content": "商店附带一个可工作的 CircleCI 配置文件。 要使用它，请登录您的 CircleCI 帐户并启用您的存储库。\n",
+        "date": 1524096000,
+        "objectID": "b275d5a170104217c60de342fc909950",
+        "relpermalink": "/saleor/customization/15_ci/",
+        "section": "saleor",
+        "title": "Saleor 15: 持续集成"
+    },
+    {
+        "content": "Saleor 可以很好地与 PyPy 3.5 配合使用，并且在需要额外的性能时可以使用它。\n默认的 PostgreSQL 驱动程序与 PyPy 不兼容，所以您需要用基于 cffi 的驱动程序替换它。\n请参阅 psycopg2cffi 提供的安装说明。\n",
+        "date": 1524096000,
+        "objectID": "0f941782538ac14fa3fe58e865ee1d8c",
+        "relpermalink": "/saleor/customization/16_pypy/",
+        "section": "saleor",
+        "title": "Saleor 16: 与 PyPy 3.5 配合使用"
     },
     {
         "content": " 准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。\nNode.js 建议是 Version 8 或更高版本。\nNode.js downloads page\nPostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。\nPostgreSQL download page\n你一定要记住在安装的时候所设定的管理员密码。\nCommand Line Tools for Xcode 下载并安装最新版本的 &ldquo;Command Line Tools (macOS 10.x) for Xcode 9.x&rdquo;.\nDownloads for Apple Developers page\n然后运行：\n$ xcode-select --install Homebrew 运行下面的命令安装 Homebrew:\n$ /usr/bin/ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34; Python 3 使用 Homebrew 安装最新版本的 Python 3:\n$ brew install python3 Git 使用 Homebrew 安装 Git:\n$ brew install git Gtk+ 使用 Homebrew 安装 the graphical libraries necessary for PDF creation:\n$ brew install cairo pango gdk-pixbuf libffi 安装  克隆这个仓库 （或是使用你自己的副本）：\n$ git clone https://github.com/mirumee/saleor.git 进入目录：\n$ cd saleor/ 安装依赖库：\n在安装任何 Python 包之前，我们强烈推荐先创建一个虚拟环境。\ncreating a virtual environment\n$ pip install -r requirements.txt 设置一个环境变量 SECRET_KEY :\n我们有想过设一个默认值，但是我们最终决定不设默认值，因为怕有人直接用这个默认值上了生产环境，所以还是由你自己来设一个。\n$ export SECRET_KEY=&#39;&lt;mysecretkey&gt;&#39; Warning  秘钥（Secret key）应该是一个只有你们团队自己知道的独一无二的字符串，使用一个别人可能知道的 SECRET_KEY 会破坏 Django 的许多安全性保护，并可能导致特权升级和远程代码执行漏洞。\n参考：Django&rsquo;s documentation\n\n 创建一个 PostgreSQL 用户：\n除非你已经设置过，否则商店的用户名和密码都默认是 saleor ，请记得给你的用户设置 SUPERUSER 权限，这样它才可以创建数据库和数据库扩展。\n$ createuser --superuser --pwprompt saleor 当提示需要密码的时候输入 saleor\n 准备数据库:\n$ python manage.py migrate Warning  这个命令需要有创建数据库扩展的权限，如果你收到与 CREATE EXTENSION 相关的错误信息请参考用户创建步骤的说明。\n\n 安装前端依赖库:\n$ npm install Note  如果这一步安装失败请回到上面去确认下使用的 Node.js 版本是不是足够新。\n\n 准备前端资源文件:\n$ npm run build-assets 编译电子邮件:\n$ npm run build-emails 启动开发服务器:\n$ python manage.py runserver  ",

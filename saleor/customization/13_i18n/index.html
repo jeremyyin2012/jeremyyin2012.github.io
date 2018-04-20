@@ -11,7 +11,7 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Saleor 11: 自定义 CSS 和 JavaScript | Jeremy&#39;s blog</title>
+        <title>Saleor 13: 国际化 | Jeremy&#39;s blog</title>
 
         
 
@@ -106,26 +106,32 @@
                             
 
     <article>
-        <h1>Saleor 11: 自定义 CSS 和 JavaScript</h1>
+        <h1>Saleor 13: 国际化</h1>
         <hr>
-        <p>所有的静态资源文件都在 <code>/saleor/static/</code> 的子目录下面。</p>
+        
 
-<p>样式表是使用 <a href="http://sass-lang.com/">Sass</a> 写的，使用 <a href="http://postcss.org/">postcss</a> 和 <a href="https://autoprefixer.github.io/">autoprefixer</a> 来支持跨浏览器兼容性。</p>
+<h2 id="从-transifex-获取翻译文件">从 Transifex 获取翻译文件</h2>
 
-<p>JavaScript 代码是按 ES2015 标准写的， 使用 <a href="https://babeljs.io/">Babel</a> 进行转换和补充浏览器兼容性。</p>
+<p>首先要确保你已经安装了 Transifex 命令行客户端:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ pip install transifex-client</pre></div>
+<p>然后使用 <code>pull</code> 命令获取翻译文件:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ tx pull</pre></div>
+<p>Note</p>
 
-<p>一切都是使用 <a href="https://webpack.github.io/">webpack module bundler</a> 进行编译。</p>
+<p>要为新创建的翻译建立目录你需要在使用 <code>tx pull</code> 命令的时候带上 <code>--all</code> 标志。</p>
 
-<p>最终生成的文件都输出到 <code>/saleor/static/assets/</code> ，你不要手动去编辑它们。</p>
+<h2 id="编译消息目录">编译消息目录</h2>
 
-<p>webpack 会自动监测到本地文件的修改，这在开发过程中有非常大的好处。 在调试阶段，这同时开启非常有用的 <em>source maps</em></p>
+<p>要想看到 Django 的翻译，这一步是必须要的.</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py compilemessages</pre></div>
+<h2 id="提取消息进行翻译">提取消息进行翻译</h2>
 
-<p>To run webpack in <em>watch</em> mode run:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ npm start</pre></div>
-<p>Warning</p>
+<p>这将使用代码中显示的消息更新英文文件。</p>
 
-<p>使用上面这种方式创建的文件并不是完全可以在生产环境下直接使用的，要使用下面的命令进行操作：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ npm run build-assets --production</pre></div>
+<p>对于后端代码和模板：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py makemessages -l en --extension=email,html,py,txt --ignore=&#34;templates/templated_email/compiled/*&#34;</pre></div>
+<p>对于 JavaScript 代码：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py makemessages -l en -d djangojs --ignore=&#34;_build/*&#34; --ignore=&#34;node_modules/*&#34; </pre></div>
     </article>
 
 

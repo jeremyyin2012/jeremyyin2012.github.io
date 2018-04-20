@@ -11,7 +11,7 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Saleor 11: 自定义 CSS 和 JavaScript | Jeremy&#39;s blog</title>
+        <title>Saleor 17: 编辑器配置 | Jeremy&#39;s blog</title>
 
         
 
@@ -106,26 +106,16 @@
                             
 
     <article>
-        <h1>Saleor 11: 自定义 CSS 和 JavaScript</h1>
+        <h1>Saleor 17: 编辑器配置</h1>
         <hr>
-        <p>所有的静态资源文件都在 <code>/saleor/static/</code> 的子目录下面。</p>
+        <p><a href="http://editorconfig.org/">EditorConfig</a> 是一个标准配置文件，旨在确保跨多种编程环境的一致风格。</p>
 
-<p>样式表是使用 <a href="http://sass-lang.com/">Sass</a> 写的，使用 <a href="http://postcss.org/">postcss</a> 和 <a href="https://autoprefixer.github.io/">autoprefixer</a> 来支持跨浏览器兼容性。</p>
+<p>Saleor 的存储库包含一个 <a href="https://github.com/mirumee/saleor/blob/master/.editorconfig">.editorconfig file</a> 文件，它描述了我们的格式要求。</p>
 
-<p>JavaScript 代码是按 ES2015 标准写的， 使用 <a href="https://babeljs.io/">Babel</a> 进行转换和补充浏览器兼容性。</p>
+<p>大多数编辑器和IDE都直接或通过插件支持该文件。 请参阅 <a href="http://editorconfig.org/#download">list of supported editors and IDEs</a> 以获取相关说明。</p>
 
-<p>一切都是使用 <a href="https://webpack.github.io/">webpack module bundler</a> 进行编译。</p>
+<p>请确保您的编程环境尊重此文件的内容，并且您将自动获得正确的缩进，编码和行尾。</p>
 
-<p>最终生成的文件都输出到 <code>/saleor/static/assets/</code> ，你不要手动去编辑它们。</p>
-
-<p>webpack 会自动监测到本地文件的修改，这在开发过程中有非常大的好处。 在调试阶段，这同时开启非常有用的 <em>source maps</em></p>
-
-<p>To run webpack in <em>watch</em> mode run:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ npm start</pre></div>
-<p>Warning</p>
-
-<p>使用上面这种方式创建的文件并不是完全可以在生产环境下直接使用的，要使用下面的命令进行操作：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ npm run build-assets --production</pre></div>
     </article>
 
 
