@@ -40,6 +40,14 @@
         "title": "Saleor 23: 库存管理"
     },
     {
+        "content": " 订单是在客户完成结账流程后创建的。订单对象本身仅包含客户订单的一些基本信息。\n履行（Fulfillment）（可以理解为发货与发货单） 履行代表一组带有相应跟踪编号的装运物品。履行是由商店经营者创建的，以便在所订购的订单中标记选定的产品已被履行。\n有两种可能的履行状态：\n NEW\n新创建履行的默认状态。\n CANCELED\n履行由商店操作员取消。这一行动是不可逆转的。\n  订单状态（Order statuses） 根据其履行情况，有四种可能的订单状态：\n UNFULFILLED\n没有与订单相关的履行或每一个履行都被取消。需要店铺操作员采取行动才能继续订单处理。\n可以理解为还未发货\n PARTIALLY FULFILLED\n有一些履行 FULFILLED 状态与订单有关。需要店铺操作员采取行动才能继续订单处理。\n可以理解为部分发货\n FULFILLED\n每个订单行都在现有履行中完成。订单不需要店铺经营者的进一步行动。\n可以理解为发货完成\n CANCELED\n订单已被取消。每个履行（如果有的话）都具有 CANCELED 状态。订单不需要店铺经营者的进一步行动。\n  还有 DRAFT （草稿）状态，用于从订单后台新创建并尚未发布的订单。这个操作一般用于客服售后流程。\n",
+        "date": 1524096000,
+        "objectID": "89b6c2772281bc4ad579ec3ddd4ce998",
+        "relpermalink": "/saleor/architecture/24_orders/",
+        "section": "saleor",
+        "title": "Saleor 24: 订单管理"
+    },
+    {
         "content": "EditorConfig 是一个标准配置文件，旨在确保跨多种编程环境的一致风格。\nSaleor 的存储库包含一个 .editorconfig file 文件，它描述了我们的格式要求。\n大多数编辑器和IDE都直接或通过插件支持该文件。 请参阅 list of supported editors and IDEs 以获取相关说明。\n请确保您的编程环境尊重此文件的内容，并且您将自动获得正确的缩进，编码和行尾。\n",
         "date": 1524096000,
         "objectID": "7d41184e6db171884fce64efa139f281",

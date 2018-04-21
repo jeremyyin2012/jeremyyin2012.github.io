@@ -370,6 +370,34 @@ Example: A 仓库的两箱鞋子被运送给客户。总库存数量 quantity �
     </item>
     
     <item>
+      <title>Saleor 24: 订单管理</title>
+      <link>https://jeremyyin.com/saleor/architecture/24_orders/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/24_orders/</guid>
+      <description>订单是在客户完成结账流程后创建的。订单对象本身仅包含客户订单的一些基本信息。
+履行（Fulfillment）（可以理解为发货与发货单） 履行代表一组带有相应跟踪编号的装运物品。履行是由商店经营者创建的，以便在所订购的订单中标记选定的产品已被履行。
+有两种可能的履行状态：
+ NEW
+新创建履行的默认状态。
+ CANCELED
+履行由商店操作员取消。这一行动是不可逆转的。
+  订单状态（Order statuses） 根据其履行情况，有四种可能的订单状态：
+ UNFULFILLED
+没有与订单相关的履行或每一个履行都被取消。需要店铺操作员采取行动才能继续订单处理。
+可以理解为还未发货
+ PARTIALLY FULFILLED
+有一些履行 FULFILLED 状态与订单有关。需要店铺操作员采取行动才能继续订单处理。
+可以理解为部分发货
+ FULFILLED
+每个订单行都在现有履行中完成。订单不需要店铺经营者的进一步行动。
+可以理解为发货完成
+ CANCELED
+订单已被取消。每个履行（如果有的话）都具有 CANCELED 状态。订单不需要店铺经营者的进一步行动。
+  还有 DRAFT （草稿）状态，用于从订单后台新创建并尚未发布的订单。这个操作一般用于客服售后流程。</description>
+    </item>
+    
+    <item>
       <title>开始翻译一个文档：Saleor</title>
       <link>https://jeremyyin.com/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>

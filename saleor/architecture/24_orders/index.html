@@ -11,7 +11,7 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Saleors | Jeremy&#39;s blog</title>
+        <title>Saleor 24: 订单管理 | Jeremy&#39;s blog</title>
 
         
 
@@ -104,82 +104,61 @@
                 <div class="row">
                     <div class="col-sm-12">
                             
-<ul class="list-unstyled">
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/getting-started/01_installation-macos/">Saleor 01: 在 macOS 上安装</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/getting-started/02_installation-windows/">Saleor 02: 在 Windows 上安装</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/getting-started/03_installation-linux/">Saleor 03: 在 Linux 上安装</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/getting-started/04_configuration/">Saleor 04: 设置</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/getting-started/05_superuser/">Saleor 05: 创建一个管理员账户</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/getting-started/06_dev-tools-2/">Saleor 06: 调试工具</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/getting-started/07_example-data/">Saleor 07: 测试数据</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/08_docker/">Saleor 08: 使用 Docker 进行开发</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/09_templates/">Saleor 09: 自定义模版</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/10_emails/">Saleor 10: 自定义邮件</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/11_frontend/">Saleor 11: 自定义 CSS 和 JavaScript</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/12_backend/">Saleor 12: 编写 Python 代码</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/13_i18n/">Saleor 13: 国际化</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/14_tests/">Saleor 14: 运行测试</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/15_ci/">Saleor 15: 持续集成</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/customization/16_pypy/">Saleor 16: 与 PyPy 3.5 配合使用</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/contributing/17_editorconfig/">Saleor 17: 编辑器配置</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/contributing/18_coding-style/">Saleor 18: 编码风格</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/contributing/19_naming/">Saleor 19: 命名约定</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/architecture/20_money/">Saleor 20: 处理钱的金额</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/architecture/21_products/">Saleor 21: 产品结构</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/architecture/22_thumbnails/">Saleor 22: 缩略图</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/architecture/23_stock/">Saleor 23: 库存管理</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/saleor/architecture/24_orders/">Saleor 24: 订单管理</a></li>
-            
-    
-    </ul>
 
+    <article>
+        <h1>Saleor 24: 订单管理</h1>
+        <hr>
+        
+
+<p>订单是在客户完成结账流程后创建的。订单对象本身仅包含客户订单的一些基本信息。</p>
+
+<h2 id="履行-fulfillment-可以理解为发货与发货单">履行（Fulfillment）（可以理解为发货与发货单）</h2>
+
+<p>履行代表一组带有相应跟踪编号的装运物品。履行是由商店经营者创建的，以便在所订购的订单中标记选定的产品已被履行。</p>
+
+<p>有两种可能的履行状态：</p>
+
+<ul>
+<li><p><code>NEW</code></p>
+
+<p>新创建履行的默认状态。</p></li>
+
+<li><p><code>CANCELED</code></p>
+
+<p>履行由商店操作员取消。这一行动是不可逆转的。</p></li>
+</ul>
+
+<h2 id="订单状态-order-statuses">订单状态（Order statuses）</h2>
+
+<p>根据其履行情况，有四种可能的订单状态：</p>
+
+<ul>
+<li><p><code>UNFULFILLED</code></p>
+
+<p>没有与订单相关的履行或每一个履行都被取消。需要店铺操作员采取行动才能继续订单处理。</p>
+
+<p>可以理解为还未发货</p></li>
+
+<li><p><code>PARTIALLY FULFILLED</code></p>
+
+<p>有一些履行 <code>FULFILLED</code> 状态与订单有关。需要店铺操作员采取行动才能继续订单处理。</p>
+
+<p>可以理解为部分发货</p></li>
+
+<li><p><code>FULFILLED</code></p>
+
+<p>每个订单行都在现有履行中完成。订单不需要店铺经营者的进一步行动。</p>
+
+<p>可以理解为发货完成</p></li>
+
+<li><p><code>CANCELED</code></p>
+
+<p>订单已被取消。每个履行（如果有的话）都具有 <code>CANCELED</code> 状态。订单不需要店铺经营者的进一步行动。</p></li>
+</ul>
+
+<p>还有 <code>DRAFT</code> （草稿）状态，用于从订单后台新创建并尚未发布的订单。这个操作一般用于客服售后流程。</p>
+
+    </article>
 
 
                   </div>
