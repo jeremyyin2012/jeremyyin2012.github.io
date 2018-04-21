@@ -11,7 +11,7 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Saleor 20: 处理钱的金额 | Jeremy&#39;s blog</title>
+        <title>Saleor 21: 产品结构 | Jeremy&#39;s blog</title>
 
         
 
@@ -106,37 +106,281 @@
                             
 
     <article>
-        <h1>Saleor 20: 处理钱的金额</h1>
+        <h1>Saleor 21: 产品结构</h1>
         <hr>
         
 
-<p>Saleor 使用 <a href="https://github.com/mirumee/prices/">Prices</a> 和 <a href="https://github.com/mirumee/django-prices/">django-prices</a> 库去存储、计算和显示金额、价格与范围。</p>
+<p>在为您的商店填充产品之前，我们需要介绍 3 种产品概念 - *产品类型*（*product types*），*产品*（*products*），*产品变体*（*product variants*）。</p>
 
-<h2 id="默认货币">默认货币</h2>
+<h2 id="概述">概述</h2>
 
-<p>所有价格都输入并存储在由 [DEFAULT_CURRENCY 设置] 控制的单一默认货币中。Saleor 可以以用户本地货币显示价格 （参阅 [Open Exchange Rates integration]），但所有采购均以默认货币收取。</p>
+<p>设想你有一家书店。 你的其中一个产品（*products*）一本名为“Saleor 简介”的书。</p>
+
+<p>这本书的封面有分为硬壳和软壳，所以会有两种*产品变体*（*product variants*）。</p>
+
+<p>封面类型是在我们的商店中创建单独变体的唯一属性，因此我们使用“Book”作为*产品类型*（*product type*），为它启用变体并使用“Cover type”作为变体属性（*variant attribute*）。</p>
+
+<h2 id="class-diagram">Class Diagram</h2>
+
+<p><img src="product_class_tree.png" alt="product_class_tree" /></p>
+
+<h2 id="产品变体-product-variants">产品变体（Product Variants）</h2>
+
+<p>变体是你店里最重要的物品。所有购物车和库存操作都使用变体。即使产品没有多种变体，商店也会在后台创建一个。</p>
+
+<h2 id="产品-products">产品（Products）</h2>
+
+<p>介绍几个*产品变体*（*product variants*）的常见细节。当商店显示类别视图时，列表中的项目是不同的*产品*（*products*）。如果变体没有重写属性（例如：价格），则从*产品*（*products*）中获取默认值。</p>
+
+<ul>
+<li><code>available_on</code></li>
+</ul>
+
+<p>在此日期之前，该产品未在店面中列出，且用户不可用。</p>
+
+<ul>
+<li><code>is_featured</code></li>
+</ul>
+
+<p>特色产品显示在首页</p>
+
+<h2 id="产品类型-product-types">产品类型（Product Types）</h2>
+
+<p>将类型看作您的产品的模板。多个*产品*（ *products*）可以使用相同的产品类型（product type）。</p>
+
+<ul>
+<li><code>product_attributes</code></li>
+</ul>
+
+<p>所有*产品变体*（*product variants*）之间共享的属性。例如：发布者，所有书籍变体都由同一家公司出版。</p>
+
+<ul>
+<li><code>variant_attributes</code></li>
+</ul>
+
+<p>这是什么区别不同的*变体*（*variants*）。例如：封面类型，你的书可以用硬或软的封面。</p>
+
+<ul>
+<li><p><code>is_shipping_required</code></p>
+
+<p>指示是否需要交付采购。例如：数字产品，您将不会使用 DHL 发送 MP3 文件。</p></li>
+
+<li><p><code>has_variants</code></p>
+
+<p>如果您的*产品*（*product*）没有多个变体，或者您想为其中的每个*变体*创建单独的*产品*，请将其关闭。该选项主要简化仪表板中的产品管理。一个产品会自动创建一个*变体*。</p></li>
+</ul>
 
 <p>Warning</p>
 
-<p>货币不存储在数据库中。在生产环境中更改默认货币不会重新计算任何现有订单。所有数字将保持不变，并且会被错误地显示为新货币。</p>
+<p>更改产品类型会影响此类型的所有产品。</p>
 
-<h2 id="money-和-taxedmoney">Money 和 TaxedMoney</h2>
+<p>Warning</p>
 
-<p>在 Saleor 的代码库中，金额存在 Money 或 TaxedMoney 实例。</p>
+<p>如果有这种类型的产品，则无法删除产品类型。</p>
 
-<p>Money 是以特定货币表示金额的类型：100 USD 是由 Money(100, &lsquo;USD&rsquo;) 表示。这种类型不包含对商业有用的任何附加信息，但是与 Decimal 不同，它实施保护和检查以计算和比较货币价值。Money amounts 使用 MoneyField 存储在 model 上，MoneyField 提供货币和储值金额的自己的安全检查。如果您需要使用 Money 对象的 Decimal （十进制数字），您可以在 amount 属性中找到它。</p>
+<h2 id="属性-attributes">属性（Attributes）</h2>
 
-<p>Products （产品）和 shipping methods prices （运输方式价格）使用 MoneyField 进行存储，并假定为 gross amounts （总额）。然后使用 TaxedAmount（net = item.price，gross = item.price）方法将这些金额转换为 TaxedMoney 对象，然后在解决项目的最终价格（税前和折扣前）进行转换。</p>
+<p>*属性*可以帮助您更好地描述您的产品。此外，可用于过滤类别视图中的项目。</p>
 
-<p>Note</p>
+<p>有两种类型的*属性*：选择类型（choice type）和文本类型（text type）。如果您不进行指定，则属性默认是文本类型。</p>
 
-<p>未来，Saleor 将支持为商店管理员设置更改此方法以使用净值（net values）的方式，如果这更符合他们的业务。</p>
+<h3 id="examples">Examples</h3>
 
-<h2 id="taxedmoneyrange">TaxedMoneyRange</h2>
+<ul>
+<li><em>Choice type</em>: Colors of a t-shirt (for example ‘Red’, ‘Green’, ‘Blue’)</li>
+<li><em>Text type</em>: Number of pages in a book</li>
+</ul>
 
-<p>有时侯，由于它的变体定义了不同于基准价格的自定义价格，产品可能以不止一个价格出售。对于这样的情况，Product 额外定义了 get_price_range 和 get_gross_price_range 方法，可以返回 TaxedMoneyRange 对象，用于定义启动（start）和停止（stop）属性的最小（minim）和最大（maximum）价格。这个对象然后可以被 UI 使用，使得在产品有不同的变体的情况下显示价格为 “10 USD” 或 “from 10 USD”。</p>
+<h3 id="example-coffee">Example: Coffee</h3>
 
-<p>TaxedMoneyRange 还用于显示其他货币范围，例如最小和最大成本（min and maximum cost）以及仪表盘中产品变体的保证金（margin）。</p>
+<p>你的商店出售来自世界各地的咖啡。客户可以订购 1kg，500g 和 250g 包装。订单由快递员运送。</p>
+
+<p>Attributes</p>
+
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Values</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Country of origin</td>
+<td>Brazil, Vietnam, Colombia, Indonesia</td>
+</tr>
+
+<tr>
+<td>Package size</td>
+<td>1kg, 500g, 250g</td>
+</tr>
+</tbody>
+</table>
+
+<p>Product type</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Product attributes</th>
+<th>Variants?</th>
+<th>Variant attributes</th>
+<th>Shipping?</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Coffee</td>
+<td>Country of origin</td>
+<td>Yes</td>
+<td>Package size</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+
+<p>Product</p>
+
+<table>
+<thead>
+<tr>
+<th>Product type</th>
+<th>Name</th>
+<th>Country of origin</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Coffee</td>
+<td>Best Java Coffee</td>
+<td>Indonesia</td>
+<td>Best coffee found on Java island!</td>
+</tr>
+</tbody>
+</table>
+
+<p>Variants</p>
+
+<table>
+<thead>
+<tr>
+<th>SKU</th>
+<th>Package size</th>
+<th>Price override</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>J001</td>
+<td>1kg</td>
+<td>$20</td>
+</tr>
+
+<tr>
+<td>J002</td>
+<td>500g</td>
+<td>$12</td>
+</tr>
+
+<tr>
+<td>J003</td>
+<td>250g</td>
+<td>$7</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="example-online-game-items">Example: Online game items</h3>
+
+<p>你有很多精选的网络游戏物品。每个项目都是独特的，重要细节包含在描述中。购买的商品直接发送到买家帐户。</p>
+
+<p>Attributes</p>
+
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Values</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Game</td>
+<td>Kings Online, War MMO, Target Shooter</td>
+</tr>
+
+<tr>
+<td>Max attack</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+
+<p>Product type</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Product attributes</th>
+<th>Variants?</th>
+<th>Variant attributes</th>
+<th>Shipping?</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Game item</td>
+<td>GameMax attack</td>
+<td>No</td>
+<td>—</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+
+<p>Products</p>
+
+<table>
+<thead>
+<tr>
+<th>Product type</th>
+<th>Name</th>
+<th>Price</th>
+<th>Game</th>
+<th>Max attack</th>
+<th>Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Game item</td>
+<td>Magic Fire Sword</td>
+<td>$199</td>
+<td>Kings Online</td>
+<td>8000</td>
+<td>Unique sword for any fighter. Set your enemies on fire!</td>
+</tr>
+
+<tr>
+<td>Game item</td>
+<td>Rapid Pistol</td>
+<td>$2500</td>
+<td>Target Shooter</td>
+<td>250</td>
+<td>Fastest pistol in the whole game.</td>
+</tr>
+</tbody>
+</table>
 
     </article>
 

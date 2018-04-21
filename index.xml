@@ -295,7 +295,7 @@ Static Files 使用破折号分隔单词，因为它们最终会成为 URL 的�
     </item>
     
     <item>
-      <title>Saleor 19: 处理钱的金额</title>
+      <title>Saleor 20: 处理钱的金额</title>
       <link>https://jeremyyin.com/saleor/architecture/20_money/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -307,6 +307,61 @@ Warning
 Money 和 TaxedMoney 在 Saleor 的代码库中，金额存在 Money 或 TaxedMoney 实例。
 Money 是以特定货币表示金额的类型：100 USD 是由 Money(100, &amp;lsquo;USD&amp;rsquo;) 表示。这种类型不包含对商业有用的任何附加信息，但是与 Decimal 不同，它实施保护和检查以计算和比较货币价值。Money amounts 使用 MoneyField 存储在 model 上，MoneyField 提供货币和储值金额的自己的安全检查。如果您需要使用 Money 对象的 Decimal （十进制数字），您可以在 amount 属性中找到它。
 Products （产品）和 shipping methods prices （运输方式价格）使用 MoneyField 进行存储，并假定为 gross amounts （总额）。然后使用 TaxedAmount（net = item.price，gross = item.price）方法将这些金额转换为 TaxedMoney 对象，然后在解决项目的最终价格（税前和折扣前）进行转换。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 21: 产品结构</title>
+      <link>https://jeremyyin.com/saleor/architecture/21_products/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/21_products/</guid>
+      <description>在为您的商店填充产品之前，我们需要介绍 3 种产品概念 - *产品类型*（*product types*），*产品*（*products*），*产品变体*（*product variants*）。
+概述 设想你有一家书店。 你的其中一个产品（*products*）一本名为“Saleor 简介”的书。
+这本书的封面有分为硬壳和软壳，所以会有两种*产品变体*（*product variants*）。
+封面类型是在我们的商店中创建单独变体的唯一属性，因此我们使用“Book”作为*产品类型*（*product type*），为它启用变体并使用“Cover type”作为变体属性（*variant attribute*）。
+Class Diagram 产品变体（Product Variants） 变体是你店里最重要的物品。所有购物车和库存操作都使用变体。即使产品没有多种变体，商店也会在后台创建一个。
+产品（Products） 介绍几个*产品变体*（*product variants*）的常见细节。当商店显示类别视图时，列表中的项目是不同的*产品*（*products*）。如果变体没有重写属性（例如：价格），则从*产品*（*products*）中获取默认值。
+ available_on  在此日期之前，该产品未在店面中列出，且用户不可用。
+ is_featured  特色产品显示在首页
+产品类型（Product Types） 将类型看作您的产品的模板。多个*产品*（ *products*）可以使用相同的产品类型（product type）。
+ product_attributes  所有*产品变体*（*product variants*）之间共享的属性。例如：发布者，所有书籍变体都由同一家公司出版。
+ variant_attributes  这是什么区别不同的*变体*（*variants*）。例如：封面类型，你的书可以用硬或软的封面。
+ is_shipping_required
+指示是否需要交付采购。例如：数字产品，您将不会使用 DHL 发送 MP3 文件。
+ has_variants
+如果您的*产品*（*product*）没有多个变体，或者您想为其中的每个*变体*创建单独的*产品*，请将其关闭。该选项主要简化仪表板中的产品管理。一个产品会自动创建一个*变体*。
+  Warning
+更改产品类型会影响此类型的所有产品。
+Warning
+如果有这种类型的产品，则无法删除产品类型。
+属性（Attributes） *属性*可以帮助您更好地描述您的产品。此外，可用于过滤类别视图中的项目。
+有两种类型的*属性*：选择类型（choice type）和文本类型（text type）。如果您不进行指定，则属性默认是文本类型。
+Examples  Choice type: Colors of a t-shirt (for example ‘Red’, ‘Green’, ‘Blue’) Text type: Number of pages in a book  Example: Coffee 你的商店出售来自世界各地的咖啡。客户可以订购 1kg，500g 和 250g 包装。订单由快递员运送。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 22: 缩略图</title>
+      <link>https://jeremyyin.com/saleor/architecture/22_thumbnails/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/22_thumbnails/</guid>
+      <description>Saleor 使用 VersatileImageField 替换了 Django 的 ImageField 。出于性能原因，在非调试模式下，缩略图由工作者的任务系统预先生成，在保存实例后触发。访问丢失的图像将导致404错误。
+在调试模式下，按需生成缩略图。
+手动生成产品缩略图 为所有 ProductImage 实例创建缺失的缩略图。
+$ python manage.py create_thumbnails 删除图像 Image 实例不会自动删除图像格式，主图像也不会自动删除。有关删除图像的更多信息，请参见 VersatileImageField 文档</description>
+    </item>
+    
+    <item>
+      <title>Saleor 23: 库存管理</title>
+      <link>https://jeremyyin.com/saleor/architecture/23_stock/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/23_stock/</guid>
+      <description>每个产品型号都有一个库存单位（SKU）。
+Each product variant has a stock keeping unit (SKU).
+Each variant holds information about quantity at hand, quantity allocated for already placed orders and quantity available.
+Example: There are five boxes of shoes. Three of them have already been sold to customers but were not yet dispatched for shipment. The stock records quantity is 5, quantity allocated is 3 and quantity available is 2.
+Each variant also has a cost price (the price that your store had to pay to obtain it).</description>
     </item>
     
     <item>

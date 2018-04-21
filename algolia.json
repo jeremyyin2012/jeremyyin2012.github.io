@@ -13,7 +13,31 @@
         "objectID": "00a8f01d0123fa6e9725cb9f96c6191d",
         "relpermalink": "/saleor/architecture/20_money/",
         "section": "saleor",
-        "title": "Saleor 19: 处理钱的金额"
+        "title": "Saleor 20: 处理钱的金额"
+    },
+    {
+        "content": " 在为您的商店填充产品之前，我们需要介绍 3 种产品概念 - *产品类型*（*product types*），*产品*（*products*），*产品变体*（*product variants*）。\n概述 设想你有一家书店。 你的其中一个产品（*products*）一本名为“Saleor 简介”的书。\n这本书的封面有分为硬壳和软壳，所以会有两种*产品变体*（*product variants*）。\n封面类型是在我们的商店中创建单独变体的唯一属性，因此我们使用“Book”作为*产品类型*（*product type*），为它启用变体并使用“Cover type”作为变体属性（*variant attribute*）。\nClass Diagram 产品变体（Product Variants） 变体是你店里最重要的物品。所有购物车和库存操作都使用变体。即使产品没有多种变体，商店也会在后台创建一个。\n产品（Products） 介绍几个*产品变体*（*product variants*）的常见细节。当商店显示类别视图时，列表中的项目是不同的*产品*（*products*）。如果变体没有重写属性（例如：价格），则从*产品*（*products*）中获取默认值。\n available_on  在此日期之前，该产品未在店面中列出，且用户不可用。\n is_featured  特色产品显示在首页\n产品类型（Product Types） 将类型看作您的产品的模板。多个*产品*（ *products*）可以使用相同的产品类型（product type）。\n product_attributes  所有*产品变体*（*product variants*）之间共享的属性。例如：发布者，所有书籍变体都由同一家公司出版。\n variant_attributes  这是什么区别不同的*变体*（*variants*）。例如：封面类型，你的书可以用硬或软的封面。\n is_shipping_required\n指示是否需要交付采购。例如：数字产品，您将不会使用 DHL 发送 MP3 文件。\n has_variants\n如果您的*产品*（*product*）没有多个变体，或者您想为其中的每个*变体*创建单独的*产品*，请将其关闭。该选项主要简化仪表板中的产品管理。一个产品会自动创建一个*变体*。\n  Warning\n更改产品类型会影响此类型的所有产品。\nWarning\n如果有这种类型的产品，则无法删除产品类型。\n属性（Attributes） *属性*可以帮助您更好地描述您的产品。此外，可用于过滤类别视图中的项目。\n有两种类型的*属性*：选择类型（choice type）和文本类型（text type）。如果您不进行指定，则属性默认是文本类型。\nExamples  Choice type: Colors of a t-shirt (for example ‘Red’, ‘Green’, ‘Blue’) Text type: Number of pages in a book  Example: Coffee 你的商店出售来自世界各地的咖啡。客户可以订购 1kg，500g 和 250g 包装。订单由快递员运送。\nAttributes\n   Attribute Values     Country of origin Brazil, Vietnam, Colombia, Indonesia   Package size 1kg, 500g, 250g    Product type\n   Name Product attributes Variants? Variant attributes Shipping?     Coffee Country of origin Yes Package size Yes    Product\n   Product type Name Country of origin Description     Coffee Best Java Coffee Indonesia Best coffee found on Java island!    Variants\n   SKU Package size Price override     J001 1kg $20   J002 500g $12   J003 250g $7    Example: Online game items 你有很多精选的网络游戏物品。每个项目都是独特的，重要细节包含在描述中。购买的商品直接发送到买家帐户。\nAttributes\n   Attribute Values     Game Kings Online, War MMO, Target Shooter   Max attack —    Product type\n   Name Product attributes Variants? Variant attributes Shipping?     Game item GameMax attack No — No    Products\n   Product type Name Price Game Max attack Description     Game item Magic Fire Sword $199 Kings Online 8000 Unique sword for any fighter. Set your enemies on fire!   Game item Rapid Pistol $2500 Target Shooter 250 Fastest pistol in the whole game.    ",
+        "date": 1524096000,
+        "objectID": "276d41f937ed65cbb07775a1f99f1e5d",
+        "relpermalink": "/saleor/architecture/21_products/",
+        "section": "saleor",
+        "title": "Saleor 21: 产品结构"
+    },
+    {
+        "content": " Saleor 使用 VersatileImageField 替换了 Django 的 ImageField 。出于性能原因，在非调试模式下，缩略图由工作者的任务系统预先生成，在保存实例后触发。访问丢失的图像将导致404错误。\n在调试模式下，按需生成缩略图。\n手动生成产品缩略图 为所有 ProductImage 实例创建缺失的缩略图。\n$ python manage.py create_thumbnails 删除图像 Image 实例不会自动删除图像格式，主图像也不会自动删除。有关删除图像的更多信息，请参见 VersatileImageField 文档\n",
+        "date": 1524096000,
+        "objectID": "3c46c64b656f147feb32ee1e4a737dac",
+        "relpermalink": "/saleor/architecture/22_thumbnails/",
+        "section": "saleor",
+        "title": "Saleor 22: 缩略图"
+    },
+    {
+        "content": " 每个产品型号都有一个库存单位（SKU）。\nEach product variant has a stock keeping unit (SKU).\nEach variant holds information about quantity at hand, quantity allocated for already placed orders and quantity available.\nExample: There are five boxes of shoes. Three of them have already been sold to customers but were not yet dispatched for shipment. The stock records quantity is 5, quantity allocated is 3 and quantity available is 2.\nEach variant also has a cost price (the price that your store had to pay to obtain it).\nProduct Availability A variant is in stock if it has unallocated quantity.\nThe highest quantity that can be ordered is the available quantity in product variant.\nAllocating Stock for New Orders Once an order is placed, quantity needed to fulfil each order line is immediately marked as allocated.\nExample: A customer places an order for another box of shoes. The stock records quantity is 5, quantity allocated is now 4 and quantity available becomes 1.\nDecreasing Stock After Shipment Once a delivery group is marked as shipped, each stock record used to fulfil its lines will have both its quantity at hand and quantity allocated decreased by the number of items shipped.\nExample: Two boxes of shoes from warehouse A are shipped to a customer. The stock records quantity is now 3, quantity allocated becomes 2 and quantity available stays at 1.\n",
+        "date": 1524096000,
+        "objectID": "7c095b1adb8b78dd4b05de5b5b6edb2b",
+        "relpermalink": "/saleor/architecture/23_stock/",
+        "section": "saleor",
+        "title": "Saleor 23: 库存管理"
     },
     {
         "content": "EditorConfig 是一个标准配置文件，旨在确保跨多种编程环境的一致风格。\nSaleor 的存储库包含一个 .editorconfig file 文件，它描述了我们的格式要求。\n大多数编辑器和IDE都直接或通过插件支持该文件。 请参阅 list of supported editors and IDEs 以获取相关说明。\n请确保您的编程环境尊重此文件的内容，并且您将自动获得正确的缩进，编码和行尾。\n",
