@@ -358,10 +358,15 @@ $ python manage.py create_thumbnails 删除图像 Image 实例不会自动删除
       
       <guid>https://jeremyyin.com/saleor/architecture/23_stock/</guid>
       <description>每个产品型号都有一个库存单位（SKU）。
-Each product variant has a stock keeping unit (SKU).
-Each variant holds information about quantity at hand, quantity allocated for already placed orders and quantity available.
-Example: There are five boxes of shoes. Three of them have already been sold to customers but were not yet dispatched for shipment. The stock records quantity is 5, quantity allocated is 3 and quantity available is 2.
-Each variant also has a cost price (the price that your store had to pay to obtain it).</description>
+每个变体保存了关于“数量”的相关信息，总库存数量 quantity 包括分配给已经生成的订单的已分配数量 quantity allocated 和可用数量 quantity available 。
+Example: 有五盒鞋子。其中三个已经出售给客户，但尚未处理发货。总库存数量 quantity 为 5，已分配数量 quantity allocated 为 3，可用数量 quantity available 为 2。
+每个变体也有一个*成本价格*（您的商店必须支付才能拿得到货的价格，可以理解为采购价）。
+产品可用性（Product Availability） 如果一个*变体*还有未分配的库存数量，则它就表示是*有货*的。
+可订购的最高数量是产品变体中的可用数量 quantity available。
+为新订单分配库存（Allocating Stock for New Orders） 一旦下订单，完成每个订单行所需的数量立即标记为*已分配*。
+Example: 一位顾客又下了一盒鞋子的订单。总库存数量 quantity 是 5, 已分配数量 quantity allocated 现在就是 4 ，然后可用数量 quantity available 就变成了 1.
+发货后减少库存（Decreasing Stock After Shipment） 一旦交付组（可以理解为发货单）被标记为发货，这个发货单里面的每条记录所对应的产品变体将手头的数量和分配的数量都减少了出货的数量。
+Example: A 仓库的两箱鞋子被运送给客户。总库存数量 quantity 现在就是 3，已分配数量 quantity allocated 则变为 2，可用数量 quantity available 依然是 1。</description>
     </item>
     
     <item>

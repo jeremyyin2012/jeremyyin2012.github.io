@@ -112,31 +112,29 @@
 
 <p>每个产品型号都有一个库存单位（SKU）。</p>
 
-<p>Each product variant has a stock keeping unit (SKU).</p>
+<p>每个变体保存了关于“数量”的相关信息，<strong>总库存数量</strong> <strong>quantity</strong> 包括分配给已经生成的订单的<strong>已分配数量</strong> <strong>quantity allocated</strong> 和<strong>可用数量</strong> <strong>quantity available</strong> 。</p>
 
-<p>Each variant holds information about <em>quantity</em> at hand, quantity <em>allocated</em> for already placed orders and quantity <em>available</em>.</p>
+<p><strong>Example:</strong> 有五盒鞋子。其中三个已经出售给客户，但尚未处理发货。<strong>总库存数量</strong> <strong>quantity</strong> 为 <strong>5</strong>，<strong>已分配数量</strong> <strong>quantity allocated</strong> 为 <strong>3</strong>，<strong>可用数量</strong> <strong>quantity available</strong> 为 <strong>2</strong>。</p>
 
-<p><strong>Example:</strong> There are five boxes of shoes. Three of them have already been sold to customers but were not yet dispatched for shipment. The stock records <strong>quantity</strong> is <strong>5</strong>, <strong>quantity allocated</strong> is <strong>3</strong> and <strong>quantity available</strong> is <strong>2</strong>.</p>
+<p>每个变体也有一个*成本价格*（您的商店必须支付才能拿得到货的价格，可以理解为采购价）。</p>
 
-<p>Each variant also has a <em>cost price</em> (the price that your store had to pay to obtain it).</p>
+<h2 id="产品可用性-product-availability">产品可用性（Product Availability）</h2>
 
-<h2 id="product-availability">Product Availability</h2>
+<p>如果一个*变体*还有未分配的库存数量，则它就表示是*有货*的。</p>
 
-<p>A variant is <em>in stock</em> if it has unallocated quantity.</p>
+<p>可订购的最高数量是产品变体中的可用数量 quantity available。</p>
 
-<p>The highest quantity that can be ordered is the available quantity in product variant.</p>
+<h2 id="为新订单分配库存-allocating-stock-for-new-orders">为新订单分配库存（Allocating Stock for New Orders）</h2>
 
-<h2 id="allocating-stock-for-new-orders">Allocating Stock for New Orders</h2>
+<p>一旦下订单，完成每个订单行所需的数量立即标记为*已分配*。</p>
 
-<p>Once an order is placed, quantity needed to fulfil each order line is immediately marked as <em>allocated</em>.</p>
+<p><strong>Example:</strong> 一位顾客又下了一盒鞋子的订单。<strong>总库存数量</strong> <strong>quantity</strong> 是 <strong>5</strong>, <strong>已分配数量</strong> <strong>quantity allocated</strong> 现在就是 <strong>4</strong> ，然后<strong>可用数量</strong> <strong>quantity available</strong> 就变成了 <strong>1</strong>.</p>
 
-<p><strong>Example:</strong> A customer places an order for another box of shoes. The stock records <strong>quantity</strong> is <strong>5</strong>, <strong>quantity allocated</strong> is now <strong>4</strong> and <strong>quantity available</strong> becomes <strong>1</strong>.</p>
+<h2 id="发货后减少库存-decreasing-stock-after-shipment">发货后减少库存（Decreasing Stock After Shipment）</h2>
 
-<h2 id="decreasing-stock-after-shipment">Decreasing Stock After Shipment</h2>
+<p>一旦交付组（可以理解为发货单）被标记为发货，这个发货单里面的每条记录所对应的产品变体将手头的数量和分配的数量都减少了出货的数量。</p>
 
-<p>Once a delivery group is marked as shipped, each stock record used to fulfil its lines will have both its quantity at hand and quantity allocated decreased by the number of items shipped.</p>
-
-<p><strong>Example:</strong> Two boxes of shoes from warehouse A are shipped to a customer. The stock records <strong>quantity</strong> is now <strong>3</strong>, <strong>quantity allocated</strong> becomes <strong>2</strong> and <strong>quantity available</strong> stays at <strong>1</strong>.</p>
+<p><strong>Example:</strong> A 仓库的两箱鞋子被运送给客户。<strong>总库存数量</strong> <strong>quantity</strong> 现在就是 <strong>3</strong>，<strong>已分配数量</strong> <strong>quantity allocated</strong> 则变为 <strong>2</strong>，<strong>可用数量</strong> <strong>quantity available</strong> 依然是 <strong>1</strong>。</p>
 
     </article>
 
