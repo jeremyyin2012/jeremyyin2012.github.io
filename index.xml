@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Saleor 01: 在 macOS 上安装</title>
+      <title>Saleor 01: 入门 - 在 macOS 上安装</title>
       <link>https://jeremyyin.com/saleor/getting-started/01_installation-macos/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -32,7 +32,7 @@ $ brew install python3 Git 使用 Homebrew 安装 Git:</description>
     </item>
     
     <item>
-      <title>Saleor 02: 在 Windows 上安装</title>
+      <title>Saleor 02: 入门 - 在 Windows 上安装</title>
       <link>https://jeremyyin.com/saleor/getting-started/02_installation-windows/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -55,7 +55,7 @@ Compilers 下载并安装最新版本的 Visual C++ build tools.
     </item>
     
     <item>
-      <title>Saleor 03: 在 Linux 上安装</title>
+      <title>Saleor 03: 入门 - 在 Linux 上安装</title>
       <link>https://jeremyyin.com/saleor/getting-started/03_installation-linux/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -75,7 +75,7 @@ Debian / Ubuntu Debian 9.0 Stretch 或以上, Ubuntu 16.04 Xenial 或以上:</de
     </item>
     
     <item>
-      <title>Saleor 04: 设置</title>
+      <title>Saleor 04: 入门 - 设置</title>
       <link>https://jeremyyin.com/saleor/getting-started/04_configuration/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -103,7 +103,7 @@ Example: postgres://user:password@psql.example.com/database
     </item>
     
     <item>
-      <title>Saleor 05: 创建一个管理员账户</title>
+      <title>Saleor 05: 入门 - 创建一个管理员账户</title>
       <link>https://jeremyyin.com/saleor/getting-started/05_superuser/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -115,7 +115,7 @@ $ python manage.py createsuperuser 按照提示提供您的电子邮件地址和
     </item>
     
     <item>
-      <title>Saleor 06: 调试工具</title>
+      <title>Saleor 06: 入门 - 调试工具</title>
       <link>https://jeremyyin.com/saleor/getting-started/06_dev-tools-2/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -128,7 +128,7 @@ Silk Silk 开启与否可以通过环境变量来控制
     </item>
     
     <item>
-      <title>Saleor 07: 测试数据</title>
+      <title>Saleor 07: 入门 - 测试数据</title>
       <link>https://jeremyyin.com/saleor/getting-started/07_example-data/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -138,7 +138,7 @@ $ python manage.py populatedb</description>
     </item>
     
     <item>
-      <title>Saleor 08: 使用 Docker 进行开发</title>
+      <title>Saleor 08: 开发定制 - 使用 Docker 进行开发</title>
       <link>https://jeremyyin.com/saleor/customization/08_docker/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -154,7 +154,7 @@ Warning
     </item>
     
     <item>
-      <title>Saleor 09: 自定义模版</title>
+      <title>Saleor 09: 开发定制 - 自定义模版</title>
       <link>https://jeremyyin.com/saleor/customization/09_templates/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -164,7 +164,7 @@ Warning
     </item>
     
     <item>
-      <title>Saleor 10: 自定义邮件</title>
+      <title>Saleor 10: 开发定制 - 自定义邮件</title>
       <link>https://jeremyyin.com/saleor/customization/10_emails/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -178,7 +178,7 @@ $ npm run build-emails</description>
     </item>
     
     <item>
-      <title>Saleor 11: 自定义 CSS 和 JavaScript</title>
+      <title>Saleor 11: 开发定制 - 自定义 CSS 和 JavaScript</title>
       <link>https://jeremyyin.com/saleor/customization/11_frontend/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -196,7 +196,7 @@ $ npm run build-assets --production</description>
     </item>
     
     <item>
-      <title>Saleor 12: 编写 Python 代码</title>
+      <title>Saleor 12: 开发定制 - 编写 Python 代码</title>
       <link>https://jeremyyin.com/saleor/customization/12_backend/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -206,7 +206,7 @@ $ npm run build-assets --production</description>
     </item>
     
     <item>
-      <title>Saleor 13: 国际化</title>
+      <title>Saleor 13: 开发定制 - 国际化</title>
       <link>https://jeremyyin.com/saleor/customization/13_i18n/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -223,7 +223,7 @@ $ python manage.py makemessages -l en -d djangojs --ignore=&amp;#34;_build/*&amp
     </item>
     
     <item>
-      <title>Saleor 14: 运行测试</title>
+      <title>Saleor 14: 开发定制 - 运行测试</title>
       <link>https://jeremyyin.com/saleor/customization/14_tests/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -236,7 +236,7 @@ $ tox</description>
     </item>
     
     <item>
-      <title>Saleor 15: 持续集成</title>
+      <title>Saleor 15: 开发定制 - 持续集成</title>
       <link>https://jeremyyin.com/saleor/customization/15_ci/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -245,7 +245,7 @@ $ tox</description>
     </item>
     
     <item>
-      <title>Saleor 16: 与 PyPy 3.5 配合使用</title>
+      <title>Saleor 16: 开发定制 - 与 PyPy 3.5 配合使用</title>
       <link>https://jeremyyin.com/saleor/customization/16_pypy/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -256,7 +256,7 @@ $ tox</description>
     </item>
     
     <item>
-      <title>Saleor 17: 编辑器配置</title>
+      <title>Saleor 17: 参与我们 - 编辑器配置</title>
       <link>https://jeremyyin.com/saleor/contributing/17_editorconfig/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -268,7 +268,7 @@ Saleor 的存储库包含一个 .editorconfig file 文件，它描述了我们�
     </item>
     
     <item>
-      <title>Saleor 18: 编码风格</title>
+      <title>Saleor 18: 参与我们 - 编码风格</title>
       <link>https://jeremyyin.com/saleor/contributing/18_coding-style/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -283,7 +283,7 @@ also_wrong(&amp;#39;this is hard&amp;#39;, &amp;#39;to maintain&amp;#39;, &amp;#
     </item>
     
     <item>
-      <title>Saleor 19: 命名约定</title>
+      <title>Saleor 19: 参与我们 - 命名约定</title>
       <link>https://jeremyyin.com/saleor/contributing/19_naming/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -295,7 +295,7 @@ Static Files 使用破折号分隔单词，因为它们最终会成为 URL 的�
     </item>
     
     <item>
-      <title>Saleor 20: 处理钱的金额</title>
+      <title>Saleor 20: 架构 - 处理钱的金额</title>
       <link>https://jeremyyin.com/saleor/architecture/20_money/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -310,7 +310,7 @@ Products （产品）和 shipping methods prices （运输方式价格）使用 
     </item>
     
     <item>
-      <title>Saleor 21: 产品结构</title>
+      <title>Saleor 21: 架构 - 产品结构</title>
       <link>https://jeremyyin.com/saleor/architecture/21_products/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -340,7 +340,7 @@ Examples  Choice type: Colors of a t-shirt (for example ‘Red’, ‘Green’, 
     </item>
     
     <item>
-      <title>Saleor 22: 缩略图</title>
+      <title>Saleor 22: 架构 - 缩略图</title>
       <link>https://jeremyyin.com/saleor/architecture/22_thumbnails/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -352,7 +352,7 @@ $ python manage.py create_thumbnails 删除图像 Image 实例不会自动删除
     </item>
     
     <item>
-      <title>Saleor 23: 库存管理</title>
+      <title>Saleor 23: 架构 - 库存管理</title>
       <link>https://jeremyyin.com/saleor/architecture/23_stock/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -370,7 +370,7 @@ Example: A 仓库的两箱鞋子被运送给客户。总库存数量 quantity �
     </item>
     
     <item>
-      <title>Saleor 24: 订单管理</title>
+      <title>Saleor 24: 架构 - 订单管理</title>
       <link>https://jeremyyin.com/saleor/architecture/24_orders/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
@@ -395,6 +395,262 @@ Example: A 仓库的两箱鞋子被运送给客户。总库存数量 quantity �
  CANCELED
 订单已被取消。每个履行（如果有的话）都具有 CANCELED 状态。订单不需要店铺经营者的进一步行动。
   还有 DRAFT （草稿）状态，用于从订单后台新创建并尚未发布的订单。这个操作一般用于客服售后流程。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 25: 架构 - 国际化</title>
+      <link>https://jeremyyin.com/saleor/architecture/25_i18n/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/25_i18n/</guid>
+      <description>默认情况下，语言和语言环境是根据 Web 浏览器提供的首选项列表确定的。GeoIP 用于确定访问者的国家和当地货币。
+Note
+Saleor 使用 Transifex 协调翻译。如果您希望提供帮助，请前往 translation dashboard
+所有翻译都由社区处理。所有翻译团队都是开放的，欢迎所有人申请一种新语言。
+翻译（Translation） Saleor 使用 gettext 翻译。这是翻译软件的行业标准，也是翻译 Django 应用程序的最常用方法。
+Saleor 的店面和管理后台都准备好翻译。他们使用单独的翻译域名，可以单独翻译。所有翻译都提供准确的上下文描述，使翻译更容易。
+目前无法翻译数据库内容（如产品说明），但计划在未来版本中使用。
+本土化（Localization） 数据格式（Data formats） Saleor使用 Babel 作为 Unicode 的 CLDR 库的接口，以提供准确的数字和日期格式以及适当的货币名称。
+地址表格（Address forms） Google’s address format database 用于提供特定于语言环境的地址格式和表单。它还负责地址验证，因此您不必知道如何向中国递送包裹或阿拉伯联合酋长国是否使用邮政编码（他们不会）。
+货币转换（Currency conversion） Saleor可以使用货币汇率数据来显示访客本地货币的价格估算值。请参阅 Open Exchange Rates 以了解如何设置 Open Exchange Rates。
+电话号码格式（Phone numbers format） Saleor 使用 Google’s libphonenumber library 来确保提供的数字是正确的。您需要选择前缀并单独键入号码。无论选择哪个国家，您都可以输入属于任何其他国家/地区格式的电话号码。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 26: 架构 - 搜索</title>
+      <link>https://jeremyyin.com/saleor/architecture/26_search/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/26_search/</guid>
+      <description>Saleor 有两种搜索机制。
+默认是使用 PotsgreSQL。这是一个相当通用的解决方案，不需要任何额外的资源。
+如果 Elasticsearch 服务器可用，则可以启用更复杂的搜索后端。Elasticsearch 提供了许多高级功能，例如提高查询的相关性或“more like this”的查询。查看 Elasticsearch官方网站，了解更多关于其功能的信息。请注意，启用Elasticsearch 后端目前不支持 Saleor 中的任何其他功能。
+有关安装和配置说明，请参阅 Elasticsearch。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 27: 架构 - 支付</title>
+      <link>https://jeremyyin.com/saleor/architecture/27_payments/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/27_payments/</guid>
+      <description>支持的网关（Supported Gateways） Saleor 使用 django-payments 库来处理付款。
+默认配置使用*虚拟*后端。这意味着开发人员可以轻松模拟不同的付款结果。
+以下是支持的支付提供商列表：
+ Authorize.Net Braintree Coinbase Cybersource Dotpay Google Wallet PayPal Sage Pay Sofort.com Stripe  请注意，此列表仅供参考。请咨询 django-payments documentation 以获得最新的列表和说明。
+Note
+所有付款后端默认使用沙盒模式。这对于开发非常有用，但确保在部署到生产服务器时使用生产模式。
+3-D Secure 3-D Secure 是一种卡保护协议，允许商家部分减轻欺诈责任。实际上，它大大降低了退款的可能性。
+Saleor 支持 3-D Secure 但是否使用取决于付款处理器和正在使用的卡。
+欺诈保护（Fraud Protection） 一些支付后端提供了自动欺诈保护启发式。如果此类信息可用，Saleor 会将其显示在订单管理面板中。
+授权和捕获（Authorisation and Capture） 部分支付后端支持预授权支付。详情请参阅 django-payments documentation。
+授权和捕获是一个两步过程。
+首先，资金被锁定在付款人的账户上，但不会转移到您的银行。
+然后根据提供商和卡的类型，您可能需要几天到一个月的时间才从卡上进行扣钱，金额不超过授权金额。
+当订单准备好后才能确定准确的价格时，这非常有用。如果您的企业更喜欢手动筛选企图欺诈的订单，这也很有用。
+使用预授权付款查看订单时，Saleor 将提供选项以捕捉或释放资金。
+退款（Refunds） 您可以针对所有收取的付款进行部分或全部退款。当您修改订单并删除 Saleor 将提供的物品时，系统会自动发出部分退款。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 28: 架构 - 网站设置</title>
+      <link>https://jeremyyin.com/saleor/architecture/28_settings/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/28_settings/</guid>
+      <description>*网站设置*模块允许您从管理后台更改常见的商店设置，如店铺名称或域名。通过从 SITE_SETTINGS_ID 变量中选择 pk 确定设置对象。
+情境处理器 感谢 saleor.site.context_processors.settings 您可以通过 settings 变量访问模板中的*网站设置*。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 29: 架构 - 页面</title>
+      <link>https://jeremyyin.com/saleor/architecture/29_page/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/architecture/29_page/</guid>
+      <description>设置自定义页面 您可以在后台管理的“页面”（Pages）菜单中设置页面，如“关于我们”或“重要通告！”。请注意，如果您不是管理员，则需要加入拥有相应权限的用户组。
+在店面中引用页面 如果您想要在店面中添加最近创建的页面的链接，则只需将以下代码放入：
+&amp;lt;a href=&amp;#34;{% url &amp;#34;page:details&amp;#34; slug=&amp;#34;terms-of-service&amp;#34; %}&amp;#34;&amp;gt;服务条款&amp;lt;/a&amp;gt; 在相应的模板中。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 30: 集成 - 搜索引擎优化（SEO）</title>
+      <link>https://jeremyyin.com/saleor/integrations/30_seo/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/integrations/30_seo/</guid>
+      <description>在某些方面，Saleor 会自动处理搜索引擎如何查看和索引您的产品，开箱即用。
+站点地图（Sitemaps） 在 /sitemap.xml URL 下，这个可访问的特殊资源以所有主要搜索引擎最易于解析的 Sitemaps XML 格式提供您网站上的产品、类别和集合的最新列表。
+元标记（Meta Tags） Meta 关键字并未被使用，因为它被引入后的这几年被滥用，因为它们被所有主要搜索引擎忽略。
+元描述将被设置为产品的描述字段。这不会影响搜索引擎的排名，但会影响显示的搜索结果中的文本片段。
+机器人元标记（Robots Meta Tag） （这里机器人一般指搜索引擎的自动化爬虫。）
+机器人 meta 标签利用特定于页面的方式来控制如何将单个页面编入索引并提供给搜索结果中的用户。
+我们限制了信息中心管理面板的抓取和索引，无内容页面（例如购物车，注册，登录）不会被抓取。
+结构化数据（Structured Data） 主页和产品页面包含 JSON-LD 结构化数据 格式的语义描述。
+它不直接影响搜索引擎排名，但它允许搜索引擎更好地理解数据（“这是一款产品，它是可用的，它的价格为10美元）”。
+它允许像谷歌这样的搜索引擎显示产品照片，价格，可用性，评级等，以及他们的搜索结果。
+Nofollow 链接（Nofollow links） 搜索引擎抓取工具无法在您的网站上登录或注册成为会员，也没有理由邀请他们按照“在此注册”或“登录”链接进行操作，因为这些链接几乎没有任何有价值的内容。
+这将优化抓取工具在网站上花费的时间，从而让它有时间去索引更多与内容相关的页面。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 31: 集成 - 社交媒体优化（SMO）</title>
+      <link>https://jeremyyin.com/saleor/integrations/31_smo/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/integrations/31_smo/</guid>
+      <description>打开图表 为了更有效和高效参与社交媒体，我们在主页和所有的产品/类别中添加了 Open Graph Protocol 。
+Open Graph meta 标签可以控制在社交媒体上分享页面时显示的内容（描述，标题，网址，照片等），从而将您的网页转变为社交图表中的丰富对象。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 32: 集成 - 电子邮件标记</title>
+      <link>https://jeremyyin.com/saleor/integrations/32_emailmarkup/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/integrations/32_emailmarkup/</guid>
+      <description>Saleor 使用 schema.org 标记来突出显示电子邮件中最重要的信息，并允许用户轻松地与其进行交互。 订单确认电子邮件 将显示为交互式摘要卡片。
+电子邮件标记是默认启用的，但在您 向Google注册 之前，您的客户不会看到它。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 33: 集成 - Elasticsearch 搜索</title>
+      <link>https://jeremyyin.com/saleor/integrations/33_elasticsearch/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/integrations/33_elasticsearch/</guid>
+      <description>安装 Elasticsearch 搜索后端需要 Elasticsearch 服务器。为了开发目的，docker-compose 将创建一个运行Elasticsearch 服务器实例的 Docker 容器。
+可以使用一组环境变量来配置集成。当您在 Heroku 上部署时，您可以使用提供 Elasticsearch 作为服务的附加组件。默认情况下，Saleor 使用Elasticsearch 5.4.3。
+如果您正在其他地方部署，则可以使用以下服务之一：
+  http://www.searchly.com/ https://www.elastic.co/cloud   环境变量  ELASTICSEARCH_URL或 BONSAI_URL 或 SEARCHBOX_URL  elasticsearch 引擎的网址。如果它是空的 - 搜索将不可用。例： https://user:password@my-3rdparty-es.com:9200
+数据索引 Saleor 使用的Django Elasticsearch DSL 作为用于包装 Elasticsearch DSL 启用自动索引和同步。索引在文档文件中定义。请参考上述项目的文件以获得进一步的帮助。
+初始搜索索引可以使用以下命令创建：
+$ python manage.py search_index --rebuild 默认情况下，每次更改索引对象（产品，用户，订单）都会重新编制索引。
+搜索集成架构 搜索后端使用 Elasticsearch DSL 在saleor / search / backends中查询定义。
+为 elasticsearch 集成，店面和管理后台定义了两个后端。店面搜索仅使用店面索引进行产品搜索，管理后台后端也在用户和订单索引中执行其他搜索。
+测试 搜索功能有两个级别的测试。Elasticsearch 查询的语法由后端的单元测试来保证，集成测试使用 VCR.py 来模拟外部通信。如果搜索逻辑被修改，请确保记录新的通信并相应地调整测试流程！Pytest将在 CI 的永久记录模式下运行 VCR 以确保没有尝试进行通信，因此请确保最新的卡带始终包含在您的存储库中。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 34: 集成 - 谷歌分析</title>
+      <link>https://jeremyyin.com/saleor/integrations/34_googleanalytics/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/integrations/34_googleanalytics/</guid>
+      <description>由于欧盟法律规定，Saleor 不会默认使用任何追踪 cookie。
+不过，我们使用 Google Analytics Measurement Protocol 支持服务器端 Google Analytics 。
+这是使用 google-measurement-protocol ，不使用 cookie，但代价是不会报告无法追踪服务器端的东西，如地理定位和屏幕分辨率。
+为了让它工作，你需要导出下面的环境变量：
+ GOOGLE_ANALYTICS_TRACKING_ID  您的信息页的Google “跟踪 ID”。
+ ​ ​  </description>
+    </item>
+    
+    <item>
+      <title>Saleor 35: 集成 - 谷歌零售</title>
+      <link>https://jeremyyin.com/saleor/integrations/35_googleforretail/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/integrations/35_googleforretail/</guid>
+      <description>Saleor 有用于生成产品 Feed 的工具，可用于 Google Merchant Center。最终文件被压缩成 CSV 并保存在 saleor.data_feeds.google_merchant.FILE_PATH 变量所指定的位置。
+要生成 Feed 使用命令：
+$ python manage.py update_feeds 建议定期运行此命令。
+Merchant Center 很少有国家/地区相关设置，因此请在 Google 信息中心验证您的 Feed。您还可以在那里指定您的运费，这是许多国家/地区必需的 Feed 参数。在 Google Support pages 可以找到更多信息。
+Google 所需的其中一项字段是*品牌*属性。Feed 生成器会在变体属性中对*品牌*或*发布商*进行检查（如果没有，则会去*产品*里面找）。
+Feed 可以从这个网址下载：http://&amp;lt;yourserver&amp;gt;/feeds/google/</description>
+    </item>
+    
+    <item>
+      <title>Saleor 36: 集成 - 汇率转换</title>
+      <link>https://jeremyyin.com/saleor/integrations/36_openexchangerates/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/integrations/36_openexchangerates/</guid>
+      <description>这种整合将使您的客户能够以当地货币查看产品价格。当地价格仅作为估算提供，客户仍按商店的默认货币收费。
+在开始之前，您需要一个 Open Exchange Rates account。除非您需要每天多次更新汇率，否则免费订阅计划应该足够了，当然也可以考虑为 Open Exchange Rates 提供的优质服务购买付费方案。首先去注册并创建一个“App ID”。
+导出以下环境变量：
+ OPENEXCHANGERATES_API_KEY  您商店的开放式汇率“应用程序ID”。
+要更新汇率，至少每天运行一次以下命令：
+$ python manage.py update_exchange_rates --all Note
+Heroku 用户可以使用 Scheduler add-on 在预定义的时间每天自动调用该命令。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 37: 部署 - Docker</title>
+      <link>https://jeremyyin.com/saleor/deployment/37_docker/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/deployment/37_docker/</guid>
+      <description>您需要先安装 Docker。
+在构建镜像之前，请确保您准备好了用于生产环境的所有前端资源文件：
+$ npm run build-assets --production $ npm run build-emails $ python manage.py collectstatic 然后使用 Docker 构建镜像：
+$ docker build -t mystorefront .</description>
+    </item>
+    
+    <item>
+      <title>Saleor 38: 部署 - Heroku</title>
+      <link>https://jeremyyin.com/saleor/deployment/38_heroku/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/deployment/38_heroku/</guid>
+      <description>配置（Configuration） $ heroku create --buildpack https://github.com/heroku/heroku-buildpack-nodejs.git $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-python.git $ heroku addons:create heroku-postgresql:hobby-dev $ heroku addons:create heroku-redis:hobby-dev $ heroku addons:create sendgrid:starter $ heroku config:set ALLOWED_HOSTS=&amp;#39;&amp;lt;your hosts here&amp;gt;&amp;#39; $ heroku config:set NODE_MODULES_CACHE=false $ heroku config:set NPM_CONFIG_PRODUCTION=false $ heroku config:set SECRET_KEY=&amp;#39;&amp;lt;your secret key here&amp;gt;&amp;#39; Note
+Heroku 的存储是不稳定的。这意味着应用程序的所有实例都将具有单独的磁盘，并且每次重新启动应用程序时都将丢失对本地磁盘所做的所有更改。最好的方法是使用 Amazon S3 等云存储。有关配置详细信息，请参阅 Storing Files on Amazon S3 。
+部署（Deployment） $ git push heroku master 准备数据库（Preparing the Database） $ heroku run python manage.py migrate 更新货币汇率（Updating Currency Exchange Rates） 这需要定期运行。实现此目的的最佳方法是使用 Heroku 的调度程序服务（Heroku’s Scheduler service）。我们将其添加到我们的应用程序中：</description>
+    </item>
+    
+    <item>
+      <title>Saleor 39: 部署 - 在 Amazon S3 上存储文件</title>
+      <link>https://jeremyyin.com/saleor/deployment/39_s3/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/deployment/39_s3/</guid>
+      <description>如果您使用容器进行部署（包括 Docker 和 Heroku），您将希望避免将文件存储在容器的易失性文件系统中。此集成允许您将存储此类文件的任务委托给 Amazon’s S3 service。
+基本配置  AWS_ACCESS_KEY_ID  您的AWS访问密钥。
+ AWS_SECRET_ACCESS_KEY  您的AWS秘密访问密钥。
+使用 S3 存储桶提供媒体文件 如果要存储和提供媒体文件，请设置以下环境变量以将 S3 用作媒体存储区：
+ AWS_MEDIA_BUCKET_NAME  用于媒体文件的S3存储桶名称。
+如果您打算为媒体S3存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 媒体域：
+ AWS_MEDIA_CUSTOM_DOMAIN  用于媒体存储区的 S3 自定义域。
+Note
+媒体文件是指通过管理后台上传的每个数据（产品图像，类别图像等）
+使用 S3 存储桶提供静态文件 默认情况下，应用程序服务器将提供静态文件（例如显示页面所需的 CSS 和 JS 文件）。
+如果你打算为你的静态文件使用 S3，请设置一个额外的环境变量：
+ AWS_STORAGE_BUCKET_NAME  用于静态文件的 S3 存储桶名称。
+如果您打算为静态 S3 存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 域：
+ AWS_STATIC_CUSTOM_DOMAIN  用于静态存储区的 S3 自定义域。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 40: 操作指南 - 订单</title>
+      <link>https://jeremyyin.com/saleor/guides/40_orders/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/guides/40_orders/</guid>
+      <description>Saleor 提供了通过管理后台处理订单的功能。订单可以在管理后台的 Orders 选项卡中处理完成。
+草稿订单 （Draft orders） 要创建草稿订单，首先您必须转到管理后台的 Orders 选项卡，然后选择现有订单列表上方可见的圆形 + 按钮。
+这些订单可以完全编辑，直到通过点击创建订单确认。您可以修改订购商品、客户（也只是设置电子邮件）、账单和送货地址、送货方式及折扣。您应用的任何凭证都会导致自动订单重新计算，以适应每次订单实际状态的变化。
+通过点击创建订单确认订单会将状态更改为未实现并禁用大部分编辑操作。您可以选择通过发送电子邮件通知客户 - 如果附加了任何 - 关于该订单。
+将订单标记为已付款（Marking orders as paid） 在订单详情页面，如果需要，您可以手动将订单标记为已付款。此选项仅在未付款订单中可见，作为付款卡中的操作。
+Warning
+您将无法退还手动处理的付款。这是由于缺乏足够的数据来处理事务。</description>
+    </item>
+    
+    <item>
+      <title>Saleor 41: 操作指南 - 导航</title>
+      <link>https://jeremyyin.com/saleor/guides/41_navigation/</link>
+      <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/saleor/guides/41_navigation/</guid>
+      <description>Saleor 提供了配置店面导航的功能。你可以在管理后台的 Navigation 选项卡中进行操作。
+您可以在每个创建的菜单中添加最多 3 层菜单项。每个菜单项都可以通过传递额外的 URL 来指向包含 Category，Collection，Page 或外部网站的内部页面。
+管理菜单项（Managing menu items） 要管理菜单项，首先您必须转到仪表板 Navigation 选项卡并选择要编辑的菜单。如果要管理嵌套的菜单项，可以上下浏览列出的菜单项。
+要添加新菜单项，请选择 Add 菜单项列表上方可见的按钮。然后填写表格并点击 Create。
+要编辑菜单项，请选择 Edit 列表上菜单项旁边可见的按钮或菜单项详细信息下方的按钮（如果您在菜单项详细信息视图内）。进行任何更改并单击。Edit menu item Update
+要删除菜单项，请选择 Remove 列表上菜单项旁边可见的按钮或菜单项详细信息下方的按钮（如果您在菜单项详细信息视图内）。此操作将删除所有后代项目，并且不能撤消。Remove menu item
+菜单项按菜单项列表中列出的顺序显示在店面上。您可以通过处理菜单项左侧的图标并将其拖动到另一个位置来重新排列它们。
+管理菜单（Managing menus） 管理后台为您提供添加新菜单的功能。
+一次可以有两个活动菜单（一个用于导航栏，另一个用于页脚，它们可以相同）。
+当前分配的菜单可以通过仪表板的 Navigation 面板进行更改。
+菜单默认呈现为垂直列表。你可以通过传递一个额外的 horizontal=True 参数来改变它。带有嵌套项目的水平菜单在桌面上显示为下拉菜单。</description>
     </item>
     
     <item>

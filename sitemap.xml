@@ -123,6 +123,91 @@
   </url>
   
   <url>
+    <loc>https://jeremyyin.com/saleor/architecture/25_i18n/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/architecture/26_search/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/architecture/27_payments/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/architecture/28_settings/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/architecture/29_page/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/integrations/30_seo/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/integrations/31_smo/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/integrations/32_emailmarkup/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/integrations/33_elasticsearch/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/integrations/34_googleanalytics/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/integrations/35_googleforretail/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/integrations/36_openexchangerates/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/deployment/37_docker/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/deployment/38_heroku/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/deployment/39_s3/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/guides/40_orders/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/saleor/guides/41_navigation/</loc>
+    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</loc>
     <lastmod>2018-04-19T00:00:00+00:00</lastmod>
   </url>
