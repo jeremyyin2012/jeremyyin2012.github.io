@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jeremyyin.com/post/2018-04-22-saleor-%E5%88%9D%E7%A8%BF%E5%B7%B2%E7%BF%BB%E8%AF%91%E5%AE%8C%E6%88%90/</loc>
+    <lastmod>2018-04-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/saleor/getting-started/01_installation-macos/</loc>
     <lastmod>2018-04-19T00:00:00+00:00</lastmod>
   </url>
@@ -397,13 +402,13 @@
   
   <url>
     <loc>https://jeremyyin.com/</loc>
-    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jeremyyin.com/post/</loc>
-    <lastmod>2018-04-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-04-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
