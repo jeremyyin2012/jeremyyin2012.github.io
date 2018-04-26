@@ -110,15 +110,15 @@
         <hr>
         
 
-<p>在为您的商店填充产品之前，我们需要介绍 3 种产品概念 - *产品类型*（*product types*），*产品*（*products*），*产品变体*（*product variants*）。</p>
+<p>在为您的商店填充产品之前，我们需要介绍 3 种产品概念：<em>产品类型 product types</em> ，<em>产品 products</em> ，<em>产品变体 product variants</em> 。</p>
 
 <h2 id="概述">概述</h2>
 
-<p>设想你有一家书店。 你的其中一个产品（*products*）一本名为“Saleor 简介”的书。</p>
+<p>设想你有一家书店。 你的其中一个产品 <em>products</em> 一本名为“Saleor 简介”的书。</p>
 
-<p>这本书的封面有分为硬壳和软壳，所以会有两种*产品变体*（*product variants*）。</p>
+<p>这本书的封面有分为硬壳和软壳，所以会有两种<em>产品变体</em> <em>product variants</em> 。</p>
 
-<p>封面类型是在我们的商店中创建单独变体的唯一属性，因此我们使用“Book”作为*产品类型*（*product type*），为它启用变体并使用“Cover type”作为变体属性（*variant attribute*）。</p>
+<p>封面类型是在我们的商店中创建单独变体的唯一属性，因此我们使用“Book”作为<em>产品类型</em> <em>product type</em> ，为它启用变体并使用“Cover type”作为变体属性 <em>variant attribute</em> 。</p>
 
 <h2 id="class-diagram">Class Diagram</h2>
 
@@ -130,7 +130,7 @@
 
 <h2 id="产品-products">产品（Products）</h2>
 
-<p>介绍几个*产品变体*（*product variants*）的常见细节。当商店显示类别视图时，列表中的项目是不同的*产品*（*products*）。如果变体没有重写属性（例如：价格），则从*产品*（*products*）中获取默认值。</p>
+<p>介绍几个<em>产品变体</em> <em>product variants</em> 的常见细节。当商店显示类别视图时，列表中的项目是不同的<em>产品</em> <em>products</em> 。如果变体没有重写属性（例如：价格），则从<em>产品</em> <em>products</em> 中获取默认值。</p>
 
 <ul>
 <li><code>available_on</code></li>
@@ -146,19 +146,19 @@
 
 <h2 id="产品类型-product-types">产品类型（Product Types）</h2>
 
-<p>将类型看作您的产品的模板。多个*产品*（ *products*）可以使用相同的产品类型（product type）。</p>
+<p>将类型看作您的产品的模板。多个 <em>产品 products</em>  可以使用相同的产品类型 product type。</p>
 
 <ul>
 <li><code>product_attributes</code></li>
 </ul>
 
-<p>所有*产品变体*（*product variants*）之间共享的属性。例如：发布者，所有书籍变体都由同一家公司出版。</p>
+<p>所有 <em>产品变体 product variants</em> 之间共享的属性。例如：发布者，所有书籍变体都由同一家公司出版。</p>
 
 <ul>
 <li><code>variant_attributes</code></li>
 </ul>
 
-<p>这是什么区别不同的*变体*（*variants*）。例如：封面类型，你的书可以用硬或软的封面。</p>
+<p>这是什么区别不同的 <em>变体 variants</em>  。例如：封面类型，你的书可以用硬或软的封面。</p>
 
 <ul>
 <li><p><code>is_shipping_required</code></p>
@@ -167,7 +167,7 @@
 
 <li><p><code>has_variants</code></p>
 
-<p>如果您的*产品*（*product*）没有多个变体，或者您想为其中的每个*变体*创建单独的*产品*，请将其关闭。该选项主要简化仪表板中的产品管理。一个产品会自动创建一个*变体*。</p></li>
+<p>如果您的 <em>产品 product</em> 没有多个变体，或者您想为其中的每个 <em>变体</em> 创建单独的 <em>产品</em> ，请将其关闭。该选项主要简化仪表板中的产品管理。一个产品会自动创建一个 <em>变体</em> 。</p></li>
 </ul>
 
 <p>Warning</p>
@@ -180,9 +180,9 @@
 
 <h2 id="属性-attributes">属性（Attributes）</h2>
 
-<p>*属性*可以帮助您更好地描述您的产品。此外，可用于过滤类别视图中的项目。</p>
+<p><em>属性</em> 可以帮助您更好地描述您的产品。此外，可用于过滤类别视图中的项目。</p>
 
-<p>有两种类型的*属性*：选择类型（choice type）和文本类型（text type）。如果您不进行指定，则属性默认是文本类型。</p>
+<p>有两种类型的 <em>属性</em> ：选择类型（choice type）和文本类型（text type）。如果您不进行指定，则属性默认是文本类型。</p>
 
 <h3 id="examples">Examples</h3>
 
@@ -442,6 +442,7 @@
 <script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
 <script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
 <script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
+<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
 
         
 <script>
