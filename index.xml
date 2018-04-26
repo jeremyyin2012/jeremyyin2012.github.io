@@ -6,10 +6,29 @@
     <description>Recent content on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 22 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 26 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>今天全是干货</title>
+      <link>https://jeremyyin.com/post/2018-04-26-%E4%BB%8A%E5%A4%A9%E5%85%A8%E6%98%AF%E5%B9%B2%E8%B4%A7/</link>
+      <pubDate>Thu, 26 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/post/2018-04-26-%E4%BB%8A%E5%A4%A9%E5%85%A8%E6%98%AF%E5%B9%B2%E8%B4%A7/</guid>
+      <description>公司一个产品正式接入支付系统，搞了很久很久了，或许明天就能上线了吧。
+其实也不是什么很大的东西，可现实是残酷的，无力感很重，我们老板应该更会深有感触。
+一年写了 30 几个小产品接口，该想想是不是代码太乱了。Django 说十几行代码完成增删改查，可能培训机构只顾着拉新了吧，MVC 构架可能确实简单。
+面向对象听了无数遍，可一次也没创建过自己的对象，一般都用别人现成的对象，还得看别人告诉你怎么用。
+要创建自己的对象了。写爬虫和写爬虫，不一样就是不一样的，Hello World 跑起来简单，可 Demo 和生产环境那是两码事儿。
+还有，需求一直在变，你知道的吧？
+这两周代码写的慢，把一个东西重构了，自己迷糊着创建对象。
+所以，一个人或一个环境未来究竟会如何，全看它过去做过啥，在哪里进行发力。
+今天全是干货你懂的撒。你买多一点，我就回血多一点。
+果然还是买买买才会令我兴奋不已，其它的嘛，抛开不谈也罢。
+你都翻到这儿了，朋友圈微信群微博头条抖音走起，赶紧的。</description>
+    </item>
     
     <item>
       <title>Saleor 初稿已翻译完成</title>
