@@ -148,6 +148,7 @@ new_items <span style="color:#555">=</span> []
     {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>},
     {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>},
     {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}]
+
 B_items <span style="color:#555">=</span> [
     {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>},
     {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">10</span>},
@@ -157,6 +158,7 @@ B_items <span style="color:#555">=</span> [
     {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">30</span>},
     {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">80</span>},
     {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>}]
+
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">select_distinct</span>(items):
     new_items <span style="color:#555">=</span> []
     <span style="color:#069;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">not</span> items:
@@ -166,11 +168,12 @@ B_items <span style="color:#555">=</span> [
         <span style="color:#069;font-weight:bold">if</span> item <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">in</span> new_items:
             new_items<span style="color:#555">.</span>append(item)
     <span style="color:#069;font-weight:bold">return</span> new_items
+
 my_A_items <span style="color:#555">=</span> select_distinct(A_items)
 my_B_items <span style="color:#555">=</span> select_distinct(B_items)</code></pre></div>
-<p>my_A_items</p>
+<p>my_A_items:</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]</code></pre></div>
-<p>my_B_items</p>
+<p>my_B_items:</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>},
  {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">10</span>},
  {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">40</span>},
