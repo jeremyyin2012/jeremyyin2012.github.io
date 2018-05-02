@@ -6,10 +6,29 @@
     <description>Recent content on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 27 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 02 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>从 Jekyll 到 Hugo 的一些细节</title>
+      <link>https://jeremyyin.com/post/2018-05-02-%E4%BB%8E-jekyll-%E5%88%B0-hugo-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/</link>
+      <pubDate>Wed, 02 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/post/2018-05-02-%E4%BB%8E-jekyll-%E5%88%B0-hugo-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/</guid>
+      <description>这篇是早些时候弄完 Hugo 就可以写了的，不过事事匆忙，就给搁置了。
+第一个细节是，类别，也叫目录或分类，无论是 Jekyll 还是 Hugo 它们使用的都是 categories 这个单词来处理类别。
+Jekyll 直接在每一篇文章里面的 Front Matter 里面标记这篇文章属于哪个类别，当然，你也可以标记多个，这点从程序的角度来看，蛮合理的，类似于数据库的设计逻辑。但是，对于内容维护者来说，用一个很有意思的词来说，就是它不够 for Humans，意思就是这样的设计，不是为人类而设计的，不是站在人类的角度去思考问题的。不太确定 Jekyll 现在是否支持以文件夹来分类文件了，不过已经成功切换到 Hugo 了。
+所以，切换到 Hugo 的主要原因其一就是这个内容维护的方式问题。现在，所有文章都归属它们唯一的文件夹里面，如果哪天想修改下类别，就修改文件夹的名称即可，So easy。
+有人可能会提到 Tags，是的，一篇文章可能会有好几个 Tag 需要标记，这就随便你文章里面标记好了，我其实没特别的喜好 Tag 这个功能，随意贴标签？没有的事儿。
+Hugo 还有一个更特殊的站点目录组织方式，叫 Taxonomies，意义上和 categories 差不多，不过有它特别的地方，暂时我也不想整复杂的，你有兴趣可以了解下，看上去还挺不错的。
+第二个细节，是搜索服务。
+切换到 Hugo 后，原使用的 jekyll-algolia 工具就废弃了，而 Algolia 方面则并未针对 Hugo 给出指导性的文档可供参考。
+虽然有些麻烦，不过了解了一番 Algolia 的 API 文档，以及参考了一篇来自于 Forestry 的它们是如何接入 Algolia 搜索的文章之后，解决了如何生成索引数据，然后上传更新的部分没有使用文章里面的东西，而是使用了 Algolia 的 Python API 进行接入，简单的不像样子。
+我取代码里面核心的部分出来：
+filename = &amp;#39;public/algolia.json&amp;#39; rows = json.load(open(filename)) print(&amp;#39;update algolia index&amp;#39;) client = client_for_admin() index = client.</description>
+    </item>
     
     <item>
       <title>给一个列表去除重复数据的最原始方法</title>
