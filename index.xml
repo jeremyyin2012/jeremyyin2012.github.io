@@ -6,10 +6,34 @@
     <description>Recent content on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 02 May 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hugo 的文件管理方案</title>
+      <link>https://jeremyyin.com/post/2018-05-03-hugo-%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88/</link>
+      <pubDate>Thu, 03 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/post/2018-05-03-hugo-%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88/</guid>
+      <description>绝大多数的静态网站生成工具，无论是从 Markdown 文件还是 rST 格式的文件，甚至其它格式的文件，基本原理就是：利用一种面向用户友好的文本格式，通过工具处理为 HTML 格式，例如用户使用 Markdown 撰写文章，Hugo 帮忙处理为 HTML 文件。而后拿到静态的 HTML 文件则抛给例如 Nginx 这种 Web 服务器去提供服务即可。
+而处理的过程，则需要有按一定规则进行，例如标题与 URL 如何处理，文章日期如何处理，是否支持草稿，生成的网站页面列表如何排序，图片如何插入并显示等等。
+这里我取“如何编写带图片的文章”这个需求来说明下我的使用方案。
+其实如果仅仅只是文字内容，一篇文章一个 Markdown 文件，Hugo 以及大多数其它工具都会利用文件名来生成一个文件夹，而后此文件夹下面则会放入一个 index.html 文件。
+这是为啥呢，因为类似 Nginx 这种 Web 服务器，它的基本逻辑就是去某个文件夹下寻找 index.html 文件，而如果同时你又有提供文件名称，它则会去寻找对应的文件名。
+如果自己启动一个 Nginx 服务的话，有时候你会需要用到下面这段代码：
+try_files $uri $uri.html $uri/index.html index.html; 所以这里其实可以看到，$uri 这个东西，要么指一个文件，要么指一个文件夹。
+如果你页面上有插入图片或者其他资源文件，那么你要么可以指定完整的文件路径地址，要么，就可以直接放到某个文件夹下面，与 index.html 平级，这样 index.html 引入的文件都可以是相对于当前页面所在文件夹的路径即可。
+这就是服务器方面的逻辑。
+下面是本地编写时候的逻辑。
+我使用的 Markdown 编辑器是 Typora，虽然它 bug 不断，修了一个又有另一个，但目前并没有其它任何一个编辑器能让我放弃它。
+它的实时编辑并渲染的功能，打出来任何一二三级标题和列表与段落，立马就显示为漂亮的效果，这才是一个内容编辑器应有的优秀视觉效果。
+而如果我插入一张图片，它则会立即渲染显示，我能立即看到效果。它插入图片所生成的 Markdown 内容一般会是这样的：
+![IMG_6004](IMG_6004-4755009.jpg) 这足够简单了，有插入菜单可以操作，如果你知道文件名，也可以自己写成这样，它就能渲染给你看。
+但是，有个问题。
+如果你的图片是放在某一个地方的，比如全部都在一个 static/img 文件夹下面，那这就有个问题。可能对与 Hugo 这样的工具最终渲染完成的网页是能显示图片的，但是你本地的编辑器，却不一定能显示出来，因为它没有能力去更高级文件夹去寻找文件，相对的它只能去自己的的子级文件夹去寻找文件。</description>
+    </item>
     
     <item>
       <title>从 Jekyll 到 Hugo 的一些细节</title>

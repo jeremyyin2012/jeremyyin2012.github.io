@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+        <title>Hugo 的文件管理方案 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                        <a class="nav-link" href="/about/">About</a>
+                    </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/sitemap.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>Hugo 的文件管理方案</h1>
+        <hr>
+        <p>绝大多数的静态网站生成工具，无论是从 Markdown 文件还是 rST 格式的文件，甚至其它格式的文件，基本原理就是：利用一种面向用户友好的文本格式，通过工具处理为 HTML 格式，例如用户使用 Markdown 撰写文章，Hugo 帮忙处理为 HTML 文件。而后拿到静态的 HTML 文件则抛给例如 Nginx 这种 Web 服务器去提供服务即可。</p>
+
+<p>而处理的过程，则需要有按一定规则进行，例如标题与 URL 如何处理，文章日期如何处理，是否支持草稿，生成的网站页面列表如何排序，图片如何插入并显示等等。</p>
+
+<p>这里我取“如何编写带图片的文章”这个需求来说明下我的使用方案。</p>
+
+<p>其实如果仅仅只是文字内容，一篇文章一个 Markdown 文件，Hugo 以及大多数其它工具都会利用文件名来生成一个文件夹，而后此文件夹下面则会放入一个 index.html 文件。</p>
+
+<p>这是为啥呢，因为类似 Nginx 这种 Web 服务器，它的基本逻辑就是去某个文件夹下寻找 index.html 文件，而如果同时你又有提供文件名称，它则会去寻找对应的文件名。</p>
+
+<p>如果自己启动一个 Nginx 服务的话，有时候你会需要用到下面这段代码：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#069;font-weight:bold">try_files</span>  <span style="color:#033">$uri</span> <span style="color:#033">$uri.html</span> <span style="color:#033">$uri/index.html</span> <span style="color:#c30">index.html</span>;</code></pre></div>
+<p>所以这里其实可以看到，$uri 这个东西，要么指一个文件，要么指一个文件夹。</p>
+
+<p>如果你页面上有插入图片或者其他资源文件，那么你要么可以指定完整的文件路径地址，要么，就可以直接放到某个文件夹下面，与 index.html 平级，这样 index.html 引入的文件都可以是相对于当前页面所在文件夹的路径即可。</p>
+
+<p>这就是服务器方面的逻辑。</p>
+
+<p>下面是本地编写时候的逻辑。</p>
+
+<p>我使用的 Markdown 编辑器是 Typora，虽然它 bug 不断，修了一个又有另一个，但目前并没有其它任何一个编辑器能让我放弃它。</p>
+
+<p>它的实时编辑并渲染的功能，打出来任何一二三级标题和列表与段落，立马就显示为漂亮的效果，这才是一个内容编辑器应有的优秀视觉效果。</p>
+
+<p>而如果我插入一张图片，它则会立即渲染显示，我能立即看到效果。它插入图片所生成的 Markdown 内容一般会是这样的：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown">![<span style="color:#309;font-weight:bold">IMG_6004</span>](<span style="color:#309">IMG_6004-4755009.jpg</span>)</code></pre></div>
+<p>这足够简单了，有插入菜单可以操作，如果你知道文件名，也可以自己写成这样，它就能渲染给你看。</p>
+
+<p>但是，有个问题。</p>
+
+<p>如果你的图片是放在某一个地方的，比如全部都在一个 <code>static/img</code> 文件夹下面，那这就有个问题。可能对与 Hugo 这样的工具最终渲染完成的网页是能显示图片的，但是你本地的编辑器，却不一定能显示出来，因为它没有能力去更高级文件夹去寻找文件，相对的它只能去自己的的子级文件夹去寻找文件。</p>
+
+<p>我曾经也是这么整理文件的，图片的归图片，文章的归文章，如果文件与图片不够多，是没有问题的，然而一旦文章和图片多了起来，需要考虑的问题就有了：图片是否最终到网站是能正常显示的（路径对不对），图片名称是否要改一改（万一文件名冲突就乱了）等等问题。</p>
+
+<p>所以现在呢，我所使用的方案就是：</p>
+
+<p>如果是要插入图片的，就建一个以文章名称命名的文件夹，里面放一个 index.md 文件，图片等文件就也放当前文章这个文件夹里面即可。</p>
+
+<p>这样，既能保证本地编辑是能实时渲染，也能保证最终呈现是正确无误的，而工作环境仅需要考虑当前文件夹，不用翻来覆去地寻找和核对。</p>
+
+<p>而如果是不需要插入图片的文章，依然还是一个以文章名称命名的 <code>.md</code> 文件即可。</p>
+
+<p>如果需要转移文章到新的目录，或者是寻找一个图片，都无需担心太多，直接操作，以文件夹为管理核心即可。</p>
+
+<p>这便是我的内容资源管理方案，很不错了。</p>
+
+<p>废话这么多，还是不如放一个文件夹路径图来的有视觉感：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">.
+├── about
+│   ├── img
+│   │   ├── Jeremy.jpg
+│   │   └── qrcode_for_jeremyyincom_1280.jpg
+│   └── index.html
+├── post
+│   ├── <span style="color:#f60">2018</span>-01-11-关联了两款小程序.md
+│   ├── <span style="color:#f60">2018</span>-02-05-一款小小的物流数据产品.md
+│   ├── <span style="color:#f60">2018</span>-03-19-现已加入 Algolia 搜索服务.md
+│   ├── <span style="color:#f60">2018</span>-04-13-我是如何搞砸了本站搜索服务的.md
+│   ├── <span style="color:#f60">2018</span>-04-18-小站构建工具已成功切换到 Hugo.md
+│   ├── <span style="color:#f60">2018</span>-04-19-开始翻译一个文档：Saleor.md
+│   ├── <span style="color:#f60">2018</span>-04-22-Saleor 初稿已翻译完成.md
+│   ├── <span style="color:#f60">2018</span>-04-26-今天全是干货
+│   │   ├── IMG_5991-4755089.jpg
+│   │   ├── IMG_5997-4755064.jpg
+│   │   ├── IMG_5998-4755103.jpg
+│   │   ├── IMG_5999-4755051.jpg
+│   │   ├── IMG_6001-4755073.jpg
+│   │   ├── IMG_6002-4755080.jpg
+│   │   ├── IMG_6003-4755030.jpg
+│   │   ├── IMG_6004-4755009.jpg
+│   │   └── index.md
+│   ├── <span style="color:#f60">2018</span>-05-02-从 Jekyll 到 Hugo 的一些细节.md
+│   └── <span style="color:#f60">2018</span>-05-03-Hugo 的文件管理方案.md
+├── python
+│   ├── <span style="color:#f60">2016</span>-06-28-给一个列表去重复却又要保留顺序.md
+│   ├── <span style="color:#f60">2016</span>-12-23-if True or <span style="color:#069;font-weight:bold">if</span> not True.md
+│   ├── <span style="color:#f60">2017</span>-06-14-造个轮子.md
+│   ├── <span style="color:#f60">2017</span>-09-02-努力投身 Python <span style="color:#f60">3</span> 的怀抱.md
+│   └── <span style="color:#f60">2018</span>-04-27-给一个列表去除重复数据的最原始方法.md
+└── saleor
+    ├── architecture
+    │   ├── 20_money.md
+    │   ├── 21_products
+    │   ├── 22_thumbnails.md
+    │   ├── 23_stock.md</code></pre></div>
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<p>Author | Jeremy Yin</p>
+<p>Python Engineer</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
+<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
+<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
+<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+        
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-92987034-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
