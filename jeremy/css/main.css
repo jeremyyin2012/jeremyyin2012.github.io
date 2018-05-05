@@ -21,3 +21,23 @@
 article p img {
     width: 100%;
 }
+
+pre code {
+    box-sizing: border-box;
+    border: 1px solid #ececec;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 0.5em;
+    font-family: Consolas, Inconsolata, Courier, monospace;
+    display: block;
+    background-color: #f8f8f8;
+    word-wrap: normal !important;
+    word-break: normal !important;
+    overflow-x: auto;
+    overflow-y: auto !important;
+}
+pre code {
+    padding: 0.2em 1em;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+}
