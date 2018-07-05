@@ -6,10 +6,27 @@
     <description>Recent content on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 04 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Jul 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>给 Scrapy 的 Spider 传递参数</title>
+      <link>https://jeremyyin.com/note/2018-07-05-2238/</link>
+      <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-07-05-2238/</guid>
+      <description>绝大多数情况下，我们写一个 Spider 会直接将需要的信息写在 Spider 里面，再不济也可能开个文件独立存储下需要的参数啥的，但这仅当 Spider 需求的这些信息是固定不变的情况下，而一旦需要从外部提交一些信息给它来动态调用，就需要用到传递参数了。
+先放两个官方文档链接
+ Scrapy Spider arguments  使用 scrapy crawl 命令启动使用 -a 后面加参数名和参数值，这应该也就仅在测试时候使用下了。
+ Scrapyd schedule.json  同样在 curl 中使用 -d 后面加参数名和参数值，也是测试时候会用到，可以简单理解它类似一个 form 表单向 URL 去 POST 数据，所以使用 requests 来接这个接口的话，就是：
+resp = requests.post(url=url, data=data) 这么说，那就是往这个 data 数据里面根据需求不断增加字段名和字段值就行了么，嗯，理解是这么理解，貌似也没啥问题，反正加了什么就在 Spider 那边同样根据字段把值提取出来就可以了，就这样可以了。
+不过，还是要说下，不断增加参数以及不断增加维护提取值的逻辑，字段数量多起来了，有点烦人呢。
+还有哦，刚为啥说把它简单理解为 form 表单呢，因为它的参数只支持字符串啊：
+Keep in mind that spider arguments are only strings. The spider will not do any parsing on its own. 那要是想提交点稍稍复杂点的数据咋办？
+我的解决方案是：把所有的自定义的参数都先放到一个 dict 里面去，然后用 json.</description>
+    </item>
     
     <item>
       <title>谁在动我的风扇</title>

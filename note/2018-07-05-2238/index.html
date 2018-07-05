@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+        <title>给 Scrapy 的 Spider 传递参数 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                        <a class="nav-link" href="/about/">About</a>
+                    </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/sitemap.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>给 Scrapy 的 Spider 传递参数</h1>
+        <hr>
+        <p>绝大多数情况下，我们写一个 Spider 会直接将需要的信息写在 Spider 里面，再不济也可能开个文件独立存储下需要的参数啥的，但这仅当 Spider 需求的这些信息是固定不变的情况下，而一旦需要从外部提交一些信息给它来动态调用，就需要用到传递参数了。</p>
+
+<p>先放两个官方文档链接</p>
+
+<ul>
+<li><a href="https://doc.scrapy.org/en/latest/topics/spiders.html#spider-arguments">Scrapy Spider arguments</a></li>
+</ul>
+
+<p>使用 scrapy crawl 命令启动使用 -a 后面加参数名和参数值，这应该也就仅在测试时候使用下了。</p>
+
+<ul>
+<li><a href="http://scrapyd.readthedocs.io/en/latest/api.html#schedule-json">Scrapyd schedule.json</a></li>
+</ul>
+
+<p>同样在 curl 中使用 -d 后面加参数名和参数值，也是测试时候会用到，可以简单理解它类似一个 form 表单向 URL 去 POST 数据，所以使用 requests 来接这个接口的话，就是：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">  resp = requests.post(url=url, data=data)</pre></div>
+<p>这么说，那就是往这个 data 数据里面根据需求不断增加字段名和字段值就行了么，嗯，理解是这么理解，貌似也没啥问题，反正加了什么就在 Spider 那边同样根据字段把值提取出来就可以了，就这样可以了。</p>
+
+<p>不过，还是要说下，不断增加参数以及不断增加维护提取值的逻辑，字段数量多起来了，有点烦人呢。</p>
+
+<p>还有哦，刚为啥说把它简单理解为 form 表单呢，因为它的参数只支持字符串啊：</p>
+
+<p>Keep in mind that spider arguments are only strings. The spider will not do any parsing on its own. </p>
+
+<p>那要是想提交点稍稍复杂点的数据咋办？</p>
+
+<p>我的解决方案是：把所有的自定义的参数都先放到一个 dict 里面去，然后用 json.dumps 处理下，这样把它这整个整体作为一个参数放进 data 里面提交过去，至于 Spider 那边就同样用 json.loads 反向处理下这一个字段值，这样很简单就拿到全部自定义参数了，无论它有多少，无论它怎么变化多端，就都好说了，反正你自定义的，全部都在这里面。</p>
+
+<p>至于这个参数名叫啥是最好，我也不太完全确定，暂时用了一个 s 来表示。</p>
+
+<p>通过 API 来启动 Spider 的话，又能传递你想要的参数进去，可扩展性就好很多了。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<p>Author | Jeremy Yin</p>
+<p>Python Engineer</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
+<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
+<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
+<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+        
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-92987034-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
