@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>增加一个类别叫 note</title>
+      <link>https://jeremyyin.com/post/2018-07-05-%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</link>
+      <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/post/2018-07-05-%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</guid>
+      <description>话说接触 Python 这货也很久了，不过一段时间后就等着跨一个坎，不然对技术的理解如何升阶。
+要说有哪本书完全啃下来了，</description>
+    </item>
+    
+    <item>
       <title>给 Scrapy 的 Spider 传递参数</title>
       <link>https://jeremyyin.com/note/2018-07-05-2238/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
@@ -1673,7 +1683,7 @@ import collections datalist = [&amp;#39;1&amp;#39;, &amp;#39;4&amp;#39;, &amp;#3
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://jeremyyin.com/about/</guid>
-      <description>Jeremy&#39;s Blog     {{ .Site.Title }} Home  Post  Python  Saleor  About  RSS         目前主要是同步在我的微信公众号「JeremyYin」发布的文章。
+      <description>Jeremy&#39;s Blog     {{ .Site.Title }} Home  Post  Note  Python  Saleor  About  RSS         目前主要是同步在我的微信公众号「JeremyYin」发布的文章。
 微信公众号：jeremyyincom
          Author | Jeremy Yin
 Python Engineer
