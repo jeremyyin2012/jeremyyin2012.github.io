@@ -6,10 +6,32 @@
     <description>Recent content on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 05 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Jul 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Pandas: 对 DataFrame 的列名进行重命名</title>
+      <link>https://jeremyyin.com/note/2018-07-06-2259/</link>
+      <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-07-06-2259/</guid>
+      <description>不得不说，Pandas 是我很喜欢的一个工具，之前在外贸公司做采购和物流相关方面事情的时候，跟 Excel 结下了不浅的关系。在处理 Excel 的数据过程中，依照对数据业务的理解也使得后来去理解 MySQL 相关的数据的关系模型有了一些清晰的思维过程。
+如果说创业公司需要什么工具能支撑起业务快速发展和需求变化，Excel 是一个利器，这在很多行业的实际应用实践中都得到过检验，而我自己也自认为曾经利用它在很长一段时间里支撑起了一家公司的核心业务流程。
+但凡是工具就有长短，Excel 虽是利器，可能在高手眼里表还未开，数据已经在脑海里飞过了千百次，即使是个小白也能对着那横竖格子拥有完整的操作能力，但是，任何事物到了一定量级，就性质变了，而更甚至涉及到多人、跨部门共享操作，就更难以完成有效的数据流通了。
+所以有长有短，有些地方，还是需要有别的解决方案，比如搞个数据库，然后至于如何利用这个数据库，开发一个 ERP 也好，简单整个 web 数据界面也罢，那就看各自能力和想象力了。
+额，又啰嗦了。
+在 Python 的世界里面，使用 Pandas 来读取 Excel 数据并操作数据，是一种非常有效的工作方法。如果你有较大的数据量需要操作和计算，又或者有很多的固定步骤需要频繁处理，都可以使用 Pandas 来处理，它，简单说就是：工业级的数据处理工具。
+今天提个小点：使用 Pandas 处理各种不同的列名称，对它们进行重命名。
+在大多数时候，我们会有个数据处理流程，这个流程的开始负责接收一批数据，然后中间经过各种处理和计算，输出为我们需要的结果，这就是：输入 &amp;ndash;&amp;gt; 处理与计算 &amp;ndash;&amp;gt; 输出。
+这很像一个函数的概念对吧，可以这样理解了。
+不过在输入的时候，我们会考虑使用一种数据标准，仅当数据符合我们的需求的时候，我们才能对其进行正常的处理并得到正确的输出。而一旦数据不符合需要的标准了，就很难得到正确的结果了。
+这时候就需要在进行输入时候的前面一个再加一步：预处理。
+在预处理的时候，常见就有个列名称标准化，在 Excel 中我们可能不太方便在面对很多种表头，还能正常合并数据然后一次处理的，而如果要每种表头都单独处理，就又特别磨炼人性的价值观了。而如果是在 Pandas 里面，我们可以利用 pandas.DataFrame.rename 这个方法来对任意各种表头进行统一标准化，以实现数据标准化中的列名称标准化，也可以叫数据字段标准化。
+写出代码大概会是下面这样子：
+import pandas as pd import numpy as np # 维护好各种表头对应关系的标准化数据 columns_rename = { &amp;#34;packetid&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;packet id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;packet-id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;packet_id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stkid&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stk id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stk-id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stk_id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock#&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock #&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stockno&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock no&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock-no&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock_no&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;place&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;地点&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;所在地&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;locationcode&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;location code&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;location-code&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;location_code&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;location&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;source&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;country&amp;#34;: &amp;#34;CountryCode&amp;#34; } # 假如你有个叫 data.</description>
+    </item>
     
     <item>
       <title>给 Scrapy 的 Spider 传递参数</title>

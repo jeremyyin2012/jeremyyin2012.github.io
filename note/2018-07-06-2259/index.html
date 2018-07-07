@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+        <title>Pandas: 对 DataFrame 的列名进行重命名 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                        <a class="nav-link" href="/about/">About</a>
+                    </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/sitemap.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>Pandas: 对 DataFrame 的列名进行重命名</h1>
+        <hr>
+        <p>不得不说，Pandas 是我很喜欢的一个工具，之前在外贸公司做采购和物流相关方面事情的时候，跟 Excel 结下了不浅的关系。在处理 Excel 的数据过程中，依照对数据业务的理解也使得后来去理解 MySQL 相关的数据的关系模型有了一些清晰的思维过程。</p>
+
+<p>如果说创业公司需要什么工具能支撑起业务快速发展和需求变化，Excel 是一个利器，这在很多行业的实际应用实践中都得到过检验，而我自己也自认为曾经利用它在很长一段时间里支撑起了一家公司的核心业务流程。</p>
+
+<p>但凡是工具就有长短，Excel 虽是利器，可能在高手眼里表还未开，数据已经在脑海里飞过了千百次，即使是个小白也能对着那横竖格子拥有完整的操作能力，但是，任何事物到了一定量级，就性质变了，而更甚至涉及到多人、跨部门共享操作，就更难以完成有效的数据流通了。</p>
+
+<p>所以有长有短，有些地方，还是需要有别的解决方案，比如搞个数据库，然后至于如何利用这个数据库，开发一个 ERP 也好，简单整个 web 数据界面也罢，那就看各自能力和想象力了。</p>
+
+<p>额，又啰嗦了。</p>
+
+<p>在 Python 的世界里面，使用 Pandas 来读取 Excel 数据并操作数据，是一种非常有效的工作方法。如果你有较大的数据量需要操作和计算，又或者有很多的固定步骤需要频繁处理，都可以使用 Pandas 来处理，它，简单说就是：工业级的数据处理工具。</p>
+
+<p>今天提个小点：使用 Pandas 处理各种不同的列名称，对它们进行重命名。</p>
+
+<p>在大多数时候，我们会有个数据处理流程，这个流程的开始负责接收一批数据，然后中间经过各种处理和计算，输出为我们需要的结果，这就是：输入 &ndash;&gt; 处理与计算 &ndash;&gt; 输出。</p>
+
+<p>这很像一个函数的概念对吧，可以这样理解了。</p>
+
+<p>不过在输入的时候，我们会考虑使用一种数据标准，仅当数据符合我们的需求的时候，我们才能对其进行正常的处理并得到正确的输出。而一旦数据不符合需要的标准了，就很难得到正确的结果了。</p>
+
+<p>这时候就需要在进行输入时候的前面一个再加一步：预处理。</p>
+
+<p>在预处理的时候，常见就有个列名称标准化，在 Excel 中我们可能不太方便在面对很多种表头，还能正常合并数据然后一次处理的，而如果要每种表头都单独处理，就又特别磨炼人性的价值观了。而如果是在 Pandas 里面，我们可以利用 pandas.DataFrame.rename 这个方法来对任意各种表头进行统一标准化，以实现数据标准化中的列名称标准化，也可以叫数据字段标准化。</p>
+
+<p>写出代码大概会是下面这样子：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">pandas</span> <span style="color:#069;font-weight:bold">as</span> <span style="color:#0cf;font-weight:bold">pd</span>
+<span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">numpy</span> <span style="color:#069;font-weight:bold">as</span> <span style="color:#0cf;font-weight:bold">np</span>
+
+<span style="color:#09f;font-style:italic"># 维护好各种表头对应关系的标准化数据</span>
+columns_rename <span style="color:#555">=</span> {
+    <span style="color:#c30"></span><span style="color:#c30">&#34;packetid&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;packet id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;packet-id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;packet_id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stkid&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stk id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stk-id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stk_id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stock&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stock#&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stock #&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stockno&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stock no&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stock-no&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;stock_no&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;place&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;地点&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;所在地&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;locationcode&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;location code&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;location-code&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;location_code&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;location&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;source&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;country&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>
+}
+
+<span style="color:#09f;font-style:italic"># 假如你有个叫 data.xlsx 的表格文件，把它读进来，读完就得到一个 DataFrame</span>
+<span style="color:#09f;font-style:italic"># 它跟表格很类似，我一般简称为 df，然后就开始对它进行各种操作</span>
+df <span style="color:#555">=</span> pd<span style="color:#555">.</span>read_excel(<span style="color:#c30"></span><span style="color:#c30">&#39;data.xlsx&#39;</span>)
+
+<span style="color:#09f;font-style:italic"># 先可以看一眼前几条数据，默认 5 条</span>
+<span style="color:#069;font-weight:bold">print</span>(df<span style="color:#555">.</span>head())
+
+<span style="color:#09f;font-style:italic"># 先把表头做下小写，以及去除多余空白字符</span>
+df<span style="color:#555">.</span>columns <span style="color:#555">=</span> df<span style="color:#555">.</span>columns<span style="color:#555">.</span><span style="color:#366">str</span><span style="color:#555">.</span>lower()<span style="color:#555">.</span>strip()
+
+<span style="color:#09f;font-style:italic"># 然后对列进行重命名，如果有匹配上的列名称，就会帮你全部重命名了</span>
+df <span style="color:#555">=</span> df<span style="color:#555">.</span>rename(columns<span style="color:#555">=</span>columns_rename)
+
+<span style="color:#09f;font-style:italic"># 而后再做下一步操作</span>
+<span style="color:#09f;font-style:italic"># ……</span></code></pre></div>
+<p>然后再贴个官方文档链接：<a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.rename.html">pandas.DataFrame.rename</a></p>
+
+<p>文档很直观，信息量也足够，具体怎么玩就看你的了。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<p>Author | Jeremy Yin</p>
+<p>Python Engineer</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
+<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
+<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
+<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+        
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-92987034-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>

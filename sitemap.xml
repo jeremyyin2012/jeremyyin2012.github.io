@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jeremyyin.com/note/2018-07-06-2259/</loc>
+    <lastmod>2018-07-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/note/2018-07-05-2238/</loc>
     <lastmod>2018-07-05T00:00:00+00:00</lastmod>
   </url>
@@ -437,13 +442,13 @@
   
   <url>
     <loc>https://jeremyyin.com/</loc>
-    <lastmod>2018-07-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-07-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jeremyyin.com/note/</loc>
-    <lastmod>2018-07-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-07-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
