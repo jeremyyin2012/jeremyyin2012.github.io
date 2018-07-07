@@ -12,16 +12,6 @@
     
     
     <item>
-      <title>增加一个类别叫 note</title>
-      <link>https://jeremyyin.com/post/2018-07-05-%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</link>
-      <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://jeremyyin.com/post/2018-07-05-%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</guid>
-      <description>话说接触 Python 这货也很久了，不过一段时间后就等着跨一个坎，不然对技术的理解如何升阶。
-要说有哪本书完全啃下来了，</description>
-    </item>
-    
-    <item>
       <title>给 Scrapy 的 Spider 传递参数</title>
       <link>https://jeremyyin.com/note/2018-07-05-2238/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
@@ -36,6 +26,22 @@ resp = requests.post(url=url, data=data) 这么说，那就是往这个 data 数
 还有哦，刚为啥说把它简单理解为 form 表单呢，因为它的参数只支持字符串啊：
 Keep in mind that spider arguments are only strings. The spider will not do any parsing on its own. 那要是想提交点稍稍复杂点的数据咋办？
 我的解决方案是：把所有的自定义的参数都先放到一个 dict 里面去，然后用 json.</description>
+    </item>
+    
+    <item>
+      <title>给网站增加一个类别叫 note</title>
+      <link>https://jeremyyin.com/post/2018-07-05-%E7%BB%99%E7%BD%91%E7%AB%99%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</link>
+      <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/post/2018-07-05-%E7%BB%99%E7%BD%91%E7%AB%99%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</guid>
+      <description>话说接触 Python 这货也很久了，不过一段时间后就等着跨一个坎，不然对技术的理解如何升阶。
+要说有哪本书完全啃下来了，肯定地说，一本都没有，真是情况是，大多是泛泛而看，等到下一段时间，又被新的信息所吸引，这就是信息焦虑，如果无法处理得好的话，最终就是什么东西都是只是听到过见到过甚至开始过，但是，却并没有深入过。
+时间过去了，而你，最终什么都不擅长。
+倒不是说绝对的不好，见识广阔思路开放，是有必要的，但也总要选一个入口走深一点，知道了全国几百个溶洞的所在地，可一个都没真正走进去过的话，这就不能叫溶洞探险家。
+我时常会望着架子上的书脊发呆，望着那些名字的背后有着多么深奥的学问，也带有一种难以诉说的恐惧感，就如同乘一叶小舟漂浮在大海之上，可技术海洋太大又太深，每日还波涛汹涌不断快速进化，恐怕是处于这个时代的 IT 技术人实实在在的切身感受。
+但又说时代更好也罢，知识付费拔地而起，原来难以寻找的知识现在人家双手捧上，而唯独永远欠缺的，是 shi jian，是时间，也是实践。
+不求太多，只求一点一滴吧，何况生活情绪万变，儿女情长，家长里短各种事务，人们永远怀念学生时代，这都是有切实支撑的。
+增加的 note 板块暂时先只在 Jeremy&amp;rsquo;s blog 进行更新，往后是否发公众号再看情况，一些碎碎片片的东西，算是找个地方让它们留下点记忆。</description>
     </item>
     
     <item>
