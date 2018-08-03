@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jeremyyin.com/tornado/01_guide/</loc>
+    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/note/2018-07-06-2259/</loc>
     <lastmod>2018-07-06T00:00:00+00:00</lastmod>
   </url>
@@ -442,7 +447,7 @@
   
   <url>
     <loc>https://jeremyyin.com/</loc>
-    <lastmod>2018-07-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -472,6 +477,12 @@
   
   <url>
     <loc>https://jeremyyin.com/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/tornado/</loc>
+    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
