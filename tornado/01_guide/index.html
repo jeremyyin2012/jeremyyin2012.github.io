@@ -93,8 +93,12 @@
                 </li>
 
                 <li class="nav-item">
-                        <a class="nav-link" href="/about/">About</a>
-                    </li>
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="/index.xml">RSS</a>
@@ -371,6 +375,182 @@ IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span
         nxt <span style="color:#555">=</span> gen<span style="color:#555">.</span>sleep(<span style="color:#f60">60</span>)   <span style="color:#09f;font-style:italic"># Start the clock.</span>
         await do_something()  <span style="color:#09f;font-style:italic"># Run while the clock is ticking.</span>
         await nxt             <span style="color:#09f;font-style:italic"># Wait for the timer to run out.</span></code></pre></div>
+<h1 id="队列-queue-示例-并发-web-蜘蛛">队列（Queue） 示例 - 并发 Web 蜘蛛</h1>
+
+<p>Tornado 的 tornado.queues 模块为协程实现异步生产者/消费者模式，类似于 Python 标准库的 queue 模块为线程实现的模式。</p>
+
+<p>产生 Queue.get 的协程暂停，直到队列中有项目为止。如果队列设置了最大大小，则会产生 Queue.put 的协程暂停，直到有另一个项目的空间。</p>
+
+<p>Queue 维护未完成任务的计数，从零开始。put 增加计数；task_done 递减它。</p>
+
+<p>在此处的 web-spider 示例中，队列开始仅包含 base_url。当一个 worker 获取一个页面时，它会解析链接并将新的链接放入队列中，然后调用 task_done 来减少一次计数器。最终，一个工作者获取一个页面，其 URL 之前已经被看到，并且队列中也没有剩余的工作。因此，该worker 对task_done 的调用将计数器减少为零。正在等待 join 的主协程已取消暂停并完成。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic">#!/usr/bin/env python3</span>
+
+<span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">time</span>
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">datetime</span> <span style="color:#069;font-weight:bold">import</span> timedelta
+
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">html.parser</span> <span style="color:#069;font-weight:bold">import</span> HTMLParser
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">urllib.parse</span> <span style="color:#069;font-weight:bold">import</span> urljoin, urldefrag
+
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado</span> <span style="color:#069;font-weight:bold">import</span> gen, httpclient, ioloop, queues
+
+base_url <span style="color:#555">=</span> <span style="color:#c30"></span><span style="color:#c30">&#39;http://www.tornadoweb.org/en/stable/&#39;</span>
+concurrency <span style="color:#555">=</span> <span style="color:#f60">10</span>
+
+
+async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_links_from_url</span>(url):
+    <span style="color:#c30"></span><span style="color:#c30">&#34;&#34;&#34;Download the page at `url` and parse it for links.
+</span><span style="color:#c30">
+</span><span style="color:#c30">    Returned links have had the fragment after `#` removed, and have been made
+</span><span style="color:#c30">    absolute so, e.g. the URL &#39;gen.html#tornado.gen.coroutine&#39; becomes
+</span><span style="color:#c30">    &#39;http://www.tornadoweb.org/en/stable/gen.html&#39;.
+</span><span style="color:#c30">    &#34;&#34;&#34;</span>
+    response <span style="color:#555">=</span> await httpclient<span style="color:#555">.</span>AsyncHTTPClient()<span style="color:#555">.</span>fetch(url)
+    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;fetched </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> url)
+
+    html <span style="color:#555">=</span> response<span style="color:#555">.</span>body<span style="color:#555">.</span>decode(errors<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#39;ignore&#39;</span>)
+    <span style="color:#069;font-weight:bold">return</span> [urljoin(url, remove_fragment(new_url))
+            <span style="color:#069;font-weight:bold">for</span> new_url <span style="color:#000;font-weight:bold">in</span> get_links(html)]
+
+
+<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">remove_fragment</span>(url):
+    pure_url, frag <span style="color:#555">=</span> urldefrag(url)
+    <span style="color:#069;font-weight:bold">return</span> pure_url
+
+
+<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_links</span>(html):
+    <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">URLSeeker</span>(HTMLParser):
+        <span style="color:#069;font-weight:bold">def</span> __init__(self):
+            HTMLParser<span style="color:#555">.</span>__init__(self)
+            self<span style="color:#555">.</span>urls <span style="color:#555">=</span> []
+
+        <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">handle_starttag</span>(self, tag, attrs):
+            href <span style="color:#555">=</span> <span style="color:#366">dict</span>(attrs)<span style="color:#555">.</span>get(<span style="color:#c30"></span><span style="color:#c30">&#39;href&#39;</span>)
+            <span style="color:#069;font-weight:bold">if</span> href <span style="color:#000;font-weight:bold">and</span> tag <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;a&#39;</span>:
+                self<span style="color:#555">.</span>urls<span style="color:#555">.</span>append(href)
+
+    url_seeker <span style="color:#555">=</span> URLSeeker()
+    url_seeker<span style="color:#555">.</span>feed(html)
+    <span style="color:#069;font-weight:bold">return</span> url_seeker<span style="color:#555">.</span>urls
+
+
+async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">main</span>():
+    q <span style="color:#555">=</span> queues<span style="color:#555">.</span>Queue()
+    start <span style="color:#555">=</span> time<span style="color:#555">.</span>time()
+    fetching, fetched <span style="color:#555">=</span> <span style="color:#366">set</span>(), <span style="color:#366">set</span>()
+
+    async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">fetch_url</span>(current_url):
+        <span style="color:#069;font-weight:bold">if</span> current_url <span style="color:#000;font-weight:bold">in</span> fetching:
+            <span style="color:#069;font-weight:bold">return</span>
+
+        <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;fetching </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> current_url)
+        fetching<span style="color:#555">.</span>add(current_url)
+        urls <span style="color:#555">=</span> await get_links_from_url(current_url)
+        fetched<span style="color:#555">.</span>add(current_url)
+
+        <span style="color:#069;font-weight:bold">for</span> new_url <span style="color:#000;font-weight:bold">in</span> urls:
+            <span style="color:#09f;font-style:italic"># Only follow links beneath the base URL</span>
+            <span style="color:#069;font-weight:bold">if</span> new_url<span style="color:#555">.</span>startswith(base_url):
+                await q<span style="color:#555">.</span>put(new_url)
+
+    async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">worker</span>():
+        async <span style="color:#069;font-weight:bold">for</span> url <span style="color:#000;font-weight:bold">in</span> q:
+            <span style="color:#069;font-weight:bold">if</span> url <span style="color:#000;font-weight:bold">is</span> None:
+                <span style="color:#069;font-weight:bold">return</span>
+            <span style="color:#069;font-weight:bold">try</span>:
+                await fetch_url(url)
+            <span style="color:#069;font-weight:bold">except</span> <span style="color:#c00;font-weight:bold">Exception</span> <span style="color:#069;font-weight:bold">as</span> e:
+                <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;Exception: </span><span style="color:#a00">%s</span><span style="color:#c30"> </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> (e, url))
+            <span style="color:#069;font-weight:bold">finally</span>:
+                q<span style="color:#555">.</span>task_done()
+
+    await q<span style="color:#555">.</span>put(base_url)
+
+    <span style="color:#09f;font-style:italic"># Start workers, then wait for the work queue to be empty.</span>
+    workers <span style="color:#555">=</span> gen<span style="color:#555">.</span>multi([worker() <span style="color:#069;font-weight:bold">for</span> _ <span style="color:#000;font-weight:bold">in</span> <span style="color:#366">range</span>(concurrency)])
+    await q<span style="color:#555">.</span>join(timeout<span style="color:#555">=</span>timedelta(seconds<span style="color:#555">=</span><span style="color:#f60">300</span>))
+    <span style="color:#069;font-weight:bold">assert</span> fetching <span style="color:#555">==</span> fetched
+    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;Done in </span><span style="color:#a00">%d</span><span style="color:#c30"> seconds, fetched </span><span style="color:#a00">%s</span><span style="color:#c30"> URLs.&#39;</span> <span style="color:#555">%</span> (
+        time<span style="color:#555">.</span>time() <span style="color:#555">-</span> start, <span style="color:#366">len</span>(fetched)))
+
+    <span style="color:#09f;font-style:italic"># Signal all the workers to exit.</span>
+    <span style="color:#069;font-weight:bold">for</span> _ <span style="color:#000;font-weight:bold">in</span> <span style="color:#366">range</span>(concurrency):
+        await q<span style="color:#555">.</span>put(None)
+    await workers
+
+
+<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;__main__&#39;</span>:
+    io_loop <span style="color:#555">=</span> ioloop<span style="color:#555">.</span>IOLoop<span style="color:#555">.</span>current()
+    io_loop<span style="color:#555">.</span>run_sync(main)</code></pre></div>
+<h1 id="tornado-web-应用程序的结构">Tornado Web 应用程序的结构</h1>
+
+<p>Tornado Web 应用程序通常由一个或多个 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler">RequestHandler</a> 子类、一个将传入请求路由到处理程序的 Application 对象和一个用于启动服务器的 main() 函数组成。</p>
+
+<p>最小的“hello world”示例如下所示：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">tornado.ioloop</span>
+<span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">tornado.web</span>
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Hello, world&#34;</span>)
+
+<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">make_app</span>():
+    <span style="color:#069;font-weight:bold">return</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
+        (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
+    ])
+
+<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#34;__main__&#34;</span>:
+    app <span style="color:#555">=</span> make_app()
+    app<span style="color:#555">.</span>listen(<span style="color:#f60">8888</span>)
+    tornado<span style="color:#555">.</span>ioloop<span style="color:#555">.</span>IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()</code></pre></div>
+<h2 id="关于-application-对象">关于 Application 对象</h2>
+
+<p><a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.Application">Application</a> 对象负责全局配置，包括将请求映射到处理程序的路由表。</p>
+
+<p>路由表是 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.URLSpec">URLSpec</a> 对象（或元组）的列表，每个对象包含（至少）一个正则表达式和一个处理程序类（Handler）。 顺序很重要；第一个被匹配到的规则会被优先使用。 如果正则表达式包含捕获组，则这些组是“路径参数”，并将传递给处理程序的 HTTP 方法。 如果字典作为 URLSpec 的第三个元素传递，它将提供将传递给 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.initialize">RequestHandler.initialize</a> 的初始化参数。 最后，URLSpec 可能有一个名称，这将允许它与 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.reverse_url">RequestHandler.reverse_url</a> 一起使用。</p>
+
+<p>例如，在此片段中，根 URL / 映射到 MainHandler，/story/ 后跟数字的 URL 映射到 StoryHandler。 该数字（作为字符串）传递给 StoryHandler.get。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(RequestHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#39;&lt;a href=&#34;</span><span style="color:#a00">%s</span><span style="color:#c30">&#34;&gt;link to story 1&lt;/a&gt;&#39;</span> <span style="color:#555">%</span>
+                   self<span style="color:#555">.</span>reverse_url(<span style="color:#c30"></span><span style="color:#c30">&#34;story&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;1&#34;</span>))
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">StoryHandler</span>(RequestHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">initialize</span>(self, db):
+        self<span style="color:#555">.</span>db <span style="color:#555">=</span> db
+
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self, story_id):
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;this is story </span><span style="color:#a00">%s</span><span style="color:#c30">&#34;</span> <span style="color:#555">%</span> story_id)
+
+app <span style="color:#555">=</span> Application([
+    url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
+    url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/story/([0-9]+)&#34;</span>, StoryHandler, <span style="color:#366">dict</span>(db<span style="color:#555">=</span>db), name<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;story&#34;</span>)
+    ])</code></pre></div>
+<p>Application 构造函数采用许多关键字参数，可用于自定义应用程序的行为并启用可选功能；请参阅 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.Application.settings">Application.settings</a> 以获取完整列表。</p>
+
+<h2 id="继承-requesthandler">继承 RequestHandler</h2>
+
+<p>Tornado Web 应用程序的大部分工作都是在 RequestHandler 的子类中完成的。处理程序子类的主要入口点是在处理 HTTP 方法之后命名的方法：get()，post() 等。每个处理程序可以定义一个或多个这些方法来处理不同的 HTTP 操作。如上所述，将使用与匹配的路由规则的捕获组相对应的参数来调用这些方法。</p>
+
+<p>在处理程序中，调用 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.render">RequestHandler.render</a> 或 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.write">RequestHandler.write</a> 等方法来生成响应。 render() 按名称加载模板，并使用给定的参数呈现它。write() 用于非基于模板的输出；它接受字符串，字节和字典（dicts 将被编码为 JSON）。</p>
+
+<p>RequestHandler 中的许多方法都设计为在子类中重写，并在整个应用程序中使用。通常定义一个 BaseHandler 类来覆盖诸如 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.write_error">write_error</a> 和 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_current_user">get_current_user</a> 之类的方法，然后为您的所有特定处理程序继承你自己的 BaseHandler 而不是 RequestHandler。</p>
+
+<h2 id="处理请求输入">处理请求输入</h2>
+
+<p>请求处理程序（Handler）可以使用 self.request 访问表示当前请求的对象。有关于它完整的属性列表，请参阅 <a href="http://www.tornadoweb.org/en/stable/httputil.html#tornado.httputil.HTTPServerRequest">HTTPServerRequest</a> 类的定义。</p>
+
+<p>它同时将为你解析 HTML 表单使用的格式的请求数据，并在 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument">get_query_argument</a> 和 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_body_argument">get_body_argument</a> 等方法中提供。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MyFormHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#39;&lt;html&gt;&lt;body&gt;&lt;form action=&#34;/myform&#34; method=&#34;POST&#34;&gt;&#39;</span>
+                   <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;input type=&#34;text&#34; name=&#34;message&#34;&gt;&#39;</span>
+                   <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;input type=&#34;submit&#34; value=&#34;Submit&#34;&gt;&#39;</span>
+                   <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span>)
+
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">post</span>(self):
+        self<span style="color:#555">.</span>set_header(<span style="color:#c30"></span><span style="color:#c30">&#34;Content-Type&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;text/plain&#34;</span>)
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;You wrote &#34;</span> <span style="color:#555">+</span> self<span style="color:#555">.</span>get_body_argument(<span style="color:#c30"></span><span style="color:#c30">&#34;message&#34;</span>))</code></pre></div>
     </article>
 
 
