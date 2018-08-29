@@ -13,44 +13,18 @@
     
     
     <item>
-      <title>Tornado 用户指南: Tornado Web 应用程序的结构</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0105_structure/</link>
+      <title>Tornado 0101 - 用户指南: 简介</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0101_intro/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0105_structure/</guid>
-      <description>Tornado Web 应用程序的结构 Tornado Web 应用程序通常由一个或多个 RequestHandler 子类、一个将传入请求路由到处理程序的 Application 对象和一个用于启动服务器的 main() 函数组成。
-最小的“hello world”示例如下所示：
-import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHandler): def get(self): self.write(&amp;#34;Hello, world&amp;#34;) def make_app(): return tornado.web.Application([ (r&amp;#34;/&amp;#34;, MainHandler), ]) if __name__ == &amp;#34;__main__&amp;#34;: app = make_app() app.listen(8888) tornado.ioloop.IOLoop.current().start() 关于 Application 对象 Application 对象负责全局配置，包括将请求映射到处理程序的路由表。
-路由表是 URLSpec 对象（或元组）的列表，每个对象包含（至少）一个正则表达式和一个处理程序类（Handler）。 顺序很重要；第一个被匹配到的规则会被优先使用。 如果正则表达式包含捕获组，则这些组是“路径参数”，并将传递给处理程序的 HTTP 方法。 如果字典作为 URLSpec 的第三个元素传递，它将提供将传递给 RequestHandler.initialize 的初始化参数。 最后，URLSpec 可能有一个名称，这将允许它与 RequestHandler.reverse_url 一起使用。
-例如，在此片段中，根 URL / 映射到 MainHandler，/story/ 后跟数字的 URL 映射到 StoryHandler。 该数字（作为字符串）传递给 StoryHandler.</description>
+      <guid>https://jeremyyin.com/tornado/01_guide/0101_intro/</guid>
+      <description>简介 Tornado 是一个用 Python 写的 Web 应用框架和异步网络库，最初是由 FriendFeed 开发的。通过使用非阻塞网络 I/O，Tornado 可以扩展到数万个开放连接（C10K），使其成为长轮询、WebSockets 和其他需要与每个用户建立长期连接的应用程序的理想选择。
+Tornado 大致可分为四个主要部分：
+ 一个 Web 应用框架（包括用于创建 Web 应用程序的 RequestHandler 子类，以及各种支持类）。 HTTP 的客户端和服务器端实现（AsyncHTTPClient 和 HTTPServer）。 一个异步网络库，包括 IOLoop 和 IOStream 类，它们用作 HTTP 组件的构建模块，也可用于实现其他协议。 一个协程库（tornado.gen），它允许使用比 回调 更直接了当的方式编写异步代码。这类似于 Python 3.5（async def）中引入的 原生协程 功能。建议使用 原生协程 代替 tornado.gen 模块。  Tornado Web 应用框架和 HTTP 服务器一起提供了一个针对 WSGI 的全栈替代方案。虽然也可以在 WSGI 容器（WSGIAdapter）中使用 Tornado Web 框架，或者是使用 Tornado HTTP 服务器作为其他 WSGI 框架（WSGIContainer）的容器，但是这些组合都有其局限性，如果想要充分利用 Tornado 的优势，需要同时使用 Tornado 的 Web 应用框架和 HTTP 服务器。</description>
     </item>
     
     <item>
-      <title>Tornado 用户指南: 协程</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</link>
-      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</guid>
-      <description>协程（Coroutines） 协程是在 Tornado 中编写异步代码的推荐方法。协程使用 Python await 或 yield 关键字来挂起和恢复执行而不是一系列回调（在 gevent 这样的框架中看到的协作轻量级线程有时也被称为协程，但在 Tornado 中所有协程都使用显式上下文切换并被称为异步函数）。
-协程几乎和同步代码一样简单，但不需要花费任何线程成本。它们还通过减少上下文切换可能发生的位置数量，使 并发性 更易于推理。
-Example:
-async def fetch_coroutine(url): http_client = AsyncHTTPClient() response = await http_client.fetch(url) return response.body 原生协程与装饰器协程（Native vs decorated coroutines） Python 3.5 引入了async 和 await 关键字（使用这些关键字的函数也称为“原生协程（native coroutines）”）。为了与旧版本的 Python 兼容，您可以使用 tornado.gen.coroutine 装饰器来使用“装饰”或“基于 yield ”的协同程序。
-尽可能使用原生协程。仅在需要与旧版本的 Python 兼容时才使用修饰器协程。Tornado 文档中的示例通常使用原生形式。
-两种形式之间的翻译通常很简单：
-# Decorated: # Native: # Normal function declaration # with decorator # &amp;#34;async def&amp;#34; keywords @gen.coroutine def a(): async def a(): # &amp;#34;yield&amp;#34; all async funcs # &amp;#34;await&amp;#34; all async funcs b = yield c() b = await c() # &amp;#34;return&amp;#34; and &amp;#34;yield&amp;#34; # cannot be mixed in # Python 2, so raise a # special exception.</description>
-    </item>
-    
-    <item>
-      <title>Tornado 用户指南: 应用程序与安全</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0107_security/</link>
-      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://jeremyyin.com/tornado/01_guide/0107_security/</guid>
-      <description>​</description>
-    </item>
-    
-    <item>
-      <title>Tornado 用户指南: 异步和非阻塞 I/O</title>
+      <title>Tornado 0102 - 用户指南: 异步和非阻塞 I/O</title>
       <link>https://jeremyyin.com/tornado/01_guide/0102_async/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
@@ -68,36 +42,22 @@ from tornado.httpclient import HTTPClient def synchronous_fetch(url): http_clien
     </item>
     
     <item>
-      <title>Tornado 用户指南: 模板与 UI</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0106_templates/</link>
+      <title>Tornado 0103 - 用户指南: 协程</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0106_templates/</guid>
-      <description></description>
+      <guid>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</guid>
+      <description>协程（Coroutines） 协程是在 Tornado 中编写异步代码的推荐方法。协程使用 Python await 或 yield 关键字来挂起和恢复执行而不是一系列回调（在 gevent 这样的框架中看到的协作轻量级线程有时也被称为协程，但在 Tornado 中所有协程都使用显式上下文切换并被称为异步函数）。
+协程几乎和同步代码一样简单，但不需要花费任何线程成本。它们还通过减少上下文切换可能发生的位置数量，使 并发性 更易于推理。
+Example:
+async def fetch_coroutine(url): http_client = AsyncHTTPClient() response = await http_client.fetch(url) return response.body 原生协程与装饰器协程（Native vs decorated coroutines） Python 3.5 引入了async 和 await 关键字（使用这些关键字的函数也称为“原生协程（native coroutines）”）。为了与旧版本的 Python 兼容，您可以使用 tornado.gen.coroutine 装饰器来使用“装饰”或“基于 yield ”的协同程序。
+尽可能使用原生协程。仅在需要与旧版本的 Python 兼容时才使用修饰器协程。Tornado 文档中的示例通常使用原生形式。
+两种形式之间的翻译通常很简单：
+# Decorated: # Native: # Normal function declaration # with decorator # &amp;#34;async def&amp;#34; keywords @gen.coroutine def a(): async def a(): # &amp;#34;yield&amp;#34; all async funcs # &amp;#34;await&amp;#34; all async funcs b = yield c() b = await c() # &amp;#34;return&amp;#34; and &amp;#34;yield&amp;#34; # cannot be mixed in # Python 2, so raise a # special exception.</description>
     </item>
     
     <item>
-      <title>Tornado 用户指南: 简介</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0101_intro/</link>
-      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://jeremyyin.com/tornado/01_guide/0101_intro/</guid>
-      <description>简介 Tornado 是一个用 Python 写的 Web 应用框架和异步网络库，最初是由 FriendFeed 开发的。通过使用非阻塞网络 I/O，Tornado 可以扩展到数万个开放连接（C10K），使其成为长轮询、WebSockets 和其他需要与每个用户建立长期连接的应用程序的理想选择。
-Tornado 大致可分为四个主要部分：
- 一个 Web 应用框架（包括用于创建 Web 应用程序的 RequestHandler 子类，以及各种支持类）。 HTTP 的客户端和服务器端实现（AsyncHTTPClient 和 HTTPServer）。 一个异步网络库，包括 IOLoop 和 IOStream 类，它们用作 HTTP 组件的构建模块，也可用于实现其他协议。 一个协程库（tornado.gen），它允许使用比 回调 更直接了当的方式编写异步代码。这类似于 Python 3.5（async def）中引入的 原生协程 功能。建议使用 原生协程 代替 tornado.gen 模块。  Tornado Web 应用框架和 HTTP 服务器一起提供了一个针对 WSGI 的全栈替代方案。虽然也可以在 WSGI 容器（WSGIAdapter）中使用 Tornado Web 框架，或者是使用 Tornado HTTP 服务器作为其他 WSGI 框架（WSGIContainer）的容器，但是这些组合都有其局限性，如果想要充分利用 Tornado 的优势，需要同时使用 Tornado 的 Web 应用框架和 HTTP 服务器。</description>
-    </item>
-    
-    <item>
-      <title>Tornado 用户指南: 运行与部署</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0108_running/</link>
-      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://jeremyyin.com/tornado/01_guide/0108_running/</guid>
-      <description>​</description>
-    </item>
-    
-    <item>
-      <title>Tornado 用户指南: 队列</title>
+      <title>Tornado 0104 - 用户指南: 队列</title>
       <link>https://jeremyyin.com/tornado/01_guide/0104_queues/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
@@ -107,6 +67,46 @@ Tornado 大致可分为四个主要部分：
 Queue 维护未完成任务的计数，从零开始。put 增加计数；task_done 递减它。
 在此处的 web-spider 示例中，队列开始仅包含 base_url。当一个 worker 获取一个页面时，它会解析链接并将新的链接放入队列中，然后调用 task_done 来减少一次计数器。最终，一个工作者获取一个页面，其 URL 之前已经被看到，并且队列中也没有剩余的工作。因此，该worker 对task_done 的调用将计数器减少为零。正在等待 join 的主协程已取消暂停并完成。
 #!/usr/bin/env python3 import time from datetime import timedelta from html.parser import HTMLParser from urllib.parse import urljoin, urldefrag from tornado import gen, httpclient, ioloop, queues base_url = &amp;#39;http://www.tornadoweb.org/en/stable/&amp;#39; concurrency = 10 async def get_links_from_url(url): &amp;#34;&amp;#34;&amp;#34;Download the page at `url` and parse it for links.</description>
+    </item>
+    
+    <item>
+      <title>Tornado 0105 - 用户指南: Tornado Web 应用程序的结构</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0105_structure/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0105_structure/</guid>
+      <description>Tornado Web 应用程序的结构 Tornado Web 应用程序通常由一个或多个 RequestHandler 子类、一个将传入请求路由到处理程序的 Application 对象和一个用于启动服务器的 main() 函数组成。
+最小的“hello world”示例如下所示：
+import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHandler): def get(self): self.write(&amp;#34;Hello, world&amp;#34;) def make_app(): return tornado.web.Application([ (r&amp;#34;/&amp;#34;, MainHandler), ]) if __name__ == &amp;#34;__main__&amp;#34;: app = make_app() app.listen(8888) tornado.ioloop.IOLoop.current().start() 关于 Application 对象 Application 对象负责全局配置，包括将请求映射到处理程序的路由表。
+路由表是 URLSpec 对象（或元组）的列表，每个对象包含（至少）一个正则表达式和一个处理程序类（Handler）。 顺序很重要；第一个被匹配到的规则会被优先使用。 如果正则表达式包含捕获组，则这些组是“路径参数”，并将传递给处理程序的 HTTP 方法。 如果字典作为 URLSpec 的第三个元素传递，它将提供将传递给 RequestHandler.initialize 的初始化参数。 最后，URLSpec 可能有一个名称，这将允许它与 RequestHandler.reverse_url 一起使用。
+例如，在此片段中，根 URL / 映射到 MainHandler，/story/ 后跟数字的 URL 映射到 StoryHandler。 该数字（作为字符串）传递给 StoryHandler.</description>
+    </item>
+    
+    <item>
+      <title>Tornado 0106 - 用户指南: 模板与 UI</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0106_templates/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0106_templates/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tornado 0107 - 用户指南: 应用程序与安全</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0107_security/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0107_security/</guid>
+      <description>​</description>
+    </item>
+    
+    <item>
+      <title>Tornado 0108 - 用户指南: 运行与部署</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0108_running/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0108_running/</guid>
+      <description>​</description>
     </item>
     
     <item>

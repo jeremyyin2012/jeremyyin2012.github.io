@@ -3,17 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://jeremyyin.com/tornado/01_guide/0105_structure/</loc>
-    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</loc>
-    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jeremyyin.com/tornado/01_guide/0107_security/</loc>
+    <loc>https://jeremyyin.com/tornado/01_guide/0101_intro/</loc>
     <lastmod>2018-08-03T00:00:00+00:00</lastmod>
   </url>
   
@@ -23,22 +13,32 @@
   </url>
   
   <url>
-    <loc>https://jeremyyin.com/tornado/01_guide/0106_templates/</loc>
-    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jeremyyin.com/tornado/01_guide/0101_intro/</loc>
-    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jeremyyin.com/tornado/01_guide/0108_running/</loc>
+    <loc>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</loc>
     <lastmod>2018-08-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://jeremyyin.com/tornado/01_guide/0104_queues/</loc>
+    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/tornado/01_guide/0105_structure/</loc>
+    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/tornado/01_guide/0106_templates/</loc>
+    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/tornado/01_guide/0107_security/</loc>
+    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/tornado/01_guide/0108_running/</loc>
     <lastmod>2018-08-03T00:00:00+00:00</lastmod>
   </url>
   
