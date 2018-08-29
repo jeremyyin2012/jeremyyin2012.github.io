@@ -13,14 +13,100 @@
     
     
     <item>
-      <title>Tornado 01: 用户指南</title>
-      <link>https://jeremyyin.com/tornado/01_guide/</link>
+      <title>Tornado 用户指南: Tornado Web 应用程序的结构</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0105_structure/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/</guid>
+      <guid>https://jeremyyin.com/tornado/01_guide/0105_structure/</guid>
+      <description>Tornado Web 应用程序的结构 Tornado Web 应用程序通常由一个或多个 RequestHandler 子类、一个将传入请求路由到处理程序的 Application 对象和一个用于启动服务器的 main() 函数组成。
+最小的“hello world”示例如下所示：
+import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHandler): def get(self): self.write(&amp;#34;Hello, world&amp;#34;) def make_app(): return tornado.web.Application([ (r&amp;#34;/&amp;#34;, MainHandler), ]) if __name__ == &amp;#34;__main__&amp;#34;: app = make_app() app.listen(8888) tornado.ioloop.IOLoop.current().start() 关于 Application 对象 Application 对象负责全局配置，包括将请求映射到处理程序的路由表。
+路由表是 URLSpec 对象（或元组）的列表，每个对象包含（至少）一个正则表达式和一个处理程序类（Handler）。 顺序很重要；第一个被匹配到的规则会被优先使用。 如果正则表达式包含捕获组，则这些组是“路径参数”，并将传递给处理程序的 HTTP 方法。 如果字典作为 URLSpec 的第三个元素传递，它将提供将传递给 RequestHandler.initialize 的初始化参数。 最后，URLSpec 可能有一个名称，这将允许它与 RequestHandler.reverse_url 一起使用。
+例如，在此片段中，根 URL / 映射到 MainHandler，/story/ 后跟数字的 URL 映射到 StoryHandler。 该数字（作为字符串）传递给 StoryHandler.</description>
+    </item>
+    
+    <item>
+      <title>Tornado 用户指南: 协程</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</guid>
+      <description>协程（Coroutines） 协程是在 Tornado 中编写异步代码的推荐方法。协程使用 Python await 或 yield 关键字来挂起和恢复执行而不是一系列回调（在 gevent 这样的框架中看到的协作轻量级线程有时也被称为协程，但在 Tornado 中所有协程都使用显式上下文切换并被称为异步函数）。
+协程几乎和同步代码一样简单，但不需要花费任何线程成本。它们还通过减少上下文切换可能发生的位置数量，使 并发性 更易于推理。
+Example:
+async def fetch_coroutine(url): http_client = AsyncHTTPClient() response = await http_client.fetch(url) return response.body 原生协程与装饰器协程（Native vs decorated coroutines） Python 3.5 引入了async 和 await 关键字（使用这些关键字的函数也称为“原生协程（native coroutines）”）。为了与旧版本的 Python 兼容，您可以使用 tornado.gen.coroutine 装饰器来使用“装饰”或“基于 yield ”的协同程序。
+尽可能使用原生协程。仅在需要与旧版本的 Python 兼容时才使用修饰器协程。Tornado 文档中的示例通常使用原生形式。
+两种形式之间的翻译通常很简单：
+# Decorated: # Native: # Normal function declaration # with decorator # &amp;#34;async def&amp;#34; keywords @gen.coroutine def a(): async def a(): # &amp;#34;yield&amp;#34; all async funcs # &amp;#34;await&amp;#34; all async funcs b = yield c() b = await c() # &amp;#34;return&amp;#34; and &amp;#34;yield&amp;#34; # cannot be mixed in # Python 2, so raise a # special exception.</description>
+    </item>
+    
+    <item>
+      <title>Tornado 用户指南: 应用程序与安全</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0107_security/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0107_security/</guid>
+      <description>​</description>
+    </item>
+    
+    <item>
+      <title>Tornado 用户指南: 异步和非阻塞 I/O</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0102_async/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0102_async/</guid>
+      <description>异步和非阻塞 I/O（Asynchronous and non-Blocking I/O） 实时 Web 功能需要为每个用户长期保持大部分空闲连接。在传统的同步 Web 服务器中，这意味着要为每个用户投入一个线程，这成本可能非常昂贵。
+为了最小化并发连接的成本，Tornado 使用单线程事件循环。这意味着所有应用程序代码都应该是异步和非阻塞的，因为一次只能有一个操作处于活动状态。
+异步 和 非阻塞 这两个术语是密切相关的，并且通常可以互换使用，但它们并不完全相同。
+阻塞（Blocking） 函数在返回之前等待某事发生时会阻塞（blocks）。一个函数可能由于多种原因而阻塞：网络 I/O、磁盘 I/O、互斥锁等。事实上，每一个函数在运行和使用 CPU 时都会至少有一点阻塞（对于一个极端的例子来说明为什么 CPU 阻塞必须像其他类型的阻塞一样严肃，考虑密码散列函数，如 bcrypt ，它设计使用数百毫秒的 CPU 时间，远远超过典型的网络或磁盘访问）。
+一个函数可能在某些方面是阻塞的，而在其他方面是非阻塞的。虽然各种阻塞都要尽量减少，但在 Tornado 的上下文中，我们通常情况是谈论在网络 I/O 上下文中的阻塞。
+异步（Asynchronous） 异步函数在它执行完成之前就会返回，并且通常在触发应用程序中的一些未来操作之前，会将某些工作放到后台去执行（相反地，同步函数一定要等到执行完它所有操作才会返回）。异步接口有很多种风格：
+ 回调参数 返回占位符（Future，Promise，Deferred） 交付队列 回调注册表（例如 POSIX 信号）  无论使用哪种类型的接口，定义的每种异步函数都需要让调用者使用不同的交互方式；没有一种毫无成本的方法可以使同步函数直接变成异步函数，却又对其调用者透明的（像 gevent 这样的系统使用轻量级线程来提供与异步系统相当的性能，但它们实际上并不会使事情变成异步）。
+Tornado 中的异步操作通常返回占位符对象（Futures），但一些低级别组件（例如使用回调的IOLoop）除外。Futures 通常会通过 await 或 yield 关键字转换为结果。
+Examples 这是一个同步函数示例：
+from tornado.httpclient import HTTPClient def synchronous_fetch(url): http_client = HTTPClient() response = http_client.fetch(url) return response.body 这是使用原生协程进行重写的异步函数：</description>
+    </item>
+    
+    <item>
+      <title>Tornado 用户指南: 模板与 UI</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0106_templates/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0106_templates/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tornado 用户指南: 简介</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0101_intro/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0101_intro/</guid>
       <description>简介 Tornado 是一个用 Python 写的 Web 应用框架和异步网络库，最初是由 FriendFeed 开发的。通过使用非阻塞网络 I/O，Tornado 可以扩展到数万个开放连接（C10K），使其成为长轮询、WebSockets 和其他需要与每个用户建立长期连接的应用程序的理想选择。
 Tornado 大致可分为四个主要部分：
  一个 Web 应用框架（包括用于创建 Web 应用程序的 RequestHandler 子类，以及各种支持类）。 HTTP 的客户端和服务器端实现（AsyncHTTPClient 和 HTTPServer）。 一个异步网络库，包括 IOLoop 和 IOStream 类，它们用作 HTTP 组件的构建模块，也可用于实现其他协议。 一个协程库（tornado.gen），它允许使用比 回调 更直接了当的方式编写异步代码。这类似于 Python 3.5（async def）中引入的 原生协程 功能。建议使用 原生协程 代替 tornado.gen 模块。  Tornado Web 应用框架和 HTTP 服务器一起提供了一个针对 WSGI 的全栈替代方案。虽然也可以在 WSGI 容器（WSGIAdapter）中使用 Tornado Web 框架，或者是使用 Tornado HTTP 服务器作为其他 WSGI 框架（WSGIContainer）的容器，但是这些组合都有其局限性，如果想要充分利用 Tornado 的优势，需要同时使用 Tornado 的 Web 应用框架和 HTTP 服务器。</description>
+    </item>
+    
+    <item>
+      <title>Tornado 用户指南: 运行与部署</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0108_running/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0108_running/</guid>
+      <description>​</description>
+    </item>
+    
+    <item>
+      <title>Tornado 用户指南: 队列</title>
+      <link>https://jeremyyin.com/tornado/01_guide/0104_queues/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/01_guide/0104_queues/</guid>
+      <description>队列（Queue） 示例 - 并发 Web 蜘蛛 Tornado 的 tornado.queues 模块为协程实现异步生产者/消费者模式，类似于 Python 标准库的 queue 模块为线程实现的模式。
+产生 Queue.get 的协程暂停，直到队列中有项目为止。如果队列设置了最大大小，则会产生 Queue.put 的协程暂停，直到有另一个项目的空间。
+Queue 维护未完成任务的计数，从零开始。put 增加计数；task_done 递减它。
+在此处的 web-spider 示例中，队列开始仅包含 base_url。当一个 worker 获取一个页面时，它会解析链接并将新的链接放入队列中，然后调用 task_done 来减少一次计数器。最终，一个工作者获取一个页面，其 URL 之前已经被看到，并且队列中也没有剩余的工作。因此，该worker 对task_done 的调用将计数器减少为零。正在等待 join 的主协程已取消暂停并完成。
+#!/usr/bin/env python3 import time from datetime import timedelta from html.parser import HTMLParser from urllib.parse import urljoin, urldefrag from tornado import gen, httpclient, ioloop, queues base_url = &amp;#39;http://www.tornadoweb.org/en/stable/&amp;#39; concurrency = 10 async def get_links_from_url(url): &amp;#34;&amp;#34;&amp;#34;Download the page at `url` and parse it for links.</description>
     </item>
     
     <item>
@@ -165,10 +251,10 @@ items = [ {&amp;#39;age&amp;#39;: 6}, {&amp;#39;age&amp;#39;: 1}, {&amp;#39;age&
     
     <item>
       <title>极客时间</title>
-      <link>https://jeremyyin.com/advertisement/2018-04-26-%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4/</link>
+      <link>https://jeremyyin.com/advertisement/2018-04-26-geek-time/</link>
       <pubDate>Thu, 26 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/advertisement/2018-04-26-%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4/</guid>
+      <guid>https://jeremyyin.com/advertisement/2018-04-26-geek-time/</guid>
       <description> 一年写了 30 几个小产品接口，该想想是不是代码太乱了。Django 说十几行代码完成增删改查，可能培训机构只顾着拉新了吧，MVC 构架可能确实简单。
 面向对象听了无数遍，可一次也没创建过自己的对象，一般都用别人现成的对象，还得看别人告诉你怎么用。
 要创建自己的对象了。写爬虫和写爬虫，不一样就是不一样的，Hello World 跑起来简单，可 Demo 和生产环境那是两码事儿。
@@ -182,10 +268,10 @@ items = [ {&amp;#39;age&amp;#39;: 6}, {&amp;#39;age&amp;#39;: 1}, {&amp;#39;age&
     
     <item>
       <title>上手</title>
-      <link>https://jeremyyin.com/advertisement/2018-04-25-%E4%B8%8A%E6%89%8B/</link>
+      <link>https://jeremyyin.com/advertisement/2018-04-25-becoming/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/advertisement/2018-04-25-%E4%B8%8A%E6%89%8B/</guid>
+      <guid>https://jeremyyin.com/advertisement/2018-04-25-becoming/</guid>
       <description> 《上手》，是由许岑打造的一个学习平台，借由凡事以上手为目标去学习的理念，打造一系列内容跨度较大的各种课程。
 你洗头可能从没洗干净过 - 梁子 </description>
     </item>

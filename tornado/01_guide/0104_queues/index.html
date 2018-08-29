@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+        <title>Tornado 用户指南: 队列 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>Tornado 用户指南: 队列</h1>
+        <hr>
+        
+
+<h1 id="队列-queue-示例-并发-web-蜘蛛">队列（Queue） 示例 - 并发 Web 蜘蛛</h1>
+
+<p>Tornado 的 tornado.queues 模块为协程实现异步生产者/消费者模式，类似于 Python 标准库的 queue 模块为线程实现的模式。</p>
+
+<p>产生 Queue.get 的协程暂停，直到队列中有项目为止。如果队列设置了最大大小，则会产生 Queue.put 的协程暂停，直到有另一个项目的空间。</p>
+
+<p>Queue 维护未完成任务的计数，从零开始。put 增加计数；task_done 递减它。</p>
+
+<p>在此处的 web-spider 示例中，队列开始仅包含 base_url。当一个 worker 获取一个页面时，它会解析链接并将新的链接放入队列中，然后调用 task_done 来减少一次计数器。最终，一个工作者获取一个页面，其 URL 之前已经被看到，并且队列中也没有剩余的工作。因此，该worker 对task_done 的调用将计数器减少为零。正在等待 join 的主协程已取消暂停并完成。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic">#!/usr/bin/env python3</span>
+
+<span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">time</span>
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">datetime</span> <span style="color:#069;font-weight:bold">import</span> timedelta
+
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">html.parser</span> <span style="color:#069;font-weight:bold">import</span> HTMLParser
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">urllib.parse</span> <span style="color:#069;font-weight:bold">import</span> urljoin, urldefrag
+
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado</span> <span style="color:#069;font-weight:bold">import</span> gen, httpclient, ioloop, queues
+
+base_url <span style="color:#555">=</span> <span style="color:#c30"></span><span style="color:#c30">&#39;http://www.tornadoweb.org/en/stable/&#39;</span>
+concurrency <span style="color:#555">=</span> <span style="color:#f60">10</span>
+
+
+async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_links_from_url</span>(url):
+    <span style="color:#c30"></span><span style="color:#c30">&#34;&#34;&#34;Download the page at `url` and parse it for links.
+</span><span style="color:#c30">
+</span><span style="color:#c30">    Returned links have had the fragment after `#` removed, and have been made
+</span><span style="color:#c30">    absolute so, e.g. the URL &#39;gen.html#tornado.gen.coroutine&#39; becomes
+</span><span style="color:#c30">    &#39;http://www.tornadoweb.org/en/stable/gen.html&#39;.
+</span><span style="color:#c30">    &#34;&#34;&#34;</span>
+    response <span style="color:#555">=</span> await httpclient<span style="color:#555">.</span>AsyncHTTPClient()<span style="color:#555">.</span>fetch(url)
+    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;fetched </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> url)
+
+    html <span style="color:#555">=</span> response<span style="color:#555">.</span>body<span style="color:#555">.</span>decode(errors<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#39;ignore&#39;</span>)
+    <span style="color:#069;font-weight:bold">return</span> [urljoin(url, remove_fragment(new_url))
+            <span style="color:#069;font-weight:bold">for</span> new_url <span style="color:#000;font-weight:bold">in</span> get_links(html)]
+
+
+<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">remove_fragment</span>(url):
+    pure_url, frag <span style="color:#555">=</span> urldefrag(url)
+    <span style="color:#069;font-weight:bold">return</span> pure_url
+
+
+<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_links</span>(html):
+    <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">URLSeeker</span>(HTMLParser):
+        <span style="color:#069;font-weight:bold">def</span> __init__(self):
+            HTMLParser<span style="color:#555">.</span>__init__(self)
+            self<span style="color:#555">.</span>urls <span style="color:#555">=</span> []
+
+        <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">handle_starttag</span>(self, tag, attrs):
+            href <span style="color:#555">=</span> <span style="color:#366">dict</span>(attrs)<span style="color:#555">.</span>get(<span style="color:#c30"></span><span style="color:#c30">&#39;href&#39;</span>)
+            <span style="color:#069;font-weight:bold">if</span> href <span style="color:#000;font-weight:bold">and</span> tag <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;a&#39;</span>:
+                self<span style="color:#555">.</span>urls<span style="color:#555">.</span>append(href)
+
+    url_seeker <span style="color:#555">=</span> URLSeeker()
+    url_seeker<span style="color:#555">.</span>feed(html)
+    <span style="color:#069;font-weight:bold">return</span> url_seeker<span style="color:#555">.</span>urls
+
+
+async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">main</span>():
+    q <span style="color:#555">=</span> queues<span style="color:#555">.</span>Queue()
+    start <span style="color:#555">=</span> time<span style="color:#555">.</span>time()
+    fetching, fetched <span style="color:#555">=</span> <span style="color:#366">set</span>(), <span style="color:#366">set</span>()
+
+    async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">fetch_url</span>(current_url):
+        <span style="color:#069;font-weight:bold">if</span> current_url <span style="color:#000;font-weight:bold">in</span> fetching:
+            <span style="color:#069;font-weight:bold">return</span>
+
+        <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;fetching </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> current_url)
+        fetching<span style="color:#555">.</span>add(current_url)
+        urls <span style="color:#555">=</span> await get_links_from_url(current_url)
+        fetched<span style="color:#555">.</span>add(current_url)
+
+        <span style="color:#069;font-weight:bold">for</span> new_url <span style="color:#000;font-weight:bold">in</span> urls:
+            <span style="color:#09f;font-style:italic"># Only follow links beneath the base URL</span>
+            <span style="color:#069;font-weight:bold">if</span> new_url<span style="color:#555">.</span>startswith(base_url):
+                await q<span style="color:#555">.</span>put(new_url)
+
+    async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">worker</span>():
+        async <span style="color:#069;font-weight:bold">for</span> url <span style="color:#000;font-weight:bold">in</span> q:
+            <span style="color:#069;font-weight:bold">if</span> url <span style="color:#000;font-weight:bold">is</span> None:
+                <span style="color:#069;font-weight:bold">return</span>
+            <span style="color:#069;font-weight:bold">try</span>:
+                await fetch_url(url)
+            <span style="color:#069;font-weight:bold">except</span> <span style="color:#c00;font-weight:bold">Exception</span> <span style="color:#069;font-weight:bold">as</span> e:
+                <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;Exception: </span><span style="color:#a00">%s</span><span style="color:#c30"> </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> (e, url))
+            <span style="color:#069;font-weight:bold">finally</span>:
+                q<span style="color:#555">.</span>task_done()
+
+    await q<span style="color:#555">.</span>put(base_url)
+
+    <span style="color:#09f;font-style:italic"># Start workers, then wait for the work queue to be empty.</span>
+    workers <span style="color:#555">=</span> gen<span style="color:#555">.</span>multi([worker() <span style="color:#069;font-weight:bold">for</span> _ <span style="color:#000;font-weight:bold">in</span> <span style="color:#366">range</span>(concurrency)])
+    await q<span style="color:#555">.</span>join(timeout<span style="color:#555">=</span>timedelta(seconds<span style="color:#555">=</span><span style="color:#f60">300</span>))
+    <span style="color:#069;font-weight:bold">assert</span> fetching <span style="color:#555">==</span> fetched
+    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;Done in </span><span style="color:#a00">%d</span><span style="color:#c30"> seconds, fetched </span><span style="color:#a00">%s</span><span style="color:#c30"> URLs.&#39;</span> <span style="color:#555">%</span> (
+        time<span style="color:#555">.</span>time() <span style="color:#555">-</span> start, <span style="color:#366">len</span>(fetched)))
+
+    <span style="color:#09f;font-style:italic"># Signal all the workers to exit.</span>
+    <span style="color:#069;font-weight:bold">for</span> _ <span style="color:#000;font-weight:bold">in</span> <span style="color:#366">range</span>(concurrency):
+        await q<span style="color:#555">.</span>put(None)
+    await workers
+
+
+<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;__main__&#39;</span>:
+    io_loop <span style="color:#555">=</span> ioloop<span style="color:#555">.</span>IOLoop<span style="color:#555">.</span>current()
+    io_loop<span style="color:#555">.</span>run_sync(main)</code></pre></div>
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<p>Author | Jeremy Yin</p>
+<p>Python Engineer</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
+<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
+<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
+<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+        
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-92987034-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
