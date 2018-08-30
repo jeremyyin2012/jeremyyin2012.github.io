@@ -14,10 +14,10 @@
     
     <item>
       <title>Tornado 0101 - 用户指南: 简介</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0101_intro/</link>
+      <link>https://jeremyyin.com/tornado/01-guide/0101-intro/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0101_intro/</guid>
+      <guid>https://jeremyyin.com/tornado/01-guide/0101-intro/</guid>
       <description>简介 Tornado 是一个用 Python 写的 Web 应用框架和异步网络库，最初是由 FriendFeed 开发的。通过使用非阻塞网络 I/O，Tornado 可以扩展到数万个开放连接（C10K），使其成为长轮询、WebSockets 和其他需要与每个用户建立长期连接的应用程序的理想选择。
 Tornado 大致可分为四个主要部分：
  一个 Web 应用框架（包括用于创建 Web 应用程序的 RequestHandler 子类，以及各种支持类）。 HTTP 的客户端和服务器端实现（AsyncHTTPClient 和 HTTPServer）。 一个异步网络库，包括 IOLoop 和 IOStream 类，它们用作 HTTP 组件的构建模块，也可用于实现其他协议。 一个协程库（tornado.gen），它允许使用比 回调 更直接了当的方式编写异步代码。这类似于 Python 3.5（async def）中引入的 原生协程 功能。建议使用 原生协程 代替 tornado.gen 模块。  Tornado Web 应用框架和 HTTP 服务器一起提供了一个针对 WSGI 的全栈替代方案。虽然也可以在 WSGI 容器（WSGIAdapter）中使用 Tornado Web 框架，或者是使用 Tornado HTTP 服务器作为其他 WSGI 框架（WSGIContainer）的容器，但是这些组合都有其局限性，如果想要充分利用 Tornado 的优势，需要同时使用 Tornado 的 Web 应用框架和 HTTP 服务器。</description>
@@ -25,10 +25,10 @@ Tornado 大致可分为四个主要部分：
     
     <item>
       <title>Tornado 0102 - 用户指南: 异步和非阻塞 I/O</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0102_async/</link>
+      <link>https://jeremyyin.com/tornado/01-guide/0102-async/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0102_async/</guid>
+      <guid>https://jeremyyin.com/tornado/01-guide/0102-async/</guid>
       <description>异步和非阻塞 I/O（Asynchronous and non-Blocking I/O） 实时 Web 功能需要为每个用户长期保持大部分空闲连接。在传统的同步 Web 服务器中，这意味着要为每个用户投入一个线程，这成本可能非常昂贵。
 为了最小化并发连接的成本，Tornado 使用单线程事件循环。这意味着所有应用程序代码都应该是异步和非阻塞的，因为一次只能有一个操作处于活动状态。
 异步 和 非阻塞 这两个术语是密切相关的，并且通常可以互换使用，但它们并不完全相同。
@@ -43,10 +43,10 @@ from tornado.httpclient import HTTPClient def synchronous_fetch(url): http_clien
     
     <item>
       <title>Tornado 0103 - 用户指南: 协程</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</link>
+      <link>https://jeremyyin.com/tornado/01-guide/0103-coroutines/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0103_coroutines/</guid>
+      <guid>https://jeremyyin.com/tornado/01-guide/0103-coroutines/</guid>
       <description>协程（Coroutines） 协程是在 Tornado 中编写异步代码的推荐方法。协程使用 Python await 或 yield 关键字来挂起和恢复执行而不是一系列回调（在 gevent 这样的框架中看到的协作轻量级线程有时也被称为协程，但在 Tornado 中所有协程都使用显式上下文切换并被称为异步函数）。
 协程几乎和同步代码一样简单，但不需要花费任何线程成本。它们还通过减少上下文切换可能发生的位置数量，使 并发性 更易于推理。
 Example:
@@ -58,10 +58,10 @@ async def fetch_coroutine(url): http_client = AsyncHTTPClient() response = await
     
     <item>
       <title>Tornado 0104 - 用户指南: 队列</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0104_queues/</link>
+      <link>https://jeremyyin.com/tornado/01-guide/0104-queues/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0104_queues/</guid>
+      <guid>https://jeremyyin.com/tornado/01-guide/0104-queues/</guid>
       <description>队列（Queue） 示例 - 并发 Web 蜘蛛 Tornado 的 tornado.queues 模块为协程实现异步生产者/消费者模式，类似于 Python 标准库的 queue 模块为线程实现的模式。
 产生 Queue.get 的协程暂停，直到队列中有项目为止。如果队列设置了最大大小，则会产生 Queue.put 的协程暂停，直到有另一个项目的空间。
 Queue 维护未完成任务的计数，从零开始。put 增加计数；task_done 递减它。
@@ -71,10 +71,10 @@ Queue 维护未完成任务的计数，从零开始。put 增加计数；task_do
     
     <item>
       <title>Tornado 0105 - 用户指南: Tornado Web 应用程序的结构</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0105_structure/</link>
+      <link>https://jeremyyin.com/tornado/01-guide/0105-structure/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0105_structure/</guid>
+      <guid>https://jeremyyin.com/tornado/01-guide/0105-structure/</guid>
       <description>Tornado Web 应用程序的结构 Tornado Web 应用程序通常由一个或多个 RequestHandler 子类、一个将传入请求路由到处理程序的 Application 对象和一个用于启动服务器的 main() 函数组成。
 最小的“hello world”示例如下所示：
 import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHandler): def get(self): self.write(&amp;#34;Hello, world&amp;#34;) def make_app(): return tornado.web.Application([ (r&amp;#34;/&amp;#34;, MainHandler), ]) if __name__ == &amp;#34;__main__&amp;#34;: app = make_app() app.listen(8888) tornado.ioloop.IOLoop.current().start() 关于 Application 对象 Application 对象负责全局配置，包括将请求映射到处理程序的路由表。
@@ -84,28 +84,28 @@ import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHa
     
     <item>
       <title>Tornado 0106 - 用户指南: 模板与 UI</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0106_templates/</link>
+      <link>https://jeremyyin.com/tornado/01-guide/0106-templates/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0106_templates/</guid>
+      <guid>https://jeremyyin.com/tornado/01-guide/0106-templates/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tornado 0107 - 用户指南: 应用程序与安全</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0107_security/</link>
+      <link>https://jeremyyin.com/tornado/01-guide/0107-security/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0107_security/</guid>
+      <guid>https://jeremyyin.com/tornado/01-guide/0107-security/</guid>
       <description>​</description>
     </item>
     
     <item>
       <title>Tornado 0108 - 用户指南: 运行与部署</title>
-      <link>https://jeremyyin.com/tornado/01_guide/0108_running/</link>
+      <link>https://jeremyyin.com/tornado/01-guide/0108-running/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01_guide/0108_running/</guid>
+      <guid>https://jeremyyin.com/tornado/01-guide/0108-running/</guid>
       <description>​</description>
     </item>
     
