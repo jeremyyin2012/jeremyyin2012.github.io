@@ -168,7 +168,7 @@ app <span style="color:#555">=</span> Application([
     ])</code></pre></div>
 <p>Application 构造函数采用许多关键字参数，可用于自定义应用程序的行为并启用可选功能；请参阅 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.Application.settings">Application.settings</a> 以获取完整列表。</p>
 
-<h2 id="继承-requesthandler">继承 RequestHandler</h2>
+<h2 id="继承-requesthandler-subclassing-requesthandler">继承 RequestHandler（Subclassing RequestHandler）</h2>
 
 <p>Tornado Web 应用程序的大部分工作都是在 RequestHandler 的子类中完成的。处理程序子类的主要入口点是在处理 HTTP 方法之后命名的方法：get()，post() 等。每个处理程序可以定义一个或多个这些方法来处理不同的 HTTP 操作。如上所述，将使用与匹配的路由规则的捕获组相对应的参数来调用这些方法。</p>
 
@@ -176,7 +176,7 @@ app <span style="color:#555">=</span> Application([
 
 <p>RequestHandler 中的许多方法都设计为在子类中重写，并在整个应用程序中使用。通常定义一个 BaseHandler 类来覆盖诸如 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.write_error">write_error</a> 和 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_current_user">get_current_user</a> 之类的方法，然后为您的所有特定处理程序继承你自己的 BaseHandler 而不是 RequestHandler。</p>
 
-<h2 id="处理请求输入">处理请求输入</h2>
+<h2 id="处理请求输入-handling-request-input">处理请求输入（Handling request input）</h2>
 
 <p>请求处理程序（Handler）可以使用 self.request 访问表示当前请求的对象。有关于它完整的属性列表，请参阅 <a href="http://www.tornadoweb.org/en/stable/httputil.html#tornado.httputil.HTTPServerRequest">HTTPServerRequest</a> 类的定义。</p>
 
@@ -191,7 +191,88 @@ app <span style="color:#555">=</span> Application([
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">post</span>(self):
         self<span style="color:#555">.</span>set_header(<span style="color:#c30"></span><span style="color:#c30">&#34;Content-Type&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;text/plain&#34;</span>)
         self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;You wrote &#34;</span> <span style="color:#555">+</span> self<span style="color:#555">.</span>get_body_argument(<span style="color:#c30"></span><span style="color:#c30">&#34;message&#34;</span>))</code></pre></div>
-<p>​</p>
+<p>由于 HTML 表单编码关于参数是单个值还是一个列表是不明确的，因此RequestHandler 具有不同的方法以允许应用程序指示它是否需要列表。对于列表，请使用 get_query_arguments 和 get_body_arguments，而不是它们的单数对应项。</p>
+
+<p>通过表单上传的文件在 self.request.files 中可用，它将名称（HTML <input type =“file”> 元素的名称）映射到文件列表。每个文件都是 {&ldquo;filename&rdquo;: &hellip;, &rdquo;content_type&rdquo;: &hellip;, &rdquo;body&rdquo;: &hellip;} 形式的字典。只有在使用表单包装器上传文件时才会出现 files 对象（例如 Content-Type 是 multipart/form-data）；如果未使用此格式，则可以在 self.request.body 中使用原始上载数据。默认情况下，上传的文件在内存中完全缓冲；如果你需要处理太大而不能轻松保存在内存中的文件，请参阅 stream_request_body 类装饰器。</p>
+
+<p>在 demos 目录中，<a href="https://github.com/tornadoweb/tornado/tree/master/demos/file_upload/">file_receiver.py</a> 显示了接收文件上载的两种方法。</p>
+
+<p>由于 HTML 表单编码的怪癖（例如，围绕单数与多数参数的歧义），Tornado 不会尝试将表单参数与其他类型的输入统一起来。特别是，我们不解析 JSON 请求体。希望使用 JSON 而不是表单编码的应用程序可能会覆盖准备解析其请求：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">prepare</span>(self):
+    <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>request<span style="color:#555">.</span>headers<span style="color:#555">.</span>get(<span style="color:#c30"></span><span style="color:#c30">&#34;Content-Type&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;&#34;</span>)<span style="color:#555">.</span>startswith(<span style="color:#c30"></span><span style="color:#c30">&#34;application/json&#34;</span>):
+        self<span style="color:#555">.</span>json_args <span style="color:#555">=</span> json<span style="color:#555">.</span>loads(self<span style="color:#555">.</span>request<span style="color:#555">.</span>body)
+    <span style="color:#069;font-weight:bold">else</span>:
+        self<span style="color:#555">.</span>json_args <span style="color:#555">=</span> None</code></pre></div>
+<h2 id="重写-requesthandler-中的方法-overriding-requesthandler-methods">重写 RequestHandler 中的方法（Overriding RequestHandler methods）</h2>
+
+<p>除了 get() / post() 等这些方法，RequestHandler 中的某些其他方法被设计为在必要时被子类覆盖。在每个请求中，都会发生以下调用序列：</p>
+
+<ol>
+<li><p>每个请求都会创建一个新的 RequestHandler 对象</p></li>
+
+<li><p>使用 Application 配置中的初始化参数调用 initialize() 。 initialize 通常应该只保存传递给成员变量的参数；它可能不会产生任何输出或调用 send_error 等方法。</p></li>
+
+<li><p>prepare() 被调用。这在所有处理程序子类共享的基类中最有用，因为无论使用哪种 HTTP方法都会调用 prepare。准备可能产生输出；如果它调用 finish（或 redirect 等），则处理在此处停止。</p></li>
+
+<li><p>其中一个 HTTP 方法称为：get()，post()，put() 等。如果 URL 正则表达式包含捕获组，则它们将作为参数传递给此方法。</p></li>
+
+<li><p>请求完成后，调用 on_finish()。对于大多数处理程序，这是在 get() 返回后立即执行的；对于使用 tornado.web.asynchronous 装饰器的处理程序，它是在调用 finish() 之后。</p></li>
+</ol>
+
+<p>设计为被覆盖的所有方法都在 RequestHandler 文档中注明。一些最常被覆盖的方法包括：</p>
+
+<ul>
+<li>write_error - 输出 HTML 以在错误页面上使用。</li>
+<li>on_connection_close - 在客户端断开连接时调用；应用程序可以选择检测此情况并停止进一步处理。请注意，无法保证可以立即检测到已关闭的连接。</li>
+<li>get_current_user - 请参阅用户身份验证</li>
+<li>get_user_locale - 返回用于当前用户的 Locale 对象</li>
+<li>set_default_headers - 可用于在响应上设置其他标头（例如自定义服务器标头）</li>
+</ul>
+
+<h2 id="错误处理-error-handling">错误处理（Error Handling）</h2>
+
+<p>如果处理程序引发异常，Tornado 将调用 RequestHandler.write_error 来生成错误页面。 tornado.web.HTTPError 可用于生成指定的状态代码；所有其他例外都返回 500 状态。</p>
+
+<p>默认错误页面包括调试模式下的堆栈跟踪和错误的单行描述（例如：“500：内部服务器错误”）。要生成自定义错误页面，请覆盖 RequestHandler.write_error（可能在所有处理程序共享的基类中）。此方法通常可以通过诸如 write 和 render 之类的方法生成输出。如果错误是由异常引起的，则 exc_info 三元组将作为关键字参数传递（请注意，此异常不保证是sys.exc_info 中的当前异常，因此 write_error 必须使用例如 traceback.format_exception 而不是 traceback.format_exc ）。</p>
+
+<p>也可以通过调用 set_status，编写响应和返回，从常规处理程序方法而不是 write_error 生成错误页面。在简单返回不方便的情况下，它可以引发特殊的异常 tornado.web.Finish，使得不用调用 write_error 就可以终止处理程序。</p>
+
+<p>对于 404 错误，请使用 default_handler_class 应用程序设置。此处理程序应该覆盖 prepare而不是像 get() 这样的更具体的方法，因此它适用于任何 HTTP 方法。它应该产生如上所述的错误页面：通过引发 HTTPError(404) 并覆盖 write_error，或调用 self.set_status(404) 并直接在 prepare() 中生成响应。</p>
+
+<h2 id="重定向-redirection">重定向（Redirection）</h2>
+
+<p>您可以通过两种主要方式在 Tornado 中重定向请求：RequestHandler.redirect 和 RedirectHandler。</p>
+
+<p>您可以在 RequestHandler 方法中使用 self.redirect() 将用户重定向到其他位置。 还有一个可选参数 permanent，可用于指示重定向被视为永久性。 permanent 的默认值为 False，它生成 302 Found HTTP 响应代码，适用于成功 POST 请求后重定向用户等事项。 如果为 permanent，则使用 301 Moved Permanently HTTP 响应代码，这对于例如以 SEO 友好的方式重定向到页面的规范 URL。</p>
+
+<p>RedirectHandler 允许您直接在应用程序路由表中配置重定向。例如，要配置单个静态重定向：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
+    url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/app&#34;</span>, tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RedirectHandler,
+        <span style="color:#366">dict</span>(url<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;http://itunes.apple.com/my-app-id&#34;</span>)),
+    ])</code></pre></div>
+<p>RedirectHandler 还支持正则表达式替换。以下规则将以 /pictures/ 开头的所有请求重定向到前缀 /photos/：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
+    url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/photos/(.*)&#34;</span>, MyPhotoHandler),
+    url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/pictures/(.*)&#34;</span>, tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RedirectHandler,
+        <span style="color:#366">dict</span>(url<span style="color:#555">=</span><span style="color:#c30">r</span><span style="color:#c30">&#34;/photos/{0}&#34;</span>)),
+    ])</code></pre></div>
+<p>与 RequestHandler.redirect 不同，RedirectHandler 默认使用永久重定向。这是因为路由表在运行时不会更改并且被假定为永久性的，而在处理程序中找到的重定向可能是可能更改的其他逻辑的结果。要使用 RedirectHandler 发送临时重定向，请在 RedirectHandler 初始化参数中添加 permanent = False。</p>
+
+<h2 id="异步处理程序-asynchronous-handlers">异步处理程序（Asynchronous handlers）</h2>
+
+<p>某些处理程序方法（包括 prepare() 和 HTTP 谓词方法 get() / post() 等）可以作为协程进行重写，以使处理程序异步。</p>
+
+<p>Tornado 还支持使用 tornado.web.asynchronous 装饰器的基于回调的异步处理程序样式，但这种样式已弃用，将在 Tornado 6.0 中删除。 新的应用程序应该使用协程。</p>
+
+<p>例如，这是一个使用协程的简单处理程序：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
+    async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        http <span style="color:#555">=</span> tornado<span style="color:#555">.</span>httpclient<span style="color:#555">.</span>AsyncHTTPClient()
+        response <span style="color:#555">=</span> await http<span style="color:#555">.</span>fetch(<span style="color:#c30"></span><span style="color:#c30">&#34;http://friendfeed-api.com/v2/feed/bret&#34;</span>)
+        json <span style="color:#555">=</span> tornado<span style="color:#555">.</span>escape<span style="color:#555">.</span>json_decode(response<span style="color:#555">.</span>body)
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Fetched &#34;</span> <span style="color:#555">+</span> <span style="color:#366">str</span>(<span style="color:#366">len</span>(json[<span style="color:#c30"></span><span style="color:#c30">&#34;entries&#34;</span>])) <span style="color:#555">+</span> <span style="color:#c30"></span><span style="color:#c30">&#34; entries &#34;</span>
+                   <span style="color:#c30"></span><span style="color:#c30">&#34;from the FriendFeed API&#34;</span>)</code></pre></div>
+<p>有关更高级的异步示例，请查看 <a href="https://github.com/tornadoweb/tornado/tree/stable/demos/chat">聊天示例应用程序</a> ，该应用程序使用 <a href="http://en.wikipedia.org/wiki/Push_technology#Long_polling">长轮询</a> 实现 AJAX 聊天室。 长轮询的用户可能希望在客户端关闭连接后覆盖 on_connection_close() 以进行清理（但请参阅该方法的文档字符串以获取注意事项）。</p>
 
     </article>
 
