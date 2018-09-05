@@ -11,7 +11,7 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Tornado 0107 - 用户指南: 应用程序与安全 | Jeremy&#39;s blog</title>
+        <title>Tornado 0107 - 用户指南: 认证与安全 | Jeremy&#39;s blog</title>
 
         
 
@@ -118,9 +118,174 @@
                             
 
     <article>
-        <h1>Tornado 0107 - 用户指南: 应用程序与安全</h1>
+        <h1>Tornado 0107 - 用户指南: 认证与安全</h1>
         <hr>
-        <p>​</p>
+        
+
+<h1 id="认证与安全">认证与安全</h1>
+
+<h2 id="cookies-和-secure-cookies">Cookies 和 secure cookies</h2>
+
+<p>您可以使用 set_cookie 方法在用户的浏览器中设置 cookies：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        <span style="color:#069;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">not</span> self<span style="color:#555">.</span>get_cookie(<span style="color:#c30"></span><span style="color:#c30">&#34;mycookie&#34;</span>):
+            self<span style="color:#555">.</span>set_cookie(<span style="color:#c30"></span><span style="color:#c30">&#34;mycookie&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;myvalue&#34;</span>)
+            self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Your cookie was not set yet!&#34;</span>)
+        <span style="color:#069;font-weight:bold">else</span>:
+            self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Your cookie was set!&#34;</span>)</code></pre></div>
+<p>Cookies 不安全，客户可以轻松修改。如果您需要设置 Cookies，例如，识别当前登录的用户，则需要对 Cookies 进行签名以防止伪造。Tornado 使用 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.set_secure_cookie">set_secure_cookie</a> 和 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_secure_cookie">get_secure_cookie</a> 方法来支持签名的 Cookies。要使用这些方法，您需要在创建应用程序时指定名为 cookie_secret 的密钥。您可以将应用程序设置作为关键字参数传递给应用程序：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
+    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
+], cookie_secret<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span>)</code></pre></div>
+<p>除了时间戳和 <a href="http://en.wikipedia.org/wiki/HMAC">HMAC</a> 签名之外，签名 cookies 还包含 cookies 的编码值。如果 cookies 是旧的或签名不匹配，get_secure_cookie 将返回 None，就像没有设置 cookies 一样。以上示例的安全版本：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        <span style="color:#069;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">not</span> self<span style="color:#555">.</span>get_secure_cookie(<span style="color:#c30"></span><span style="color:#c30">&#34;mycookie&#34;</span>):
+            self<span style="color:#555">.</span>set_secure_cookie(<span style="color:#c30"></span><span style="color:#c30">&#34;mycookie&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;myvalue&#34;</span>)
+            self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Your cookie was not set yet!&#34;</span>)
+        <span style="color:#069;font-weight:bold">else</span>:
+            self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Your cookie was set!&#34;</span>)</code></pre></div>
+<p>Tornado 的 secure cookies 确保完整性但不保密。也就是说，cookies 不能被修改，但其内容可以被用户看到。cookie_secret 是一个对称密钥，必须保密 - 任何获得此密钥值的人都可以生成自己的签名 cookies。</p>
+
+<p>默认情况下，Tornado 的 secure cookies 将在 30 天后过期。要更改此设置，请使用 set_secure_cookie 的 expires_days 关键字参数和 get_secure_cookie 的 max_age_days 参数。这两个值是分开传递的，因此您可以：例如对于大多数用途，有一个有效期为 30 天的 cookies，但对于某些敏感操作（例如更改帐单信息），在读取 cookies 时使用较小的 max_age_days。</p>
+
+<p>Tornado 还支持多个签名密钥以启用签名密钥轮换。 然后 cookie_secret 必须是一个 dict，整数键版本作为键，相应的密钥作为值。然后必须将当前使用的签名密钥设置为 key_version 应用程序设置，但如果在 cookie 中设置了正确的密钥版本，则允许 dict 中的所有其他密钥进行 cookie 签名验证。要实现 cookie 更新，可以通过 get_secure_cookie_key_version 查询当前的签名密钥版本。</p>
+
+<h2 id="用户认证">用户认证</h2>
+
+<p>当前经过身份验证的用户在每个请求处理程序中都可用作 self.current_user，在每个模板中都可用作 current_user。默认情况下，current_user 为 None。</p>
+
+<p>要在应用程序中实现用户身份验证，您需要覆盖请求处理程序中的 get_current_user() 方法，以根据（例如）cookie 的值确定当前用户。这是一个允许用户只需指定昵称就可以登录应用程序的示例，然后将其保存在 cookie 中：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">BaseHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_current_user</span>(self):
+        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>get_secure_cookie(<span style="color:#c30"></span><span style="color:#c30">&#34;user&#34;</span>)
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(BaseHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        <span style="color:#069;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">not</span> self<span style="color:#555">.</span>current_user:
+            self<span style="color:#555">.</span>redirect(<span style="color:#c30"></span><span style="color:#c30">&#34;/login&#34;</span>)
+            <span style="color:#069;font-weight:bold">return</span>
+        name <span style="color:#555">=</span> tornado<span style="color:#555">.</span>escape<span style="color:#555">.</span>xhtml_escape(self<span style="color:#555">.</span>current_user)
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Hello, &#34;</span> <span style="color:#555">+</span> name)
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">LoginHandler</span>(BaseHandler):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#39;&lt;html&gt;&lt;body&gt;&lt;form action=&#34;/login&#34; method=&#34;post&#34;&gt;&#39;</span>
+                   <span style="color:#c30"></span><span style="color:#c30">&#39;Name: &lt;input type=&#34;text&#34; name=&#34;name&#34;&gt;&#39;</span>
+                   <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;input type=&#34;submit&#34; value=&#34;Sign in&#34;&gt;&#39;</span>
+                   <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span>)
+
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">post</span>(self):
+        self<span style="color:#555">.</span>set_secure_cookie(<span style="color:#c30"></span><span style="color:#c30">&#34;user&#34;</span>, self<span style="color:#555">.</span>get_argument(<span style="color:#c30"></span><span style="color:#c30">&#34;name&#34;</span>))
+        self<span style="color:#555">.</span>redirect(<span style="color:#c30"></span><span style="color:#c30">&#34;/&#34;</span>)
+
+application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
+    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
+    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/login&#34;</span>, LoginHandler),
+], cookie_secret<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span>)</code></pre></div>
+<p>您可以要求用户使用 <a href="http://www.python.org/dev/peps/pep-0318/">Python decorator</a> tornado.web.authenticated 登录。如果请求转到使用此装饰器的方法，并且用户未登录，则会将它们重定向到 login_url（另一个应用程序设置）。上面的例子可以重写：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(BaseHandler):
+    <span style="color:#99f">@tornado.web.authenticated</span>
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        name <span style="color:#555">=</span> tornado<span style="color:#555">.</span>escape<span style="color:#555">.</span>xhtml_escape(self<span style="color:#555">.</span>current_user)
+        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Hello, &#34;</span> <span style="color:#555">+</span> name)
+
+settings <span style="color:#555">=</span> {
+    <span style="color:#c30"></span><span style="color:#c30">&#34;cookie_secret&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;login_url&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;/login&#34;</span>,
+}
+application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
+    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
+    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/login&#34;</span>, LoginHandler),
+], <span style="color:#555">**</span>settings)</code></pre></div>
+<p>如果使用 authenticated 装饰器装饰 post() 方法，并且用户未登录，则服务器将发送 403 响应。@authenticated 装饰器只是简写 if not self.current_user: self.redirect()，可能不适合非基于浏览器的登录方案。</p>
+
+<p>查看 <a href="https://github.com/tornadoweb/tornado/tree/stable/demos/blog">Tornado Blog</a> 示例应用程序，获取使用身份验证的完整示例（并将用户数据存储在 MySQL 数据库中）。</p>
+
+<h2 id="第三方认证">第三方认证</h2>
+
+<p>tornado.auth 模块为网络上许多最受欢迎的网站实施身份验证和授权协议，包括Google / Gmail，Facebook，Twitter 和 FriendFeed。该模块包括通过这些站点记录用户的方法，以及在适用的情况下授权访问服务的方法，以便您可以例如下载用户的地址簿或代表他们发布 Twitter 消息。</p>
+
+<p>以下是使用 Google 进行身份验证的示例处理程序，将 Google 凭据保存在 Cookie 中以供日后访问：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">GoogleOAuth2LoginHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler,
+                               tornado<span style="color:#555">.</span>auth<span style="color:#555">.</span>GoogleOAuth2Mixin):
+    async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+        <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>get_argument(<span style="color:#c30"></span><span style="color:#c30">&#39;code&#39;</span>, False):
+            user <span style="color:#555">=</span> await self<span style="color:#555">.</span>get_authenticated_user(
+                redirect_uri<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#39;http://your.site.com/auth/google&#39;</span>,
+                code<span style="color:#555">=</span>self<span style="color:#555">.</span>get_argument(<span style="color:#c30"></span><span style="color:#c30">&#39;code&#39;</span>))
+            <span style="color:#09f;font-style:italic"># Save the user with e.g. set_secure_cookie</span>
+        <span style="color:#069;font-weight:bold">else</span>:
+            await self<span style="color:#555">.</span>authorize_redirect(
+                redirect_uri<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#39;http://your.site.com/auth/google&#39;</span>,
+                client_id<span style="color:#555">=</span>self<span style="color:#555">.</span>settings[<span style="color:#c30"></span><span style="color:#c30">&#39;google_oauth&#39;</span>][<span style="color:#c30"></span><span style="color:#c30">&#39;key&#39;</span>],
+                scope<span style="color:#555">=</span>[<span style="color:#c30"></span><span style="color:#c30">&#39;profile&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;email&#39;</span>],
+                response_type<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#39;code&#39;</span>,
+                extra_params<span style="color:#555">=</span>{<span style="color:#c30"></span><span style="color:#c30">&#39;approval_prompt&#39;</span>: <span style="color:#c30"></span><span style="color:#c30">&#39;auto&#39;</span>})</code></pre></div>
+<p>有关更多详细信息，请参阅 <a href="http://www.tornadoweb.org/en/stable/auth.html#module-tornado.auth">tornado.auth</a> 模块文档。</p>
+
+<h2 id="跨站点请求伪造保护">跨站点请求伪造保护</h2>
+
+<p><a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">跨站点请求伪造</a>（XSRF）是个性化 Web 应用程序的常见问题。有关 XSRF 如何工作的更多信息，请参阅 <a href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">Wikipedia</a> 文章。</p>
+
+<p>普遍接受的防止 XSRF 的解决方案是为每个用户提供不可预测的值，并将该值作为附加参数包含在您网站上的每个表单提交中。如果 cookie 和表单提交中的值不匹配，则该请求可能是伪造的。</p>
+
+<p>Tornado 内置 XSRF 保护。要将其包含在您的站点中，请配置应用程序设置 xsrf_cookies：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">settings <span style="color:#555">=</span> {
+    <span style="color:#c30"></span><span style="color:#c30">&#34;cookie_secret&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;login_url&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;/login&#34;</span>,
+    <span style="color:#c30"></span><span style="color:#c30">&#34;xsrf_cookies&#34;</span>: True,
+}
+application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
+    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
+    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/login&#34;</span>, LoginHandler),
+], <span style="color:#555">**</span>settings)</code></pre></div>
+<p>如果设置了 xsrf_cookies，则 Tornado Web 应用程序将为所有用户设置 _xsrf cookie，并拒绝所有不包含正确 _xsrf 值的 POST，PUT 和 DELETE 请求。如果启用此设置，则需要检测通过 POST 提交的所有表单以包含此字段。您可以使用所有模板中提供的特殊 UIModule xsrf_form_html() 来执行此操作：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#555">&lt;</span>form action<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;/new_message&#34;</span> method<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;post&#34;</span><span style="color:#555">&gt;</span>
+  {<span style="color:#555">%</span> module xsrf_form_html() <span style="color:#555">%</span>}
+  <span style="color:#555">&lt;</span><span style="color:#366">input</span> <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;text&#34;</span> name<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;message&#34;</span><span style="color:#555">/&gt;</span>
+  <span style="color:#555">&lt;</span><span style="color:#366">input</span> <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;submit&#34;</span> value<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;Post&#34;</span><span style="color:#555">/&gt;</span>
+<span style="color:#555">&lt;/</span>form<span style="color:#555">&gt;</span></code></pre></div>
+<p>如果您提交 AJAX POST 请求，则还需要检测 JavaScript 以在每个请求中包含 _xsrf 值。这是我们在 FriendFeed 上用于 AJAX POST 请求的 <a href="http://jquery.com/">jQuery</a> 函数，它自动将 _xsrf 值添加到所有请求：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#069;font-weight:bold">function</span> getCookie(name) {
+    <span style="color:#069;font-weight:bold">var</span> r <span style="color:#555">=</span> <span style="color:#366">document</span>.cookie.match(<span style="color:#c30">&#34;\\b&#34;</span> <span style="color:#555">+</span> name <span style="color:#555">+</span> <span style="color:#c30">&#34;=([^;]*)\\b&#34;</span>);
+    <span style="color:#069;font-weight:bold">return</span> r <span style="color:#555">?</span> r[<span style="color:#f60">1</span>] <span style="color:#555">:</span> <span style="color:#069;font-weight:bold">undefined</span>;
+}
+
+jQuery.postJSON <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">function</span>(url, args, callback) {
+    args._xsrf <span style="color:#555">=</span> getCookie(<span style="color:#c30">&#34;_xsrf&#34;</span>);
+    $.ajax({url<span style="color:#555">:</span> url, data<span style="color:#555">:</span> $.param(args), dataType<span style="color:#555">:</span> <span style="color:#c30">&#34;text&#34;</span>, type<span style="color:#555">:</span> <span style="color:#c30">&#34;POST&#34;</span>,
+        success<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">function</span>(response) {
+        callback(<span style="color:#366">eval</span>(<span style="color:#c30">&#34;(&#34;</span> <span style="color:#555">+</span> response <span style="color:#555">+</span> <span style="color:#c30">&#34;)&#34;</span>));
+    }});
+};
+</code></pre></div>
+<p>对于 PUT 和 DELETE 请求（以及不使用表单编码参数的 POST 请求），XSRF 令牌也可以通过名为 X-XSRFToken 的 HTTP 头传递。XSRF cookie 通常在使用 xsrf_form_html 时设置，但在不使用任何常规表单的纯 Javascript 应用程序中，您可能需要手动访问 self.xsrf_token（只需读取属性就足以将 cookie 设置为附加效果）。</p>
+
+<p>如果需要基于每个处理程序自定义 XSRF 行为，则可以覆盖 RequestHandler.check_xsrf_cookie() 。 例如，如果您的 API 的身份验证不使用 cookie，您可能希望通过使 check_xsrf_cookie() 不执行任何操作来禁用 XSRF 保护。但是，如果同时支持cookie 和非基于 cookie 的身份验证，则必须在使用 cookie 对当前请求进行身份验证时使用 XSRF 保护。</p>
+
+<h2 id="dns-重新绑定">DNS 重新绑定</h2>
+
+<p>DNS 重新绑定是一种攻击，可以绕过同源策略并允许外部站点访问专用网络上的资源。此攻击涉及 DNS 名称（具有短TTL），其在返回由攻击者控制的 IP 地址和受害者控制的 IP 地址（通常是可猜测的私有 IP 地址，例如 127.0.0.1 或 192.168.1.1）之间交替。</p>
+
+<p>使用 TLS 的应用程序不容易受到此攻击（因为浏览器将显示阻止自动访问目标站点的证书不匹配警告）。</p>
+
+<p>无法使用 TLS 并依赖网络级访问控制的应用程序（例如，假设 127.0.0.1 上的服务器只能由本地计算机访问）应通过验证 Host HTTP 标头来防止 DNS 重新绑定。这意味着将限制性主机名模式传递给 HostMatches 路由器或 Application.add_handlers 的第一个参数：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># BAD: uses a default host pattern of r&#39;.*&#39;</span>
+app <span style="color:#555">=</span> Application([(<span style="color:#c30"></span><span style="color:#c30">&#39;/foo&#39;</span>, FooHandler)])
+
+<span style="color:#09f;font-style:italic"># GOOD: only matches localhost or its ip address.</span>
+app <span style="color:#555">=</span> Application()
+app<span style="color:#555">.</span>add_handlers(<span style="color:#c30">r</span><span style="color:#c30">&#39;(localhost|127\.0\.0\.1)&#39;</span>,
+                 [(<span style="color:#c30"></span><span style="color:#c30">&#39;/foo&#39;</span>, FooHandler)])
+
+<span style="color:#09f;font-style:italic"># GOOD: same as previous example using tornado.routing.</span>
+app <span style="color:#555">=</span> Application([
+    (HostMatches(<span style="color:#c30">r</span><span style="color:#c30">&#39;(localhost|127\.0\.0\.1)&#39;</span>),
+        [(<span style="color:#c30"></span><span style="color:#c30">&#39;/foo&#39;</span>, FooHandler)]),
+    ])</code></pre></div>
+<p>此外，Application 和 DefaultHostMatches 路由器的 default_host 参数不得在可能易受 DNS 重新绑定攻击的应用程序中使用，因为它与通配符主机模式具有类似的效果。</p>
 
     </article>
 

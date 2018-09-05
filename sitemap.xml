@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jeremyyin.com/tornado/00-note/0000-about/</loc>
+    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/tornado/01-guide/0101-intro/</loc>
     <lastmod>2018-08-03T00:00:00+00:00</lastmod>
   </url>

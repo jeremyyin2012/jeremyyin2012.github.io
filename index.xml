@@ -13,6 +13,22 @@
     
     
     <item>
+      <title>Tornado 0000 - 特别说明: 关于译文</title>
+      <link>https://jeremyyin.com/tornado/00-note/0000-about/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/tornado/00-note/0000-about/</guid>
+      <description>关于译文 我自己本身并不懂多少关于英文翻译的事情，这里相关的一些翻译内容也并不完全是我一个一个字手打出来的，其中绝大多数翻译内容均借助于 Google Translate 帮我实现，而我最多仅相当于一个审校的角色，对其中的句子进行一些更合理化的修改，或是用词是否恰当及准确，或是句子的通顺及逻辑合理与否。同时由于能力及精力有限，并不能绝对保证内容完全准确无误，如有发现不合理的地方或者错误的地方，还请见谅，也欢迎你反馈于我。
+Tornado 是我学习 Python 后进入实际产品开发所使用到的第一个 Web 服务框架，虽然说关于它的功能有些写法可能已经用过很多次了，但是对它依然还没有一个全局的概念感受，所以想借助于这个翻译的过程，给自己加深一下关于它的设计理念、程序逻辑等等相关知识的印象。
+所以，译文只是顺便产生的结果，不过虽然即便如此，我也尽量使译文能契合中文的遣词造句，对于一些直译过来感觉奇怪的内容，会稍微做一下调整，以便容易理解。
+然后，我自己也会希望能完成所有篇章的翻译，而不是仅仅如同大家都在做的那样，只开个头，翻译一下简单入门部分，后面的更重要的细节内容就反而没有了。
+当然，其实如果能有心直接读原文，那是更好的。
+当前参考版本：Tornado 5.1
+原文链接：http://www.tornadoweb.org/
+T r</description>
+    </item>
+    
+    <item>
       <title>Tornado 0101 - 用户指南: 简介</title>
       <link>https://jeremyyin.com/tornado/01-guide/0101-intro/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
@@ -88,16 +104,26 @@ import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHa
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>https://jeremyyin.com/tornado/01-guide/0106-templates/</guid>
-      <description></description>
+      <description>模板和UI Tornado 包含一种简单，快速，灵活的模板语言。本节介绍该语言以及国际化等相关问题。
+Tornado 也可以与任何其他 Python 模板语言一起使用，尽管没有明确地规定如何将这些系统集成到 RequestHandler.render 中，你只需将模板渲染为字符串并将其传递给RequestHandler.write 就可以了。
+配置模板 默认情况下，Tornado 会在与引用它们的 .py 文件相同的目录中查找模板文件。 要将模板文件放在不同的目录中，请使用 template_path 应用程序设置 （如果不同的处理程序具有不同的模板路径，则覆盖 RequestHandler.get_template_path）。
+要从非文件系统位置加载模板，请将 tornado.template.BaseLoader 子类化，并将实例作为 template_loader 应用程序设置传递。
+默认情况下，编译的模板会被缓存；要关闭此缓存和重新加载模板，以便始终可以看到对底层文件的更改，请使用应用程序设置 compiled_template_cache = False 或 debug = True。
+模板语法 Tornado 模板只是 HTML（或任何其他基于文本的格式），其中 Python 控件序列和表达式嵌入在标记中：
+&amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;title&amp;gt;{{ title }}&amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;ul&amp;gt; {% for item in items %} &amp;lt;li&amp;gt;{{ escape(item) }}&amp;lt;/li&amp;gt; {% end %} &amp;lt;/ul&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; 如果您将此模板另存为 “template.html” 并将其放在与 Python 文件相同的目录中，则可以使用以下内容呈现此模板：
+class MainHandler(tornado.web.RequestHandler): def get(self): items = [&amp;#34;Item 1&amp;#34;, &amp;#34;Item 2&amp;#34;, &amp;#34;Item 3&amp;#34;] self.</description>
     </item>
     
     <item>
-      <title>Tornado 0107 - 用户指南: 应用程序与安全</title>
+      <title>Tornado 0107 - 用户指南: 认证与安全</title>
       <link>https://jeremyyin.com/tornado/01-guide/0107-security/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>https://jeremyyin.com/tornado/01-guide/0107-security/</guid>
-      <description>​</description>
+      <description>认证与安全 Cookies 和 secure cookies 您可以使用 set_cookie 方法在用户的浏览器中设置 cookies：
+class MainHandler(tornado.web.RequestHandler): def get(self): if not self.get_cookie(&amp;#34;mycookie&amp;#34;): self.set_cookie(&amp;#34;mycookie&amp;#34;, &amp;#34;myvalue&amp;#34;) self.write(&amp;#34;Your cookie was not set yet!&amp;#34;) else: self.write(&amp;#34;Your cookie was set!&amp;#34;) Cookies 不安全，客户可以轻松修改。如果您需要设置 Cookies，例如，识别当前登录的用户，则需要对 Cookies 进行签名以防止伪造。Tornado 使用 set_secure_cookie 和 get_secure_cookie 方法来支持签名的 Cookies。要使用这些方法，您需要在创建应用程序时指定名为 cookie_secret 的密钥。您可以将应用程序设置作为关键字参数传递给应用程序：
+application = tornado.web.Application([ (r&amp;#34;/&amp;#34;, MainHandler), ], cookie_secret=&amp;#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&amp;#34;) 除了时间戳和 HMAC 签名之外，签名 cookies 还包含 cookies 的编码值。如果 cookies 是旧的或签名不匹配，get_secure_cookie 将返回 None，就像没有设置 cookies 一样。以上示例的安全版本：
+class MainHandler(tornado.web.RequestHandler): def get(self): if not self.get_secure_cookie(&amp;#34;mycookie&amp;#34;): self.</description>
     </item>
     
     <item>
@@ -106,7 +132,12 @@ import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHa
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>https://jeremyyin.com/tornado/01-guide/0108-running/</guid>
-      <description>​</description>
+      <description>运行和部署 由于 Tornado 提供自己的 HTTPServer，因此运行和部署它与其他 Python Web 框架略有不同。您可以编写一个启动服务器的 main() 函数，而不是配置 WSGI 容器来查找应用程序：
+def main(): app = make_app() app.listen(8888) IOLoop.current().start() if __name__ == &amp;#39;__main__&amp;#39;: main() 配置操作系统或进程管理器以运行此程序以启动服务器。请注意，可能需要增加每个进程的打开文件数（以避免“打开太多文件”-Error）。要提高此限制（例如将其设置为50000），您可以使用 ulimit 命令，修改 /etc/security/limits.conf 或在 supervisord 配置中设置 minfds。
+进程和端口 由于Python GIL（全局解释器锁），有必要运行多个 Python 进程以充分利用多 CPU 机器。通常，每个 CPU 最好运行一个进程。
+Tornado 包含一个内置的多进程模式，可以同时启动多个进程。这需要对标准主要功能稍作改动：
+def main(): app = make_app() server = tornado.httpserver.HTTPServer(app) server.bind(8888) server.start(0) # forks one process per cpu IOLoop.current().start() 这是启动多个进程并使它们共享同一端口的最简单方法，尽管它有一些限制。首先，每个子进程都有自己的 IOLoop，因此在 fork 之前没有任何东西触及全局 IOLoop 实例（甚至间接）是很重要的。 其次，在此模型中很难进行零停机更新。最后，由于所有进程共享同一个端口，因此单独监视它们更加困难。
+对于更复杂的部署，建议单独启动进程，并让每个进程侦听不同的端口。supervisord 的 “process groups” 功能是安排此功能的一种好方法。当每个进程使用不同的端口时，通常需要外部负载均衡器（如 HAProxy 或 nginx）向外部访问者提供单个地址。</description>
     </item>
     
     <item>
