@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Fri, 03 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Sep 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>做手艺活，必然需要一套趁手的工具</title>
+      <link>https://jeremyyin.com/note/2018-09-05-1522/</link>
+      <pubDate>Wed, 05 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-09-05-1522/</guid>
+      <description>编程是手艺活，有自己一套趁手的工具很重要，记录下，不定期更新。
+ MacBook Pro，Apple 公司出品，编程开发的最佳选择，强烈建议直接上顶配。
+ PyCharm，JetBrains 公司出品的 Python IDE，社区版免费，专业版付费。
+ Docker，Docker 公司出品的容器产品，Docker CE for Mac 是协助我本地开发的有力工具，同时在生产环境也基本能用 Docker 就用 Docker 进行部署运行。docker-compose 是我编排容器的方式，再搭配 Dockerfile 使用，快速自动构建并启动各种服务，几乎不用再去机器上敲什么命令了。目前我本机常规日常运行的容器（服务）数量已达 40 多个。
+ Sublime，Sublime HQ Pty Ltd 出品，万能文本编辑器，免费，偶尔会弹下购买提示。
+ Sourcetree，Atlassian 公司出品的免费 git 图形界面客户端。
+ Paw，Paw 公司出品的 API tool for Mac，付费，主要用于 API 接口测试。
+ MkDocs，MkDocs team 出品的静态页面站点生成工具，非常适合用于使用 Markdown 编写项目文档。
+ Typora，typora.io 出品的 Markdown 编辑器，目前依然免费，我认为最漂亮又好用的。
+ Studio 3T，3T Software Labs 出品的 MongoDB 数据库图形界面客户端，非商用版免费。
+ Sequel Pro，Sequel Pro Developers 出品的 MySQL 数据库图形界面客户端，免费。</description>
+    </item>
     
     <item>
       <title>Tornado 0000 - 特别说明: 关于译文</title>
@@ -141,10 +160,10 @@ def main(): app = make_app() server = tornado.httpserver.HTTPServer(app) server.
     
     <item>
       <title>Pandas: 对 DataFrame 的列名进行重命名</title>
-      <link>https://jeremyyin.com/note/2018-07-06-2259/</link>
+      <link>https://jeremyyin.com/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</link>
       <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-07-06-2259/</guid>
+      <guid>https://jeremyyin.com/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</guid>
       <description>不得不说，Pandas 是我很喜欢的一个工具，之前在外贸公司做采购和物流相关方面事情的时候，跟 Excel 结下了不浅的关系。在处理 Excel 的数据过程中，依照对数据业务的理解也使得后来去理解 MySQL 相关的数据的关系模型有了一些清晰的思维过程。
 如果说创业公司需要什么工具能支撑起业务快速发展和需求变化，Excel 是一个利器，这在很多行业的实际应用实践中都得到过检验，而我自己也自认为曾经利用它在很长一段时间里支撑起了一家公司的核心业务流程。
 但凡是工具就有长短，Excel 虽是利器，可能在高手眼里表还未开，数据已经在脑海里飞过了千百次，即使是个小白也能对着那横竖格子拥有完整的操作能力，但是，任何事物到了一定量级，就性质变了，而更甚至涉及到多人、跨部门共享操作，就更难以完成有效的数据流通了。
@@ -163,10 +182,10 @@ import pandas as pd import numpy as np # 维护好各种表头对应关系的标
     
     <item>
       <title>给 Scrapy 的 Spider 传递参数</title>
-      <link>https://jeremyyin.com/note/2018-07-05-2238/</link>
+      <link>https://jeremyyin.com/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-07-05-2238/</guid>
+      <guid>https://jeremyyin.com/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</guid>
       <description>绝大多数情况下，我们写一个 Spider 会直接将需要的信息写在 Spider 里面，再不济也可能开个文件独立存储下需要的参数啥的，但这仅当 Spider 需求的这些信息是固定不变的情况下，而一旦需要从外部提交一些信息给它来动态调用，就需要用到传递参数了。
 先放两个官方文档链接
  Scrapy Spider arguments  使用 scrapy crawl 命令启动使用 -a 后面加参数名和参数值，这应该也就仅在测试时候使用下了。

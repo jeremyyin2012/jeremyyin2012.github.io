@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jeremyyin.com/note/2018-09-05-1522/</loc>
+    <lastmod>2018-09-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/tornado/00-note/0000-about/</loc>
     <lastmod>2018-08-03T00:00:00+00:00</lastmod>
   </url>
@@ -48,12 +53,12 @@
   </url>
   
   <url>
-    <loc>https://jeremyyin.com/note/2018-07-06-2259/</loc>
+    <loc>https://jeremyyin.com/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</loc>
     <lastmod>2018-07-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://jeremyyin.com/note/2018-07-05-2238/</loc>
+    <loc>https://jeremyyin.com/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</loc>
     <lastmod>2018-07-05T00:00:00+00:00</lastmod>
   </url>
   
@@ -498,13 +503,13 @@
   
   <url>
     <loc>https://jeremyyin.com/</loc>
-    <lastmod>2018-08-03T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jeremyyin.com/note/</loc>
-    <lastmod>2018-07-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -516,7 +521,7 @@
   
   <url>
     <loc>https://jeremyyin.com/python/</loc>
-    <lastmod>2018-04-27T00:00:00+00:00</lastmod>
+    <lastmod>2018-07-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
