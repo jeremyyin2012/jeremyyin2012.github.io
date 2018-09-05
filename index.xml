@@ -23,7 +23,7 @@
  PyCharm，JetBrains 公司出品的 Python IDE，社区版免费，专业版付费。
  Docker，Docker 公司出品的容器产品，Docker CE for Mac 是协助我本地开发的有力工具，同时在生产环境也基本能用 Docker 就用 Docker 进行部署运行。docker-compose 是我编排容器的方式，再搭配 Dockerfile 使用，快速自动构建并启动各种服务，几乎不用再去机器上敲什么命令了。目前我本机常规日常运行的容器（服务）数量已达 40 多个。
  Sublime，Sublime HQ Pty Ltd 出品，万能文本编辑器，免费，偶尔会弹下购买提示。
- Sourcetree，Atlassian 公司出品的免费 git 图形界面客户端。
+ Sourcetree，这是 Atlassian 公司出品的免费 git 图形界面客户端，这哪能不用呢。
  Paw，Paw 公司出品的 API tool for Mac，付费，主要用于 API 接口测试。
  MkDocs，MkDocs team 出品的静态页面站点生成工具，非常适合用于使用 Markdown 编写项目文档。
  Typora，typora.io 出品的 Markdown 编辑器，目前依然免费，我认为最漂亮又好用的。

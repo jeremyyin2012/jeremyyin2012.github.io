@@ -1,12 +1,12 @@
 [
     {
-        "content": "编程是手艺活，有自己一套趁手的工具很重要，记录下，不定期更新。\n MacBook Pro，Apple 公司出品，编程开发的最佳选择，强烈建议直接上顶配。\n PyCharm，JetBrains 公司出品的 Python IDE，社区版免费，专业版付费。\n Docker，Docker 公司出品的容器产品，Docker CE for Mac 是协助我本地开发的有力工具，同时在生产环境也基本能用 Docker 就用 Docker 进行部署运行。docker-compose 是我编排容器的方式，再搭配 Dockerfile 使用，快速自动构建并启动各种服务，几乎不用再去机器上敲什么命令了。目前我本机常规日常运行的容器（服务）数量已达 40 多个。\n Sublime，Sublime HQ Pty Ltd 出品，万能文本编辑器，免费，偶尔会弹下购买提示。\n Sourcetree，Atlassian 公司出品的免费 git 图形界面客户端。\n Paw，Paw 公司出品的 API tool for Mac，付费，主要用于 API 接口测试。\n MkDocs，MkDocs team 出品的静态页面站点生成工具，非常适合用于使用 Markdown 编写项目文档。\n Typora，typora.io 出品的 Markdown 编辑器，目前依然免费，我认为最漂亮又好用的。\n Studio 3T，3T Software Labs 出品的 MongoDB 数据库图形界面客户端，非商用版免费。\n Sequel Pro，Sequel Pro Developers 出品的 MySQL 数据库图形界面客户端，免费。\n 坚果云，上海亦存网络 出品的同步网盘服务，实现任意文件夹多端同步及版本历史，有免费方案可用，开着就好，啥也不管。\n Trello，目前已经被 Atlassian 公司收编的项目看板管理服务，免费，看板管理最佳工具。\n  ",
+        "content": "编程是手艺活，有自己一套趁手的工具很重要，记录下，不定期更新。\n MacBook Pro，Apple 公司出品，编程开发的最佳选择，强烈建议直接上顶配。\n PyCharm，JetBrains 公司出品的 Python IDE，社区版免费，专业版付费。\n Docker，Docker 公司出品的容器产品，Docker CE for Mac 是协助我本地开发的有力工具，同时在生产环境也基本能用 Docker 就用 Docker 进行部署运行。docker-compose 是我编排容器的方式，再搭配 Dockerfile 使用，快速自动构建并启动各种服务，几乎不用再去机器上敲什么命令了。目前我本机常规日常运行的容器（服务）数量已达 40 多个。\n Sublime，Sublime HQ Pty Ltd 出品，万能文本编辑器，免费，偶尔会弹下购买提示。\n Sourcetree，这是 Atlassian 公司出品的免费 git 图形界面客户端，这哪能不用呢。\n Paw，Paw 公司出品的 API tool for Mac，付费，主要用于 API 接口测试。\n MkDocs，MkDocs team 出品的静态页面站点生成工具，非常适合用于使用 Markdown 编写项目文档。\n Typora，typora.io 出品的 Markdown 编辑器，目前依然免费，我认为最漂亮又好用的。\n Studio 3T，3T Software Labs 出品的 MongoDB 数据库图形界面客户端，非商用版免费。\n Sequel Pro，Sequel Pro Developers 出品的 MySQL 数据库图形界面客户端，免费。\n 坚果云，上海亦存网络 出品的同步网盘服务，实现任意文件夹多端同步及版本历史，有免费方案可用，开着就好，啥也不管。\n Trello，目前已经被 Atlassian 公司收编的项目看板管理服务，免费，看板管理最佳工具。\n  ",
         "date": 1536105600,
         "objectID": "175aeb68aa325e34b272eb71d635ceb2",
         "relpermalink": "/note/2018-09-05-1522/",
         "section": "note",
         "title": "做手艺活，必然需要一套趁手的工具",
-        "size": 1698
+        "size": 1718
     },
     {
         "content": " 关于译文 我自己本身并不懂多少关于英文翻译的事情，这里相关的一些翻译内容也并不完全是我一个一个字手打出来的，其中绝大多数翻译内容均借助于 Google Translate 帮我实现，而我最多仅相当于一个审校的角色，对其中的句子进行一些更合理化的修改，或是用词是否恰当及准确，或是句子的通顺及逻辑合理与否。同时由于能力及精力有限，并不能绝对保证内容完全准确无误，如有发现不合理的地方或者错误的地方，还请见谅，也欢迎你反馈于我。\nTornado 是我学习 Python 后进入实际产品开发所使用到的第一个 Web 服务框架，虽然说关于它的功能有些写法可能已经用过很多次了，但是对它依然还没有一个全局的概念感受，所以想借助于这个翻译的过程，给自己加深一下关于它的设计理念、程序逻辑等等相关知识的印象。\n所以，译文只是顺便产生的结果，不过虽然即便如此，我也尽量使译文能契合中文的遣词造句，对于一些直译过来感觉奇怪的内容，会稍微做一下调整，以便容易理解。\n然后，我自己也会希望能完成所有篇章的翻译，而不是仅仅如同大家都在做的那样，只开个头，翻译一下简单入门部分，后面的更重要的细节内容就反而没有了。\n当然，其实如果能有心直接读原文，那是更好的。\n当前参考版本：Tornado 5.1\n原文链接：http://www.tornadoweb.org/\n",
