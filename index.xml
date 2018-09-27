@@ -33,6 +33,17 @@ Docker 从两三年前一飞冲天，坊间的互联网上到处都在谈论关�
     </item>
     
     <item>
+      <title>自己在用的一些 Python 库</title>
+      <link>https://jeremyyin.com/note/2018-09-27-2123/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-09-27-2123/</guid>
+      <description>Python 有许许多多的自带库和第三方库，如果遇到一个新需求点，分析到代码层实现的时候，除去自有的控制逻辑实现之外，对于单个通用功能点的实现，基本上第一件事是去寻找是否存在可用的库可以拿来直接用的，或者是可以学习其实现逻辑和一些理念。
+与 awesome python 不同的是，这里目前只列自己用的，不求大而全，只是稍微记录下自己的一些理解，暂时也不做什么分类了，写到哪里是哪里。
+ APScheduler ，用来运行定时脚本任务。 tornado ，用来搭 API 和 网站的 Web 框架，异步非阻塞。 requests ，用来发 http(s) 请求的，目前是同步阻塞型的。 bleach ，用来过滤 html 里面的标签。 redis ，是 Redis 的连接工具。 pymongo ，是 MongoDB 的连接工具。 beautifulsoup4 ，解析 html/xml 内容的工具，记得选择 lxml 用。  </description>
+    </item>
+    
+    <item>
       <title>做手艺活，必然需要一套趁手的工具</title>
       <link>https://jeremyyin.com/note/2018-09-05-1522/</link>
       <pubDate>Wed, 05 Sep 2018 00:00:00 +0000</pubDate>
