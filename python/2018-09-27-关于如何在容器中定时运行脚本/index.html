@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+        <title>关于如何在容器中定时运行脚本 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>关于如何在容器中定时运行脚本</h1>
+        <hr>
+        <p>最早我是在 Windows 上面开始学习和开发 Python 程序的，最开始是写些脚本来定时帮我更新一些数据，后来觉得需要有个地方来让多人共享查看这些数据，就进一步进行了 Web 开发。</p>
+
+<p>关于如何定时运行脚本，在 Windows 上面是有个叫“计划任务”的程序，当时就在它里面设置了一系列的运行任务，它会定时帮你启动程序脚本，如果使用的是 python.exe 启动，会有黑色命令行窗口，如果是使用 pythonw.exe 启动，则不会出现窗口，但是它确实在运行，你可以在任务管理器当中看到进程的存在。而我觉得还是需要观察下它到底运行的如何的，所以一般还是会使用带窗口的，虽然有时候还正在做着事情，忽然就弹出几个窗口来，后来习惯了也就觉得没啥影响了。</p>
+
+<p>后来，开始在 Linux 上面来运行程序。在这个系统平台上面，可就没有什么可操作的界面给你用了，都是命令、命令、还是命令。</p>
+
+<p>如果要在 Linux 上面定时运行任务，基本上会选择 cron 这个工具，不过它的命令其实又是 crontab。使用 crontab -l 列出当前用户已设置的任务列表，使用 crontab -e 调用默认编辑器对任务列表进行编辑，编辑器要是没有特别设置的话一般都是 vi 这个，初次接触的话可能要先去研究下怎么进入和退出编辑状态以及如何保存文件并退出。</p>
+
+<p>虽然可能已经有很多针对 cron 的改进款替代品，不过一般也没谁特地再去折腾自己，简单纯粹，凑合用了。</p>
+
+<p>由于 Linux 目前这个时间点能开箱直接让你用上 Python 3 的可能性几乎为零，所以一般情况下还需要额外再自己编译安装下 Python 3，特别是当你是非 root 账户的情况下，这又多了一次折腾了，多数情况下，你可能会遇到提示某个库缺失的情况，那就缺啥装啥，再来一次，反复折腾几次，就应该差不多了。</p>
+
+<p>正常情况下，机器要是没遇到啥特别的情况，基本上运行环境就这样了，没谁会再冒着把环境搞砸的风险而手痒去维护更新升级，更不用说大概率是会让已经在运行的任务要么停止运行一段时间或者由于测试而产生重复运行导致数据不符合预设要求的情况。</p>
+
+<p>以上基本上是绝大多数情况下的常规选择路径了，没啥特别情况的话，到此基本差不多了。</p>
+
+<p>不过，其实这样的选择在很长一段时间内也不会有什么问题，只是总还是觉得有点麻烦，开启一批脚本并使得它们确认正常运行，还是需要花上蛮长一段时间的，毕竟当中有些步骤是只有当你去正式动手操作了才会知道具体会遇到什么问题，等搜索完相关信息并执行完解决方案，实际已经敲打了不少命令，然而这些命令，并不会自然地留下任何文件记录，除非你操作一步又额外再去复制内容记录一下，不过大多数情况下，都是不会有心情这么干的，何况记录的还不一定正确和完整。假设再来一次新机设定，也依然还是重复这个路径，当然，有运维的就另当别论，不过，即使是运维，也不会喜欢行一步看一步，并重复很多次。</p>
+
+<p>所以，其实问题还是有很多。</p>
+
+<p>Docker 从两三年前一飞冲天，坊间的互联网上到处都在谈论关于容器的事情，给人感觉但凡是个程序员都会设法尝试下容器并写出几篇“容器入门“的文章，不过容器的发展速度用日新月异来形容简直不为过分，留下在互联网上的一句句 docker pull 和 docker build 还有 docker run 并携带一串串长长的参数，可能并未给人留下多好的印象。毕竟，我们真的会那么喜欢命令么？并不，超过 3 个字符的命令我们都会设法 alias 为 2 个字符，更不用说那么一串几百个字符还带换行符的命令了。</p>
+
+<p>还好，有 docker-compose 可以解决下，把命令都变成 yml 文件留下来吧，这样还能进入 git 进行版本控制，对我来说，只要有 docker-compose up -d 和 docker-compose down 就可以了。当然现在，更多的是 docker-compose -f docker-compose.dev.yml up -d 和 docker-compose -f docker-compose.dev.yml down，以及 docker-compose -f docker-compose.prod.yml up -d 和 docker-compose -f docker-compose.prod.yml down 这样的两套几乎仅有一处文件差异的启动和停止命令。</p>
+
+<p>Web 服务程序反而是最开始启用 Docker 来运行的，而直到现在才认为找到了正确并合适的方法来在 Docker 中运行定时任务程序。</p>
+
+<p>曾尝试过照旧使用 cron 在容器当中启动运行定时任务程序，虽然在本机 macOS 上的 Docker 中是基本没啥问题，可是到了 Docker for Linux 那边，就绝对不会一开始就让你正常运行的，毕竟，除了你要真的搞明白 cron 任务列表的更新原理之外，还有一道文件权限问题等着解决，这样就直接失去了简单跨平台的能力了。</p>
+
+<p>基于寻求更好的简单跨平台能力，又方便维护更新的原则，基于 Python，寻找可替代 cron 启动脚本的方案。</p>
+
+<p>可选的方案有几个：<a href="https://docs.python.org/3/library/sched.html#module-sched">sched</a> 、<a href="https://schedule.readthedocs.io/en/stable/">schedule</a> 、<a href="https://apscheduler.readthedocs.io/en/latest/index.html">APScheduler</a></p>
+
+<p>一个是内置 python 库，要用应该是可以用的。</p>
+
+<p>一个是说 Python job scheduling for humans，也挺不错，不过并行多任务需要额外看下文档。</p>
+
+<p>一个是说 Advanced Python Scheduler，功能最多的了，还能基于它开发成 Web 方式去管理任务。</p>
+
+<p>我由于 Tornado 用的勤快，所以我也就选择了它的 Tornado 模式，你选其它模式也是一样可以的。</p>
+
+<p>APScheduler 的演示示例倒是写了好几种，不过反而关于如何设置定时的部分在文档里面不那么明显，就这点来说 schedule 相比就做的非常好，文档写得好这点也是可以加分很多的，如果需求真的简单又没啥特别的，我可能还是建议直接使用 <a href="https://schedule.readthedocs.io/en/stable/">schedule</a>  好了，简单易懂。</p>
+
+<p>如何把以前的脚本直接就拿来用呢？无论这几个方案，都会让你提供一个函数，还有定时规则，如果有参数，也可以提交参数。原来的 .py 文件，基本上是会在底部 main 模块这里面写点东西，好点的可能会是一个独立函数，不好的情况，可能就会是还有很多代码。</p>
+
+<p>改是不可能再去改原有代码了的啦，最好直接拿来就用，那么这样的话，其实最好就是选 subprocess 了，使用 subprocess.run([&lsquo;python&rsquo;, &lsquo;filename.py&rsquo;]) 这样的代码去启动任何你想启动的脚本，不需要对原有代码做任何改动，这样最好不过了。</p>
+
+<p>把 subprocess.run 当作给任务的函数，需要启动的文件名命令作为参数传给它：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#c30"></span><span style="color:#c30">&#34;&#34;&#34;
+</span><span style="color:#c30">Demonstrates how to use the Tornado compatible scheduler to schedule a job that executes on 3
+</span><span style="color:#c30">second intervals.
+</span><span style="color:#c30">&#34;&#34;&#34;</span>
+
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">datetime</span> <span style="color:#069;font-weight:bold">import</span> datetime
+<span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">os</span>
+<span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">time</span>
+
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado.ioloop</span> <span style="color:#069;font-weight:bold">import</span> IOLoop
+<span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">apscheduler.schedulers.tornado</span> <span style="color:#069;font-weight:bold">import</span> TornadoScheduler
+<span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">subprocess</span>
+
+
+<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">tick</span>():
+    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;Tick! The time is: </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> datetime<span style="color:#555">.</span>now())
+
+
+<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;__main__&#39;</span>:
+    scheduler <span style="color:#555">=</span> TornadoScheduler()
+
+    scheduler<span style="color:#555">.</span>add_job(tick, <span style="color:#c30"></span><span style="color:#c30">&#39;interval&#39;</span>, seconds<span style="color:#555">=</span><span style="color:#f60">300</span>)
+    scheduler<span style="color:#555">.</span>add_job(subprocess<span style="color:#555">.</span>run, <span style="color:#c30"></span><span style="color:#c30">&#39;interval&#39;</span>, minutes<span style="color:#555">=</span><span style="color:#f60">5</span>, args<span style="color:#555">=</span>([<span style="color:#c30"></span><span style="color:#c30">&#39;python&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;helloworld.py&#39;</span>], ))
+    scheduler<span style="color:#555">.</span>add_job(subprocess<span style="color:#555">.</span>run, <span style="color:#c30"></span><span style="color:#c30">&#39;cron&#39;</span>, hour<span style="color:#555">=</span><span style="color:#f60">12</span>, minute<span style="color:#555">=</span><span style="color:#f60">20</span>, args<span style="color:#555">=</span>([<span style="color:#c30"></span><span style="color:#c30">&#39;python&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;helloworld.py&#39;</span>], ))
+
+    scheduler<span style="color:#555">.</span>start()
+    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;Press Ctrl+{0} to exit&#39;</span><span style="color:#555">.</span>format(<span style="color:#c30"></span><span style="color:#c30">&#39;Break&#39;</span> <span style="color:#069;font-weight:bold">if</span> os<span style="color:#555">.</span>name <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;nt&#39;</span> <span style="color:#069;font-weight:bold">else</span> <span style="color:#c30"></span><span style="color:#c30">&#39;C&#39;</span>))
+
+    <span style="color:#09f;font-style:italic"># Execution will block here until Ctrl+C (Ctrl+Break on Windows) is pressed.</span>
+    <span style="color:#069;font-weight:bold">try</span>:
+        IOLoop<span style="color:#555">.</span>instance()<span style="color:#555">.</span>start()
+    <span style="color:#069;font-weight:bold">except</span> (<span style="color:#c00;font-weight:bold">KeyboardInterrupt</span>, <span style="color:#c00;font-weight:bold">SystemExit</span>):
+        <span style="color:#069;font-weight:bold">pass</span></code></pre></div>
+<p>这样就使用一个 Scheduler 把 cron 完全替代了，这样便可以很方便去启动一个容器来运行它，不再有什么特别的命令操作和权限操作了，实现简单跨平台，而且也可以实现测试与运行两不误，更新升级的速度也会快很多。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<p>Author | Jeremy Yin</p>
+<p>Python Engineer</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
+<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
+<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
+<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+        
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-92987034-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
