@@ -13,11 +13,11 @@
     
     
     <item>
-      <title>关于如何在容器中定时运行脚本</title>
-      <link>https://jeremyyin.com/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
+      <title>关于如何优雅地在容器中定时运行脚本</title>
+      <link>https://jeremyyin.com/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
       <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
+      <guid>https://jeremyyin.com/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
       <description>最早我是在 Windows 上面开始学习和开发 Python 程序的，最开始是写些脚本来定时帮我更新一些数据，后来觉得需要有个地方来让多人共享查看这些数据，就进一步进行了 Web 开发。
 关于如何定时运行脚本，在 Windows 上面是有个叫“计划任务”的程序，当时就在它里面设置了一系列的运行任务，它会定时帮你启动程序脚本，如果使用的是 python.exe 启动，会有黑色命令行窗口，如果是使用 pythonw.exe 启动，则不会出现窗口，但是它确实在运行，你可以在任务管理器当中看到进程的存在。而我觉得还是需要观察下它到底运行的如何的，所以一般还是会使用带窗口的，虽然有时候还正在做着事情，忽然就弹出几个窗口来，后来习惯了也就觉得没啥影响了。
 后来，开始在 Linux 上面来运行程序。在这个系统平台上面，可就没有什么可操作的界面给你用了，都是命令、命令、还是命令。
