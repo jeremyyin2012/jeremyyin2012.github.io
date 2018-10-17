@@ -7,10 +7,32 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 27 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 17 Oct 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>折腾与吐槽 Traefik</title>
+      <link>https://jeremyyin.com/note/2018-10-17-2125/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-10-17-2125/</guid>
+      <description>用上了 Docker，然后就有了一堆容器。Nginx 也是容器，一般拿它作为访问入口，其它容器在它的背后，这就是反向代理 Reverse Proxy。
+Nginx 够不够好，够好，而且非常好。但是，容器要 scale，或者容器出现变动，结果它也不得不去更新配置并重启，还要额外再费力气去维护它，痛。
+所以就去找新东西。
+要说特性，Traefik 蛮符合要求的，本机跑个小 demo，觉得还行，以为可以上手用。
+结果嘛，文档乱七八糟，在线开了机器，备好域名，跟着文档做这多次都做不出可用的配置来。
+疯了。
+我是对很多东西理解不到，但不至于这么蠢。
+耐心也不是这么被磨灭的。
+放弃好了。
+还以为，这是个非商业化的产品，所以文档及其难看，再一看，其实是个法国的商业公司。
+好吧，难为你了。
+下次吧，或者，继续再找新的更好的可替代品。
+还有 nginx-proxy，但是看到带 nginx 不太想折腾。
+还有 Envoy，这是个什么？</description>
+    </item>
     
     <item>
       <title>关于如何优雅地在容器中定时运行脚本</title>
