@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jeremyyin.com/note/2018-10-23-2226/</loc>
+    <lastmod>2018-10-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jeremyyin.com/note/2018-10-18-2127/</loc>
+    <lastmod>2018-10-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jeremyyin.com/note/2018-10-17-2125/</loc>
     <lastmod>2018-10-17T00:00:00+00:00</lastmod>
   </url>
@@ -518,13 +528,13 @@
   
   <url>
     <loc>https://jeremyyin.com/</loc>
-    <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jeremyyin.com/note/</loc>
-    <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
