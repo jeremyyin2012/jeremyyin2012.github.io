@@ -11,7 +11,7 @@
 
 <meta name="generator" content="Hugo 0.37.1" />
 
-        <title>Notes | Jeremy&#39;s blog</title>
+        <title>SQLAlchemy select 中的表别名、列别名 | Jeremy&#39;s blog</title>
 
         
 
@@ -116,40 +116,26 @@
                 <div class="row">
                     <div class="col-sm-12">
                             
-<ul class="list-unstyled">
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-10-28-2249/">SQLAlchemy select 中的表别名、列别名</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-10-28-2102/">dynamically parameter passing in sql where query best practices</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-10-28-2216/">使用 SQLAlchemy Core 的 select，可是没有定义表对象怎么办</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-10-26-2133/">dynamically select columns in sql query best practices</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-10-25-2121/">pymysql: 给 sql 语句传递字典参数</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-10-23-2226/">nginx-proxy 与 Let&#39;s Encrypt</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-10-18-2127/">Traefik 与 nginx-proxy</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-10-17-2125/">折腾与吐槽 Traefik</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-09-27-2123/">自己在用的一些 Python 库</a></li>
-            
-    
-            <li class="post-item-title"><a href="https://jeremyyin.com/note/2018-09-05-1522/">做手艺活，必然需要一套趁手的工具</a></li>
-            
-    
-    </ul>
 
+    <article>
+        <h1>SQLAlchemy select 中的表别名、列别名</h1>
+        <hr>
+        <p>难免要用到连表查询，这时候如果一个表不止用一次，或一个列名可能产生冲突，就需要用到别名，同时表别名还能优化查询语句的长度和可读性，SQL 里面的 SELECT，则会用到 AS 或者不用 as 就直接跟在项目后面即可。</p>
+
+<p>那在 SQLAlchemy select 中要怎么实现呢：</p>
+
+<p>不多说，上例子：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># 表别名：select * from my_customer_table as customer</span>
+customer <span style="color:#555">=</span> my_customer_table<span style="color:#555">.</span>alias(<span style="color:#c30"></span><span style="color:#c30">&#39;customer&#39;</span>)
+
+<span style="color:#09f;font-style:italic"># 列别名 select user as username from user</span>
+columns <span style="color:#555">=</span> [
+    customer,
+    user<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>label(<span style="color:#c30"></span><span style="color:#c30">&#39;username&#39;</span>)
+]</code></pre></div>
+<p>这样就可以了。</p>
+
+    </article>
 
 
                   </div>

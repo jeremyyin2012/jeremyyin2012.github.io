@@ -13,6 +13,18 @@
     
     
     <item>
+      <title>SQLAlchemy select 中的表别名、列别名</title>
+      <link>https://jeremyyin.com/note/2018-10-28-2249/</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-10-28-2249/</guid>
+      <description>难免要用到连表查询，这时候如果一个表不止用一次，或一个列名可能产生冲突，就需要用到别名，同时表别名还能优化查询语句的长度和可读性，SQL 里面的 SELECT，则会用到 AS 或者不用 as 就直接跟在项目后面即可。
+那在 SQLAlchemy select 中要怎么实现呢：
+不多说，上例子：
+# 表别名：select * from my_customer_table as customer customer = my_customer_table.alias(&amp;#39;customer&amp;#39;) # 列别名 select user as username from user columns = [ customer, user.c[&amp;#39;name&amp;#39;].label(&amp;#39;username&amp;#39;) ] 这样就可以了。</description>
+    </item>
+    
+    <item>
       <title>dynamically parameter passing in sql where query best practices</title>
       <link>https://jeremyyin.com/note/2018-10-28-2102/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
