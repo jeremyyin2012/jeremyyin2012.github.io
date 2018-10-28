@@ -7,10 +7,80 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 23 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Oct 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>dynamically parameter passing in sql where query best practices</title>
+      <link>https://jeremyyin.com/note/2018-10-28-2102/</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-10-28-2102/</guid>
+      <description>搞定了 select columns 的动态列查询，接着就该来搞定 where and or 的动态参数化查询了。
+猛一想，where 这部分的参数化查询，如果我用 pymysql 的 cursor，或者用 SQLAlchemy 的 engine 或者 session 直接调用 execute 执行文本语句，也是可以给语句的 where 参数动态传参的呀？
+不，我说的更进一步的：除了参数可以动态传入，我想要 where 语句也要动态改变，即动态条件查询。
+可能要是没辙的话 大多数都跑去冒着 sql 注入的危险，启用文本格式化工具来写一堆条件来动态拼接语句了。
+不说最后拼出来的对不对，开发效率、调试速度，总要顾及一下吧？
+之前的动态列查询使用了 SQLAlchemy Core 里面 select 工具，通过可以定义单个 column 的办法动态处理得到供 select 使用的 columns，实现无论你要多少列，要什么不要什么，都可以通过列名称参数进行动态地处理得到，具体再多去写一些实际需求，应该就会熟练上手了。
+而 where 的动态化，你基本也想到了，还是会在 select 这个工具下面来进行。
+看官方的写法：
+s = select([users, addresses]).where(users.c.id == addresses.c.user_id) 不过目前写后台 API 程序的话，基本上可能会这么写：
+s = select([users, addresses]).where(users.c[&amp;#39;id&amp;#39;] == addresses.c[&amp;#39;user_id&amp;#39;]) 然后再把这里的字符根据情况使用变量名替换掉。
+上面的 where 只有一个条件，如果有多个条件，要用到连接符了，同时也有提供专门的连接词来处理：
+from sqlalchemy.sql import and_, or_, not_ and_( users.</description>
+    </item>
+    
+    <item>
+      <title>使用 SQLAlchemy Core 的 select，可是没有定义表对象怎么办</title>
+      <link>https://jeremyyin.com/note/2018-10-28-2216/</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-10-28-2216/</guid>
+      <description>你看到了，动态列查询、动态条件查询，两大动态查询都使用 使用 SQLAlchemy Core 的 select 工具来进行实现，发现没有，要想使用 select，那就必须要有表对象，有了表对象，它才能帮你实现各种动态查询条件语句的生成，没有这些表对象为基础，那可就巧妇难为无米之炊了。
+那么，是否就一定要把这些表对象一个一个，一列一列，完完整整地重新敲出来呢？
+我一开始就是这么干的。
+等我干了几个表，发现太折磨人了。如果建表是自己来，那么一定会去写这些个 Table 的定义，但是如果是接手了一个现有的数据库呢？全部重新手打实现，真的就是要死要活了。
+作为程序员思维者，Python 生态已经很成熟了吧，SQLAlchemy 如此强大，是否可以帮忙从数据库里面读取这些 Table 信息出来？
+结果真的是可以的：
+from sqlalchemy import create_engine from sqlalchemy import MetaData db_uri = &amp;#39;mysql+pymysql://username:password@localhost:3306/test&amp;#39; engine = create_engine(db_uri) metadata = MetaData() metadata.reflect(bind=engine) print(metadata.tables) # immutabledict({&amp;#39;address&amp;#39;: Table(&amp;#39;address&amp;#39;, MetaData(bind=None), Column(&amp;#39;ID&amp;#39;, ... 看到输出这么一串，简直想哭啊。
+好了，想要怎么用就不用我多说了，有了这个字典，想怎么用怎么用去。</description>
+    </item>
+    
+    <item>
+      <title>dynamically select columns in sql query best practices</title>
+      <link>https://jeremyyin.com/note/2018-10-26-2133/</link>
+      <pubDate>Fri, 26 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-10-26-2133/</guid>
+      <description>使用 mysql 等类型的关系型数据库，最大的一个痛点之一就是写查询语句了，其中一个需求就是动态列查询，网络上的文章千百万，问题和回答也千百万，靠谱不靠谱，对于搜这个问题的人，应该都难分辨。
+对于做数据分析，可能不太会有这个需求，大多数情况下，是在构建 API 接口的时候。
+如果业务功能需求简单，不常变化，或是 API 接口功能设计上不用支持各种类型的动态列查询，那也罢了。
+但是，如果需求百般变化，一个接口要是不支持动态列查询，又如何应对呢？
+比如这个：具体要返回哪些数据列，前端要传参，后台要判断是否应该返回。
+跟在 select 语句后面、table 名称前面的这段内容：列名称，就是要动态控制的地方。
+然而，虽然 sql 语句是文本，初看貌似可以通过动态生成文本的方式来实现，这真的可行么？
+答案自然是不行的，为啥？sql 注入（SQL injection）希望你了解下。
+pymysql 支持参数化查询，%s 与 %(name)s，是否可以用参数化查询来控制呢？比如这样：
+params = {&amp;#39;limit&amp;#39;: 10, &amp;#39;columns&amp;#39;: &amp;#39;, &amp;#39;.join([&amp;#39;id&amp;#39;, &amp;#39;name&amp;#39;])} sql = &amp;#39;select %(columns)sfrom test limit %(limit)s&amp;#39; cursor.execute(sql, params) 测试过，也不行的，你也可以试试看。
+所以，动态列查询，到底要如何解决呢？
+有人说，这样可能你只能用 ORM 工具来解决了，其实这个方向倒是没错的，毕竟要是自己真的有能力处理，可能最终写出来的，已然跟 ORM 没差多少了。
+SQLAlchemy 我是知道一定可以做到的，但是，一定要用 ORM 么，一定要写 Model 么？更何况 SQLAlchemy 的 ORM 模式又要如何进行动态列查询目前也还没找到答案，以及数据序列化又是另外一个问题，文档可能太厚了，而教程又太精炼，且还分散在各处。
+终于，我想到了 Pandas，这个东西支持直接就从 sql 数据库读取数据，而且还支持选择想要列，或许可以看看它是如何实现的，从 pd.read_sql() 开始往里翻，让我找到了这个：
+def read(self, coerce_float=True, parse_dates=None, columns=None, chunksize=None): if columns is not None and len(columns) &amp;gt; 0: from sqlalchemy import select cols = [self.</description>
+    </item>
+    
+    <item>
+      <title>pymysql: 给 sql 语句传递字典参数</title>
+      <link>https://jeremyyin.com/note/2018-10-25-2121/</link>
+      <pubDate>Thu, 25 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-10-25-2121/</guid>
+      <description>pymysql 执行 sql 操作的最主要一个方法就是：cursor.execute(sql, *args)
+它给了个这样的例子：
+import pymysql.cursors # Connect to the database connection = pymysql.connect(host=&amp;#39;localhost&amp;#39;, user=&amp;#39;user&amp;#39;, password=&amp;#39;passwd&amp;#39;, db=&amp;#39;db&amp;#39;, charset=&amp;#39;utf8mb4&amp;#39;, cursorclass=pymysql.cursors.DictCursor) try: with connection.cursor() as cursor: # Create a new record sql = &amp;#34;INSERT INTO `users` (`email`, `password`) VALUES (%s, %s)&amp;#34; cursor.execute(sql, (&amp;#39;webmaster@python.org&amp;#39;, &amp;#39;very-secret&amp;#39;)) # connection is not autocommit by default. So you must commit to save # your changes. connection.commit() with connection.cursor() as cursor: # Read a single record sql = &amp;#34;SELECT `id`, `password` FROM `users` WHERE `email`=%s&amp;#34; cursor.</description>
+    </item>
     
     <item>
       <title>nginx-proxy 与 Let&#39;s Encrypt</title>

@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.37.1" />
+
+        <title>dynamically select columns in sql query best practices | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>dynamically select columns in sql query best practices</h1>
+        <hr>
+        <p>使用 mysql 等类型的关系型数据库，最大的一个痛点之一就是写查询语句了，其中一个需求就是<strong>动态列查询</strong>，网络上的文章千百万，问题和回答也千百万，靠谱不靠谱，对于搜这个问题的人，应该都难分辨。</p>
+
+<p>对于做数据分析，可能不太会有这个需求，大多数情况下，是在构建 API 接口的时候。</p>
+
+<p>如果业务功能需求简单，不常变化，或是 API 接口功能设计上不用支持各种类型的动态列查询，那也罢了。</p>
+
+<p>但是，如果需求百般变化，一个接口要是不支持动态列查询，又如何应对呢？</p>
+
+<p>比如这个：具体要返回哪些数据列，前端要传参，后台要判断是否应该返回。</p>
+
+<p>跟在 select 语句后面、table 名称前面的这段内容：列名称，就是要动态控制的地方。</p>
+
+<p>然而，虽然 sql 语句是文本，初看貌似可以通过动态生成文本的方式来实现，这真的可行么？</p>
+
+<p>答案自然是不行的，为啥？sql 注入（SQL injection）希望你了解下。</p>
+
+<p>pymysql 支持参数化查询，%s 与 %(name)s，是否可以用参数化查询来控制呢？比如这样：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">params <span style="color:#555">=</span> {<span style="color:#c30"></span><span style="color:#c30">&#39;limit&#39;</span>: <span style="color:#f60">10</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;columns&#39;</span>: <span style="color:#c30"></span><span style="color:#c30">&#39;, &#39;</span><span style="color:#555">.</span>join([<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>])}
+sql <span style="color:#555">=</span> <span style="color:#c30"></span><span style="color:#c30">&#39;select </span><span style="color:#a00">%(columns)s</span><span style="color:#c30"> from test limit </span><span style="color:#a00">%(limit)s</span><span style="color:#c30">&#39;</span>
+cursor<span style="color:#555">.</span>execute(sql, params)</code></pre></div>
+<p>测试过，也不行的，你也可以试试看。</p>
+
+<p>所以，动态列查询，到底要如何解决呢？</p>
+
+<p>有人说，这样可能你只能用 ORM 工具来解决了，其实这个方向倒是没错的，毕竟要是自己真的有能力处理，可能最终写出来的，已然跟 ORM 没差多少了。</p>
+
+<p>SQLAlchemy 我是知道一定可以做到的，但是，一定要用 ORM 么，一定要写 Model 么？更何况 SQLAlchemy 的 ORM 模式又要如何进行动态列查询目前也还没找到答案，以及数据序列化又是另外一个问题，文档可能太厚了，而教程又太精炼，且还分散在各处。</p>
+
+<p>终于，我想到了 Pandas，这个东西支持直接就从 sql 数据库读取数据，而且还支持选择想要列，或许可以看看它是如何实现的，从 pd.read_sql() 开始往里翻，让我找到了这个：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">read</span>(self, coerce_float<span style="color:#555">=</span>True, parse_dates<span style="color:#555">=</span>None, columns<span style="color:#555">=</span>None,
+             chunksize<span style="color:#555">=</span>None):
+
+        <span style="color:#069;font-weight:bold">if</span> columns <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> None <span style="color:#000;font-weight:bold">and</span> <span style="color:#366">len</span>(columns) <span style="color:#555">&gt;</span> <span style="color:#f60">0</span>:
+            <span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">sqlalchemy</span> <span style="color:#069;font-weight:bold">import</span> select
+            cols <span style="color:#555">=</span> [self<span style="color:#555">.</span>table<span style="color:#555">.</span>c[n] <span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> columns]
+            <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>index <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> None:
+                [cols<span style="color:#555">.</span>insert(<span style="color:#f60">0</span>, self<span style="color:#555">.</span>table<span style="color:#555">.</span>c[idx]) <span style="color:#069;font-weight:bold">for</span> idx <span style="color:#000;font-weight:bold">in</span> self<span style="color:#555">.</span>index[::<span style="color:#555">-</span><span style="color:#f60">1</span>]]
+            sql_select <span style="color:#555">=</span> select(cols)
+        <span style="color:#069;font-weight:bold">else</span>:
+            sql_select <span style="color:#555">=</span> self<span style="color:#555">.</span>table<span style="color:#555">.</span>select()
+
+        result <span style="color:#555">=</span> self<span style="color:#555">.</span>pd_sql<span style="color:#555">.</span>execute(sql_select)
+        column_names <span style="color:#555">=</span> result<span style="color:#555">.</span>keys()
+
+        <span style="color:#069;font-weight:bold">if</span> chunksize <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> None:
+            <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>_query_iterator(result, chunksize, column_names,
+                                        coerce_float<span style="color:#555">=</span>coerce_float,
+                                        parse_dates<span style="color:#555">=</span>parse_dates)
+        <span style="color:#069;font-weight:bold">else</span>:
+            data <span style="color:#555">=</span> result<span style="color:#555">.</span>fetchall()
+            self<span style="color:#555">.</span>frame <span style="color:#555">=</span> DataFrame<span style="color:#555">.</span>from_records(
+                data, columns<span style="color:#555">=</span>column_names, coerce_float<span style="color:#555">=</span>coerce_float)
+
+            self<span style="color:#555">.</span>_harmonize_columns(parse_dates<span style="color:#555">=</span>parse_dates)
+
+            <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>index <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> None:
+                self<span style="color:#555">.</span>frame<span style="color:#555">.</span>set_index(self<span style="color:#555">.</span>index, inplace<span style="color:#555">=</span>True)
+
+            <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>frame</code></pre></div>
+<p>今天的重点在这一部分：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">if</span> columns <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> None <span style="color:#000;font-weight:bold">and</span> <span style="color:#366">len</span>(columns) <span style="color:#555">&gt;</span> <span style="color:#f60">0</span>:
+    <span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">sqlalchemy</span> <span style="color:#069;font-weight:bold">import</span> select
+    cols <span style="color:#555">=</span> [self<span style="color:#555">.</span>table<span style="color:#555">.</span>c[n] <span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> columns]
+    <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>index <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> None:
+        [cols<span style="color:#555">.</span>insert(<span style="color:#f60">0</span>, self<span style="color:#555">.</span>table<span style="color:#555">.</span>c[idx]) <span style="color:#069;font-weight:bold">for</span> idx <span style="color:#000;font-weight:bold">in</span> self<span style="color:#555">.</span>index[::<span style="color:#555">-</span><span style="color:#f60">1</span>]]
+    sql_select <span style="color:#555">=</span> select(cols)
+<span style="color:#069;font-weight:bold">else</span>:
+    sql_select <span style="color:#555">=</span> self<span style="color:#555">.</span>table<span style="color:#555">.</span>select()
+
+result <span style="color:#555">=</span> self<span style="color:#555">.</span>pd_sql<span style="color:#555">.</span>execute(sql_select)
+column_names <span style="color:#555">=</span> result<span style="color:#555">.</span>keys()</code></pre></div>
+<p>赤裸裸地用着 sqlalchemy 的 <a href="https://docs.sqlalchemy.org/en/latest/core/selectable.html#sqlalchemy.sql.expression.select">select</a> ，这是 <a href="https://docs.sqlalchemy.org/en/latest/core/index.html">SQLAlchemy Core</a> 里面的东西，号称 No ORM Required。SQLAlchemy ORM 也是基于 Core 的。</p>
+
+<p>虽然 pandas 在文档中明确地指出：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#c30"></span><span style="color:#c30">&#39;&#39;&#39;
+</span><span style="color:#c30">columns: list, default: None
+</span><span style="color:#c30">    List of column names to select from sql table (only used when reading a table).
+</span><span style="color:#c30">&#39;&#39;&#39;</span></code></pre></div>
+<p>意思就是只能在读取一个 table 的时候才能使用 columns 参数。</p>
+
+<p>不过这个是 pandas 所建立的高层逻辑，而所使用的 <a href="https://docs.sqlalchemy.org/en/latest/core/selectable.html#sqlalchemy.sql.expression.select">select</a> 底层其实支持更丰富的查询方法，具体可以参考 <a href="https://docs.sqlalchemy.org/en/latest/core/tutorial.html#selecting">Selecting</a> 教程。</p>
+
+<p>核心看这句：cols = [self.table.c[n] for n in columns]，利用 table.c[n] 这个方法从列名称构建了列查询，实现了动态列查询的功能。</p>
+
+<p>为啥之前看教程时候没想到这个，因为看到的都是这么写的：table.c.name，而不是 table.c[name]，根本没想到可以往字符变量上去靠，现在想想，其实把字符赋值给一个变量名称，然后再使用，也就是一样的效果。脑袋没转过来，毕竟思维定势了。</p>
+
+<p>不过依然还是有个前提，表对象是要存在的，字段名也是要存在的，否则就会报错的。</p>
+
+<p>中间的这个 <a href="https://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.Table.c">c</a>，其实就是 <a href="https://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.Table.columns">columns</a> : An alias for the columns attribute. 它的类型是 ImmutableColumnCollection，简单认为是一个只读的字典就好了。</p>
+
+<p>如果你有一个 user 表，列名称叫 &lsquo;username&rsquo;，</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">col <span style="color:#555">=</span> user<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;username&#39;</span>]</code></pre></div>
+<p>知道这个方法，接下来基本上就看你自由发挥了。关于表和列的更深入的知识，请参考 SQLAlchemy 的教程说明和 API 说明，能不能挖出宝来就自己了，我是真的会容易看晕：</p>
+
+<ul>
+<li><p><a href="https://docs.sqlalchemy.org/en/latest/core/tutorial.html#define-and-create-tables">Define and Create Tables</a></p></li>
+
+<li><p><a href="https://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.Column">Column, Table, MetaData API</a></p></li>
+
+<li><p><a href="https://docs.sqlalchemy.org/en/latest/core/sqlelement.html">Column Elements and Expressions</a></p></li>
+</ul>
+
+<p>也尝试构建使用多个表的动态列查询：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">columns_user <span style="color:#555">=</span> [<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>]
+columns_order <span style="color:#555">=</span> [<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;amount&#39;</span>]
+cols_user <span style="color:#555">=</span> [user<span style="color:#555">.</span>c[n] <span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> columns_user]
+cols_order <span style="color:#555">=</span> [order<span style="color:#555">.</span>c[n] <span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> columns_order]
+sql_select <span style="color:#555">=</span> select(cols_user <span style="color:#555">+</span> cols_order)<span style="color:#555">.</span>limit(<span style="color:#f60">10</span>)</code></pre></div>
+<p>又或者可以是这样：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tables <span style="color:#555">=</span> {<span style="color:#c30"></span><span style="color:#c30">&#39;user&#39;</span>: user, <span style="color:#c30"></span><span style="color:#c30">&#39;order&#39;</span>: order}
+columns <span style="color:#555">=</span> [<span style="color:#c30"></span><span style="color:#c30">&#39;user.id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;user.name&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;order.id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;order.amount&#39;</span>]
+cols <span style="color:#555">=</span> []
+<span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> columns:
+    t_name, c_name <span style="color:#555">=</span> n<span style="color:#555">.</span>split(<span style="color:#c30"></span><span style="color:#c30">&#39;.&#39;</span>)
+	cols<span style="color:#555">.</span>append(tables<span style="color:#555">.</span>get(t_name)<span style="color:#555">.</span>c[c_name])
+sql_select <span style="color:#555">=</span> select(cols)<span style="color:#555">.</span>limit(<span style="color:#f60">10</span>)</code></pre></div>
+<p>至此，还没有用到 ORM 层的东西，唯独需要预先做的事情的就是去定义表结构对象。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<p>Author | Jeremy Yin</p>
+<p>Python Engineer</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
+<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
+<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
+<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+        
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-92987034-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
