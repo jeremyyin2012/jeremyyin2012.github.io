@@ -143,21 +143,21 @@
 <p>上面的 where 只有一个条件，如果有多个条件，要用到连接符了，同时也有提供专门的连接词来处理：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">sqlalchemy.sql</span> <span style="color:#069;font-weight:bold">import</span> and_, or_, not_
 and_(
-    users<span style="color:#555">.</span>c<span style="color:#555">.</span>name<span style="color:#555">.</span>like(<span style="color:#c30"></span><span style="color:#c30">&#39;j%&#39;</span>),
-    users<span style="color:#555">.</span>c<span style="color:#555">.</span><span style="color:#366">id</span> <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c<span style="color:#555">.</span>user_id,
+    users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>like(<span style="color:#c30"></span><span style="color:#c30">&#39;j%&#39;</span>),
+    users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;user_id&#39;</span>],
     or_(
-        addresses<span style="color:#555">.</span>c<span style="color:#555">.</span>email_address <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;wendy@aol.com&#39;</span>,
-        addresses<span style="color:#555">.</span>c<span style="color:#555">.</span>email_address <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;jack@yahoo.com&#39;</span>
+        addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;email_address&#39;</span>] <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;wendy@aol.com&#39;</span>,
+        addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;email_address&#39;</span>] <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;jack@yahoo.com&#39;</span>
     ),
-    not_(users<span style="color:#555">.</span>c<span style="color:#555">.</span><span style="color:#366">id</span> <span style="color:#555">&gt;</span> <span style="color:#f60">5</span>)
+    not_(users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">&gt;</span> <span style="color:#f60">5</span>)
 )</code></pre></div>
 <p>相对应的三个连接符就是：&amp;、|、~</p>
 
 <p>不过目前来看，我会更喜欢连接词方式，为啥，因为要动态化呀，嗯？没看出来咋搞？这样：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">clauses <span style="color:#555">=</span> []
 
-clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c<span style="color:#555">.</span>name<span style="color:#555">.</span>like(<span style="color:#c30"></span><span style="color:#c30">&#39;j%&#39;</span>))
-clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c<span style="color:#555">.</span><span style="color:#366">id</span> <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c<span style="color:#555">.</span>user_id)
+clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>like(<span style="color:#c30"></span><span style="color:#c30">&#39;j%&#39;</span>))
+clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;user_id&#39;</span>])
 
 s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(and_(<span style="color:#555">*</span>clauses))</code></pre></div>
 <p>重点就在这个星号 *，标准的 *args 赋值模式，对吧。这样你就可以自由地去操作 clauses 这个列表了，根据不同的情况，动态地往里面加任何可以加的查询条件，甚至嵌套几层 and_ , or_ , not_ 进去都是可以的。</p>
