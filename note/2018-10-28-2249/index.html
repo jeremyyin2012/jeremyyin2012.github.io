@@ -128,7 +128,7 @@
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># 表别名：select * from my_customer_table as customer</span>
 customer <span style="color:#555">=</span> my_customer_table<span style="color:#555">.</span>alias(<span style="color:#c30"></span><span style="color:#c30">&#39;customer&#39;</span>)
 
-<span style="color:#09f;font-style:italic"># 列别名 select user as username from user</span>
+<span style="color:#09f;font-style:italic"># 列别名 select user.name as username from user</span>
 columns <span style="color:#555">=</span> [
     customer,
     user<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>label(<span style="color:#c30"></span><span style="color:#c30">&#39;username&#39;</span>)
