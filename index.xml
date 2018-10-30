@@ -7,10 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Sun, 28 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 30 Oct 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 Pandas 实现动态查询及处理数据并导出 Excel 文件</title>
+      <link>https://jeremyyin.com/note/2018-10-30-2042/</link>
+      <pubDate>Tue, 30 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/note/2018-10-30-2042/</guid>
+      <description>需求是这么来的：根据参数执行查询，然后生成 Excel 表供下载，简单说就是查询并导出。
+一种思路是根据参数动态生成 select 查询对象，然后执行拿到结果，大概是这样：
+... sql_select = select(columns).select_from(join_obj).where(whereclause).offset(offset).limit(limit).order_by(order_by) result = session.execute(sql_select) count = result.rowcount rows = [dict(row) for row in result.fetchall()] 然后拿到 rows 就可以去该做什么处理就做什么处理了，如果要生存 Excel 表，就可以使用 XlsxWriter 这个工具去写表文件，反正就是对 rows 开个 for 循环就是了。
+不过呢，还有没有更好的办法？
+假设如果我要对 rows 的数据要做些高级处理，而不是开个 for 循环。毕竟如果是处理数据的话，Pandas 这个工具在思维方式和代码组织上比 for 循环要更利于思考和维护，而同时我们也知道 Pandas 也能直接输出 Excel 文件，那么是否可以用上它？
+按常规，查询得到 rows，然后再生成一个 df，对 df 进行一些处理后再去输出 Excel，甚至同时还要把修改后的数据输出为新的 rows，那么这里：查询得到结果、把结果生成 df 这两个步骤涉及到两步数据转化，理论上来说肯定是有一些消耗的，如果是在 API 服务上使用，则需要考虑性能问题，能少一步就少一步。
+那么，是否可以一步到位呢？直接查询结果就得到 df，而不是自行再多做一步中转处理。
+Pandas 是可以直接 read_sql 的，具体说明如下：
+def read_sql(sql, con, index_col=None, coerce_float=True, params=None, parse_dates=None, columns=None, chunksize=None): &amp;#34;&amp;#34;&amp;#34; Read SQL query or database table into a DataFrame.</description>
+    </item>
     
     <item>
       <title>SQLAlchemy select 中的表别名、列别名</title>
