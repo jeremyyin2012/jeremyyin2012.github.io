@@ -7,10 +7,33 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Tue, 30 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Dec 2018 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>多层代码与单线思维</title>
+      <link>https://jeremyyin.com/python/2018-12-06-%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%A0%81%E4%B8%8E%E5%8D%95%E7%BA%BF%E6%80%9D%E7%BB%B4/</link>
+      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/python/2018-12-06-%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%A0%81%E4%B8%8E%E5%8D%95%E7%BA%BF%E6%80%9D%E7%BB%B4/</guid>
+      <description>最近在做系统移植，由 C# 转向 Python。
+难度大不大，肯定还是有些难度的。首先就是功能梳理，很多人写完代码，然后再让他梳理出功能逻辑出来，不一定就真能弄得出来，而能写对写全写清晰，又是另外一个事了。
+由于目标是最终全部由 Python 接手全部系统，第一期其实是打算不对任何功能做变动，且仅对后端接口层进行重写，前端能利用的都尽量利用。
+具体的就不深入说了。
+反而想说说代码思维这个点上的事情。
+曾经我提到过一篇：if True or if not True，可以找下看看，算是那个时候针对这个问题的一点小思考。
+而如今在看到别人写的 C# 代码，就更加有体会了，再加上自己在重写过程中的一些思考，算是对这个问题的又一个探讨。
+在进入业务逻辑处理过程中，每往下一步，就会需要对当前的数据进行校验是否可用，而一旦深入几步，按照这个思路下去，迟早你会发现核心代码已经被缩进很多层了，看着一层层的缩进，核心代码跑出屏幕外，即使拿个超宽屏来看，也不一定看得全；而同时由于又要兼顾判断逻辑的层次，导致上下一屏也不一定又看得完，又得不断地上下挪动。
+这样，即使超宽超大屏幕也不一定好干活。
+如果是不断地 if True 下去，肯定是会导致这样的结果的，而且等写完核心逻辑，又要一层一层不断地 else 回来，场面甚是壮观。
+这样的结果其实我也能理解的，由于是新逻辑，具体会有些什么操作还不确定，有哪些条件限制也还不完全确定，所以只好一路走下去，就成了这个结果。
+而重写就不一样了，看过了全局主要逻辑框架，首先想到的就是不符合要求的全部干掉，早早地就 return 出去，不但不用一层层嵌套，还省去了在此过程中浪费掉的查询等资源操作，降低了系统消耗。
+比起一次只考虑一种情况，早早地 return 出去需要同时考虑所有不符合要求的边界问题。而且对于取反操作，在一些语言中可能并不那么方便，可能这也是导致取 True 的情况用的多导致深层嵌套的缘故吧。
+或者，其实还有其它更深层的原因。
+那就不得而知了。</description>
+    </item>
     
     <item>
       <title>使用 Pandas 实现动态查询及处理数据并导出 Excel 文件</title>
