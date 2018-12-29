@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>给一个列表去除重复数据的最原始方法 | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -132,44 +132,44 @@ new_items <span style="color:#555">=</span> []
 
 <p>比如，列表里面不是简单的数字或字符，而是一个一个的字典（对象），这也是可以的。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">items <span style="color:#555">=</span> [
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}]
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}]
 new_items <span style="color:#555">=</span> []
 <span style="color:#069;font-weight:bold">for</span> item <span style="color:#000;font-weight:bold">in</span> items:
     <span style="color:#069;font-weight:bold">if</span> item <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">in</span> new_items:
         new_items<span style="color:#555">.</span>append(item)</code></pre></div>
 <p>new_items:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]</code></pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]</code></pre></div>
 <p>而之前有种利用 OrderedDict 进行操作去重复并保留顺序的方法，则不适用于这种包含多个字典的情况。</p>
 
 <p>为啥有时候会偏爱 OrderedDict 这种方法呢，因为：代码行数和思考方式，如果能有种方法可以快速帮你做到，自然是选快捷的。而且，在实际情况中，你可能需要在一个环节同时面对十几个字段的去重复操作，这时候能有一种内建的方法能支持你快速实现并让代码结构很流畅，是很辛福的事情。</p>
 
 <p>当然，也可以把上面的办法独立写个函数，这样就可以到处调用了。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">A_items <span style="color:#555">=</span> [
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}]
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>},
+    {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}]
 
 B_items <span style="color:#555">=</span> [
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">10</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">40</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">50</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">40</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">30</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">80</span>},
-    {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>}]
+    {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>},
+    {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">10</span>},
+    {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">40</span>},
+    {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">50</span>},
+    {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">40</span>},
+    {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">30</span>},
+    {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">80</span>},
+    {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>}]
 
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">select_distinct</span>(items):
     new_items <span style="color:#555">=</span> []
@@ -184,14 +184,14 @@ B_items <span style="color:#555">=</span> [
 my_A_items <span style="color:#555">=</span> select_distinct(A_items)
 my_B_items <span style="color:#555">=</span> select_distinct(B_items)</code></pre></div>
 <p>my_A_items:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30"></span><span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]</code></pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]</code></pre></div>
 <p>my_B_items:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>},
- {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">10</span>},
- {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">40</span>},
- {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">50</span>},
- {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">30</span>},
- {<span style="color:#c30"></span><span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">80</span>}]</code></pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>},
+ {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">10</span>},
+ {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">40</span>},
+ {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">50</span>},
+ {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">30</span>},
+ {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">80</span>}]</code></pre></div>
 <p>这样，你可能不止两个三个需要处理，有时候可能是十几个，这样代码结构上的流畅性就很可观了。</p>
 
     </article>
@@ -242,27 +242,46 @@ my_B_items <span style="color:#555">=</span> select_distinct(B_items)</code></pr
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

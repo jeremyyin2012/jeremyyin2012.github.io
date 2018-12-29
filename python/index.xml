@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pythons on Jeremy&#39;s blog</title>
+    <link>/python/</link>
+    <description>Recent content in Pythons on Jeremy&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
+    <lastBuildDate>Thu, 06 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>多层代码与单线思维</title>
+      <link>/python/2018-12-06-%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%A0%81%E4%B8%8E%E5%8D%95%E7%BA%BF%E6%80%9D%E7%BB%B4/</link>
+      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2018-12-06-%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%A0%81%E4%B8%8E%E5%8D%95%E7%BA%BF%E6%80%9D%E7%BB%B4/</guid>
+      <description>最近在做系统移植，由 C# 转向 Python。
+难度大不大，肯定还是有些难度的。首先就是功能梳理，很多人写完代码，然后再让他梳理出功能逻辑出来，不一定就真能弄得出来，而能写对写全写清晰，又是另外一个事了。
+由于目标是最终全部由 Python 接手全部系统，第一期其实是打算不对任何功能做变动，且仅对后端接口层进行重写，前端能利用的都尽量利用。
+具体的就不深入说了。
+反而想说说代码思维这个点上的事情。
+曾经我提到过一篇：if True or if not True，可以找下看看，算是那个时候针对这个问题的一点小思考。
+而如今在看到别人写的 C# 代码，就更加有体会了，再加上自己在重写过程中的一些思考，算是对这个问题的又一个探讨。
+在进入业务逻辑处理过程中，每往下一步，就会需要对当前的数据进行校验是否可用，而一旦深入几步，按照这个思路下去，迟早你会发现核心代码已经被缩进很多层了，看着一层层的缩进，核心代码跑出屏幕外，即使拿个超宽屏来看，也不一定看得全；而同时由于又要兼顾判断逻辑的层次，导致上下一屏也不一定又看得完，又得不断地上下挪动。
+这样，即使超宽超大屏幕也不一定好干活。
+如果是不断地 if True 下去，肯定是会导致这样的结果的，而且等写完核心逻辑，又要一层一层不断地 else 回来，场面甚是壮观。
+这样的结果其实我也能理解的，由于是新逻辑，具体会有些什么操作还不确定，有哪些条件限制也还不完全确定，所以只好一路走下去，就成了这个结果。
+而重写就不一样了，看过了全局主要逻辑框架，首先想到的就是不符合要求的全部干掉，早早地就 return 出去，不但不用一层层嵌套，还省去了在此过程中浪费掉的查询等资源操作，降低了系统消耗。
+比起一次只考虑一种情况，早早地 return 出去需要同时考虑所有不符合要求的边界问题。而且对于取反操作，在一些语言中可能并不那么方便，可能这也是导致取 True 的情况用的多导致深层嵌套的缘故吧。
+或者，其实还有其它更深层的原因。
+那就不得而知了。</description>
+    </item>
+    
+    <item>
+      <title>关于如何优雅地在容器中定时运行脚本</title>
+      <link>/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
+      <description>最早我是在 Windows 上面开始学习和开发 Python 程序的，最开始是写些脚本来定时帮我更新一些数据，后来觉得需要有个地方来让多人共享查看这些数据，就进一步进行了 Web 开发。
+关于如何定时运行脚本，在 Windows 上面是有个叫“计划任务”的程序，当时就在它里面设置了一系列的运行任务，它会定时帮你启动程序脚本，如果使用的是 python.exe 启动，会有黑色命令行窗口，如果是使用 pythonw.exe 启动，则不会出现窗口，但是它确实在运行，你可以在任务管理器当中看到进程的存在。而我觉得还是需要观察下它到底运行的如何的，所以一般还是会使用带窗口的，虽然有时候还正在做着事情，忽然就弹出几个窗口来，后来习惯了也就觉得没啥影响了。
+后来，开始在 Linux 上面来运行程序。在这个系统平台上面，可就没有什么可操作的界面给你用了，都是命令、命令、还是命令。
+如果要在 Linux 上面定时运行任务，基本上会选择 cron 这个工具，不过它的命令其实又是 crontab。使用 crontab -l 列出当前用户已设置的任务列表，使用 crontab -e 调用默认编辑器对任务列表进行编辑，编辑器要是没有特别设置的话一般都是 vi 这个，初次接触的话可能要先去研究下怎么进入和退出编辑状态以及如何保存文件并退出。
+虽然可能已经有很多针对 cron 的改进款替代品，不过一般也没谁特地再去折腾自己，简单纯粹，凑合用了。
+由于 Linux 目前这个时间点能开箱直接让你用上 Python 3 的可能性几乎为零，所以一般情况下还需要额外再自己编译安装下 Python 3，特别是当你是非 root 账户的情况下，这又多了一次折腾了，多数情况下，你可能会遇到提示某个库缺失的情况，那就缺啥装啥，再来一次，反复折腾几次，就应该差不多了。
+正常情况下，机器要是没遇到啥特别的情况，基本上运行环境就这样了，没谁会再冒着把环境搞砸的风险而手痒去维护更新升级，更不用说大概率是会让已经在运行的任务要么停止运行一段时间或者由于测试而产生重复运行导致数据不符合预设要求的情况。
+以上基本上是绝大多数情况下的常规选择路径了，没啥特别情况的话，到此基本差不多了。
+不过，其实这样的选择在很长一段时间内也不会有什么问题，只是总还是觉得有点麻烦，开启一批脚本并使得它们确认正常运行，还是需要花上蛮长一段时间的，毕竟当中有些步骤是只有当你去正式动手操作了才会知道具体会遇到什么问题，等搜索完相关信息并执行完解决方案，实际已经敲打了不少命令，然而这些命令，并不会自然地留下任何文件记录，除非你操作一步又额外再去复制内容记录一下，不过大多数情况下，都是不会有心情这么干的，何况记录的还不一定正确和完整。假设再来一次新机设定，也依然还是重复这个路径，当然，有运维的就另当别论，不过，即使是运维，也不会喜欢行一步看一步，并重复很多次。
+所以，其实问题还是有很多。
+Docker 从两三年前一飞冲天，坊间的互联网上到处都在谈论关于容器的事情，给人感觉但凡是个程序员都会设法尝试下容器并写出几篇“容器入门“的文章，不过容器的发展速度用日新月异来形容简直不为过分，留下在互联网上的一句句 docker pull 和 docker build 还有 docker run 并携带一串串长长的参数，可能并未给人留下多好的印象。毕竟，我们真的会那么喜欢命令么？并不，超过 3 个字符的命令我们都会设法 alias 为 2 个字符，更不用说那么一串几百个字符还带换行符的命令了。
+还好，有 docker-compose 可以解决下，把命令都变成 yml 文件留下来吧，这样还能进入 git 进行版本控制，对我来说，只要有 docker-compose up -d 和 docker-compose down 就可以了。当然现在，更多的是 docker-compose -f docker-compose.</description>
+    </item>
+    
+    <item>
+      <title>Pandas: 对 DataFrame 的列名进行重命名</title>
+      <link>/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</link>
+      <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</guid>
+      <description>不得不说，Pandas 是我很喜欢的一个工具，之前在外贸公司做采购和物流相关方面事情的时候，跟 Excel 结下了不浅的关系。在处理 Excel 的数据过程中，依照对数据业务的理解也使得后来去理解 MySQL 相关的数据的关系模型有了一些清晰的思维过程。
+如果说创业公司需要什么工具能支撑起业务快速发展和需求变化，Excel 是一个利器，这在很多行业的实际应用实践中都得到过检验，而我自己也自认为曾经利用它在很长一段时间里支撑起了一家公司的核心业务流程。
+但凡是工具就有长短，Excel 虽是利器，可能在高手眼里表还未开，数据已经在脑海里飞过了千百次，即使是个小白也能对着那横竖格子拥有完整的操作能力，但是，任何事物到了一定量级，就性质变了，而更甚至涉及到多人、跨部门共享操作，就更难以完成有效的数据流通了。
+所以有长有短，有些地方，还是需要有别的解决方案，比如搞个数据库，然后至于如何利用这个数据库，开发一个 ERP 也好，简单整个 web 数据界面也罢，那就看各自能力和想象力了。
+额，又啰嗦了。
+在 Python 的世界里面，使用 Pandas 来读取 Excel 数据并操作数据，是一种非常有效的工作方法。如果你有较大的数据量需要操作和计算，又或者有很多的固定步骤需要频繁处理，都可以使用 Pandas 来处理，它，简单说就是：工业级的数据处理工具。
+今天提个小点：使用 Pandas 处理各种不同的列名称，对它们进行重命名。
+在大多数时候，我们会有个数据处理流程，这个流程的开始负责接收一批数据，然后中间经过各种处理和计算，输出为我们需要的结果，这就是：输入 &amp;ndash;&amp;gt; 处理与计算 &amp;ndash;&amp;gt; 输出。
+这很像一个函数的概念对吧，可以这样理解了。
+不过在输入的时候，我们会考虑使用一种数据标准，仅当数据符合我们的需求的时候，我们才能对其进行正常的处理并得到正确的输出。而一旦数据不符合需要的标准了，就很难得到正确的结果了。
+这时候就需要在进行输入时候的前面一个再加一步：预处理。
+在预处理的时候，常见就有个列名称标准化，在 Excel 中我们可能不太方便在面对很多种表头，还能正常合并数据然后一次处理的，而如果要每种表头都单独处理，就又特别磨炼人性的价值观了。而如果是在 Pandas 里面，我们可以利用 pandas.DataFrame.rename 这个方法来对任意各种表头进行统一标准化，以实现数据标准化中的列名称标准化，也可以叫数据字段标准化。
+写出代码大概会是下面这样子：
+import pandas as pd import numpy as np # 维护好各种表头对应关系的标准化数据 columns_rename = { &amp;#34;packetid&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;packet id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;packet-id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;packet_id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stkid&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stk id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stk-id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stk_id&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock#&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock #&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stockno&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock no&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock-no&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;stock_no&amp;#34;: &amp;#34;ProductID&amp;#34;, &amp;#34;place&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;地点&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;所在地&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;locationcode&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;location code&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;location-code&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;location_code&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;location&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;source&amp;#34;: &amp;#34;CountryCode&amp;#34;, &amp;#34;country&amp;#34;: &amp;#34;CountryCode&amp;#34; } # 假如你有个叫 data.</description>
+    </item>
+    
+    <item>
+      <title>给 Scrapy 的 Spider 传递参数</title>
+      <link>/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</link>
+      <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</guid>
+      <description>绝大多数情况下，我们写一个 Spider 会直接将需要的信息写在 Spider 里面，再不济也可能开个文件独立存储下需要的参数啥的，但这仅当 Spider 需求的这些信息是固定不变的情况下，而一旦需要从外部提交一些信息给它来动态调用，就需要用到传递参数了。
+先放两个官方文档链接
+ Scrapy Spider arguments  使用 scrapy crawl 命令启动使用 -a 后面加参数名和参数值，这应该也就仅在测试时候使用下了。
+ Scrapyd schedule.json  同样在 curl 中使用 -d 后面加参数名和参数值，也是测试时候会用到，可以简单理解它类似一个 form 表单向 URL 去 POST 数据，所以使用 requests 来接这个接口的话，就是：
+resp = requests.post(url=url, data=data) 这么说，那就是往这个 data 数据里面根据需求不断增加字段名和字段值就行了么，嗯，理解是这么理解，貌似也没啥问题，反正加了什么就在 Spider 那边同样根据字段把值提取出来就可以了，就这样可以了。
+不过，还是要说下，不断增加参数以及不断增加维护提取值的逻辑，字段数量多起来了，有点烦人呢。
+还有哦，刚为啥说把它简单理解为 form 表单呢，因为它的参数只支持字符串啊：
+Keep in mind that spider arguments are only strings. The spider will not do any parsing on its own. 那要是想提交点稍稍复杂点的数据咋办？
+我的解决方案是：把所有的自定义的参数都先放到一个 dict 里面去，然后用 json.</description>
+    </item>
+    
+    <item>
+      <title>给一个列表去除重复数据的最原始方法</title>
+      <link>/python/2018-04-27-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9C%80%E5%8E%9F%E5%A7%8B%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Fri, 27 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2018-04-27-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9C%80%E5%8E%9F%E5%A7%8B%E6%96%B9%E6%B3%95/</guid>
+      <description>啥也不说，先看代码
+items = [6, 1, 4, 5, 4, 3, 8, 6] new_items = [] for item in items: if item not in new_items: new_items.append(item) new_items:
+[6, 1, 4, 5, 3, 8] 这应该是给一个列表去除重复还保留顺序的最兼容的办法了，为啥叫最兼容，意思是绝大多数情况下你按这个写法去操作，无论列表里面是什么东西，它都能很好地帮你处理成功。
+比如，列表里面不是简单的数字或字符，而是一个一个的字典（对象），这也是可以的。
+items = [ {&amp;#39;age&amp;#39;: 6}, {&amp;#39;age&amp;#39;: 1}, {&amp;#39;age&amp;#39;: 4}, {&amp;#39;age&amp;#39;: 5}, {&amp;#39;age&amp;#39;: 4}, {&amp;#39;age&amp;#39;: 3}, {&amp;#39;age&amp;#39;: 8}, {&amp;#39;age&amp;#39;: 6}] new_items = [] for item in items: if item not in new_items: new_items.append(item) new_items:
+[{&amp;#39;age&amp;#39;: 6}, {&amp;#39;age&amp;#39;: 1}, {&amp;#39;age&amp;#39;: 4}, {&amp;#39;age&amp;#39;: 5}, {&amp;#39;age&amp;#39;: 3}, {&amp;#39;age&amp;#39;: 8}] 而之前有种利用 OrderedDict 进行操作去重复并保留顺序的方法，则不适用于这种包含多个字典的情况。</description>
+    </item>
+    
+    <item>
+      <title>努力投身 Python 3 的怀抱</title>
+      <link>/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</link>
+      <pubDate>Sat, 02 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</guid>
+      <description>15 年开始学习 Python 的时候，看遍了大家关于应该选择 Python 2 还是 Python 3 的讨论和争执，还有，妥协。
+按照我买电子产品“买新不买旧，买好不买差”的原则，我毅然决定先从了 Python 3 再说。
+是的，争执无意义，行动才是根本。
+后来，进了新公司，放眼望去是 Python 2 的世界，曾有想法切换，却始终被几个函数限制，没能彻底实现下来。
+昨日，开了个新项目，心思又动起来。
+今日，将原来的函数研究一番，可以连通了。
+以后的新项目，就走向 Python 3 吧。
+未来，是它的。
+&amp;ndash;
+今年 Python 这门程序语言终于冲上了头牌，在机器学习、大数据分析、人工智能等几个领域热火朝天。
+然而，现实情况是无论外面如何热火，却没有当初那种决然冲进去弄一把再看的动力，说到底，还是没有实际的目标可以拿来玩耍。
+先做做 Web 也好吧，是时机未到。
+想想呢，我们确实处在一个最好的时代，Python 3 发展了好多年，相关的配套也都成熟，开箱可用，拿来就用，上手简单，做事容易，实在是最好的时代，连我这样贸贸然闯进来的也能无所畏惧地动手。
+不过这样被如此美好的时代所惯坏的开发者，很多时候，真是懒得动手，一想着有点复杂操作的就觉得痛苦，凡是步骤超过 5 步的操作都觉得烦操，最好是一行代码或者命令就能操作起一切。
+是，喜欢 Docker。
+一行 docker-compose up -d ，或者是 docker-compose down ，甚至是 docker-compose scale app=8 ，直接就撑起整个世界的感觉，真是极好不过了。停止与重新开启的时间不过几秒钟，真是让人很喜欢的东西。
+可惜了，它和 Windows 相处还不怎么友好，这又是个痛苦的面对，自己 Mac 开发玩可以很爽，可运行产品的环境竟然如此糟糕，不能忍，但又没辙。
+是开发者，忍受得了千万种折磨。
+同时，也是用户，喜欢简洁明了的操作体验。
+不知道这世界明天会走得多快，没有什么是理所当然。</description>
+    </item>
+    
+    <item>
+      <title>造个轮子</title>
+      <link>/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</link>
+      <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</guid>
+      <description>技术，是个好东西。
+有能力利用技术造出一些有用的东西，也是再也欣喜不过了。
+我们都知道造房子有点难度，构建高楼大厦就更加有技术难度，从设计到施工，没任何人全能精通。造汽车就也难了，虽然也是从设计到制造，可知识又是数不过来的多，更不用说制造经验和制造水平。
+能清晰解释出差速器原理的，也是不错了。
+可是，当轮到复杂度同样不比造房子造汽车底多少，有时候甚至更为复杂的编程领域时，为什么大家就不觉得这有什么难度了呢？
+ 我觉得这个没那么复杂，你这样，这样，然后这样……，不就可以了嘛，我认为理论上是肯定可以的，你就照我说的做，到时候看到问题我再告诉你改哪里……
+我不管技术上怎么实现哈，我就只说我的需求……
+我想要你实现我把这个处理完的文件在手机上就能直接发给别人，这样我就不用还去开电脑了，晚上谁还不是想躺床上拿手机点几下就把活干完的……
+你这个一两天肯定是做不出来嘛，半个月你能不能做出来……
+ 我觉着我要是能半个月定制化做个订单系统出来（仅仅后台 API ），我也觉得我完全能配得上 professional 这个词了。
+可惜，认清现实吧。
+一周，也就结识了个多级分类。
+至于，造一个多级分类到底有何难度，我也无法解释清楚。
+至少，这并不是一棵树而已。
+好了，多级分类搞得定，后面也还是好说的。
+未来，这个简单实现的多级分类看要不要开源。
+&amp;ndash;
+人说，不要重复造轮子。
+可惜真相是，先不说没有合适的轮子可用，假使有，那么也得懂的轮子的一些些细节，才能正常使用吧。
+见过给桑塔纳上三一重工的轮子的么？
+好了，自己的轮子能用了，收一收，再这样下去，女朋友都该跑路了。</description>
+    </item>
+    
+    <item>
+      <title>if True or if not True</title>
+      <link>/python/2016-12-23-if-true-or-if-not-true/</link>
+      <pubDate>Fri, 23 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2016-12-23-if-true-or-if-not-true/</guid>
+      <description>明天就是平安夜，我打算今晚啃个苹果。
+以程序员的角色上岗工作已经正式3周过去了，这算是正式地公告一下。
+放在几年前我从未想过我会正式地成为一名可以自己编程写代码的人，可是在这几年的工作中逐渐地接触到一些事务，使得我认为在未来的日子里，不会自己写几行程序代码的人们总是会有一些很难过的坎儿。
+所以，无论将来如何变化，我先去坑自己一把，把编程这事儿彻底地扶正了来做，再也不是什么随便搞搞就行的事情了。
+但是说回来这事儿还真不是会不会程序语言语法这么简单的事情，学会了使用写法只是冰山冒个尖儿，下面水很深，路很长，坑更是多不胜数，我只能寄希望于天兵天将们不要懒惰。
+这儿说，关于思维方式。
+或许是我开始学习Python的时候，就接触到的都是：
+如果True，就去做什么，否则，就做点什么。
+然而今天深入到别人的项目中之后，基本上都是：
+如果不是True，就做点什么，否则，就去做什么。
+这使得我很困惑啊，脑子现在还晕。
+就这么绕啊绕，不知道死了多少脑细胞，反正也没法具体数，你就给个超级大的数字就好了。
+所以，啃个苹果清一清神儿吧。
+祝平安夜幸福，祝圣诞节快乐，各位！
+新年见！</description>
+    </item>
+    
+    <item>
+      <title>给一个列表去重复却又要保留顺序</title>
+      <link>/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</link>
+      <pubDate>Tue, 28 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</guid>
+      <description>collections.OrderedDict.fromkeys(list).keys() 在 Python 中，有时候有需要用到保留原始顺序而又能去掉重复的列表。
+而在 Python 自身的基本数据结构里面，给 list 去除重复可以用 set(list) 来进行操作而得到一个没有重复的set集合，但是这样也就把list元素原有的先后出现的顺序而被打乱了，打的乱七八糟的。
+会写 Python 的也可能会找到很多的解决办法，有容易的有复杂的有高级的。
+我的方法 在 Python 的 collections 包里面有个数据结构叫 OrderedDict，有序字典。
+字典的 key 有个特性是不会重复，Python 默认的字典的 key 也是无序的，这是由它本身的特性决定的，但是有人结合了 list 的特性，制造了这个有序字典的数据结构，它输出的 key 和 value 都是有序的。
+所以利用它的这些特性，这样理论上就会很容易就能得到有序的没有重复的 list 了。
+import collections datalist = [&amp;#39;1&amp;#39;, &amp;#39;4&amp;#39;, &amp;#39;3&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;2&amp;#39;, &amp;#39;4&amp;#39;] newlist = collections.OrderedDict.fromkeys(datalist).keys() print(newlist) [&amp;#39;1&amp;#39;, &amp;#39;4&amp;#39;, &amp;#39;3&amp;#39;, &amp;#39;2&amp;#39;] 这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。
+好了，这里其实是第一次正经测试 Markdown 语法来写文章的内容，目前看起来貌似还蛮美观的吭。</description>
+    </item>
+    
+  </channel>
+</rss>

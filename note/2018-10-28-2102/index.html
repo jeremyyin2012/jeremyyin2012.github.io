@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>dynamically parameter passing in sql where query best practices | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -137,27 +137,27 @@
 <p>看官方的写法：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(users<span style="color:#555">.</span>c<span style="color:#555">.</span><span style="color:#366">id</span> <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c<span style="color:#555">.</span>user_id)</code></pre></div>
 <p>不过目前写后台 API 程序的话，基本上可能会这么写：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;user_id&#39;</span>])</code></pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;user_id&#39;</span>])</code></pre></div>
 <p>然后再把这里的字符根据情况使用变量名替换掉。</p>
 
 <p>上面的 where 只有一个条件，如果有多个条件，要用到连接符了，同时也有提供专门的连接词来处理：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">sqlalchemy.sql</span> <span style="color:#069;font-weight:bold">import</span> and_, or_, not_
 and_(
-    users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>like(<span style="color:#c30"></span><span style="color:#c30">&#39;j%&#39;</span>),
-    users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;user_id&#39;</span>],
+    users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>like(<span style="color:#c30">&#39;j%&#39;</span>),
+    users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;user_id&#39;</span>],
     or_(
-        addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;email_address&#39;</span>] <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;wendy@aol.com&#39;</span>,
-        addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;email_address&#39;</span>] <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;jack@yahoo.com&#39;</span>
+        addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;email_address&#39;</span>] <span style="color:#555">==</span> <span style="color:#c30">&#39;wendy@aol.com&#39;</span>,
+        addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;email_address&#39;</span>] <span style="color:#555">==</span> <span style="color:#c30">&#39;jack@yahoo.com&#39;</span>
     ),
-    not_(users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">&gt;</span> <span style="color:#f60">5</span>)
+    not_(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">&gt;</span> <span style="color:#f60">5</span>)
 )</code></pre></div>
 <p>相对应的三个连接符就是：&amp;、|、~</p>
 
 <p>不过目前来看，我会更喜欢连接词方式，为啥，因为要动态化呀，嗯？没看出来咋搞？这样：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">clauses <span style="color:#555">=</span> []
 
-clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>like(<span style="color:#c30"></span><span style="color:#c30">&#39;j%&#39;</span>))
-clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;user_id&#39;</span>])
+clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>like(<span style="color:#c30">&#39;j%&#39;</span>))
+clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;user_id&#39;</span>])
 
 s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(and_(<span style="color:#555">*</span>clauses))</code></pre></div>
 <p>重点就在这个星号 *，标准的 *args 赋值模式，对吧。这样你就可以自由地去操作 clauses 这个列表了，根据不同的情况，动态地往里面加任何可以加的查询条件，甚至嵌套几层 and_ , or_ , not_ 进去都是可以的。</p>
@@ -212,27 +212,46 @@ s <span style="color:#555">=</span> select([users, addresses])<span style="color
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

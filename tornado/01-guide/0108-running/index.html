@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>Tornado 0108 - 用户指南: 运行与部署 | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -130,7 +130,7 @@
     app<span style="color:#555">.</span>listen(<span style="color:#f60">8888</span>)
     IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()
 
-<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;__main__&#39;</span>:
+<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30">&#39;__main__&#39;</span>:
     main()</code></pre></div>
 <p>配置操作系统或进程管理器以运行此程序以启动服务器。请注意，可能需要增加每个进程的打开文件数（以避免“打开太多文件”-Error）。要提高此限制（例如将其设置为50000），您可以使用 ulimit 命令，修改 /etc/security/limits.conf 或在 supervisord 配置中设置 minfds。</p>
 
@@ -229,16 +229,16 @@
 
 <p>您可以通过在应用程序中指定 static_path 设置来提供 Tornado 中的静态文件：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">settings <span style="color:#555">=</span> {
-    <span style="color:#c30"></span><span style="color:#c30">&#34;static_path&#34;</span>: os<span style="color:#555">.</span>path<span style="color:#555">.</span>join(os<span style="color:#555">.</span>path<span style="color:#555">.</span>dirname(__file__), <span style="color:#c30"></span><span style="color:#c30">&#34;static&#34;</span>),
-    <span style="color:#c30"></span><span style="color:#c30">&#34;cookie_secret&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;login_url&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;/login&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;xsrf_cookies&#34;</span>: True,
+    <span style="color:#c30">&#34;static_path&#34;</span>: os<span style="color:#555">.</span>path<span style="color:#555">.</span>join(os<span style="color:#555">.</span>path<span style="color:#555">.</span>dirname(__file__), <span style="color:#c30">&#34;static&#34;</span>),
+    <span style="color:#c30">&#34;cookie_secret&#34;</span>: <span style="color:#c30">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span>,
+    <span style="color:#c30">&#34;login_url&#34;</span>: <span style="color:#c30">&#34;/login&#34;</span>,
+    <span style="color:#c30">&#34;xsrf_cookies&#34;</span>: True,
 }
 application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/login&#34;</span>, LoginHandler),
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/(apple-touch-icon\.png)&#34;</span>, tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>StaticFileHandler,
-     <span style="color:#366">dict</span>(path<span style="color:#555">=</span>settings[<span style="color:#c30"></span><span style="color:#c30">&#39;static_path&#39;</span>])),
+     <span style="color:#366">dict</span>(path<span style="color:#555">=</span>settings[<span style="color:#c30">&#39;static_path&#39;</span>])),
 ], <span style="color:#555">**</span>settings)</code></pre></div>
 <p>此设置将自动使来自该静态目录的所有以 /static/serve 开头的请求（例如，http:// localhost:8888/static/foo.png）从指定的静态目录提供文件 foo.png。我们还自动从静态目录中提供 /robots.txt 和 /favicon.ico（即使它们不以 /static/ 前缀开头）。</p>
 
@@ -298,7 +298,7 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
 
 <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
-        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Hello, world&#34;</span>)
+        self<span style="color:#555">.</span>write(<span style="color:#c30">&#34;Hello, world&#34;</span>)
 
 tornado_app <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
@@ -354,27 +354,46 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

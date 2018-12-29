@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jeremy&#39;s blog</title>
-    <link>https://jeremyyin.com/</link>
+    <link>/</link>
     <description>Recent content on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
     <lastBuildDate>Thu, 06 Dec 2018 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>多层代码与单线思维</title>
-      <link>https://jeremyyin.com/python/2018-12-06-%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%A0%81%E4%B8%8E%E5%8D%95%E7%BA%BF%E6%80%9D%E7%BB%B4/</link>
+      <link>/python/2018-12-06-%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%A0%81%E4%B8%8E%E5%8D%95%E7%BA%BF%E6%80%9D%E7%BB%B4/</link>
       <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2018-12-06-%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%A0%81%E4%B8%8E%E5%8D%95%E7%BA%BF%E6%80%9D%E7%BB%B4/</guid>
+      <guid>/python/2018-12-06-%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%A0%81%E4%B8%8E%E5%8D%95%E7%BA%BF%E6%80%9D%E7%BB%B4/</guid>
       <description>最近在做系统移植，由 C# 转向 Python。
 难度大不大，肯定还是有些难度的。首先就是功能梳理，很多人写完代码，然后再让他梳理出功能逻辑出来，不一定就真能弄得出来，而能写对写全写清晰，又是另外一个事了。
 由于目标是最终全部由 Python 接手全部系统，第一期其实是打算不对任何功能做变动，且仅对后端接口层进行重写，前端能利用的都尽量利用。
@@ -37,10 +37,10 @@
     
     <item>
       <title>使用 Pandas 实现动态查询及处理数据并导出 Excel 文件</title>
-      <link>https://jeremyyin.com/note/2018-10-30-2042/</link>
+      <link>/note/2018-10-30-2042/</link>
       <pubDate>Tue, 30 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-30-2042/</guid>
+      <guid>/note/2018-10-30-2042/</guid>
       <description>需求是这么来的：根据参数执行查询，然后生成 Excel 表供下载，简单说就是查询并导出。
 一种思路是根据参数动态生成 select 查询对象，然后执行拿到结果，大概是这样：
 ... sql_select = select(columns).select_from(join_obj).where(whereclause).offset(offset).limit(limit).order_by(order_by) result = session.execute(sql_select) count = result.rowcount rows = [dict(row) for row in result.fetchall()] 然后拿到 rows 就可以去该做什么处理就做什么处理了，如果要生存 Excel 表，就可以使用 XlsxWriter 这个工具去写表文件，反正就是对 rows 开个 for 循环就是了。
@@ -54,10 +54,10 @@ def read_sql(sql, con, index_col=None, coerce_float=True, params=None, parse_dat
     
     <item>
       <title>SQLAlchemy select 中的表别名、列别名</title>
-      <link>https://jeremyyin.com/note/2018-10-28-2249/</link>
+      <link>/note/2018-10-28-2249/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-28-2249/</guid>
+      <guid>/note/2018-10-28-2249/</guid>
       <description>难免要用到连表查询，这时候如果一个表不止用一次，或一个列名可能产生冲突，就需要用到别名，同时表别名还能优化查询语句的长度和可读性，SQL 里面的 SELECT，则会用到 AS 或者不用 as 就直接跟在项目后面即可。
 那在 SQLAlchemy select 中要怎么实现呢：
 不多说，上例子：
@@ -66,10 +66,10 @@ def read_sql(sql, con, index_col=None, coerce_float=True, params=None, parse_dat
     
     <item>
       <title>dynamically parameter passing in sql where query best practices</title>
-      <link>https://jeremyyin.com/note/2018-10-28-2102/</link>
+      <link>/note/2018-10-28-2102/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-28-2102/</guid>
+      <guid>/note/2018-10-28-2102/</guid>
       <description>搞定了 select columns 的动态列查询，接着就该来搞定 where and or 的动态参数化查询了。
 猛一想，where 这部分的参数化查询，如果我用 pymysql 的 cursor，或者用 SQLAlchemy 的 engine 或者 session 直接调用 execute 执行文本语句，也是可以给语句的 where 参数动态传参的呀？
 不，我说的更进一步的：除了参数可以动态传入，我想要 where 语句也要动态改变，即动态条件查询。
@@ -86,10 +86,10 @@ from sqlalchemy.sql import and_, or_, not_ and_( users.</description>
     
     <item>
       <title>使用 SQLAlchemy Core 的 select，可是没有定义表对象怎么办</title>
-      <link>https://jeremyyin.com/note/2018-10-28-2216/</link>
+      <link>/note/2018-10-28-2216/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-28-2216/</guid>
+      <guid>/note/2018-10-28-2216/</guid>
       <description>你看到了，动态列查询、动态条件查询，两大动态查询都使用 使用 SQLAlchemy Core 的 select 工具来进行实现，发现没有，要想使用 select，那就必须要有表对象，有了表对象，它才能帮你实现各种动态查询条件语句的生成，没有这些表对象为基础，那可就巧妇难为无米之炊了。
 那么，是否就一定要把这些表对象一个一个，一列一列，完完整整地重新敲出来呢？
 我一开始就是这么干的。
@@ -102,10 +102,10 @@ from sqlalchemy import create_engine from sqlalchemy import MetaData db_uri = &a
     
     <item>
       <title>dynamically select columns in sql query best practices</title>
-      <link>https://jeremyyin.com/note/2018-10-26-2133/</link>
+      <link>/note/2018-10-26-2133/</link>
       <pubDate>Fri, 26 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-26-2133/</guid>
+      <guid>/note/2018-10-26-2133/</guid>
       <description>使用 mysql 等类型的关系型数据库，最大的一个痛点之一就是写查询语句了，其中一个需求就是动态列查询，网络上的文章千百万，问题和回答也千百万，靠谱不靠谱，对于搜这个问题的人，应该都难分辨。
 对于做数据分析，可能不太会有这个需求，大多数情况下，是在构建 API 接口的时候。
 如果业务功能需求简单，不常变化，或是 API 接口功能设计上不用支持各种类型的动态列查询，那也罢了。
@@ -125,10 +125,10 @@ def read(self, coerce_float=True, parse_dates=None, columns=None, chunksize=None
     
     <item>
       <title>pymysql: 给 sql 语句传递字典参数</title>
-      <link>https://jeremyyin.com/note/2018-10-25-2121/</link>
+      <link>/note/2018-10-25-2121/</link>
       <pubDate>Thu, 25 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-25-2121/</guid>
+      <guid>/note/2018-10-25-2121/</guid>
       <description>pymysql 执行 sql 操作的最主要一个方法就是：cursor.execute(sql, *args)
 它给了个这样的例子：
 import pymysql.cursors # Connect to the database connection = pymysql.connect(host=&amp;#39;localhost&amp;#39;, user=&amp;#39;user&amp;#39;, password=&amp;#39;passwd&amp;#39;, db=&amp;#39;db&amp;#39;, charset=&amp;#39;utf8mb4&amp;#39;, cursorclass=pymysql.cursors.DictCursor) try: with connection.cursor() as cursor: # Create a new record sql = &amp;#34;INSERT INTO `users` (`email`, `password`) VALUES (%s, %s)&amp;#34; cursor.execute(sql, (&amp;#39;webmaster@python.org&amp;#39;, &amp;#39;very-secret&amp;#39;)) # connection is not autocommit by default. So you must commit to save # your changes. connection.commit() with connection.cursor() as cursor: # Read a single record sql = &amp;#34;SELECT `id`, `password` FROM `users` WHERE `email`=%s&amp;#34; cursor.</description>
@@ -136,10 +136,10 @@ import pymysql.cursors # Connect to the database connection = pymysql.connect(ho
     
     <item>
       <title>nginx-proxy 与 Let&#39;s Encrypt</title>
-      <link>https://jeremyyin.com/note/2018-10-23-2226/</link>
+      <link>/note/2018-10-23-2226/</link>
       <pubDate>Tue, 23 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-23-2226/</guid>
+      <guid>/note/2018-10-23-2226/</guid>
       <description>连续两期吐槽 Traefik，是确实有它可吐槽的点在，虽然将来我可能也还会用它，毕竟特性真的非常契合需求，但要说我自己能有信心上线，现在还不是时候，项目是好，可文档也要写好点吧，别说 Docs for Humans，逻辑结构和思路要清晰，别要找找不到，甚至不明不白和内容有陈旧感。
 目前最终并没有启用 Traefik 的方案，而是启用了 nginx-proxy 这个基于 docker-gen 的方案，并且同时还有人帮忙弄了配套的 Let&amp;rsquo;s Encrypt 工具，就成熟度来说，已经非常可以了。
 经过一段时间的熟悉、测试、修改，并最终建立自己喜欢的 docker-compose 编排文件，现在已经在我的一些生产级项目上开始正式运行了。
@@ -149,10 +149,10 @@ import pymysql.cursors # Connect to the database connection = pymysql.connect(ho
     
     <item>
       <title>Traefik 与 nginx-proxy</title>
-      <link>https://jeremyyin.com/note/2018-10-18-2127/</link>
+      <link>/note/2018-10-18-2127/</link>
       <pubDate>Thu, 18 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-18-2127/</guid>
+      <guid>/note/2018-10-18-2127/</guid>
       <description>尝试去测试 Envoy，甚至还去看了 Istio。
 Envoy 跑了个 front-proxy 的 demo，Istio 也尝试了下，起了一地容器，可惜想看看管理页面，失败。
 这两货，都是所谓云原生平台工具，想了想，k8s 都还没折腾好呢，这俩货确实有点太重了。
@@ -169,10 +169,10 @@ nginx，跑了可是很多年了，才成熟到我们非资深用户也可以简
     
     <item>
       <title>折腾与吐槽 Traefik</title>
-      <link>https://jeremyyin.com/note/2018-10-17-2125/</link>
+      <link>/note/2018-10-17-2125/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-10-17-2125/</guid>
+      <guid>/note/2018-10-17-2125/</guid>
       <description>用上了 Docker，然后就有了一堆容器。Nginx 也是容器，一般拿它作为访问入口，其它容器在它的背后，这就是反向代理 Reverse Proxy。
 Nginx 够不够好，够好，而且非常好。但是，容器要 scale，或者容器出现变动，结果它也不得不去更新配置并重启，还要额外再费力气去维护它，痛。
 所以就去找新东西。
@@ -191,10 +191,10 @@ Nginx 够不够好，够好，而且非常好。但是，容器要 scale，或�
     
     <item>
       <title>关于如何优雅地在容器中定时运行脚本</title>
-      <link>https://jeremyyin.com/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
+      <link>/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</link>
       <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
+      <guid>/python/2018-09-27-%E5%85%B3%E4%BA%8E%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%9C%B0%E5%9C%A8%E5%AE%B9%E5%99%A8%E4%B8%AD%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC/</guid>
       <description>最早我是在 Windows 上面开始学习和开发 Python 程序的，最开始是写些脚本来定时帮我更新一些数据，后来觉得需要有个地方来让多人共享查看这些数据，就进一步进行了 Web 开发。
 关于如何定时运行脚本，在 Windows 上面是有个叫“计划任务”的程序，当时就在它里面设置了一系列的运行任务，它会定时帮你启动程序脚本，如果使用的是 python.exe 启动，会有黑色命令行窗口，如果是使用 pythonw.exe 启动，则不会出现窗口，但是它确实在运行，你可以在任务管理器当中看到进程的存在。而我觉得还是需要观察下它到底运行的如何的，所以一般还是会使用带窗口的，虽然有时候还正在做着事情，忽然就弹出几个窗口来，后来习惯了也就觉得没啥影响了。
 后来，开始在 Linux 上面来运行程序。在这个系统平台上面，可就没有什么可操作的界面给你用了，都是命令、命令、还是命令。
@@ -211,10 +211,10 @@ Docker 从两三年前一飞冲天，坊间的互联网上到处都在谈论关�
     
     <item>
       <title>自己在用的一些 Python 库</title>
-      <link>https://jeremyyin.com/note/2018-09-27-2123/</link>
+      <link>/note/2018-09-27-2123/</link>
       <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-09-27-2123/</guid>
+      <guid>/note/2018-09-27-2123/</guid>
       <description>Python 有许许多多的自带库和第三方库，如果遇到一个新需求点，分析到代码层实现的时候，除去自有的控制逻辑实现之外，对于单个通用功能点的实现，基本上第一件事是去寻找是否存在可用的库可以拿来直接用的，或者是可以学习其实现逻辑和一些理念。
 与 awesome python 不同的是，这里目前只列自己用的，不求大而全，只是稍微记录下自己的一些理解，暂时也不做什么分类了，写到哪里是哪里。
  APScheduler ，用来运行定时脚本任务。 tornado ，用来搭 API 和 网站的 Web 框架，异步非阻塞。 requests ，用来发 http(s) 请求的，目前是同步阻塞型的。 bleach ，用来过滤 html 里面的标签。 redis ，是 Redis 的连接工具。 pymongo ，是 MongoDB 的连接工具。 beautifulsoup4 ，解析 html/xml 内容的工具，记得选择 lxml 用。  </description>
@@ -222,10 +222,10 @@ Docker 从两三年前一飞冲天，坊间的互联网上到处都在谈论关�
     
     <item>
       <title>做手艺活，必然需要一套趁手的工具</title>
-      <link>https://jeremyyin.com/note/2018-09-05-1522/</link>
+      <link>/note/2018-09-05-1522/</link>
       <pubDate>Wed, 05 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/note/2018-09-05-1522/</guid>
+      <guid>/note/2018-09-05-1522/</guid>
       <description>编程是手艺活，有自己一套趁手的工具很重要，记录下，不定期更新。
  MacBook Pro，Apple 公司出品，编程开发的最佳选择，强烈建议直接上顶配。
  PyCharm，JetBrains 公司出品的 Python IDE，社区版免费，专业版付费。
@@ -241,10 +241,10 @@ Docker 从两三年前一飞冲天，坊间的互联网上到处都在谈论关�
     
     <item>
       <title>Tornado 0000 - 特别说明: 关于译文</title>
-      <link>https://jeremyyin.com/tornado/00-note/0000-about/</link>
+      <link>/tornado/00-note/0000-about/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/00-note/0000-about/</guid>
+      <guid>/tornado/00-note/0000-about/</guid>
       <description>关于译文 我自己本身并不懂多少关于英文翻译的事情，这里相关的一些翻译内容也并不完全是我一个一个字手打出来的，其中绝大多数翻译内容均借助于 Google Translate 帮我实现，而我最多仅相当于一个审校的角色，对其中的句子进行一些更合理化的修改，或是用词是否恰当及准确，或是句子的通顺及逻辑合理与否。同时由于能力及精力有限，并不能绝对保证内容完全准确无误，如有发现不合理的地方或者错误的地方，还请见谅，也欢迎你反馈于我。
 Tornado 是我学习 Python 后进入实际产品开发所使用到的第一个 Web 服务框架，虽然说关于它的功能有些写法可能已经用过很多次了，但是对它依然还没有一个全局的概念感受，所以想借助于这个翻译的过程，给自己加深一下关于它的设计理念、程序逻辑等等相关知识的印象。
 所以，译文只是顺便产生的结果，不过虽然即便如此，我也尽量使译文能契合中文的遣词造句，对于一些直译过来感觉奇怪的内容，会稍微做一下调整，以便容易理解。
@@ -256,10 +256,10 @@ Tornado 是我学习 Python 后进入实际产品开发所使用到的第一个 
     
     <item>
       <title>Tornado 0101 - 用户指南: 简介</title>
-      <link>https://jeremyyin.com/tornado/01-guide/0101-intro/</link>
+      <link>/tornado/01-guide/0101-intro/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01-guide/0101-intro/</guid>
+      <guid>/tornado/01-guide/0101-intro/</guid>
       <description>简介 Tornado 是一个用 Python 写的 Web 应用框架和异步网络库，最初是由 FriendFeed 开发的。通过使用非阻塞网络 I/O，Tornado 可以扩展到数万个开放连接（C10K），使其成为长轮询、WebSockets 和其他需要与每个用户建立长期连接的应用程序的理想选择。
 Tornado 大致可分为四个主要部分：
  一个 Web 应用框架（包括用于创建 Web 应用程序的 RequestHandler 子类，以及各种支持类）。 HTTP 的客户端和服务器端实现（AsyncHTTPClient 和 HTTPServer）。 一个异步网络库，包括 IOLoop 和 IOStream 类，它们用作 HTTP 组件的构建模块，也可用于实现其他协议。 一个协程库（tornado.gen），它允许使用比 回调 更直接了当的方式编写异步代码。这类似于 Python 3.5（async def）中引入的 原生协程 功能。建议使用 原生协程 代替 tornado.gen 模块。  Tornado Web 应用框架和 HTTP 服务器一起提供了一个针对 WSGI 的全栈替代方案。虽然也可以在 WSGI 容器（WSGIAdapter）中使用 Tornado Web 框架，或者是使用 Tornado HTTP 服务器作为其他 WSGI 框架（WSGIContainer）的容器，但是这些组合都有其局限性，如果想要充分利用 Tornado 的优势，需要同时使用 Tornado 的 Web 应用框架和 HTTP 服务器。</description>
@@ -267,10 +267,10 @@ Tornado 大致可分为四个主要部分：
     
     <item>
       <title>Tornado 0102 - 用户指南: 异步和非阻塞 I/O</title>
-      <link>https://jeremyyin.com/tornado/01-guide/0102-async/</link>
+      <link>/tornado/01-guide/0102-async/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01-guide/0102-async/</guid>
+      <guid>/tornado/01-guide/0102-async/</guid>
       <description>异步和非阻塞 I/O（Asynchronous and non-Blocking I/O） 实时 Web 功能需要为每个用户长期保持大部分空闲连接。在传统的同步 Web 服务器中，这意味着要为每个用户投入一个线程，这成本可能非常昂贵。
 为了最小化并发连接的成本，Tornado 使用单线程事件循环。这意味着所有应用程序代码都应该是异步和非阻塞的，因为一次只能有一个操作处于活动状态。
 异步 和 非阻塞 这两个术语是密切相关的，并且通常可以互换使用，但它们并不完全相同。
@@ -285,10 +285,10 @@ from tornado.httpclient import HTTPClient def synchronous_fetch(url): http_clien
     
     <item>
       <title>Tornado 0103 - 用户指南: 协程</title>
-      <link>https://jeremyyin.com/tornado/01-guide/0103-coroutines/</link>
+      <link>/tornado/01-guide/0103-coroutines/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01-guide/0103-coroutines/</guid>
+      <guid>/tornado/01-guide/0103-coroutines/</guid>
       <description>协程（Coroutines） 协程是在 Tornado 中编写异步代码的推荐方法。协程使用 Python await 或 yield 关键字来挂起和恢复执行而不是一系列回调（在 gevent 这样的框架中看到的协作轻量级线程有时也被称为协程，但在 Tornado 中所有协程都使用显式上下文切换并被称为异步函数）。
 协程几乎和同步代码一样简单，但不需要花费任何线程成本。它们还通过减少上下文切换可能发生的位置数量，使 并发性 更易于推理。
 Example:
@@ -300,10 +300,10 @@ async def fetch_coroutine(url): http_client = AsyncHTTPClient() response = await
     
     <item>
       <title>Tornado 0104 - 用户指南: 队列</title>
-      <link>https://jeremyyin.com/tornado/01-guide/0104-queues/</link>
+      <link>/tornado/01-guide/0104-queues/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01-guide/0104-queues/</guid>
+      <guid>/tornado/01-guide/0104-queues/</guid>
       <description>队列（Queue） 示例 - 并发 Web 蜘蛛 Tornado 的 tornado.queues 模块为协程实现异步生产者/消费者模式，类似于 Python 标准库的 queue 模块为线程实现的模式。
 产生 Queue.get 的协程暂停，直到队列中有项目为止。如果队列设置了最大大小，则会产生 Queue.put 的协程暂停，直到有另一个项目的空间。
 Queue 维护未完成任务的计数，从零开始。put 增加计数；task_done 递减它。
@@ -313,10 +313,10 @@ Queue 维护未完成任务的计数，从零开始。put 增加计数；task_do
     
     <item>
       <title>Tornado 0105 - 用户指南: Tornado Web 应用程序的结构</title>
-      <link>https://jeremyyin.com/tornado/01-guide/0105-structure/</link>
+      <link>/tornado/01-guide/0105-structure/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01-guide/0105-structure/</guid>
+      <guid>/tornado/01-guide/0105-structure/</guid>
       <description>Tornado Web 应用程序的结构 Tornado Web 应用程序通常由一个或多个 RequestHandler 子类、一个将传入请求路由到处理程序的 Application 对象和一个用于启动服务器的 main() 函数组成。
 最小的“hello world”示例如下所示：
 import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHandler): def get(self): self.write(&amp;#34;Hello, world&amp;#34;) def make_app(): return tornado.web.Application([ (r&amp;#34;/&amp;#34;, MainHandler), ]) if __name__ == &amp;#34;__main__&amp;#34;: app = make_app() app.listen(8888) tornado.ioloop.IOLoop.current().start() 关于 Application 对象 Application 对象负责全局配置，包括将请求映射到处理程序的路由表。
@@ -326,10 +326,10 @@ import tornado.ioloop import tornado.web class MainHandler(tornado.web.RequestHa
     
     <item>
       <title>Tornado 0106 - 用户指南: 模板与 UI</title>
-      <link>https://jeremyyin.com/tornado/01-guide/0106-templates/</link>
+      <link>/tornado/01-guide/0106-templates/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01-guide/0106-templates/</guid>
+      <guid>/tornado/01-guide/0106-templates/</guid>
       <description>模板和UI Tornado 包含一种简单，快速，灵活的模板语言。本节介绍该语言以及国际化等相关问题。
 Tornado 也可以与任何其他 Python 模板语言一起使用，尽管没有明确地规定如何将这些系统集成到 RequestHandler.render 中，你只需将模板渲染为字符串并将其传递给RequestHandler.write 就可以了。
 配置模板 默认情况下，Tornado 会在与引用它们的 .py 文件相同的目录中查找模板文件。 要将模板文件放在不同的目录中，请使用 template_path 应用程序设置 （如果不同的处理程序具有不同的模板路径，则覆盖 RequestHandler.get_template_path）。
@@ -342,10 +342,10 @@ class MainHandler(tornado.web.RequestHandler): def get(self): items = [&amp;#34;
     
     <item>
       <title>Tornado 0107 - 用户指南: 认证与安全</title>
-      <link>https://jeremyyin.com/tornado/01-guide/0107-security/</link>
+      <link>/tornado/01-guide/0107-security/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01-guide/0107-security/</guid>
+      <guid>/tornado/01-guide/0107-security/</guid>
       <description>认证与安全 Cookies 和 secure cookies 您可以使用 set_cookie 方法在用户的浏览器中设置 cookies：
 class MainHandler(tornado.web.RequestHandler): def get(self): if not self.get_cookie(&amp;#34;mycookie&amp;#34;): self.set_cookie(&amp;#34;mycookie&amp;#34;, &amp;#34;myvalue&amp;#34;) self.write(&amp;#34;Your cookie was not set yet!&amp;#34;) else: self.write(&amp;#34;Your cookie was set!&amp;#34;) Cookies 不安全，客户可以轻松修改。如果您需要设置 Cookies，例如，识别当前登录的用户，则需要对 Cookies 进行签名以防止伪造。Tornado 使用 set_secure_cookie 和 get_secure_cookie 方法来支持签名的 Cookies。要使用这些方法，您需要在创建应用程序时指定名为 cookie_secret 的密钥。您可以将应用程序设置作为关键字参数传递给应用程序：
 application = tornado.web.Application([ (r&amp;#34;/&amp;#34;, MainHandler), ], cookie_secret=&amp;#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&amp;#34;) 除了时间戳和 HMAC 签名之外，签名 cookies 还包含 cookies 的编码值。如果 cookies 是旧的或签名不匹配，get_secure_cookie 将返回 None，就像没有设置 cookies 一样。以上示例的安全版本：
@@ -354,10 +354,10 @@ class MainHandler(tornado.web.RequestHandler): def get(self): if not self.get_se
     
     <item>
       <title>Tornado 0108 - 用户指南: 运行与部署</title>
-      <link>https://jeremyyin.com/tornado/01-guide/0108-running/</link>
+      <link>/tornado/01-guide/0108-running/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/tornado/01-guide/0108-running/</guid>
+      <guid>/tornado/01-guide/0108-running/</guid>
       <description>运行和部署 由于 Tornado 提供自己的 HTTPServer，因此运行和部署它与其他 Python Web 框架略有不同。您可以编写一个启动服务器的 main() 函数，而不是配置 WSGI 容器来查找应用程序：
 def main(): app = make_app() app.listen(8888) IOLoop.current().start() if __name__ == &amp;#39;__main__&amp;#39;: main() 配置操作系统或进程管理器以运行此程序以启动服务器。请注意，可能需要增加每个进程的打开文件数（以避免“打开太多文件”-Error）。要提高此限制（例如将其设置为50000），您可以使用 ulimit 命令，修改 /etc/security/limits.conf 或在 supervisord 配置中设置 minfds。
 进程和端口 由于Python GIL（全局解释器锁），有必要运行多个 Python 进程以充分利用多 CPU 机器。通常，每个 CPU 最好运行一个进程。
@@ -368,10 +368,10 @@ def main(): app = make_app() server = tornado.httpserver.HTTPServer(app) server.
     
     <item>
       <title>Pandas: 对 DataFrame 的列名进行重命名</title>
-      <link>https://jeremyyin.com/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</link>
+      <link>/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</link>
       <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</guid>
+      <guid>/python/2018-07-06-pandas-%E5%AF%B9-dataframe-%E7%9A%84%E5%88%97%E5%90%8D%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%91%BD%E5%90%8D/</guid>
       <description>不得不说，Pandas 是我很喜欢的一个工具，之前在外贸公司做采购和物流相关方面事情的时候，跟 Excel 结下了不浅的关系。在处理 Excel 的数据过程中，依照对数据业务的理解也使得后来去理解 MySQL 相关的数据的关系模型有了一些清晰的思维过程。
 如果说创业公司需要什么工具能支撑起业务快速发展和需求变化，Excel 是一个利器，这在很多行业的实际应用实践中都得到过检验，而我自己也自认为曾经利用它在很长一段时间里支撑起了一家公司的核心业务流程。
 但凡是工具就有长短，Excel 虽是利器，可能在高手眼里表还未开，数据已经在脑海里飞过了千百次，即使是个小白也能对着那横竖格子拥有完整的操作能力，但是，任何事物到了一定量级，就性质变了，而更甚至涉及到多人、跨部门共享操作，就更难以完成有效的数据流通了。
@@ -390,10 +390,10 @@ import pandas as pd import numpy as np # 维护好各种表头对应关系的标
     
     <item>
       <title>给 Scrapy 的 Spider 传递参数</title>
-      <link>https://jeremyyin.com/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</link>
+      <link>/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</guid>
+      <guid>/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</guid>
       <description>绝大多数情况下，我们写一个 Spider 会直接将需要的信息写在 Spider 里面，再不济也可能开个文件独立存储下需要的参数啥的，但这仅当 Spider 需求的这些信息是固定不变的情况下，而一旦需要从外部提交一些信息给它来动态调用，就需要用到传递参数了。
 先放两个官方文档链接
  Scrapy Spider arguments  使用 scrapy crawl 命令启动使用 -a 后面加参数名和参数值，这应该也就仅在测试时候使用下了。
@@ -407,10 +407,10 @@ Keep in mind that spider arguments are only strings. The spider will not do any 
     
     <item>
       <title>给网站增加一个类别叫 note</title>
-      <link>https://jeremyyin.com/post/2018-07-05-%E7%BB%99%E7%BD%91%E7%AB%99%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</link>
+      <link>/post/2018-07-05-%E7%BB%99%E7%BD%91%E7%AB%99%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</link>
       <pubDate>Thu, 05 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-07-05-%E7%BB%99%E7%BD%91%E7%AB%99%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</guid>
+      <guid>/post/2018-07-05-%E7%BB%99%E7%BD%91%E7%AB%99%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%88%AB%E5%8F%AB-note/</guid>
       <description>话说接触 Python 这货也很久了，不过一段时间后就等着跨一个坎，不然对技术的理解如何升阶。
 要说有哪本书完全啃下来了，肯定地说，一本都没有，真是情况是，大多是泛泛而看，等到下一段时间，又被新的信息所吸引，这就是信息焦虑，如果无法处理得好的话，最终就是什么东西都是只是听到过见到过甚至开始过，但是，却并没有深入过。
 时间过去了，而你，最终什么都不擅长。
@@ -423,10 +423,10 @@ Keep in mind that spider arguments are only strings. The spider will not do any 
     
     <item>
       <title>谁在动我的风扇</title>
-      <link>https://jeremyyin.com/post/2018-06-04-%E8%B0%81%E5%9C%A8%E5%8A%A8%E6%88%91%E7%9A%84%E9%A3%8E%E6%89%87/</link>
+      <link>/post/2018-06-04-%E8%B0%81%E5%9C%A8%E5%8A%A8%E6%88%91%E7%9A%84%E9%A3%8E%E6%89%87/</link>
       <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-06-04-%E8%B0%81%E5%9C%A8%E5%8A%A8%E6%88%91%E7%9A%84%E9%A3%8E%E6%89%87/</guid>
+      <guid>/post/2018-06-04-%E8%B0%81%E5%9C%A8%E5%8A%A8%E6%88%91%E7%9A%84%E9%A3%8E%E6%89%87/</guid>
       <description>我上次测试如何正常在微信文章中正常显示代码块，时间是 5 月 5 号。
 很快是不是，苹果开发者大会也就快要开始了，为啥关注这个呢，因为，希望有新的手机和笔记本，虽然现在不买，还是希望它多更新，一个产品，多出几代，就成熟了。毕竟呢，如果是想要吃第一口热豆腐，是要付出代价的，还是规规矩矩做个稍微不那么发烧友的用户吧。
 你问我，干嘛要一直想着这些好东西，随便一般般的凑合用着不也行么？
@@ -451,10 +451,10 @@ Adobe PS，曾经好像会，后来发现也不会了，可能更新后兼容更
     
     <item>
       <title>Hugo 的文件管理方案</title>
-      <link>https://jeremyyin.com/post/2018-05-03-hugo-%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88/</link>
+      <link>/post/2018-05-03-hugo-%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88/</link>
       <pubDate>Thu, 03 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-05-03-hugo-%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88/</guid>
+      <guid>/post/2018-05-03-hugo-%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88/</guid>
       <description>绝大多数的静态网站生成工具，无论是从 Markdown 文件还是 rST 格式的文件，甚至其它格式的文件，基本原理就是：利用一种面向用户友好的文本格式，通过工具处理为 HTML 格式，例如用户使用 Markdown 撰写文章，Hugo 帮忙处理为 HTML 文件。而后拿到静态的 HTML 文件则抛给例如 Nginx 这种 Web 服务器去提供服务即可。
 而处理的过程，则需要有按一定规则进行，例如标题与 URL 如何处理，文章日期如何处理，是否支持草稿，生成的网站页面列表如何排序，图片如何插入并显示等等。
 这里我取“如何编写带图片的文章”这个需求来说明下我的使用方案。
@@ -475,10 +475,10 @@ try_files $uri $uri.html $uri/index.html index.html; 所以这里其实可以看
     
     <item>
       <title>从 Jekyll 到 Hugo 的一些细节</title>
-      <link>https://jeremyyin.com/post/2018-05-02-%E4%BB%8E-jekyll-%E5%88%B0-hugo-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/</link>
+      <link>/post/2018-05-02-%E4%BB%8E-jekyll-%E5%88%B0-hugo-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/</link>
       <pubDate>Wed, 02 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-05-02-%E4%BB%8E-jekyll-%E5%88%B0-hugo-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/</guid>
+      <guid>/post/2018-05-02-%E4%BB%8E-jekyll-%E5%88%B0-hugo-%E7%9A%84%E4%B8%80%E4%BA%9B%E7%BB%86%E8%8A%82/</guid>
       <description>这篇是早些时候弄完 Hugo 就可以写了的，不过事事匆忙，就给搁置了。
 第一个细节是，类别，也叫目录或分类，无论是 Jekyll 还是 Hugo 它们使用的都是 categories 这个单词来处理类别。
 Jekyll 直接在每一篇文章里面的 Front Matter 里面标记这篇文章属于哪个类别，当然，你也可以标记多个，这点从程序的角度来看，蛮合理的，类似于数据库的设计逻辑。但是，对于内容维护者来说，用一个很有意思的词来说，就是它不够 for Humans，意思就是这样的设计，不是为人类而设计的，不是站在人类的角度去思考问题的。不太确定 Jekyll 现在是否支持以文件夹来分类文件了，不过已经成功切换到 Hugo 了。
@@ -494,10 +494,10 @@ filename = &amp;#39;public/algolia.json&amp;#39; rows = json.load(open(filename)
     
     <item>
       <title>给一个列表去除重复数据的最原始方法</title>
-      <link>https://jeremyyin.com/python/2018-04-27-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9C%80%E5%8E%9F%E5%A7%8B%E6%96%B9%E6%B3%95/</link>
+      <link>/python/2018-04-27-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9C%80%E5%8E%9F%E5%A7%8B%E6%96%B9%E6%B3%95/</link>
       <pubDate>Fri, 27 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2018-04-27-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9C%80%E5%8E%9F%E5%A7%8B%E6%96%B9%E6%B3%95/</guid>
+      <guid>/python/2018-04-27-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9C%80%E5%8E%9F%E5%A7%8B%E6%96%B9%E6%B3%95/</guid>
       <description>啥也不说，先看代码
 items = [6, 1, 4, 5, 4, 3, 8, 6] new_items = [] for item in items: if item not in new_items: new_items.append(item) new_items:
 [6, 1, 4, 5, 3, 8] 这应该是给一个列表去除重复还保留顺序的最兼容的办法了，为啥叫最兼容，意思是绝大多数情况下你按这个写法去操作，无论列表里面是什么东西，它都能很好地帮你处理成功。
@@ -508,10 +508,10 @@ items = [ {&amp;#39;age&amp;#39;: 6}, {&amp;#39;age&amp;#39;: 1}, {&amp;#39;age&
     
     <item>
       <title>极客时间</title>
-      <link>https://jeremyyin.com/advertisement/geek-time/</link>
+      <link>/advertisement/geek-time/</link>
       <pubDate>Thu, 26 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/advertisement/geek-time/</guid>
+      <guid>/advertisement/geek-time/</guid>
       <description> 一年写了 30 几个小产品接口，该想想是不是代码太乱了。Django 说十几行代码完成增删改查，可能培训机构只顾着拉新了吧，MVC 构架可能确实简单。
 面向对象听了无数遍，可一次也没创建过自己的对象，一般都用别人现成的对象，还得看别人告诉你怎么用。
 要创建自己的对象了。写爬虫和写爬虫，不一样就是不一样的，Hello World 跑起来简单，可 Demo 和生产环境那是两码事儿。
@@ -525,20 +525,20 @@ items = [ {&amp;#39;age&amp;#39;: 6}, {&amp;#39;age&amp;#39;: 1}, {&amp;#39;age&
     
     <item>
       <title>上手</title>
-      <link>https://jeremyyin.com/advertisement/becoming/</link>
+      <link>/advertisement/becoming/</link>
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/advertisement/becoming/</guid>
+      <guid>/advertisement/becoming/</guid>
       <description> 《上手》，是由许岑打造的一个学习平台，借由凡事以上手为目标去学习的理念，打造一系列内容跨度较大的各种课程。
 你洗头可能从没洗干净过 - 梁子 </description>
     </item>
     
     <item>
       <title>Saleor 初稿已翻译完成</title>
-      <link>https://jeremyyin.com/post/2018-04-22-saleor-%E5%88%9D%E7%A8%BF%E5%B7%B2%E7%BF%BB%E8%AF%91%E5%AE%8C%E6%88%90/</link>
+      <link>/post/2018-04-22-saleor-%E5%88%9D%E7%A8%BF%E5%B7%B2%E7%BF%BB%E8%AF%91%E5%AE%8C%E6%88%90/</link>
       <pubDate>Sun, 22 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-04-22-saleor-%E5%88%9D%E7%A8%BF%E5%B7%B2%E7%BF%BB%E8%AF%91%E5%AE%8C%E6%88%90/</guid>
+      <guid>/post/2018-04-22-saleor-%E5%88%9D%E7%A8%BF%E5%B7%B2%E7%BF%BB%E8%AF%91%E5%AE%8C%E6%88%90/</guid>
       <description>赶在周末结束之前，把 Saleor 的文档初步“翻译”完成，干嘛打个引号，说到底还是心虚，哈哈。
 毕竟是借助了绝大多数 Google 翻译的内容，而我就好像是一个审稿者，一句一句看一遍，觉得好就用了，觉得实在是不行就才按自己理解的来，所以，能说有功夫在的，就只能是这部分了。
 搜索了下，由于 Python 圈我个人猜测可能基本上不屑于（这里需要给个？号）整一些购物车程序系统啥的，导致搜索一圈下来没看到几个可以接近于“开箱即用”的产品或是听上去使用较多的集成方案，导致在电商领域它的生态好像并不是发展的活跃。
@@ -549,10 +549,10 @@ Saleor 是我所通过搜索查询到从看 Demo 和文档都觉得它的集成�
     
     <item>
       <title>Saleor 01: 入门 - 在 macOS 上安装</title>
-      <link>https://jeremyyin.com/saleor/getting-started/01_installation-macos/</link>
+      <link>/saleor/getting-started/01_installation-macos/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/getting-started/01_installation-macos/</guid>
+      <guid>/saleor/getting-started/01_installation-macos/</guid>
       <description>准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。
 Node.js 建议是 Version 8 或更高版本。
 Node.js downloads page
@@ -569,10 +569,10 @@ $ brew install python3 Git 使用 Homebrew 安装 Git:</description>
     
     <item>
       <title>Saleor 02: 入门 - 在 Windows 上安装</title>
-      <link>https://jeremyyin.com/saleor/getting-started/02_installation-windows/</link>
+      <link>/saleor/getting-started/02_installation-windows/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/getting-started/02_installation-windows/</guid>
+      <guid>/saleor/getting-started/02_installation-windows/</guid>
       <description>我们在 64-bit Windows 系统上进行安装
 准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。
 Python 下载最新的 3.6 版 Windows 安装包，然后根据说明进行安装。
@@ -592,10 +592,10 @@ Compilers 下载并安装最新版本的 Visual C++ build tools.
     
     <item>
       <title>Saleor 03: 入门 - 在 Linux 上安装</title>
-      <link>https://jeremyyin.com/saleor/getting-started/03_installation-linux/</link>
+      <link>/saleor/getting-started/03_installation-linux/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/getting-started/03_installation-linux/</guid>
+      <guid>/saleor/getting-started/03_installation-linux/</guid>
       <description>如果你偏向于使用容器服务或者是对配置 PostgreSQL, Redis and Elasticsearch 存在问题，可以尝试 Using Docker for Development 相关教程。
 准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。
 Python 3 Saleor 建议使用 Python 3.4 或者更高版本。大多数 Linux 系统都有一个内置已经安装好的版本，但是如果不是，那就要去了解下如何安装 Python 3.6.
@@ -612,10 +612,10 @@ Debian / Ubuntu Debian 9.0 Stretch 或以上, Ubuntu 16.04 Xenial 或以上:</de
     
     <item>
       <title>Saleor 04: 入门 - 设置</title>
-      <link>https://jeremyyin.com/saleor/getting-started/04_configuration/</link>
+      <link>/saleor/getting-started/04_configuration/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/getting-started/04_configuration/</guid>
+      <guid>/saleor/getting-started/04_configuration/</guid>
       <description>我们是 12factor 方法和可移植代码的粉丝， 所以你仅仅使用环境变量就可以设置 Saleor 的大多数配置项。
 环境变量  ALLOWED_HOSTS
 控制 Django&amp;rsquo;s allowed hosts 设置，默认是 localhost。使用英文逗号分隔多个值。
@@ -640,10 +640,10 @@ Example: postgres://user:password@psql.example.com/database
     
     <item>
       <title>Saleor 05: 入门 - 创建一个管理员账户</title>
-      <link>https://jeremyyin.com/saleor/getting-started/05_superuser/</link>
+      <link>/saleor/getting-started/05_superuser/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/getting-started/05_superuser/</guid>
+      <guid>/saleor/getting-started/05_superuser/</guid>
       <description>Saleor 是基于 Django 开发的，所以你可以使用下面的命令来创建管理员账户
 $ python manage.py createsuperuser 按照提示提供您的电子邮件地址和密码。
 然后你就可以启动本地服务并访问 http://localhost:8000/dashboard/ 登录到后台管理界面。
@@ -652,10 +652,10 @@ $ python manage.py createsuperuser 按照提示提供您的电子邮件地址和
     
     <item>
       <title>Saleor 06: 入门 - 调试工具</title>
-      <link>https://jeremyyin.com/saleor/getting-started/06_dev-tools-2/</link>
+      <link>/saleor/getting-started/06_dev-tools-2/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/getting-started/06_dev-tools-2/</guid>
+      <guid>/saleor/getting-started/06_dev-tools-2/</guid>
       <description> 我们内建了一些调试工具。
 Django debug toolbar 如果 Django 是运行在 debug 模式下，Django Debug Toolbar 就是开启的。
 Silk Silk 开启与否可以通过环境变量来控制
@@ -665,20 +665,20 @@ Silk Silk 开启与否可以通过环境变量来控制
     
     <item>
       <title>Saleor 07: 入门 - 测试数据</title>
-      <link>https://jeremyyin.com/saleor/getting-started/07_example-data/</link>
+      <link>/saleor/getting-started/07_example-data/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/getting-started/07_example-data/</guid>
+      <guid>/saleor/getting-started/07_example-data/</guid>
       <description>如果您想要一些数据来测试您的新店面，您可以使用示例产品和订单填充数据库：
 $ python manage.py populatedb</description>
     </item>
     
     <item>
       <title>Saleor 08: 开发定制 - 使用 Docker 进行开发</title>
-      <link>https://jeremyyin.com/saleor/customization/08_docker/</link>
+      <link>/saleor/customization/08_docker/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/08_docker/</guid>
+      <guid>/saleor/customization/08_docker/</guid>
       <description>使用Docker构建软件，您可以运行和测试代码，而无需担心外部依赖性，如缓存服务器和数据库。
 Warning
 以下设置仅用于本地开发。请参阅 Docker 以获取 Docker 在生产环境的使用说明。
@@ -691,20 +691,20 @@ Warning
     
     <item>
       <title>Saleor 09: 开发定制 - 自定义模版</title>
-      <link>https://jeremyyin.com/saleor/customization/09_templates/</link>
+      <link>/saleor/customization/09_templates/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/09_templates/</guid>
+      <guid>/saleor/customization/09_templates/</guid>
       <description>商店前端模版默认是基于 [Bootstrap 4
 你可以在 /templates/ 文件下找到全部文件。</description>
     </item>
     
     <item>
       <title>Saleor 10: 开发定制 - 自定义邮件</title>
-      <link>https://jeremyyin.com/saleor/customization/10_emails/</link>
+      <link>/saleor/customization/10_emails/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/10_emails/</guid>
+      <guid>/saleor/customization/10_emails/</guid>
       <description> 发送邮件 邮件是使用 Django-Templated-Email 进行发送的。
 自定义邮件模版 电子邮件模板在 templates/templated_email 中，它有两个子目录。 source 包含 *.email 和 *.mjml 文件，彼此相邻，按应用程序名称分组。 这些 MJML 文件被编译为 *.html 并放入 compiled 目录。
 在 *.email 中的普通电子邮件通过引用编译的 *.html 文件来包含 HTML 版本。
@@ -715,10 +715,10 @@ $ npm run build-emails</description>
     
     <item>
       <title>Saleor 11: 开发定制 - 自定义 CSS 和 JavaScript</title>
-      <link>https://jeremyyin.com/saleor/customization/11_frontend/</link>
+      <link>/saleor/customization/11_frontend/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/11_frontend/</guid>
+      <guid>/saleor/customization/11_frontend/</guid>
       <description>所有的静态资源文件都在 /saleor/static/ 的子目录下面。
 样式表是使用 Sass 写的，使用 postcss 和 autoprefixer 来支持跨浏览器兼容性。
 JavaScript 代码是按 ES2015 标准写的， 使用 Babel 进行转换和补充浏览器兼容性。
@@ -733,20 +733,20 @@ $ npm run build-assets --production</description>
     
     <item>
       <title>Saleor 12: 开发定制 - 编写 Python 代码</title>
-      <link>https://jeremyyin.com/saleor/customization/12_backend/</link>
+      <link>/saleor/customization/12_backend/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/12_backend/</guid>
+      <guid>/saleor/customization/12_backend/</guid>
       <description>管理依赖库 为了保证可重复安装，所有项目依赖性都使用 pip-tools 进行管理。 项目的直接依赖关系列在 requirements.in 中，并且运行 pip-compile 生成所有版本固定的 requirements.txt 。
 我们建议您使用此工作流程并在版本控制下保留 requirements.txt ，以确保所有计算机和环境都运行完全相同的代码。</description>
     </item>
     
     <item>
       <title>Saleor 13: 开发定制 - 国际化</title>
-      <link>https://jeremyyin.com/saleor/customization/13_i18n/</link>
+      <link>/saleor/customization/13_i18n/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/13_i18n/</guid>
+      <guid>/saleor/customization/13_i18n/</guid>
       <description> 从 Transifex 获取翻译文件 首先要确保你已经安装了 Transifex 命令行客户端:
 $ pip install transifex-client 然后使用 pull 命令获取翻译文件:
 $ tx pull Note
@@ -760,10 +760,10 @@ $ python manage.py makemessages -l en -d djangojs --ignore=&amp;#34;_build/*&amp
     
     <item>
       <title>Saleor 14: 开发定制 - 运行测试</title>
-      <link>https://jeremyyin.com/saleor/customization/14_tests/</link>
+      <link>/saleor/customization/14_tests/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/14_tests/</guid>
+      <guid>/saleor/customization/14_tests/</guid>
       <description>在对代码进行任何永久更改之前，应确保它们不会破坏现有功能。
 该项目目前只包含很少的前端代码，因此测试套件仅涵盖后端代码。
 要运行后端测试，请使用 pytest:
@@ -773,19 +773,19 @@ $ tox</description>
     
     <item>
       <title>Saleor 15: 开发定制 - 持续集成</title>
-      <link>https://jeremyyin.com/saleor/customization/15_ci/</link>
+      <link>/saleor/customization/15_ci/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/15_ci/</guid>
+      <guid>/saleor/customization/15_ci/</guid>
       <description>商店附带一个可工作的 CircleCI 配置文件。 要使用它，请登录您的 CircleCI 帐户并启用您的存储库。</description>
     </item>
     
     <item>
       <title>Saleor 16: 开发定制 - 与 PyPy 3.5 配合使用</title>
-      <link>https://jeremyyin.com/saleor/customization/16_pypy/</link>
+      <link>/saleor/customization/16_pypy/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/customization/16_pypy/</guid>
+      <guid>/saleor/customization/16_pypy/</guid>
       <description>Saleor 可以很好地与 PyPy 3.5 配合使用，并且在需要额外的性能时可以使用它。
 默认的 PostgreSQL 驱动程序与 PyPy 不兼容，所以您需要用基于 cffi 的驱动程序替换它。
 请参阅 psycopg2cffi 提供的安装说明。</description>
@@ -793,10 +793,10 @@ $ tox</description>
     
     <item>
       <title>Saleor 17: 参与我们 - 编辑器配置</title>
-      <link>https://jeremyyin.com/saleor/contributing/17_editorconfig/</link>
+      <link>/saleor/contributing/17_editorconfig/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/contributing/17_editorconfig/</guid>
+      <guid>/saleor/contributing/17_editorconfig/</guid>
       <description>EditorConfig 是一个标准配置文件，旨在确保跨多种编程环境的一致风格。
 Saleor 的存储库包含一个 .editorconfig file 文件，它描述了我们的格式要求。
 大多数编辑器和IDE都直接或通过插件支持该文件。 请参阅 list of supported editors and IDEs 以获取相关说明。
@@ -805,10 +805,10 @@ Saleor 的存储库包含一个 .editorconfig file 文件，它描述了我们�
     
     <item>
       <title>Saleor 18: 参与我们 - 编码风格</title>
-      <link>https://jeremyyin.com/saleor/contributing/18_coding-style/</link>
+      <link>/saleor/contributing/18_coding-style/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/contributing/18_coding-style/</guid>
+      <guid>/saleor/contributing/18_coding-style/</guid>
       <description>Python 始终遵循 PEP 8 ，但请记住，一致性非常重要。
 String Literals 优先使用单引号加双引号，除非字符串本身包含需要不必要地转义的单引号。
 Wrapping Code When wrapping code follow the “hanging grid” format:
@@ -820,10 +820,10 @@ also_wrong(&amp;#39;this is hard&amp;#39;, &amp;#39;to maintain&amp;#39;, &amp;#
     
     <item>
       <title>Saleor 19: 参与我们 - 命名约定</title>
-      <link>https://jeremyyin.com/saleor/contributing/19_naming/</link>
+      <link>/saleor/contributing/19_naming/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/contributing/19_naming/</guid>
+      <guid>/saleor/contributing/19_naming/</guid>
       <description>为了保持一致的代码结构，我们在命名文件时遵循一些规则。
 Python Modules 试着让名字反映文件的功能。 如果可能的话，避免使用通用文件名，例如 utils.py.
 Django Templates 使用下划线作为字词分隔符。
@@ -832,10 +832,10 @@ Static Files 使用破折号分隔单词，因为它们最终会成为 URL 的�
     
     <item>
       <title>Saleor 20: 架构 - 处理钱的金额</title>
-      <link>https://jeremyyin.com/saleor/architecture/20_money/</link>
+      <link>/saleor/architecture/20_money/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/20_money/</guid>
+      <guid>/saleor/architecture/20_money/</guid>
       <description>Saleor 使用 Prices 和 django-prices 库去存储、计算和显示金额、价格与范围。
 默认货币 所有价格都输入并存储在由 [DEFAULT_CURRENCY 设置] 控制的单一默认货币中。Saleor 可以以用户本地货币显示价格 （参阅 [Open Exchange Rates integration]），但所有采购均以默认货币收取。
 Warning
@@ -847,10 +847,10 @@ Products （产品）和 shipping methods prices （运输方式价格）使用 
     
     <item>
       <title>Saleor 21: 架构 - 产品结构</title>
-      <link>https://jeremyyin.com/saleor/architecture/21_products/</link>
+      <link>/saleor/architecture/21_products/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/21_products/</guid>
+      <guid>/saleor/architecture/21_products/</guid>
       <description>在为您的商店填充产品之前，我们需要介绍 3 种产品概念：产品类型 product types ，产品 products ，产品变体 product variants 。
 概述 设想你有一家书店。 你的其中一个产品 products 一本名为“Saleor 简介”的书。
 这本书的封面有分为硬壳和软壳，所以会有两种产品变体 product variants 。
@@ -866,10 +866,10 @@ Class Diagram 产品变体（Product Variants） 变体是你店里最重要的�
     
     <item>
       <title>Saleor 22: 架构 - 缩略图</title>
-      <link>https://jeremyyin.com/saleor/architecture/22_thumbnails/</link>
+      <link>/saleor/architecture/22_thumbnails/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/22_thumbnails/</guid>
+      <guid>/saleor/architecture/22_thumbnails/</guid>
       <description>Saleor 使用 VersatileImageField 替换了 Django 的 ImageField 。出于性能原因，在非调试模式下，缩略图由工作者的任务系统预先生成，在保存实例后触发。访问丢失的图像将导致404错误。
 在调试模式下，按需生成缩略图。
 手动生成产品缩略图 为所有 ProductImage 实例创建缺失的缩略图。
@@ -878,10 +878,10 @@ $ python manage.py create_thumbnails 删除图像 Image 实例不会自动删除
     
     <item>
       <title>Saleor 23: 架构 - 库存管理</title>
-      <link>https://jeremyyin.com/saleor/architecture/23_stock/</link>
+      <link>/saleor/architecture/23_stock/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/23_stock/</guid>
+      <guid>/saleor/architecture/23_stock/</guid>
       <description>每个产品型号都有一个库存单位（SKU）。
 每个变体保存了关于“数量”的相关信息，总库存数量 quantity 包括分配给已经生成的订单的已分配数量 quantity allocated 和可用数量 quantity available 。
 Example: 有五盒鞋子。其中三个已经出售给客户，但尚未处理发货。总库存数量 quantity 为 5，已分配数量 quantity allocated 为 3，可用数量 quantity available 为 2。
@@ -896,10 +896,10 @@ Example: A 仓库的两箱鞋子被运送给客户。总库存数量 quantity �
     
     <item>
       <title>Saleor 24: 架构 - 订单管理</title>
-      <link>https://jeremyyin.com/saleor/architecture/24_orders/</link>
+      <link>/saleor/architecture/24_orders/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/24_orders/</guid>
+      <guid>/saleor/architecture/24_orders/</guid>
       <description>订单是在客户完成结账流程后创建的。订单对象本身仅包含客户订单的一些基本信息。
 履行（Fulfillment）（可以理解为发货与发货单） 履行代表一组带有相应跟踪编号的装运物品。履行是由商店经营者创建的，以便在所订购的订单中标记选定的产品已被履行。
 有两种可能的履行状态：
@@ -924,10 +924,10 @@ Example: A 仓库的两箱鞋子被运送给客户。总库存数量 quantity �
     
     <item>
       <title>Saleor 25: 架构 - 国际化</title>
-      <link>https://jeremyyin.com/saleor/architecture/25_i18n/</link>
+      <link>/saleor/architecture/25_i18n/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/25_i18n/</guid>
+      <guid>/saleor/architecture/25_i18n/</guid>
       <description>默认情况下，语言和语言环境是根据 Web 浏览器提供的首选项列表确定的。GeoIP 用于确定访问者的国家和当地货币。
 Note
 Saleor 使用 Transifex 协调翻译。如果您希望提供帮助，请前往 translation dashboard
@@ -943,10 +943,10 @@ Saleor 的店面和管理后台都准备好翻译。他们使用单独的翻译�
     
     <item>
       <title>Saleor 26: 架构 - 搜索</title>
-      <link>https://jeremyyin.com/saleor/architecture/26_search/</link>
+      <link>/saleor/architecture/26_search/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/26_search/</guid>
+      <guid>/saleor/architecture/26_search/</guid>
       <description>Saleor 有两种搜索机制。
 默认是使用 PotsgreSQL。这是一个相当通用的解决方案，不需要任何额外的资源。
 如果 Elasticsearch 服务器可用，则可以启用更复杂的搜索后端。Elasticsearch 提供了许多高级功能，例如提高查询的相关性或“more like this”的查询。查看 Elasticsearch官方网站，了解更多关于其功能的信息。请注意，启用Elasticsearch 后端目前不支持 Saleor 中的任何其他功能。
@@ -955,10 +955,10 @@ Saleor 的店面和管理后台都准备好翻译。他们使用单独的翻译�
     
     <item>
       <title>Saleor 27: 架构 - 支付</title>
-      <link>https://jeremyyin.com/saleor/architecture/27_payments/</link>
+      <link>/saleor/architecture/27_payments/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/27_payments/</guid>
+      <guid>/saleor/architecture/27_payments/</guid>
       <description>支持的网关（Supported Gateways） Saleor 使用 django-payments 库来处理付款。
 默认配置使用*虚拟*后端。这意味着开发人员可以轻松模拟不同的付款结果。
 以下是支持的支付提供商列表：
@@ -979,20 +979,20 @@ Saleor 支持 3-D Secure 但是否使用取决于付款处理器和正在使用�
     
     <item>
       <title>Saleor 28: 架构 - 网站设置</title>
-      <link>https://jeremyyin.com/saleor/architecture/28_settings/</link>
+      <link>/saleor/architecture/28_settings/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/28_settings/</guid>
+      <guid>/saleor/architecture/28_settings/</guid>
       <description>*网站设置*模块允许您从管理后台更改常见的商店设置，如店铺名称或域名。通过从 SITE_SETTINGS_ID 变量中选择 pk 确定设置对象。
 情境处理器 感谢 saleor.site.context_processors.settings 您可以通过 settings 变量访问模板中的*网站设置*。</description>
     </item>
     
     <item>
       <title>Saleor 29: 架构 - 页面</title>
-      <link>https://jeremyyin.com/saleor/architecture/29_page/</link>
+      <link>/saleor/architecture/29_page/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/architecture/29_page/</guid>
+      <guid>/saleor/architecture/29_page/</guid>
       <description>设置自定义页面 您可以在后台管理的“页面”（Pages）菜单中设置页面，如“关于我们”或“重要通告！”。请注意，如果您不是管理员，则需要加入拥有相应权限的用户组。
 在店面中引用页面 如果您想要在店面中添加最近创建的页面的链接，则只需将以下代码放入：
 &amp;lt;a href=&amp;#34;{% url &amp;#34;page:details&amp;#34; slug=&amp;#34;terms-of-service&amp;#34; %}&amp;#34;&amp;gt;服务条款&amp;lt;/a&amp;gt; 在相应的模板中。</description>
@@ -1000,10 +1000,10 @@ Saleor 支持 3-D Secure 但是否使用取决于付款处理器和正在使用�
     
     <item>
       <title>Saleor 30: 集成 - 搜索引擎优化（SEO）</title>
-      <link>https://jeremyyin.com/saleor/integrations/30_seo/</link>
+      <link>/saleor/integrations/30_seo/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/integrations/30_seo/</guid>
+      <guid>/saleor/integrations/30_seo/</guid>
       <description>在某些方面，Saleor 会自动处理搜索引擎如何查看和索引您的产品，开箱即用。
 站点地图（Sitemaps） 在 /sitemap.xml URL 下，这个可访问的特殊资源以所有主要搜索引擎最易于解析的 Sitemaps XML 格式提供您网站上的产品、类别和集合的最新列表。
 元标记（Meta Tags） Meta 关键字并未被使用，因为它被引入后的这几年被滥用，因为它们被所有主要搜索引擎忽略。
@@ -1020,30 +1020,30 @@ Nofollow 链接（Nofollow links） 搜索引擎抓取工具无法在您的网�
     
     <item>
       <title>Saleor 31: 集成 - 社交媒体优化（SMO）</title>
-      <link>https://jeremyyin.com/saleor/integrations/31_smo/</link>
+      <link>/saleor/integrations/31_smo/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/integrations/31_smo/</guid>
+      <guid>/saleor/integrations/31_smo/</guid>
       <description>打开图表 为了更有效和高效参与社交媒体，我们在主页和所有的产品/类别中添加了 Open Graph Protocol 。
 Open Graph meta 标签可以控制在社交媒体上分享页面时显示的内容（描述，标题，网址，照片等），从而将您的网页转变为社交图表中的丰富对象。</description>
     </item>
     
     <item>
       <title>Saleor 32: 集成 - 电子邮件标记</title>
-      <link>https://jeremyyin.com/saleor/integrations/32_emailmarkup/</link>
+      <link>/saleor/integrations/32_emailmarkup/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/integrations/32_emailmarkup/</guid>
+      <guid>/saleor/integrations/32_emailmarkup/</guid>
       <description>Saleor 使用 schema.org 标记来突出显示电子邮件中最重要的信息，并允许用户轻松地与其进行交互。 订单确认电子邮件 将显示为交互式摘要卡片。
 电子邮件标记是默认启用的，但在您 向Google注册 之前，您的客户不会看到它。</description>
     </item>
     
     <item>
       <title>Saleor 33: 集成 - Elasticsearch 搜索</title>
-      <link>https://jeremyyin.com/saleor/integrations/33_elasticsearch/</link>
+      <link>/saleor/integrations/33_elasticsearch/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/integrations/33_elasticsearch/</guid>
+      <guid>/saleor/integrations/33_elasticsearch/</guid>
       <description>安装 Elasticsearch 搜索后端需要 Elasticsearch 服务器。为了开发目的，docker-compose 将创建一个运行Elasticsearch 服务器实例的 Docker 容器。
 可以使用一组环境变量来配置集成。当您在 Heroku 上部署时，您可以使用提供 Elasticsearch 作为服务的附加组件。默认情况下，Saleor 使用Elasticsearch 5.4.3。
 如果您正在其他地方部署，则可以使用以下服务之一：
@@ -1058,10 +1058,10 @@ $ python manage.py search_index --rebuild 默认情况下，每次更改索引�
     
     <item>
       <title>Saleor 34: 集成 - 谷歌分析</title>
-      <link>https://jeremyyin.com/saleor/integrations/34_googleanalytics/</link>
+      <link>/saleor/integrations/34_googleanalytics/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/integrations/34_googleanalytics/</guid>
+      <guid>/saleor/integrations/34_googleanalytics/</guid>
       <description>由于欧盟法律规定，Saleor 不会默认使用任何追踪 cookie。
 不过，我们使用 Google Analytics Measurement Protocol 支持服务器端 Google Analytics 。
 这是使用 google-measurement-protocol ，不使用 cookie，但代价是不会报告无法追踪服务器端的东西，如地理定位和屏幕分辨率。
@@ -1072,10 +1072,10 @@ $ python manage.py search_index --rebuild 默认情况下，每次更改索引�
     
     <item>
       <title>Saleor 35: 集成 - 谷歌零售</title>
-      <link>https://jeremyyin.com/saleor/integrations/35_googleforretail/</link>
+      <link>/saleor/integrations/35_googleforretail/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/integrations/35_googleforretail/</guid>
+      <guid>/saleor/integrations/35_googleforretail/</guid>
       <description>Saleor 有用于生成产品 Feed 的工具，可用于 Google Merchant Center。最终文件被压缩成 CSV 并保存在 saleor.data_feeds.google_merchant.FILE_PATH 变量所指定的位置。
 要生成 Feed 使用命令：
 $ python manage.py update_feeds 建议定期运行此命令。
@@ -1086,10 +1086,10 @@ Feed 可以从这个网址下载：http://&amp;lt;yourserver&amp;gt;/feeds/googl
     
     <item>
       <title>Saleor 36: 集成 - 汇率转换</title>
-      <link>https://jeremyyin.com/saleor/integrations/36_openexchangerates/</link>
+      <link>/saleor/integrations/36_openexchangerates/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/integrations/36_openexchangerates/</guid>
+      <guid>/saleor/integrations/36_openexchangerates/</guid>
       <description>这种整合将使您的客户能够以当地货币查看产品价格。当地价格仅作为估算提供，客户仍按商店的默认货币收费。
 在开始之前，您需要一个 Open Exchange Rates account。除非您需要每天多次更新汇率，否则免费订阅计划应该足够了，当然也可以考虑为 Open Exchange Rates 提供的优质服务购买付费方案。首先去注册并创建一个“App ID”。
 导出以下环境变量：
@@ -1101,10 +1101,10 @@ Heroku 用户可以使用 Scheduler add-on 在预定义的时间每天自动调�
     
     <item>
       <title>Saleor 37: 部署 - Docker</title>
-      <link>https://jeremyyin.com/saleor/deployment/37_docker/</link>
+      <link>/saleor/deployment/37_docker/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/deployment/37_docker/</guid>
+      <guid>/saleor/deployment/37_docker/</guid>
       <description>您需要先安装 Docker。
 在构建镜像之前，请确保您准备好了用于生产环境的所有前端资源文件：
 $ npm run build-assets --production $ npm run build-emails $ python manage.py collectstatic 然后使用 Docker 构建镜像：
@@ -1113,10 +1113,10 @@ $ docker build -t mystorefront .</description>
     
     <item>
       <title>Saleor 38: 部署 - Heroku</title>
-      <link>https://jeremyyin.com/saleor/deployment/38_heroku/</link>
+      <link>/saleor/deployment/38_heroku/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/deployment/38_heroku/</guid>
+      <guid>/saleor/deployment/38_heroku/</guid>
       <description>配置（Configuration） $ heroku create --buildpack https://github.com/heroku/heroku-buildpack-nodejs.git $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-python.git $ heroku addons:create heroku-postgresql:hobby-dev $ heroku addons:create heroku-redis:hobby-dev $ heroku addons:create sendgrid:starter $ heroku config:set ALLOWED_HOSTS=&amp;#39;&amp;lt;your hosts here&amp;gt;&amp;#39; $ heroku config:set NODE_MODULES_CACHE=false $ heroku config:set NPM_CONFIG_PRODUCTION=false $ heroku config:set SECRET_KEY=&amp;#39;&amp;lt;your secret key here&amp;gt;&amp;#39; Note
 Heroku 的存储是不稳定的。这意味着应用程序的所有实例都将具有单独的磁盘，并且每次重新启动应用程序时都将丢失对本地磁盘所做的所有更改。最好的方法是使用 Amazon S3 等云存储。有关配置详细信息，请参阅 Storing Files on Amazon S3 。
 部署（Deployment） $ git push heroku master 准备数据库（Preparing the Database） $ heroku run python manage.py migrate 更新货币汇率（Updating Currency Exchange Rates） 这需要定期运行。实现此目的的最佳方法是使用 Heroku 的调度程序服务（Heroku’s Scheduler service）。我们将其添加到我们的应用程序中：</description>
@@ -1124,10 +1124,10 @@ Heroku 的存储是不稳定的。这意味着应用程序的所有实例都将�
     
     <item>
       <title>Saleor 39: 部署 - 在 Amazon S3 上存储文件</title>
-      <link>https://jeremyyin.com/saleor/deployment/39_s3/</link>
+      <link>/saleor/deployment/39_s3/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/deployment/39_s3/</guid>
+      <guid>/saleor/deployment/39_s3/</guid>
       <description>如果您使用容器进行部署（包括 Docker 和 Heroku），您将希望避免将文件存储在容器的易失性文件系统中。此集成允许您将存储此类文件的任务委托给 Amazon’s S3 service。
 基本配置  AWS_ACCESS_KEY_ID  您的AWS访问密钥。
  AWS_SECRET_ACCESS_KEY  您的AWS秘密访问密钥。
@@ -1146,10 +1146,10 @@ Note
     
     <item>
       <title>Saleor 40: 操作指南 - 订单</title>
-      <link>https://jeremyyin.com/saleor/guides/40_orders/</link>
+      <link>/saleor/guides/40_orders/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/guides/40_orders/</guid>
+      <guid>/saleor/guides/40_orders/</guid>
       <description>Saleor 提供了通过管理后台处理订单的功能。订单可以在管理后台的 Orders 选项卡中处理完成。
 草稿订单 （Draft orders） 要创建草稿订单，首先您必须转到管理后台的 Orders 选项卡，然后选择现有订单列表上方可见的圆形 + 按钮。
 这些订单可以完全编辑，直到通过点击创建订单确认。您可以修改订购商品、客户（也只是设置电子邮件）、账单和送货地址、送货方式及折扣。您应用的任何凭证都会导致自动订单重新计算，以适应每次订单实际状态的变化。
@@ -1161,10 +1161,10 @@ Warning
     
     <item>
       <title>Saleor 41: 操作指南 - 导航</title>
-      <link>https://jeremyyin.com/saleor/guides/41_navigation/</link>
+      <link>/saleor/guides/41_navigation/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/saleor/guides/41_navigation/</guid>
+      <guid>/saleor/guides/41_navigation/</guid>
       <description>Saleor 提供了配置店面导航的功能。你可以在管理后台的 Navigation 选项卡中进行操作。
 您可以在每个创建的菜单中添加最多 3 层菜单项。每个菜单项都可以通过传递额外的 URL 来指向包含 Category，Collection，Page 或外部网站的内部页面。
 管理菜单项（Managing menu items） 要管理菜单项，首先您必须转到仪表板 Navigation 选项卡并选择要编辑的菜单。如果要管理嵌套的菜单项，可以上下浏览列出的菜单项。
@@ -1180,10 +1180,10 @@ Warning
     
     <item>
       <title>开始翻译一个文档：Saleor</title>
-      <link>https://jeremyyin.com/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</link>
+      <link>/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</guid>
+      <guid>/post/2018-04-19-%E5%BC%80%E5%A7%8B%E7%BF%BB%E8%AF%91%E4%B8%80%E4%B8%AA%E6%96%87%E6%A1%A3saleor/</guid>
       <description>这篇文章要在10分钟内写完。
 今晚上开始着手翻译关于 Saleor 的文档，它是一个购物车程序，说它是个程序其实到也不完全是，准确说应该是它提供了一个整体参考方案，选用几个先进的不同产品进行组合，搭建起这么一个东西，相比其它一般性的购物车程序，我第一眼看过去就喜欢上它，demo 足够漂亮，响应速度也非常不错。
 再仔细看过了它所使用的功能组件和工具，都走在技术发展前沿，这点很不错，这表示你是在为未来而努力。
@@ -1195,10 +1195,10 @@ Warning
     
     <item>
       <title>小站构建工具已成功切换到 Hugo</title>
-      <link>https://jeremyyin.com/post/2018-04-18-%E5%B0%8F%E7%AB%99%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E5%88%87%E6%8D%A2%E5%88%B0-hugo/</link>
+      <link>/post/2018-04-18-%E5%B0%8F%E7%AB%99%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E5%88%87%E6%8D%A2%E5%88%B0-hugo/</link>
       <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-04-18-%E5%B0%8F%E7%AB%99%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E5%88%87%E6%8D%A2%E5%88%B0-hugo/</guid>
+      <guid>/post/2018-04-18-%E5%B0%8F%E7%AB%99%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E5%B7%B2%E6%88%90%E5%8A%9F%E5%88%87%E6%8D%A2%E5%88%B0-hugo/</guid>
       <description>最开始，我这使用的是 Jekyll 来处理 Markdown 文件生成网站文件。
 前些时候，我筹备给它换到使用 Hugo 来处理。其中的一个主要原因，是因为：
  我想每个类别存一个文件夹，比如可以单独归类的：Python、……；不能归类的：其它杂碎的文章…… 如果需要修改某一个目录的名称，或是重新为某一批文章进行归类整理，我不想要去每一个 .md 文件里去逐个修改，虽然存在可能我写个 .py 脚本来处理这个事情，但是始终不是个很好的操作。  出于我在想把一些可独立成文件夹的东西搬进来存着，比如一些工具的文档什么的，所以这个独立文件夹存储的确实很明确，所以就着手进行了。
@@ -1212,10 +1212,10 @@ Warning
     
     <item>
       <title>我是如何搞砸了本站搜索服务的</title>
-      <link>https://jeremyyin.com/post/2018-04-13-%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E6%90%9E%E7%A0%B8%E4%BA%86%E6%9C%AC%E7%AB%99%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1%E7%9A%84/</link>
+      <link>/post/2018-04-13-%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E6%90%9E%E7%A0%B8%E4%BA%86%E6%9C%AC%E7%AB%99%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1%E7%9A%84/</link>
       <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-04-13-%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E6%90%9E%E7%A0%B8%E4%BA%86%E6%9C%AC%E7%AB%99%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1%E7%9A%84/</guid>
+      <guid>/post/2018-04-13-%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E6%90%9E%E7%A0%B8%E4%BA%86%E6%9C%AC%E7%AB%99%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1%E7%9A%84/</guid>
       <description>上一篇简单提到，我上线了本站的站内搜索服务：Algolia，本来还写了有一些些的，然而，由于我所使用的 Markdown 编辑器 Typora 的问题，在我主动按下 Command + S 的时候有较高概率会触发崩溃（按照默认的设定直接关闭文件就是自动保存，可是人总是想更保险一点是吧，可结果……），所以，当时崩溃又写了些，写了些又崩溃，然后又写了些，又崩溃，又只要仓促写了些，毕竟大半夜的还是要睡觉的。
 Typora 最近又更新了好几次，刚还遇到不能回删文字的情况，可能还是系统兼容问题吧，希望工程师们能有精力尽快完成修复了。
 今天，我有意识控制不去按 Command + S，其实在 macOS 的逻辑里，好多的软件都默认是自动保存的，不过还是有一些不是，这使得习惯还是会有些些分裂，要是厉害了，还是有可能导致精神分裂的。
@@ -1238,10 +1238,10 @@ DocSearch，这个东西，免费提供的，最简单的使用方式：提交�
     
     <item>
       <title>现已加入 Algolia 搜索服务</title>
-      <link>https://jeremyyin.com/post/2018-03-19-%E7%8E%B0%E5%B7%B2%E5%8A%A0%E5%85%A5-algolia-%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1/</link>
+      <link>/post/2018-03-19-%E7%8E%B0%E5%B7%B2%E5%8A%A0%E5%85%A5-algolia-%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1/</link>
       <pubDate>Mon, 19 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-03-19-%E7%8E%B0%E5%B7%B2%E5%8A%A0%E5%85%A5-algolia-%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1/</guid>
+      <guid>/post/2018-03-19-%E7%8E%B0%E5%B7%B2%E5%8A%A0%E5%85%A5-algolia-%E6%90%9C%E7%B4%A2%E6%9C%8D%E5%8A%A1/</guid>
       <description>大约在一年前左右，瞅到 Vue.js 使用的站内搜索与别的网站有些不一样，不仅仅不一样，而且有些特别。如果是在 Windows 系统上面曾经有谁用过 Everything 这个软件或者类似替代品的话，能知道它的实时输入搜索是多好的体验，得知道曾经系统自带的搜索功能就是等于几乎没有。
 做搜索，绝不仅仅是看起来的那么简单，大到 Google 和 Bing 这种搜索巨头，小到记事本里面的查找搜索，大大小小各类搜索需求，搜索，是人的主动寻找行为，比起无意识的随便浏览，是高效很多的。
 Algolia，据说是来自法国的初创公司，国内还没有看到有大面积的使用，虽然说搜索重要，可并不是谁都做的好，特别是站内搜索，多数的产品都是食之无味弃之可惜，但现今这款产品，醒目得很。
@@ -1252,10 +1252,10 @@ Algolia，据说是来自法国的初创公司，国内还没有看到有大面�
     
     <item>
       <title>一款小小的物流数据产品</title>
-      <link>https://jeremyyin.com/post/2018-02-05-%E4%B8%80%E6%AC%BE%E5%B0%8F%E5%B0%8F%E7%9A%84%E7%89%A9%E6%B5%81%E6%95%B0%E6%8D%AE%E4%BA%A7%E5%93%81/</link>
+      <link>/post/2018-02-05-%E4%B8%80%E6%AC%BE%E5%B0%8F%E5%B0%8F%E7%9A%84%E7%89%A9%E6%B5%81%E6%95%B0%E6%8D%AE%E4%BA%A7%E5%93%81/</link>
       <pubDate>Mon, 05 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-02-05-%E4%B8%80%E6%AC%BE%E5%B0%8F%E5%B0%8F%E7%9A%84%E7%89%A9%E6%B5%81%E6%95%B0%E6%8D%AE%E4%BA%A7%E5%93%81/</guid>
+      <guid>/post/2018-02-05-%E4%B8%80%E6%AC%BE%E5%B0%8F%E5%B0%8F%E7%9A%84%E7%89%A9%E6%B5%81%E6%95%B0%E6%8D%AE%E4%BA%A7%E5%93%81/</guid>
       <description>今年应该是冷死了，上周感冒，后来我反思原因，可能就是在办公室冻着了。
 现在完全不敢再说不怕冷了，可惜家里空调开了也并无大作用，昨天偶然机会在星巴克小坐一会儿，我突然觉得那才是我能正常待下去思考的温度。
 农历新年就快要到来了，之前做了个小小的物流数据产品：国际快递燃油附加费率。觉得还是需要拿出来溜溜，可之前一直没决心搞下那几张图片，今晚索性就搞上几张图片，现在这个网站整体上，总算是可以拿出去还算是能看的了。
@@ -1275,10 +1275,10 @@ Algolia，据说是来自法国的初创公司，国内还没有看到有大面�
     
     <item>
       <title>关联了两个小程序</title>
-      <link>https://jeremyyin.com/post/2018-01-11-%E5%85%B3%E8%81%94%E4%BA%86%E4%B8%A4%E6%AC%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</link>
+      <link>/post/2018-01-11-%E5%85%B3%E8%81%94%E4%BA%86%E4%B8%A4%E6%AC%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</link>
       <pubDate>Thu, 11 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2018-01-11-%E5%85%B3%E8%81%94%E4%BA%86%E4%B8%A4%E6%AC%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</guid>
+      <guid>/post/2018-01-11-%E5%85%B3%E8%81%94%E4%BA%86%E4%B8%A4%E6%AC%BE%E5%B0%8F%E7%A8%8B%E5%BA%8F/</guid>
       <description>新年伊始，咱们这又来了新朋友，欢迎你们！
 过去的一年我大概算了下，咱们这是：月更。平均一个月更新一次，有时候间隔长一些，有时候频繁点点。
 新的一年，没什么特别意外的话，我还会继续时不时地写一点点东西。在更新频率上，我对于现在我持续在看的那些号相比，他们的文字能力我只能是羡慕了，他们一年几十万字的产出，内容覆盖相关的多个方面，专业度与人文广度，非一般人可企及。
@@ -1295,10 +1295,10 @@ Algolia，据说是来自法国的初创公司，国内还没有看到有大面�
     
     <item>
       <title>买个域名：jeremyyin.com</title>
-      <link>https://jeremyyin.com/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</link>
+      <link>/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</link>
       <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</guid>
+      <guid>/post/2017-12-15-%E4%B9%B0%E4%B8%AA%E5%9F%9F%E5%90%8Djeremyyin.com/</guid>
       <description>如果按商业角度来讲，我是该把所有下列域名全部给注册了的：
 jeremyyin.co jeremyyin.net jeremyyin.org jeremyyin.me jeremyyin.cc jeremyyin.vip jeremyyin.cn 甚至可能还有：
 jeremyy.in ... 以及还可能有：
@@ -1314,10 +1314,10 @@ jeremy.yin 可惜并没有，不然我就更加要买下了。
     
     <item>
       <title>2008 年是个好年纪</title>
-      <link>https://jeremyyin.com/post/2017-11-06-2008%E5%B9%B4%E6%98%AF%E4%B8%AA%E5%A5%BD%E5%B9%B4%E7%BA%AA/</link>
+      <link>/post/2017-11-06-2008%E5%B9%B4%E6%98%AF%E4%B8%AA%E5%A5%BD%E5%B9%B4%E7%BA%AA/</link>
       <pubDate>Mon, 06 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-11-06-2008%E5%B9%B4%E6%98%AF%E4%B8%AA%E5%A5%BD%E5%B9%B4%E7%BA%AA/</guid>
+      <guid>/post/2017-11-06-2008%E5%B9%B4%E6%98%AF%E4%B8%AA%E5%A5%BD%E5%B9%B4%E7%BA%AA/</guid>
       <description>Dear Jeremy,
 展信佳。许久未能再与你回信，真是很不好意思。我现在正在 2017 年末，再过一个多月，离你正好就快 10 年了。我挺喜欢现在的这个时间的，现在大家也不用写信了，我只在这里的一个商场里面见到过，那是写给不具名的未来，也不知道地址的，可能最终，就飘向了某个无人的空间了吧。现在，我们都用智能手机了，对，就是 Jobs 那种的，用手指点来点去的那种，不过比那个高级多了，可以装很多程序了。当然，病毒也是可以装进去的。
 你问我走得快不快，我不知道，总是就这么走来了，前一次我跟你说我去那公司才真实地收获了一些 Money，然后又挥霍一空的事情吧，是啊，挥霍一空的感觉真是好喜欢又恐惧，后来真是好险啊。
@@ -1336,10 +1336,10 @@ yours Jeremy</description>
     
     <item>
       <title>慢半拍</title>
-      <link>https://jeremyyin.com/post/2017-10-12-%E6%85%A2%E5%8D%8A%E6%8B%8D/</link>
+      <link>/post/2017-10-12-%E6%85%A2%E5%8D%8A%E6%8B%8D/</link>
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-10-12-%E6%85%A2%E5%8D%8A%E6%8B%8D/</guid>
+      <guid>/post/2017-10-12-%E6%85%A2%E5%8D%8A%E6%8B%8D/</guid>
       <description>在《绿光森林》中欧文在某个时刻对苏菲说：adajiu，被苏菲追问一通。而其源由于音乐专业术语：adagio，欧文搞音乐的嘛，自然。
 至于为什么还记得有这么一幕，我也不知道，反正这些年它时不时地就会冒出来一下，比如这次又冒出来了。
 当时无所事事，也没啥可玩弄的物件，也没啥可去的地方，以此度过不问世事的年纪，当也是很好的娱乐了。
@@ -1365,10 +1365,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>颓废感的来源</title>
-      <link>https://jeremyyin.com/post/2017-10-11-%E9%A2%93%E5%BA%9F%E6%84%9F%E7%9A%84%E6%9D%A5%E6%BA%90/</link>
+      <link>/post/2017-10-11-%E9%A2%93%E5%BA%9F%E6%84%9F%E7%9A%84%E6%9D%A5%E6%BA%90/</link>
       <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-10-11-%E9%A2%93%E5%BA%9F%E6%84%9F%E7%9A%84%E6%9D%A5%E6%BA%90/</guid>
+      <guid>/post/2017-10-11-%E9%A2%93%E5%BA%9F%E6%84%9F%E7%9A%84%E6%9D%A5%E6%BA%90/</guid>
       <description>按说我不酗酒不抽烟不赌博不嫖娼不沉迷游戏，实在不忍也就自己放飞机，尽量不带给别人负面情绪，不增加他人负担，明面儿上别人说理性沉稳、不急不躁，这确实应没啥太多说头了。
 可有一感觉挡不住：颓废感。
 时常想，那些手里夹着烟孤身行走抑或是依靠栏杆的人们，他们手里夹着的其实到底应该是什么？当吞吐之间，吸收与释放的又该是什么？
@@ -1392,10 +1392,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>错过再多</title>
-      <link>https://jeremyyin.com/post/2017-09-08-%E9%94%99%E8%BF%87%E5%86%8D%E5%A4%9A/</link>
+      <link>/post/2017-09-08-%E9%94%99%E8%BF%87%E5%86%8D%E5%A4%9A/</link>
       <pubDate>Fri, 08 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-09-08-%E9%94%99%E8%BF%87%E5%86%8D%E5%A4%9A/</guid>
+      <guid>/post/2017-09-08-%E9%94%99%E8%BF%87%E5%86%8D%E5%A4%9A/</guid>
       <description>这标题没写完，可能原应该是：错过再多，也不要错过自己。
 到底错过了什么，时年二十多岁，如果没有由头，恐怕贸贸然是讲不不起来的。
 近日前，曾有人给我留了这么一句：
@@ -1414,10 +1414,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>努力投身 Python 3 的怀抱</title>
-      <link>https://jeremyyin.com/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</link>
+      <link>/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</link>
       <pubDate>Sat, 02 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</guid>
+      <guid>/python/2017-09-02-%E5%8A%AA%E5%8A%9B%E6%8A%95%E8%BA%AB-python-3-%E7%9A%84%E6%80%80%E6%8A%B1/</guid>
       <description>15 年开始学习 Python 的时候，看遍了大家关于应该选择 Python 2 还是 Python 3 的讨论和争执，还有，妥协。
 按照我买电子产品“买新不买旧，买好不买差”的原则，我毅然决定先从了 Python 3 再说。
 是的，争执无意义，行动才是根本。
@@ -1442,10 +1442,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>造个轮子</title>
-      <link>https://jeremyyin.com/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</link>
+      <link>/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</link>
       <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</guid>
+      <guid>/python/2017-06-14-%E9%80%A0%E4%B8%AA%E8%BD%AE%E5%AD%90/</guid>
       <description>技术，是个好东西。
 有能力利用技术造出一些有用的东西，也是再也欣喜不过了。
 我们都知道造房子有点难度，构建高楼大厦就更加有技术难度，从设计到施工，没任何人全能精通。造汽车就也难了，虽然也是从设计到制造，可知识又是数不过来的多，更不用说制造经验和制造水平。
@@ -1471,10 +1471,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>那些闯入的 Bugs</title>
-      <link>https://jeremyyin.com/post/2017-05-22-%E9%82%A3%E4%BA%9B%E9%97%AF%E5%85%A5%E7%9A%84-bugs/</link>
+      <link>/post/2017-05-22-%E9%82%A3%E4%BA%9B%E9%97%AF%E5%85%A5%E7%9A%84-bugs/</link>
       <pubDate>Mon, 22 May 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-05-22-%E9%82%A3%E4%BA%9B%E9%97%AF%E5%85%A5%E7%9A%84-bugs/</guid>
+      <guid>/post/2017-05-22-%E9%82%A3%E4%BA%9B%E9%97%AF%E5%85%A5%E7%9A%84-bugs/</guid>
       <description>住在山边边的一个好处是离道路远些，路面噪音会少一些。
 离树木近一些的好处是一眼过去便是自然，空气会稍微好一些。
 然而期望值还能有多高呢，仅此而已罢了。
@@ -1502,10 +1502,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>成为一个怎样的创造者</title>
-      <link>https://jeremyyin.com/post/2017-05-20-%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E5%88%9B%E9%80%A0%E8%80%85/</link>
+      <link>/post/2017-05-20-%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E5%88%9B%E9%80%A0%E8%80%85/</link>
       <pubDate>Sat, 20 May 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-05-20-%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E5%88%9B%E9%80%A0%E8%80%85/</guid>
+      <guid>/post/2017-05-20-%E6%88%90%E4%B8%BA%E4%B8%80%E4%B8%AA%E6%80%8E%E6%A0%B7%E7%9A%84%E5%88%9B%E9%80%A0%E8%80%85/</guid>
       <description>去售后取回了新的iPad，世界之窗的星巴克还是不适合久坐。
 所以想着去个新的地方，华侨城或许是可以的。不过在去的路上来到了华侨城这边的一家星巴克，感觉还可以。
 所以，现在已经坐了很久了。
@@ -1528,10 +1528,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>《顺便帮朋友接孩子放学》</title>
-      <link>https://jeremyyin.com/post/2017-04-28-%E9%A1%BA%E4%BE%BF%E5%B8%AE%E6%9C%8B%E5%8F%8B%E6%8E%A5%E5%AD%A9%E5%AD%90%E6%94%BE%E5%AD%A6/</link>
+      <link>/post/2017-04-28-%E9%A1%BA%E4%BE%BF%E5%B8%AE%E6%9C%8B%E5%8F%8B%E6%8E%A5%E5%AD%A9%E5%AD%90%E6%94%BE%E5%AD%A6/</link>
       <pubDate>Fri, 28 Apr 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-04-28-%E9%A1%BA%E4%BE%BF%E5%B8%AE%E6%9C%8B%E5%8F%8B%E6%8E%A5%E5%AD%A9%E5%AD%90%E6%94%BE%E5%AD%A6/</guid>
+      <guid>/post/2017-04-28-%E9%A1%BA%E4%BE%BF%E5%B8%AE%E6%9C%8B%E5%8F%8B%E6%8E%A5%E5%AD%A9%E5%AD%90%E6%94%BE%E5%AD%A6/</guid>
       <description>你爸为什么今天还加班呢？
 有时候是会加班
 你英语这次考多少分呢？
@@ -1546,10 +1546,10 @@ df_pivot = df.pivot_table(index=[...], aggfunc={...}) ，数据再多也不在�
     
     <item>
       <title>我与 Mac 的渊源</title>
-      <link>https://jeremyyin.com/post/2017-03-01-%E6%88%91%E4%B8%8E-mac-%E7%9A%84%E6%B8%8A%E6%BA%90/</link>
+      <link>/post/2017-03-01-%E6%88%91%E4%B8%8E-mac-%E7%9A%84%E6%B8%8A%E6%BA%90/</link>
       <pubDate>Wed, 01 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-03-01-%E6%88%91%E4%B8%8E-mac-%E7%9A%84%E6%B8%8A%E6%BA%90/</guid>
+      <guid>/post/2017-03-01-%E6%88%91%E4%B8%8E-mac-%E7%9A%84%E6%B8%8A%E6%BA%90/</guid>
       <description>2004 年进入高中，正式开始接触网吧，而后不久学校每间教室开始安装电脑，而后开始组建起专门的计算机教室，带网的。
 QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自己也申请过一些，都几乎忘记和放弃使用了。
 2007 年进入大学，有机会去网吧的机会多了很多，但是，网吧的设备比计算机教室的条件差很多，硬件和软件都差很多。也是同年，学校新开几个计算机公共教室，收费使用，差不多就是网吧模式了，一般都由申请学校补贴的同学们管理着，等于拿时间换点生活费，要是喜欢计算机我觉得可以，要是不喜欢的，我认为是不必要的，现在看来，一切拿最宝贵的时间换低廉的回报的，都不值得。
@@ -1576,10 +1576,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>我与计算机的那些事儿</title>
-      <link>https://jeremyyin.com/post/2017-02-27-%E6%88%91%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</link>
+      <link>/post/2017-02-27-%E6%88%91%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</link>
       <pubDate>Mon, 27 Feb 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-02-27-%E6%88%91%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</guid>
+      <guid>/post/2017-02-27-%E6%88%91%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B%E5%84%BF/</guid>
       <description>首先在发上一篇「春节随想」的时候，那时候会想可能接下来会就里面的一些话题作一些展开，不过今天看，我暂时就不写它们了，写点其它的。
 已经过去的这个周末，弄了一件事情：把一台性能够用但却已近乎被放弃的笔记本电脑从死亡边沿拯救回来，用主人公后来的话说是：它又活了。
 所以，这也算是大学那几年的折腾，曾经付出那些时间，在今天依然能体现出的效用吧。
@@ -1605,10 +1605,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>春节里的随想备忘录</title>
-      <link>https://jeremyyin.com/post/2017-02-08-%E6%98%A5%E8%8A%82%E9%87%8C%E7%9A%84%E9%9A%8F%E6%83%B3%E5%A4%87%E5%BF%98%E5%BD%95/</link>
+      <link>/post/2017-02-08-%E6%98%A5%E8%8A%82%E9%87%8C%E7%9A%84%E9%9A%8F%E6%83%B3%E5%A4%87%E5%BF%98%E5%BD%95/</link>
       <pubDate>Wed, 08 Feb 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-02-08-%E6%98%A5%E8%8A%82%E9%87%8C%E7%9A%84%E9%9A%8F%E6%83%B3%E5%A4%87%E5%BF%98%E5%BD%95/</guid>
+      <guid>/post/2017-02-08-%E6%98%A5%E8%8A%82%E9%87%8C%E7%9A%84%E9%9A%8F%E6%83%B3%E5%A4%87%E5%BF%98%E5%BD%95/</guid>
       <description>11年11月抵达深圳这个城市，至今已好几年过去。
 最初的两年，由于一些原因而未在春节回家，也因此，给人留下了我专门过年不回家的印象。
 不过，不必辩驳什么，有时候回，有时候不回，自己也记不清，别人当然只能记得不回的那些事儿。
@@ -1637,10 +1637,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>关于一些事情的事情</title>
-      <link>https://jeremyyin.com/post/2017-01-15-%E5%85%B3%E4%BA%8E%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85%E7%9A%84%E4%BA%8B%E6%83%85/</link>
+      <link>/post/2017-01-15-%E5%85%B3%E4%BA%8E%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85%E7%9A%84%E4%BA%8B%E6%83%85/</link>
       <pubDate>Sun, 15 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-01-15-%E5%85%B3%E4%BA%8E%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85%E7%9A%84%E4%BA%8B%E6%83%85/</guid>
+      <guid>/post/2017-01-15-%E5%85%B3%E4%BA%8E%E4%B8%80%E4%BA%9B%E4%BA%8B%E6%83%85%E7%9A%84%E4%BA%8B%E6%83%85/</guid>
       <description>关于即将决定要去学习的IT类技术 自从15年决定开始正式学Python来搞事情，今年，也算是进入了第三年了，进入全职工作，所以真枪实弹地搞事情，实力自然会上一个台阶，至于过程，就都丢给时间和机会去磨砺。
 现在主要做的事情是网站后台服务API的开发，搞懂这背后的事情，就基本搞懂了后台服务端。
 计划增加这些任务：学习JavaScript、CSS，深入学习HTML。
@@ -1665,10 +1665,10 @@ QQ 号就是那个时候同学帮忙申请的，就一直用着了，而后自�
     
     <item>
       <title>从奢望爱情到为爱忧心</title>
-      <link>https://jeremyyin.com/post/2017-01-14-%E4%BB%8E%E5%A5%A2%E6%9C%9B%E7%88%B1%E6%83%85%E5%88%B0%E4%B8%BA%E7%88%B1%E5%BF%A7%E5%BF%83/</link>
+      <link>/post/2017-01-14-%E4%BB%8E%E5%A5%A2%E6%9C%9B%E7%88%B1%E6%83%85%E5%88%B0%E4%B8%BA%E7%88%B1%E5%BF%A7%E5%BF%83/</link>
       <pubDate>Sat, 14 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-01-14-%E4%BB%8E%E5%A5%A2%E6%9C%9B%E7%88%B1%E6%83%85%E5%88%B0%E4%B8%BA%E7%88%B1%E5%BF%A7%E5%BF%83/</guid>
+      <guid>/post/2017-01-14-%E4%BB%8E%E5%A5%A2%E6%9C%9B%E7%88%B1%E6%83%85%E5%88%B0%E4%B8%BA%E7%88%B1%E5%BF%A7%E5%BF%83/</guid>
       <description>凌晨一点半，环卫工人在为马路中间的绿化带种花。
 司机跟着导航，不知所措地闯入了单行道，转头走入深南却又发现不可左转。
 晚上的凤凰路还是灯红酒绿车水马龙，等到发现了前面路被封住，只好下了车。
@@ -1702,10 +1702,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>写来的都是过去</title>
-      <link>https://jeremyyin.com/post/2017-01-12-%E5%86%99%E6%9D%A5%E7%9A%84%E9%83%BD%E6%98%AF%E8%BF%87%E5%8E%BB/</link>
+      <link>/post/2017-01-12-%E5%86%99%E6%9D%A5%E7%9A%84%E9%83%BD%E6%98%AF%E8%BF%87%E5%8E%BB/</link>
       <pubDate>Thu, 12 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2017-01-12-%E5%86%99%E6%9D%A5%E7%9A%84%E9%83%BD%E6%98%AF%E8%BF%87%E5%8E%BB/</guid>
+      <guid>/post/2017-01-12-%E5%86%99%E6%9D%A5%E7%9A%84%E9%83%BD%E6%98%AF%E8%BF%87%E5%8E%BB/</guid>
       <description>第六周快过完，写完又测试完了5个API，大概分三个项目完成，今天刚完成第三个。
 又预备开始下一个“小”项目。
 说小，是格局小，而又很大，如果格局放大来看的话。
@@ -1729,10 +1729,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>一年快过去了还是要说点什么</title>
-      <link>https://jeremyyin.com/post/2016-12-30-%E4%B8%80%E5%B9%B4%E5%BF%AB%E8%BF%87%E5%8E%BB%E4%BA%86%E8%BF%98%E6%98%AF%E8%A6%81%E8%AF%B4%E7%82%B9%E4%BB%80%E4%B9%88/</link>
+      <link>/post/2016-12-30-%E4%B8%80%E5%B9%B4%E5%BF%AB%E8%BF%87%E5%8E%BB%E4%BA%86%E8%BF%98%E6%98%AF%E8%A6%81%E8%AF%B4%E7%82%B9%E4%BB%80%E4%B9%88/</link>
       <pubDate>Fri, 30 Dec 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-12-30-%E4%B8%80%E5%B9%B4%E5%BF%AB%E8%BF%87%E5%8E%BB%E4%BA%86%E8%BF%98%E6%98%AF%E8%A6%81%E8%AF%B4%E7%82%B9%E4%BB%80%E4%B9%88/</guid>
+      <guid>/post/2016-12-30-%E4%B8%80%E5%B9%B4%E5%BF%AB%E8%BF%87%E5%8E%BB%E4%BA%86%E8%BF%98%E6%98%AF%E8%A6%81%E8%AF%B4%E7%82%B9%E4%BB%80%E4%B9%88/</guid>
       <description>2016就快过去了，而我总是写不好这四个数字，无论今年在多少本书上面曾写下了它，就如同我也写不好我的名字一样，毕竟如今我连字都不会写了。
 这张图片，现在看起来，我觉得里面包含着我个人今年的许多信息。我持续地在思考着一些事情，一些关于曾经做过的一些事情，所以我今天又打开它来看，并截下了这张图。
 这些年，我更加坚定地认为当前所做的一切都将在未来某个时间，让你回头的时候，发现很多事情，在很久以前，就已经悄悄地埋下了种子，而当时并不会认为这会有多么大的价值和明显的用处。
@@ -1751,10 +1751,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>if True or if not True</title>
-      <link>https://jeremyyin.com/python/2016-12-23-if-true-or-if-not-true/</link>
+      <link>/python/2016-12-23-if-true-or-if-not-true/</link>
       <pubDate>Fri, 23 Dec 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2016-12-23-if-true-or-if-not-true/</guid>
+      <guid>/python/2016-12-23-if-true-or-if-not-true/</guid>
       <description>明天就是平安夜，我打算今晚啃个苹果。
 以程序员的角色上岗工作已经正式3周过去了，这算是正式地公告一下。
 放在几年前我从未想过我会正式地成为一名可以自己编程写代码的人，可是在这几年的工作中逐渐地接触到一些事务，使得我认为在未来的日子里，不会自己写几行程序代码的人们总是会有一些很难过的坎儿。
@@ -1774,10 +1774,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>勇敢想更多，做更多</title>
-      <link>https://jeremyyin.com/post/2016-12-17-%E5%8B%87%E6%95%A2%E6%83%B3%E6%9B%B4%E5%A4%9A%E5%81%9A%E6%9B%B4%E5%A4%9A/</link>
+      <link>/post/2016-12-17-%E5%8B%87%E6%95%A2%E6%83%B3%E6%9B%B4%E5%A4%9A%E5%81%9A%E6%9B%B4%E5%A4%9A/</link>
       <pubDate>Sat, 17 Dec 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-12-17-%E5%8B%87%E6%95%A2%E6%83%B3%E6%9B%B4%E5%A4%9A%E5%81%9A%E6%9B%B4%E5%A4%9A/</guid>
+      <guid>/post/2016-12-17-%E5%8B%87%E6%95%A2%E6%83%B3%E6%9B%B4%E5%A4%9A%E5%81%9A%E6%9B%B4%E5%A4%9A/</guid>
       <description>吸星大法
 我们是在金庸的影视剧中长大的孩子，身边朋友有看金庸大部头长大的，我没有机会去看金庸的全本，只是在影视剧中看到一些这样或者那样的影子。
 而我，还看的不认真，对于角色与情节，并说不上什么话来，可能还错误百出。
@@ -1806,10 +1806,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>带上恐惧前行，有多远走多远</title>
-      <link>https://jeremyyin.com/post/2016-12-05-%E5%B8%A6%E4%B8%8A%E6%81%90%E6%83%A7%E5%89%8D%E8%A1%8C%E6%9C%89%E5%A4%9A%E8%BF%9C%E8%B5%B0%E5%A4%9A%E8%BF%9C/</link>
+      <link>/post/2016-12-05-%E5%B8%A6%E4%B8%8A%E6%81%90%E6%83%A7%E5%89%8D%E8%A1%8C%E6%9C%89%E5%A4%9A%E8%BF%9C%E8%B5%B0%E5%A4%9A%E8%BF%9C/</link>
       <pubDate>Mon, 05 Dec 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-12-05-%E5%B8%A6%E4%B8%8A%E6%81%90%E6%83%A7%E5%89%8D%E8%A1%8C%E6%9C%89%E5%A4%9A%E8%BF%9C%E8%B5%B0%E5%A4%9A%E8%BF%9C/</guid>
+      <guid>/post/2016-12-05-%E5%B8%A6%E4%B8%8A%E6%81%90%E6%83%A7%E5%89%8D%E8%A1%8C%E6%9C%89%E5%A4%9A%E8%BF%9C%E8%B5%B0%E5%A4%9A%E8%BF%9C/</guid>
       <description>上班第二天，面对一切，毫无头绪，也同时又些事情，需要妥协，就当为一次机会。
 面对陌生，总是恐惧。
 有时候不敢回望过去，过去都是恐惧的影子，挥也挥不去。
@@ -1825,10 +1825,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>我暂时，不改了</title>
-      <link>https://jeremyyin.com/post/2016-12-01-%E6%88%91%E6%9A%82%E6%97%B6%E4%B8%8D%E6%94%B9%E4%BA%86/</link>
+      <link>/post/2016-12-01-%E6%88%91%E6%9A%82%E6%97%B6%E4%B8%8D%E6%94%B9%E4%BA%86/</link>
       <pubDate>Thu, 01 Dec 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-12-01-%E6%88%91%E6%9A%82%E6%97%B6%E4%B8%8D%E6%94%B9%E4%BA%86/</guid>
+      <guid>/post/2016-12-01-%E6%88%91%E6%9A%82%E6%97%B6%E4%B8%8D%E6%94%B9%E4%BA%86/</guid>
       <description>无论是否是因为我带的MacBook Pro在帮我镇场，还是无形中有个意识在提示我晚一点再写，先去洗漱完再推新版，总之，现在，我不改它了，就让它默默地在哪里挂着吧。这也算，是这一段经历的记录，以及，它所需要经历的过程。
 明儿个，如果没有什么特别的意外，特别特别的意外，能让做出决定的事情中途变卦，如果没有的话，明儿个开始我就去上班啦。
 十二月的第一天，十二月的第二天，十二月的第三天，十二月的第四天，十二月的第五天……
@@ -1853,10 +1853,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>橘子可能要坏了</title>
-      <link>https://jeremyyin.com/post/2016-11-30-%E6%A9%98%E5%AD%90%E5%8F%AF%E8%83%BD%E8%A6%81%E5%9D%8F%E4%BA%86/</link>
+      <link>/post/2016-11-30-%E6%A9%98%E5%AD%90%E5%8F%AF%E8%83%BD%E8%A6%81%E5%9D%8F%E4%BA%86/</link>
       <pubDate>Wed, 30 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-11-30-%E6%A9%98%E5%AD%90%E5%8F%AF%E8%83%BD%E8%A6%81%E5%9D%8F%E4%BA%86/</guid>
+      <guid>/post/2016-11-30-%E6%A9%98%E5%AD%90%E5%8F%AF%E8%83%BD%E8%A6%81%E5%9D%8F%E4%BA%86/</guid>
       <description>我记得小时候家里大概在这个时候总是会攒上一大袋子橘子，个头不是很大皮又很好剥开的那种，然后就经常三个五个地从袋子里掏出来吃。
 具体叫啥名儿，或许我又不清楚了，或许是我们离江西近，有些苗子都是那边引进来的吧，江西的小柑橘还是蛮有名的。
 近些年，几乎很少有机会吃到，也没有经常要去买水果和零食的习惯，毕竟自己平常大多数时候不是嘴馋的货。
@@ -1877,10 +1877,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>然起伏 然等待 然焦虑 然妥协</title>
-      <link>https://jeremyyin.com/post/2016-11-29-%E7%84%B6%E8%B5%B7%E4%BC%8F-%E7%84%B6%E7%AD%89%E5%BE%85-%E7%84%B6%E7%84%A6%E8%99%91-%E7%84%B6%E5%A6%A5%E5%8D%8F/</link>
+      <link>/post/2016-11-29-%E7%84%B6%E8%B5%B7%E4%BC%8F-%E7%84%B6%E7%AD%89%E5%BE%85-%E7%84%B6%E7%84%A6%E8%99%91-%E7%84%B6%E5%A6%A5%E5%8D%8F/</link>
       <pubDate>Tue, 29 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-11-29-%E7%84%B6%E8%B5%B7%E4%BC%8F-%E7%84%B6%E7%AD%89%E5%BE%85-%E7%84%B6%E7%84%A6%E8%99%91-%E7%84%B6%E5%A6%A5%E5%8D%8F/</guid>
+      <guid>/post/2016-11-29-%E7%84%B6%E8%B5%B7%E4%BC%8F-%E7%84%B6%E7%AD%89%E5%BE%85-%E7%84%B6%E7%84%A6%E8%99%91-%E7%84%B6%E5%A6%A5%E5%8D%8F/</guid>
       <description>眼看着就是30 November了，这天再过去，就剩2016的最后一个月。
 虽然，从农历计算还有些日子，然，我也是焦虑的。
 我不怎么管农历的事情。
@@ -1903,10 +1903,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>下雨跟我走在哪里并无什么关联</title>
-      <link>https://jeremyyin.com/post/2016-11-26-%E5%AE%83%E4%B8%8B%E9%9B%A8%E8%B7%9F%E6%88%91%E8%B5%B0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B9%B6%E6%97%A0%E4%BB%80%E4%B9%88%E5%85%B3%E8%81%94/</link>
+      <link>/post/2016-11-26-%E5%AE%83%E4%B8%8B%E9%9B%A8%E8%B7%9F%E6%88%91%E8%B5%B0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B9%B6%E6%97%A0%E4%BB%80%E4%B9%88%E5%85%B3%E8%81%94/</link>
       <pubDate>Sat, 26 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-11-26-%E5%AE%83%E4%B8%8B%E9%9B%A8%E8%B7%9F%E6%88%91%E8%B5%B0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B9%B6%E6%97%A0%E4%BB%80%E4%B9%88%E5%85%B3%E8%81%94/</guid>
+      <guid>/post/2016-11-26-%E5%AE%83%E4%B8%8B%E9%9B%A8%E8%B7%9F%E6%88%91%E8%B5%B0%E5%9C%A8%E5%93%AA%E9%87%8C%E5%B9%B6%E6%97%A0%E4%BB%80%E4%B9%88%E5%85%B3%E8%81%94/</guid>
       <description>首先恭祝F&amp;amp;N乔迁之喜；打完火锅回来走出地铁站，发生如下一幕：
 将雨伞从伞袋中抽出，此动作应当如剑客般，面对迎面而来的对手，脚步急促有韵而沉稳，左手握鞘右手拔剑，双眼犀利有神，当剑起翘落，然后按下开伞开关雨伞随即展开，此时，淡然走向雨中留下身后无数功与名。
 回来深圳给我的感觉好像下了好久的雨，却然而被一同打完火锅的伙伴们提醒道：前天没下雨，昨天也是大太阳，一整天都是。
@@ -1925,10 +1925,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>面试与旅行一样，稍近一步打破一丝幻象</title>
-      <link>https://jeremyyin.com/post/2016-11-23-%E9%9D%A2%E8%AF%95%E4%B8%8E%E6%97%85%E8%A1%8C%E4%B8%80%E6%A0%B7%E7%A8%8D%E8%BF%91%E4%B8%80%E6%AD%A5%E6%89%93%E7%A0%B4%E4%B8%80%E4%B8%9D%E5%B9%BB%E8%B1%A1/</link>
+      <link>/post/2016-11-23-%E9%9D%A2%E8%AF%95%E4%B8%8E%E6%97%85%E8%A1%8C%E4%B8%80%E6%A0%B7%E7%A8%8D%E8%BF%91%E4%B8%80%E6%AD%A5%E6%89%93%E7%A0%B4%E4%B8%80%E4%B8%9D%E5%B9%BB%E8%B1%A1/</link>
       <pubDate>Wed, 23 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-11-23-%E9%9D%A2%E8%AF%95%E4%B8%8E%E6%97%85%E8%A1%8C%E4%B8%80%E6%A0%B7%E7%A8%8D%E8%BF%91%E4%B8%80%E6%AD%A5%E6%89%93%E7%A0%B4%E4%B8%80%E4%B8%9D%E5%B9%BB%E8%B1%A1/</guid>
+      <guid>/post/2016-11-23-%E9%9D%A2%E8%AF%95%E4%B8%8E%E6%97%85%E8%A1%8C%E4%B8%80%E6%A0%B7%E7%A8%8D%E8%BF%91%E4%B8%80%E6%AD%A5%E6%89%93%E7%A0%B4%E4%B8%80%E4%B8%9D%E5%B9%BB%E8%B1%A1/</guid>
       <description>从9月底到11月底，中间度过了两个月。
 两个月，经历了两次间隔不久的旅程。
 一次，从湘西走到川北，再去到雾城。
@@ -1956,10 +1956,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>落叶不知秋</title>
-      <link>https://jeremyyin.com/post/2016-08-08-%E8%90%BD%E5%8F%B6%E4%B8%8D%E7%9F%A5%E7%A7%8B/</link>
+      <link>/post/2016-08-08-%E8%90%BD%E5%8F%B6%E4%B8%8D%E7%9F%A5%E7%A7%8B/</link>
       <pubDate>Mon, 08 Aug 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-08-08-%E8%90%BD%E5%8F%B6%E4%B8%8D%E7%9F%A5%E7%A7%8B/</guid>
+      <guid>/post/2016-08-08-%E8%90%BD%E5%8F%B6%E4%B8%8D%E7%9F%A5%E7%A7%8B/</guid>
       <description>我以为秋天的来临会使得自己变得更加的喜悦，然而，它并没有。
 我想去外面走走，骑车或者是走路都可以，可是并没有。
 有更吸引人的东西在招摇着。
@@ -1989,10 +1989,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>我们家的空调29度</title>
-      <link>https://jeremyyin.com/post/2016-06-29-%E6%88%91%E4%BB%AC%E5%AE%B6%E7%9A%84%E7%A9%BA%E8%B0%8329%E5%BA%A6/</link>
+      <link>/post/2016-06-29-%E6%88%91%E4%BB%AC%E5%AE%B6%E7%9A%84%E7%A9%BA%E8%B0%8329%E5%BA%A6/</link>
       <pubDate>Wed, 29 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-06-29-%E6%88%91%E4%BB%AC%E5%AE%B6%E7%9A%84%E7%A9%BA%E8%B0%8329%E5%BA%A6/</guid>
+      <guid>/post/2016-06-29-%E6%88%91%E4%BB%AC%E5%AE%B6%E7%9A%84%E7%A9%BA%E8%B0%8329%E5%BA%A6/</guid>
       <description>有时候想想，我们生活的空间也是足够恶劣的了。
 办公室，工地开了一年多，duanduanduan地搞了半年多，dingdingding地搞了半年多，我又开始怀疑接下来的日子里，wuwuwu的节奏怕是难以逃离了。
 不通风，不透气，开窗嘈杂，关窗憋屈。
@@ -2018,10 +2018,10 @@ IT男们发现时间还久，不唱对不起这机会。
     
     <item>
       <title>给一个列表去重复却又要保留顺序</title>
-      <link>https://jeremyyin.com/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</link>
+      <link>/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</link>
       <pubDate>Tue, 28 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</guid>
+      <guid>/python/2016-06-28-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%87%8D%E5%A4%8D%E5%8D%B4%E5%8F%88%E8%A6%81%E4%BF%9D%E7%95%99%E9%A1%BA%E5%BA%8F/</guid>
       <description>collections.OrderedDict.fromkeys(list).keys() 在 Python 中，有时候有需要用到保留原始顺序而又能去掉重复的列表。
 而在 Python 自身的基本数据结构里面，给 list 去除重复可以用 set(list) 来进行操作而得到一个没有重复的set集合，但是这样也就把list元素原有的先后出现的顺序而被打乱了，打的乱七八糟的。
 会写 Python 的也可能会找到很多的解决办法，有容易的有复杂的有高级的。
@@ -2034,10 +2034,10 @@ import collections datalist = [&amp;#39;1&amp;#39;, &amp;#39;4&amp;#39;, &amp;#3
     
     <item>
       <title>遇见木心美术馆是个意外</title>
-      <link>https://jeremyyin.com/post/2016-06-28-%E9%81%87%E8%A7%81%E6%9C%A8%E5%BF%83%E7%BE%8E%E6%9C%AF%E9%A6%86%E6%98%AF%E4%B8%AA%E6%84%8F%E5%A4%96/</link>
+      <link>/post/2016-06-28-%E9%81%87%E8%A7%81%E6%9C%A8%E5%BF%83%E7%BE%8E%E6%9C%AF%E9%A6%86%E6%98%AF%E4%B8%AA%E6%84%8F%E5%A4%96/</link>
       <pubDate>Tue, 28 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/post/2016-06-28-%E9%81%87%E8%A7%81%E6%9C%A8%E5%BF%83%E7%BE%8E%E6%9C%AF%E9%A6%86%E6%98%AF%E4%B8%AA%E6%84%8F%E5%A4%96/</guid>
+      <guid>/post/2016-06-28-%E9%81%87%E8%A7%81%E6%9C%A8%E5%BF%83%E7%BE%8E%E6%9C%AF%E9%A6%86%E6%98%AF%E4%B8%AA%E6%84%8F%E5%A4%96/</guid>
       <description>记得，早些时候去了乌镇。
 今天，想起来Keep一下。
 歇着，便又想起来木心美术馆的样子。
@@ -2070,10 +2070,10 @@ import collections datalist = [&amp;#39;1&amp;#39;, &amp;#39;4&amp;#39;, &amp;#3
     
     <item>
       <title></title>
-      <link>https://jeremyyin.com/about/</link>
+      <link>/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/about/</guid>
+      <guid>/about/</guid>
       <description>Jeremy&#39;s Blog     {{ .Site.Title }} Home  Post  Note  Python  Tornado  Saleor  Advertisement  About  RSS         目前主要是同步在我的微信公众号「JeremyYin」发布的文章。
 微信公众号：jeremyyincom
          Author | Jeremy Yin
@@ -2083,10 +2083,10 @@ Python Engineer
     
     <item>
       <title></title>
-      <link>https://jeremyyin.com/resume/</link>
+      <link>/resume/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://jeremyyin.com/resume/</guid>
+      <guid>/resume/</guid>
       <description> Jeremy Yin&#39;s Resume  html, body, div, embed { /*height:100%;*/ /*min-height: 842px;*/ min-height: -moz-available; min-height: -webkit-fill-available; width:100%; margin:0 }       </description>
     </item>
     

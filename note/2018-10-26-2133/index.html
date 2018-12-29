@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>dynamically select columns in sql query best practices | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -137,8 +137,8 @@
 <p>答案自然是不行的，为啥？sql 注入（SQL injection）希望你了解下。</p>
 
 <p>pymysql 支持参数化查询，%s 与 %(name)s，是否可以用参数化查询来控制呢？比如这样：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">params <span style="color:#555">=</span> {<span style="color:#c30"></span><span style="color:#c30">&#39;limit&#39;</span>: <span style="color:#f60">10</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;columns&#39;</span>: <span style="color:#c30"></span><span style="color:#c30">&#39;, &#39;</span><span style="color:#555">.</span>join([<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>])}
-sql <span style="color:#555">=</span> <span style="color:#c30"></span><span style="color:#c30">&#39;select </span><span style="color:#a00">%(columns)s</span><span style="color:#c30"> from test limit </span><span style="color:#a00">%(limit)s</span><span style="color:#c30">&#39;</span>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">params <span style="color:#555">=</span> {<span style="color:#c30">&#39;limit&#39;</span>: <span style="color:#f60">10</span>, <span style="color:#c30">&#39;columns&#39;</span>: <span style="color:#c30">&#39;, &#39;</span><span style="color:#555">.</span>join([<span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30">&#39;name&#39;</span>])}
+sql <span style="color:#555">=</span> <span style="color:#c30">&#39;select </span><span style="color:#a00">%(columns)s</span><span style="color:#c30"> from test limit </span><span style="color:#a00">%(limit)s</span><span style="color:#c30">&#39;</span>
 cursor<span style="color:#555">.</span>execute(sql, params)</code></pre></div>
 <p>测试过，也不行的，你也可以试试看。</p>
 
@@ -194,7 +194,7 @@ column_names <span style="color:#555">=</span> result<span style="color:#555">.<
 <p>赤裸裸地用着 sqlalchemy 的 <a href="https://docs.sqlalchemy.org/en/latest/core/selectable.html#sqlalchemy.sql.expression.select">select</a> ，这是 <a href="https://docs.sqlalchemy.org/en/latest/core/index.html">SQLAlchemy Core</a> 里面的东西，号称 No ORM Required。SQLAlchemy ORM 也是基于 Core 的。</p>
 
 <p>虽然 pandas 在文档中明确地指出：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#c30"></span><span style="color:#c30">&#39;&#39;&#39;
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#c30">&#39;&#39;&#39;
 </span><span style="color:#c30">columns: list, default: None
 </span><span style="color:#c30">    List of column names to select from sql table (only used when reading a table).
 </span><span style="color:#c30">&#39;&#39;&#39;</span></code></pre></div>
@@ -211,7 +211,7 @@ column_names <span style="color:#555">=</span> result<span style="color:#555">.<
 <p>中间的这个 <a href="https://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.Table.c">c</a>，其实就是 <a href="https://docs.sqlalchemy.org/en/latest/core/metadata.html#sqlalchemy.schema.Table.columns">columns</a> : An alias for the columns attribute. 它的类型是 ImmutableColumnCollection，简单认为是一个只读的字典就好了。</p>
 
 <p>如果你有一个 user 表，列名称叫 &lsquo;username&rsquo;，</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">col <span style="color:#555">=</span> user<span style="color:#555">.</span>c[<span style="color:#c30"></span><span style="color:#c30">&#39;username&#39;</span>]</code></pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">col <span style="color:#555">=</span> user<span style="color:#555">.</span>c[<span style="color:#c30">&#39;username&#39;</span>]</code></pre></div>
 <p>知道这个方法，接下来基本上就看你自由发挥了。关于表和列的更深入的知识，请参考 SQLAlchemy 的教程说明和 API 说明，能不能挖出宝来就自己了，我是真的会容易看晕：</p>
 
 <ul>
@@ -223,17 +223,17 @@ column_names <span style="color:#555">=</span> result<span style="color:#555">.<
 </ul>
 
 <p>也尝试构建使用多个表的动态列查询：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">columns_user <span style="color:#555">=</span> [<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;name&#39;</span>]
-columns_order <span style="color:#555">=</span> [<span style="color:#c30"></span><span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;amount&#39;</span>]
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">columns_user <span style="color:#555">=</span> [<span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30">&#39;name&#39;</span>]
+columns_order <span style="color:#555">=</span> [<span style="color:#c30">&#39;id&#39;</span>, <span style="color:#c30">&#39;amount&#39;</span>]
 cols_user <span style="color:#555">=</span> [user<span style="color:#555">.</span>c[n] <span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> columns_user]
 cols_order <span style="color:#555">=</span> [order<span style="color:#555">.</span>c[n] <span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> columns_order]
 sql_select <span style="color:#555">=</span> select(cols_user <span style="color:#555">+</span> cols_order)<span style="color:#555">.</span>limit(<span style="color:#f60">10</span>)</code></pre></div>
 <p>又或者可以是这样：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tables <span style="color:#555">=</span> {<span style="color:#c30"></span><span style="color:#c30">&#39;user&#39;</span>: user, <span style="color:#c30"></span><span style="color:#c30">&#39;order&#39;</span>: order}
-columns <span style="color:#555">=</span> [<span style="color:#c30"></span><span style="color:#c30">&#39;user.id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;user.name&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;order.id&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;order.amount&#39;</span>]
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tables <span style="color:#555">=</span> {<span style="color:#c30">&#39;user&#39;</span>: user, <span style="color:#c30">&#39;order&#39;</span>: order}
+columns <span style="color:#555">=</span> [<span style="color:#c30">&#39;user.id&#39;</span>, <span style="color:#c30">&#39;user.name&#39;</span>, <span style="color:#c30">&#39;order.id&#39;</span>, <span style="color:#c30">&#39;order.amount&#39;</span>]
 cols <span style="color:#555">=</span> []
 <span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> columns:
-    t_name, c_name <span style="color:#555">=</span> n<span style="color:#555">.</span>split(<span style="color:#c30"></span><span style="color:#c30">&#39;.&#39;</span>)
+    t_name, c_name <span style="color:#555">=</span> n<span style="color:#555">.</span>split(<span style="color:#c30">&#39;.&#39;</span>)
 	cols<span style="color:#555">.</span>append(tables<span style="color:#555">.</span>get(t_name)<span style="color:#555">.</span>c[c_name])
 sql_select <span style="color:#555">=</span> select(cols)<span style="color:#555">.</span>limit(<span style="color:#f60">10</span>)</code></pre></div>
 <p>至此，还没有用到 ORM 层的东西，唯独需要预先做的事情的就是去定义表结构对象。</p>
@@ -286,27 +286,46 @@ sql_select <span style="color:#555">=</span> select(cols)<span style="color:#555
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

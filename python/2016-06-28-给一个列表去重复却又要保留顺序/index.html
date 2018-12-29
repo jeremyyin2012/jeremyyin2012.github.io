@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>给一个列表去重复却又要保留顺序 | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -138,10 +138,10 @@
 
 <p>所以利用它的这些特性，这样理论上就会很容易就能得到有序的没有重复的 list 了。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">collections</span>
-datalist <span style="color:#555">=</span> [<span style="color:#c30"></span><span style="color:#c30">&#39;1&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;4&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;3&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;2&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;2&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;4&#39;</span>]
+datalist <span style="color:#555">=</span> [<span style="color:#c30">&#39;1&#39;</span>, <span style="color:#c30">&#39;4&#39;</span>, <span style="color:#c30">&#39;3&#39;</span>, <span style="color:#c30">&#39;2&#39;</span>, <span style="color:#c30">&#39;2&#39;</span>, <span style="color:#c30">&#39;4&#39;</span>]
 newlist <span style="color:#555">=</span> collections<span style="color:#555">.</span>OrderedDict<span style="color:#555">.</span>fromkeys(datalist)<span style="color:#555">.</span>keys()
 <span style="color:#069;font-weight:bold">print</span>(newlist)
-[<span style="color:#c30"></span><span style="color:#c30">&#39;1&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;4&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;3&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;2&#39;</span>]</code></pre></div>
+[<span style="color:#c30">&#39;1&#39;</span>, <span style="color:#c30">&#39;4&#39;</span>, <span style="color:#c30">&#39;3&#39;</span>, <span style="color:#c30">&#39;2&#39;</span>]</code></pre></div>
 <p>这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。</p>
 
 <p>好了，这里其实是第一次正经测试 Markdown 语法来写文章的内容，目前看起来貌似还蛮美观的吭。</p>
@@ -194,27 +194,46 @@ newlist <span style="color:#555">=</span> collections<span style="color:#555">.<
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

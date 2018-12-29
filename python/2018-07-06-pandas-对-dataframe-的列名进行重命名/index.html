@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>Pandas: 对 DataFrame 的列名进行重命名 | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -150,36 +150,36 @@
 
 <span style="color:#09f;font-style:italic"># 维护好各种表头对应关系的标准化数据</span>
 columns_rename <span style="color:#555">=</span> {
-    <span style="color:#c30"></span><span style="color:#c30">&#34;packetid&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;packet id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;packet-id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;packet_id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stkid&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stk id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stk-id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stk_id&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stock&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stock#&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stock #&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stockno&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stock no&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stock-no&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;stock_no&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;ProductID&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;place&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;地点&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;所在地&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;locationcode&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;location code&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;location-code&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;location_code&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;location&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;source&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>,
-    <span style="color:#c30"></span><span style="color:#c30">&#34;country&#34;</span>: <span style="color:#c30"></span><span style="color:#c30">&#34;CountryCode&#34;</span>
+    <span style="color:#c30">&#34;packetid&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;packet id&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;packet-id&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;packet_id&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stkid&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stk id&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stk-id&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stk_id&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stock&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stock#&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stock #&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stockno&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stock no&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stock-no&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;stock_no&#34;</span>: <span style="color:#c30">&#34;ProductID&#34;</span>,
+    <span style="color:#c30">&#34;place&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;地点&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;所在地&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;locationcode&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;location code&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;location-code&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;location_code&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;location&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;source&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>,
+    <span style="color:#c30">&#34;country&#34;</span>: <span style="color:#c30">&#34;CountryCode&#34;</span>
 }
 
 <span style="color:#09f;font-style:italic"># 假如你有个叫 data.xlsx 的表格文件，把它读进来，读完就得到一个 DataFrame</span>
 <span style="color:#09f;font-style:italic"># 它跟表格很类似，我一般简称为 df，然后就开始对它进行各种操作</span>
-df <span style="color:#555">=</span> pd<span style="color:#555">.</span>read_excel(<span style="color:#c30"></span><span style="color:#c30">&#39;data.xlsx&#39;</span>)
+df <span style="color:#555">=</span> pd<span style="color:#555">.</span>read_excel(<span style="color:#c30">&#39;data.xlsx&#39;</span>)
 
 <span style="color:#09f;font-style:italic"># 先可以看一眼前几条数据，默认 5 条</span>
 <span style="color:#069;font-weight:bold">print</span>(df<span style="color:#555">.</span>head())
@@ -244,27 +244,46 @@ df <span style="color:#555">=</span> df<span style="color:#555">.</span>rename(c
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

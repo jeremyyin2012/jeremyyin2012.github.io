@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>关于如何优雅地在容器中定时运行脚本 | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -167,7 +167,7 @@
 <p>改是不可能再去改原有代码了的啦，最好直接拿来就用，那么这样的话，其实最好就是选 subprocess 了，使用 subprocess.run([&lsquo;python&rsquo;, &lsquo;filename.py&rsquo;]) 这样的代码去启动任何你想启动的脚本，不需要对原有代码做任何改动，这样最好不过了。</p>
 
 <p>把 subprocess.run 当作给任务的函数，需要启动的文件名命令作为参数传给它：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#c30"></span><span style="color:#c30">&#34;&#34;&#34;
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#c30">&#34;&#34;&#34;
 </span><span style="color:#c30">Demonstrates how to use the Tornado compatible scheduler to schedule a job that executes on 3
 </span><span style="color:#c30">second intervals.
 </span><span style="color:#c30">&#34;&#34;&#34;</span>
@@ -182,18 +182,18 @@
 
 
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">tick</span>():
-    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;Tick! The time is: </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> datetime<span style="color:#555">.</span>now())
+    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30">&#39;Tick! The time is: </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> datetime<span style="color:#555">.</span>now())
 
 
-<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;__main__&#39;</span>:
+<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30">&#39;__main__&#39;</span>:
     scheduler <span style="color:#555">=</span> TornadoScheduler()
 
-    scheduler<span style="color:#555">.</span>add_job(tick, <span style="color:#c30"></span><span style="color:#c30">&#39;interval&#39;</span>, seconds<span style="color:#555">=</span><span style="color:#f60">300</span>)
-    scheduler<span style="color:#555">.</span>add_job(subprocess<span style="color:#555">.</span>run, <span style="color:#c30"></span><span style="color:#c30">&#39;interval&#39;</span>, minutes<span style="color:#555">=</span><span style="color:#f60">5</span>, args<span style="color:#555">=</span>([<span style="color:#c30"></span><span style="color:#c30">&#39;python&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;helloworld.py&#39;</span>], ))
-    scheduler<span style="color:#555">.</span>add_job(subprocess<span style="color:#555">.</span>run, <span style="color:#c30"></span><span style="color:#c30">&#39;cron&#39;</span>, hour<span style="color:#555">=</span><span style="color:#f60">12</span>, minute<span style="color:#555">=</span><span style="color:#f60">20</span>, args<span style="color:#555">=</span>([<span style="color:#c30"></span><span style="color:#c30">&#39;python&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;helloworld.py&#39;</span>], ))
+    scheduler<span style="color:#555">.</span>add_job(tick, <span style="color:#c30">&#39;interval&#39;</span>, seconds<span style="color:#555">=</span><span style="color:#f60">300</span>)
+    scheduler<span style="color:#555">.</span>add_job(subprocess<span style="color:#555">.</span>run, <span style="color:#c30">&#39;interval&#39;</span>, minutes<span style="color:#555">=</span><span style="color:#f60">5</span>, args<span style="color:#555">=</span>([<span style="color:#c30">&#39;python&#39;</span>, <span style="color:#c30">&#39;helloworld.py&#39;</span>], ))
+    scheduler<span style="color:#555">.</span>add_job(subprocess<span style="color:#555">.</span>run, <span style="color:#c30">&#39;cron&#39;</span>, hour<span style="color:#555">=</span><span style="color:#f60">12</span>, minute<span style="color:#555">=</span><span style="color:#f60">20</span>, args<span style="color:#555">=</span>([<span style="color:#c30">&#39;python&#39;</span>, <span style="color:#c30">&#39;helloworld.py&#39;</span>], ))
 
     scheduler<span style="color:#555">.</span>start()
-    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;Press Ctrl+{0} to exit&#39;</span><span style="color:#555">.</span>format(<span style="color:#c30"></span><span style="color:#c30">&#39;Break&#39;</span> <span style="color:#069;font-weight:bold">if</span> os<span style="color:#555">.</span>name <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#39;nt&#39;</span> <span style="color:#069;font-weight:bold">else</span> <span style="color:#c30"></span><span style="color:#c30">&#39;C&#39;</span>))
+    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30">&#39;Press Ctrl+{0} to exit&#39;</span><span style="color:#555">.</span>format(<span style="color:#c30">&#39;Break&#39;</span> <span style="color:#069;font-weight:bold">if</span> os<span style="color:#555">.</span>name <span style="color:#555">==</span> <span style="color:#c30">&#39;nt&#39;</span> <span style="color:#069;font-weight:bold">else</span> <span style="color:#c30">&#39;C&#39;</span>))
 
     <span style="color:#09f;font-style:italic"># Execution will block here until Ctrl+C (Ctrl+Break on Windows) is pressed.</span>
     <span style="color:#069;font-weight:bold">try</span>:
@@ -254,27 +254,46 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

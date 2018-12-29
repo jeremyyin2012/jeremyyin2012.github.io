@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>Tornado 0106 - 用户指南: 模板与 UI | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -154,8 +154,8 @@
 <p>如果您将此模板另存为 “template.html” 并将其放在与 Python 文件相同的目录中，则可以使用以下内容呈现此模板：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
-        items <span style="color:#555">=</span> [<span style="color:#c30"></span><span style="color:#c30">&#34;Item 1&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;Item 2&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;Item 3&#34;</span>]
-        self<span style="color:#555">.</span>render(<span style="color:#c30"></span><span style="color:#c30">&#34;template.html&#34;</span>, title<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;My title&#34;</span>, items<span style="color:#555">=</span>items)</code></pre></div>
+        items <span style="color:#555">=</span> [<span style="color:#c30">&#34;Item 1&#34;</span>, <span style="color:#c30">&#34;Item 2&#34;</span>, <span style="color:#c30">&#34;Item 3&#34;</span>]
+        self<span style="color:#555">.</span>render(<span style="color:#c30">&#34;template.html&#34;</span>, title<span style="color:#555">=</span><span style="color:#c30">&#34;My title&#34;</span>, items<span style="color:#555">=</span>items)</code></pre></div>
 <p>Tornado 模板支持控制语句和表达式。控制语句由 {％ 和 ％} 包围，例如 {％ if len (items) &gt; 2 ％} 。 表达式由 {{ 和 }} 包围，例如 {{ items [0] }} 。</p>
 
 <p>控制语句或多或少地映射到 Python 语句。 我们支持 if, for, while 和 try，所有这些都以 {％ end ％} 终止。 我们还使用 extends 和 block 语句支持模板继承，这些语句在 <a href="http://www.tornadoweb.org/en/stable/template.html#module-tornado.template">tornado.template</a> 的文档中有详细描述。</p>
@@ -193,12 +193,12 @@
 <h2 id="国际化">国际化</h2>
 
 <p>当前用户的区域设置（无论它们是否已登录）始终在请求处理程序中作为 self.locale 提供，在模板中始终作为 locale 提供。语言环境的名称（例如 en_US）可用作 locale.name，您可以使用 Locale.translate 方法转换字符串。模板还具有可用于字符串转换的全局函数调用 _() 。 translate 函数有两种形式：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">_(<span style="color:#c30"></span><span style="color:#c30">&#34;Translate this string&#34;</span>)</code></pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">_(<span style="color:#c30">&#34;Translate this string&#34;</span>)</code></pre></div>
 <p>它根据当前语言环境直接转换字符串。</p>
 
 <p>以及：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">_(<span style="color:#c30"></span><span style="color:#c30">&#34;A person liked this&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;</span><span style="color:#a00">%(num)d</span><span style="color:#c30"> people liked this&#34;</span>,
-  <span style="color:#366">len</span>(people)) <span style="color:#555">%</span> {<span style="color:#c30"></span><span style="color:#c30">&#34;num&#34;</span>: <span style="color:#366">len</span>(people)}</code></pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">_(<span style="color:#c30">&#34;A person liked this&#34;</span>, <span style="color:#c30">&#34;</span><span style="color:#a00">%(num)d</span><span style="color:#c30"> people liked this&#34;</span>,
+  <span style="color:#366">len</span>(people)) <span style="color:#555">%</span> {<span style="color:#c30">&#34;num&#34;</span>: <span style="color:#366">len</span>(people)}</code></pre></div>
 <p>它根据第三个参数的值转换一个可以是单数或复数的字符串。在上面的示例中，如果len(people)为 1，则将返回第一个字符串的转换，否则将返回第二个字符串的转换。</p>
 
 <p>最常见的翻译模式是使用 Python 命名的占位符作为变量（上例中的 ％(num)d ），因为占位符可以在翻译中移动。</p>
@@ -206,13 +206,13 @@
 <p>这是一个适当的国际化模板：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#555">&lt;</span>html<span style="color:#555">&gt;</span>
   <span style="color:#555">&lt;</span>head<span style="color:#555">&gt;</span>
-    <span style="color:#555">&lt;</span>title<span style="color:#555">&gt;</span>FriendFeed <span style="color:#555">-</span> {{ _(<span style="color:#c30"></span><span style="color:#c30">&#34;Sign in&#34;</span>) }}<span style="color:#555">&lt;/</span>title<span style="color:#555">&gt;</span>
+    <span style="color:#555">&lt;</span>title<span style="color:#555">&gt;</span>FriendFeed <span style="color:#555">-</span> {{ _(<span style="color:#c30">&#34;Sign in&#34;</span>) }}<span style="color:#555">&lt;/</span>title<span style="color:#555">&gt;</span>
   <span style="color:#555">&lt;/</span>head<span style="color:#555">&gt;</span>
   <span style="color:#555">&lt;</span>body<span style="color:#555">&gt;</span>
-    <span style="color:#555">&lt;</span>form action<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;{{ request.path }}&#34;</span> method<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;post&#34;</span><span style="color:#555">&gt;</span>
-      <span style="color:#555">&lt;</span>div<span style="color:#555">&gt;</span>{{ _(<span style="color:#c30"></span><span style="color:#c30">&#34;Username&#34;</span>) }} <span style="color:#555">&lt;</span><span style="color:#366">input</span> <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;text&#34;</span> name<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;username&#34;</span><span style="color:#555">/&gt;&lt;/</span>div<span style="color:#555">&gt;</span>
-      <span style="color:#555">&lt;</span>div<span style="color:#555">&gt;</span>{{ _(<span style="color:#c30"></span><span style="color:#c30">&#34;Password&#34;</span>) }} <span style="color:#555">&lt;</span><span style="color:#366">input</span> <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;password&#34;</span> name<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;password&#34;</span><span style="color:#555">/&gt;&lt;/</span>div<span style="color:#555">&gt;</span>
-      <span style="color:#555">&lt;</span>div<span style="color:#555">&gt;&lt;</span><span style="color:#366">input</span> <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;submit&#34;</span> value<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;{{ _(&#34;</span>Sign <span style="color:#000;font-weight:bold">in</span><span style="color:#c30"></span><span style="color:#c30">&#34;) }}&#34;</span><span style="color:#555">/&gt;&lt;/</span>div<span style="color:#555">&gt;</span>
+    <span style="color:#555">&lt;</span>form action<span style="color:#555">=</span><span style="color:#c30">&#34;{{ request.path }}&#34;</span> method<span style="color:#555">=</span><span style="color:#c30">&#34;post&#34;</span><span style="color:#555">&gt;</span>
+      <span style="color:#555">&lt;</span>div<span style="color:#555">&gt;</span>{{ _(<span style="color:#c30">&#34;Username&#34;</span>) }} <span style="color:#555">&lt;</span><span style="color:#366">input</span> <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#c30">&#34;text&#34;</span> name<span style="color:#555">=</span><span style="color:#c30">&#34;username&#34;</span><span style="color:#555">/&gt;&lt;/</span>div<span style="color:#555">&gt;</span>
+      <span style="color:#555">&lt;</span>div<span style="color:#555">&gt;</span>{{ _(<span style="color:#c30">&#34;Password&#34;</span>) }} <span style="color:#555">&lt;</span><span style="color:#366">input</span> <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#c30">&#34;password&#34;</span> name<span style="color:#555">=</span><span style="color:#c30">&#34;password&#34;</span><span style="color:#555">/&gt;&lt;/</span>div<span style="color:#555">&gt;</span>
+      <span style="color:#555">&lt;</span>div<span style="color:#555">&gt;&lt;</span><span style="color:#366">input</span> <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#c30">&#34;submit&#34;</span> value<span style="color:#555">=</span><span style="color:#c30">&#34;{{ _(&#34;</span>Sign <span style="color:#000;font-weight:bold">in</span><span style="color:#c30">&#34;) }}&#34;</span><span style="color:#555">/&gt;&lt;/</span>div<span style="color:#555">&gt;</span>
       {<span style="color:#555">%</span> module xsrf_form_html() <span style="color:#555">%</span>}
     <span style="color:#555">&lt;/</span>form<span style="color:#555">&gt;</span>
   <span style="color:#555">&lt;/</span>body<span style="color:#555">&gt;</span>
@@ -220,15 +220,15 @@
 <p>默认情况下，我们使用用户浏览器发送的 Accept-Language 标头检测用户的语言环境。如果找不到合适的 Accept-Language 值，我们选择 en_US。如果您允许用户将其区域设置作为首选项，则可以通过覆盖 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_user_locale">RequestHandler.get_user_locale</a> 来覆盖此默认区域设置选择：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">BaseHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_current_user</span>(self):
-        user_id <span style="color:#555">=</span> self<span style="color:#555">.</span>get_secure_cookie(<span style="color:#c30"></span><span style="color:#c30">&#34;user&#34;</span>)
+        user_id <span style="color:#555">=</span> self<span style="color:#555">.</span>get_secure_cookie(<span style="color:#c30">&#34;user&#34;</span>)
         <span style="color:#069;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">not</span> user_id: <span style="color:#069;font-weight:bold">return</span> None
         <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>backend<span style="color:#555">.</span>get_user_by_id(user_id)
 
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_user_locale</span>(self):
-        <span style="color:#069;font-weight:bold">if</span> <span style="color:#c30"></span><span style="color:#c30">&#34;locale&#34;</span> <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">in</span> self<span style="color:#555">.</span>current_user<span style="color:#555">.</span>prefs:
+        <span style="color:#069;font-weight:bold">if</span> <span style="color:#c30">&#34;locale&#34;</span> <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">in</span> self<span style="color:#555">.</span>current_user<span style="color:#555">.</span>prefs:
             <span style="color:#09f;font-style:italic"># Use the Accept-Language header</span>
             <span style="color:#069;font-weight:bold">return</span> None
-        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>current_user<span style="color:#555">.</span>prefs[<span style="color:#c30"></span><span style="color:#c30">&#34;locale&#34;</span>]</code></pre></div>
+        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>current_user<span style="color:#555">.</span>prefs[<span style="color:#c30">&#34;locale&#34;</span>]</code></pre></div>
 <p>如果 get_user_locale 返回 None，我们将返回 Accept-Language 标头。</p>
 
 <p>tornado.locale 模块支持以两种格式加载翻译：gettext 和相关工具使用的 .mo 格式，以及简单的 .csv 格式。 应用程序通常会在启动时调用 <a href="http://www.tornadoweb.org/en/stable/locale.html#tornado.locale.load_translations">tornado.locale.load_translations</a> 或 <a href="http://www.tornadoweb.org/en/stable/locale.html#tornado.locale.load_gettext_translations">tornado.locale.load_gettext_translations</a> ；有关支持的格式的更多详细信息，请参阅这些方法。</p>
@@ -243,23 +243,23 @@
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Entry</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>UIModule):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">render</span>(self, entry, show_comments<span style="color:#555">=</span>False):
         <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>render_string(
-            <span style="color:#c30"></span><span style="color:#c30">&#34;module-entry.html&#34;</span>, entry<span style="color:#555">=</span>entry, show_comments<span style="color:#555">=</span>show_comments)</code></pre></div>
+            <span style="color:#c30">&#34;module-entry.html&#34;</span>, entry<span style="color:#555">=</span>entry, show_comments<span style="color:#555">=</span>show_comments)</code></pre></div>
 <p>使用应用程序中的 ui_modules 设置告诉 Tornado 使用 uimodules.py：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">.</span> <span style="color:#069;font-weight:bold">import</span> uimodules
 
 <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">HomeHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
-        entries <span style="color:#555">=</span> self<span style="color:#555">.</span>db<span style="color:#555">.</span>query(<span style="color:#c30"></span><span style="color:#c30">&#34;SELECT * FROM entries ORDER BY date DESC&#34;</span>)
-        self<span style="color:#555">.</span>render(<span style="color:#c30"></span><span style="color:#c30">&#34;home.html&#34;</span>, entries<span style="color:#555">=</span>entries)
+        entries <span style="color:#555">=</span> self<span style="color:#555">.</span>db<span style="color:#555">.</span>query(<span style="color:#c30">&#34;SELECT * FROM entries ORDER BY date DESC&#34;</span>)
+        self<span style="color:#555">.</span>render(<span style="color:#c30">&#34;home.html&#34;</span>, entries<span style="color:#555">=</span>entries)
 
 <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">EntryHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self, entry_id):
-        entry <span style="color:#555">=</span> self<span style="color:#555">.</span>db<span style="color:#555">.</span>get(<span style="color:#c30"></span><span style="color:#c30">&#34;SELECT * FROM entries WHERE id = </span><span style="color:#a00">%s</span><span style="color:#c30">&#34;</span>, entry_id)
+        entry <span style="color:#555">=</span> self<span style="color:#555">.</span>db<span style="color:#555">.</span>get(<span style="color:#c30">&#34;SELECT * FROM entries WHERE id = </span><span style="color:#a00">%s</span><span style="color:#c30">&#34;</span>, entry_id)
         <span style="color:#069;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">not</span> entry: <span style="color:#069;font-weight:bold">raise</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>HTTPError(<span style="color:#f60">404</span>)
-        self<span style="color:#555">.</span>render(<span style="color:#c30"></span><span style="color:#c30">&#34;entry.html&#34;</span>, entry<span style="color:#555">=</span>entry)
+        self<span style="color:#555">.</span>render(<span style="color:#c30">&#34;entry.html&#34;</span>, entry<span style="color:#555">=</span>entry)
 
 settings <span style="color:#555">=</span> {
-    <span style="color:#c30"></span><span style="color:#c30">&#34;ui_modules&#34;</span>: uimodules,
+    <span style="color:#c30">&#34;ui_modules&#34;</span>: uimodules,
 }
 application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, HomeHandler),
@@ -274,18 +274,18 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
 <p>模块可以通过覆盖 embedded_css，embedded_javascript，javascript_files 或 css_files 方法来包含自定义 CSS 和 JavaScript 函数：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Entry</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>UIModule):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">embedded_css</span>(self):
-        <span style="color:#069;font-weight:bold">return</span> <span style="color:#c30"></span><span style="color:#c30">&#34;.entry { margin-bottom: 1em; }&#34;</span>
+        <span style="color:#069;font-weight:bold">return</span> <span style="color:#c30">&#34;.entry { margin-bottom: 1em; }&#34;</span>
 
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">render</span>(self, entry, show_comments<span style="color:#555">=</span>False):
         <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>render_string(
-            <span style="color:#c30"></span><span style="color:#c30">&#34;module-entry.html&#34;</span>, show_comments<span style="color:#555">=</span>show_comments)</code></pre></div>
+            <span style="color:#c30">&#34;module-entry.html&#34;</span>, show_comments<span style="color:#555">=</span>show_comments)</code></pre></div>
 <p>无论在页面上使用模块多少次，模块 CSS和 JavaScript 都将包含在内。CSS 始终包含在页面的 <head> 中，并且 JavaScript 总是包含在页面末尾的 &lt;/ body&gt; 标记之前。</p>
 
 <p>当不需要额外的 Python 代码时，模板文件本身可以用作模块。例如，可以重写前面的示例以将以下内容放在 module-entry.html 中：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{{ set_resources(embedded_css<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;.entry { margin-bottom: 1em; }&#34;</span>) }}
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{{ set_resources(embedded_css<span style="color:#555">=</span><span style="color:#c30">&#34;.entry { margin-bottom: 1em; }&#34;</span>) }}
 <span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">!</span><span style="color:#555">--</span> more template html<span style="color:#555">...</span> <span style="color:#555">--&gt;</span></code></pre></div>
 <p>将使用以下命令调用此修订的模板模块：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#555">%</span> module Template(<span style="color:#c30"></span><span style="color:#c30">&#34;module-entry.html&#34;</span>, show_comments<span style="color:#555">=</span>True) <span style="color:#555">%</span>}</code></pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#555">%</span> module Template(<span style="color:#c30">&#34;module-entry.html&#34;</span>, show_comments<span style="color:#555">=</span>True) <span style="color:#555">%</span>}</code></pre></div>
 <p>set_resources 函数仅在通过 {％ module Template(&hellip;) ％}调用的模板中可用。与 {％ include &hellip; ％} 指令不同，模板模块与其包含模板具有不同的命名空间 - 它们只能看到全局模板命名空间和它们自己的关键字参数。</p>
 
     </article>
@@ -336,27 +336,46 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

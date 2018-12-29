@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>从 Jekyll 到 Hugo 的一些细节 | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -139,14 +139,14 @@
 <p>虽然有些麻烦，不过了解了一番 Algolia 的 API 文档，以及参考了一篇来自于 <a href="https://forestry.io/blog/search-with-algolia-in-hugo/">Forestry</a> 的它们是如何接入 Algolia 搜索的文章之后，解决了如何生成索引数据，然后上传更新的部分没有使用文章里面的东西，而是使用了 Algolia 的 Python API 进行接入，简单的不像样子。</p>
 
 <p>我取代码里面核心的部分出来：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">filename <span style="color:#555">=</span> <span style="color:#c30"></span><span style="color:#c30">&#39;public/algolia.json&#39;</span>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">filename <span style="color:#555">=</span> <span style="color:#c30">&#39;public/algolia.json&#39;</span>
 rows <span style="color:#555">=</span> json<span style="color:#555">.</span>load(<span style="color:#366">open</span>(filename))
-<span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30"></span><span style="color:#c30">&#39;update algolia index&#39;</span>)
+<span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30">&#39;update algolia index&#39;</span>)
 
 client <span style="color:#555">=</span> client_for_admin()
 index <span style="color:#555">=</span> client<span style="color:#555">.</span>init_index(INDEX_NAME)
 
-rows_ids <span style="color:#555">=</span> [row[<span style="color:#c30"></span><span style="color:#c30">&#39;objectID&#39;</span>] <span style="color:#069;font-weight:bold">for</span> row <span style="color:#000;font-weight:bold">in</span> rows]
+rows_ids <span style="color:#555">=</span> [row[<span style="color:#c30">&#39;objectID&#39;</span>] <span style="color:#069;font-weight:bold">for</span> row <span style="color:#000;font-weight:bold">in</span> rows]
 all_ids <span style="color:#555">=</span> get_all_objectID(INDEX_NAME)
 
 ids_to_delete <span style="color:#555">=</span> <span style="color:#366">list</span>(<span style="color:#366">set</span>(all_ids) <span style="color:#555">-</span> <span style="color:#366">set</span>(rows_ids))
@@ -154,11 +154,11 @@ index<span style="color:#555">.</span>delete_objects(ids_to_delete)
 index<span style="color:#555">.</span>save_objects(rows)
 
 <span style="color:#09f;font-style:italic"># index.set_settings({&#34;customRanking&#34;: [&#34;desc(date)&#34;]})</span>
-index<span style="color:#555">.</span>set_settings({<span style="color:#c30"></span><span style="color:#c30">&#34;searchableAttributes&#34;</span>: [<span style="color:#c30"></span><span style="color:#c30">&#34;title&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;content&#34;</span>]})
-index<span style="color:#555">.</span>set_settings({<span style="color:#c30"></span><span style="color:#c30">&#39;attributesToHighlight&#39;</span>: [<span style="color:#c30"></span><span style="color:#c30">&#34;title&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;content&#34;</span>]})
-index<span style="color:#555">.</span>set_settings({<span style="color:#c30"></span><span style="color:#c30">&#39;attributesToSnippet&#39;</span>: [<span style="color:#c30"></span><span style="color:#c30">&#39;title&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;content:120&#39;</span>]})
-index<span style="color:#555">.</span>set_settings({<span style="color:#c30"></span><span style="color:#c30">&#39;highlightPreTag&#39;</span>: <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;em class=&#34;ais-Highlight&#34;&gt;&#39;</span>, <span style="color:#c30"></span><span style="color:#c30">&#39;highlightPostTag&#39;</span>: <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;/em&gt;&#39;</span>})
-<span style="color:#069;font-weight:bold">print</span>({<span style="color:#c30"></span><span style="color:#c30">&#39;delete&#39;</span>: <span style="color:#366">len</span>(ids_to_delete), <span style="color:#c30"></span><span style="color:#c30">&#39;save&#39;</span>: <span style="color:#366">len</span>(rows)})</code></pre></div>
+index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#34;searchableAttributes&#34;</span>: [<span style="color:#c30">&#34;title&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>]})
+index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;attributesToHighlight&#39;</span>: [<span style="color:#c30">&#34;title&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>]})
+index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;attributesToSnippet&#39;</span>: [<span style="color:#c30">&#39;title&#39;</span>, <span style="color:#c30">&#39;content:120&#39;</span>]})
+index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;highlightPreTag&#39;</span>: <span style="color:#c30">&#39;&lt;em class=&#34;ais-Highlight&#34;&gt;&#39;</span>, <span style="color:#c30">&#39;highlightPostTag&#39;</span>: <span style="color:#c30">&#39;&lt;/em&gt;&#39;</span>})
+<span style="color:#069;font-weight:bold">print</span>({<span style="color:#c30">&#39;delete&#39;</span>: <span style="color:#366">len</span>(ids_to_delete), <span style="color:#c30">&#39;save&#39;</span>: <span style="color:#366">len</span>(rows)})</code></pre></div>
 <p>而 algolia.json 则是这样的格式（内容太多就用 <code>…</code> 替代了）：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
     {
@@ -238,27 +238,46 @@ index<span style="color:#555">.</span>set_settings({<span style="color:#c30"></s
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>

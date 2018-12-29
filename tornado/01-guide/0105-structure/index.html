@@ -9,15 +9,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.37.1" />
+<meta name="generator" content="Hugo 0.52" />
 
         <title>Tornado 0105 - 用户指南: Tornado Web 应用程序的结构 | Jeremy&#39;s blog</title>
 
         
 
-        <link rel="stylesheet" href="https://jeremyyin.com/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="https://jeremyyin.com/assets/evil-icons.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
 
 
 
@@ -61,7 +61,7 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
 
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -132,14 +132,14 @@
 
 <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
-        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Hello, world&#34;</span>)
+        self<span style="color:#555">.</span>write(<span style="color:#c30">&#34;Hello, world&#34;</span>)
 
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">make_app</span>():
     <span style="color:#069;font-weight:bold">return</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
         (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
     ])
 
-<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30"></span><span style="color:#c30">&#34;__main__&#34;</span>:
+<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30">&#34;__main__&#34;</span>:
     app <span style="color:#555">=</span> make_app()
     app<span style="color:#555">.</span>listen(<span style="color:#f60">8888</span>)
     tornado<span style="color:#555">.</span>ioloop<span style="color:#555">.</span>IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()</code></pre></div>
@@ -152,19 +152,19 @@
 <p>例如，在此片段中，根 URL / 映射到 MainHandler，/story/ 后跟数字的 URL 映射到 StoryHandler。 该数字（作为字符串）传递给 StoryHandler.get。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
-        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#39;&lt;a href=&#34;</span><span style="color:#a00">%s</span><span style="color:#c30">&#34;&gt;link to story 1&lt;/a&gt;&#39;</span> <span style="color:#555">%</span>
-                   self<span style="color:#555">.</span>reverse_url(<span style="color:#c30"></span><span style="color:#c30">&#34;story&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;1&#34;</span>))
+        self<span style="color:#555">.</span>write(<span style="color:#c30">&#39;&lt;a href=&#34;</span><span style="color:#a00">%s</span><span style="color:#c30">&#34;&gt;link to story 1&lt;/a&gt;&#39;</span> <span style="color:#555">%</span>
+                   self<span style="color:#555">.</span>reverse_url(<span style="color:#c30">&#34;story&#34;</span>, <span style="color:#c30">&#34;1&#34;</span>))
 
 <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">StoryHandler</span>(RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">initialize</span>(self, db):
         self<span style="color:#555">.</span>db <span style="color:#555">=</span> db
 
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self, story_id):
-        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;this is story </span><span style="color:#a00">%s</span><span style="color:#c30">&#34;</span> <span style="color:#555">%</span> story_id)
+        self<span style="color:#555">.</span>write(<span style="color:#c30">&#34;this is story </span><span style="color:#a00">%s</span><span style="color:#c30">&#34;</span> <span style="color:#555">%</span> story_id)
 
 app <span style="color:#555">=</span> Application([
     url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
-    url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/story/([0-9]+)&#34;</span>, StoryHandler, <span style="color:#366">dict</span>(db<span style="color:#555">=</span>db), name<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;story&#34;</span>)
+    url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/story/([0-9]+)&#34;</span>, StoryHandler, <span style="color:#366">dict</span>(db<span style="color:#555">=</span>db), name<span style="color:#555">=</span><span style="color:#c30">&#34;story&#34;</span>)
     ])</code></pre></div>
 <p>Application 构造函数采用许多关键字参数，可用于自定义应用程序的行为并启用可选功能；请参阅 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.Application.settings">Application.settings</a> 以获取完整列表。</p>
 
@@ -183,14 +183,14 @@ app <span style="color:#555">=</span> Application([
 <p>它同时将为你解析 HTML 表单使用的格式的请求数据，并在 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_query_argument">get_query_argument</a> 和 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_body_argument">get_body_argument</a> 等方法中提供。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MyFormHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
-        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#39;&lt;html&gt;&lt;body&gt;&lt;form action=&#34;/myform&#34; method=&#34;POST&#34;&gt;&#39;</span>
-                   <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;input type=&#34;text&#34; name=&#34;message&#34;&gt;&#39;</span>
-                   <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;input type=&#34;submit&#34; value=&#34;Submit&#34;&gt;&#39;</span>
-                   <span style="color:#c30"></span><span style="color:#c30">&#39;&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span>)
+        self<span style="color:#555">.</span>write(<span style="color:#c30">&#39;&lt;html&gt;&lt;body&gt;&lt;form action=&#34;/myform&#34; method=&#34;POST&#34;&gt;&#39;</span>
+                   <span style="color:#c30">&#39;&lt;input type=&#34;text&#34; name=&#34;message&#34;&gt;&#39;</span>
+                   <span style="color:#c30">&#39;&lt;input type=&#34;submit&#34; value=&#34;Submit&#34;&gt;&#39;</span>
+                   <span style="color:#c30">&#39;&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span>)
 
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">post</span>(self):
-        self<span style="color:#555">.</span>set_header(<span style="color:#c30"></span><span style="color:#c30">&#34;Content-Type&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;text/plain&#34;</span>)
-        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;You wrote &#34;</span> <span style="color:#555">+</span> self<span style="color:#555">.</span>get_body_argument(<span style="color:#c30"></span><span style="color:#c30">&#34;message&#34;</span>))</code></pre></div>
+        self<span style="color:#555">.</span>set_header(<span style="color:#c30">&#34;Content-Type&#34;</span>, <span style="color:#c30">&#34;text/plain&#34;</span>)
+        self<span style="color:#555">.</span>write(<span style="color:#c30">&#34;You wrote &#34;</span> <span style="color:#555">+</span> self<span style="color:#555">.</span>get_body_argument(<span style="color:#c30">&#34;message&#34;</span>))</code></pre></div>
 <p>由于 HTML 表单编码关于参数是单个值还是一个列表是不明确的，因此RequestHandler 具有不同的方法以允许应用程序指示它是否需要列表。对于列表，请使用 get_query_arguments 和 get_body_arguments，而不是它们的单数对应项。</p>
 
 <p>通过表单上传的文件在 self.request.files 中可用，它将名称（HTML <input type =“file”> 元素的名称）映射到文件列表。每个文件都是 {&ldquo;filename&rdquo;: &hellip;, &rdquo;content_type&rdquo;: &hellip;, &rdquo;body&rdquo;: &hellip;} 形式的字典。只有在使用表单包装器上传文件时才会出现 files 对象（例如 Content-Type 是 multipart/form-data）；如果未使用此格式，则可以在 self.request.body 中使用原始上载数据。默认情况下，上传的文件在内存中完全缓冲；如果你需要处理太大而不能轻松保存在内存中的文件，请参阅 stream_request_body 类装饰器。</p>
@@ -199,7 +199,7 @@ app <span style="color:#555">=</span> Application([
 
 <p>由于 HTML 表单编码的怪癖（例如，围绕单数与多数参数的歧义），Tornado 不会尝试将表单参数与其他类型的输入统一起来。特别是，我们不解析 JSON 请求体。希望使用 JSON 而不是表单编码的应用程序可能会覆盖准备解析其请求：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">prepare</span>(self):
-    <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>request<span style="color:#555">.</span>headers<span style="color:#555">.</span>get(<span style="color:#c30"></span><span style="color:#c30">&#34;Content-Type&#34;</span>, <span style="color:#c30"></span><span style="color:#c30">&#34;&#34;</span>)<span style="color:#555">.</span>startswith(<span style="color:#c30"></span><span style="color:#c30">&#34;application/json&#34;</span>):
+    <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>request<span style="color:#555">.</span>headers<span style="color:#555">.</span>get(<span style="color:#c30">&#34;Content-Type&#34;</span>, <span style="color:#c30">&#34;&#34;</span>)<span style="color:#555">.</span>startswith(<span style="color:#c30">&#34;application/json&#34;</span>):
         self<span style="color:#555">.</span>json_args <span style="color:#555">=</span> json<span style="color:#555">.</span>loads(self<span style="color:#555">.</span>request<span style="color:#555">.</span>body)
     <span style="color:#069;font-weight:bold">else</span>:
         self<span style="color:#555">.</span>json_args <span style="color:#555">=</span> None</code></pre></div>
@@ -248,7 +248,7 @@ app <span style="color:#555">=</span> Application([
 <p>RedirectHandler 允许您直接在应用程序路由表中配置重定向。例如，要配置单个静态重定向：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
     url(<span style="color:#c30">r</span><span style="color:#c30">&#34;/app&#34;</span>, tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RedirectHandler,
-        <span style="color:#366">dict</span>(url<span style="color:#555">=</span><span style="color:#c30"></span><span style="color:#c30">&#34;http://itunes.apple.com/my-app-id&#34;</span>)),
+        <span style="color:#366">dict</span>(url<span style="color:#555">=</span><span style="color:#c30">&#34;http://itunes.apple.com/my-app-id&#34;</span>)),
     ])</code></pre></div>
 <p>RedirectHandler 还支持正则表达式替换。以下规则将以 /pictures/ 开头的所有请求重定向到前缀 /photos/：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">app <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
@@ -268,10 +268,10 @@ app <span style="color:#555">=</span> Application([
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
         http <span style="color:#555">=</span> tornado<span style="color:#555">.</span>httpclient<span style="color:#555">.</span>AsyncHTTPClient()
-        response <span style="color:#555">=</span> await http<span style="color:#555">.</span>fetch(<span style="color:#c30"></span><span style="color:#c30">&#34;http://friendfeed-api.com/v2/feed/bret&#34;</span>)
+        response <span style="color:#555">=</span> await http<span style="color:#555">.</span>fetch(<span style="color:#c30">&#34;http://friendfeed-api.com/v2/feed/bret&#34;</span>)
         json <span style="color:#555">=</span> tornado<span style="color:#555">.</span>escape<span style="color:#555">.</span>json_decode(response<span style="color:#555">.</span>body)
-        self<span style="color:#555">.</span>write(<span style="color:#c30"></span><span style="color:#c30">&#34;Fetched &#34;</span> <span style="color:#555">+</span> <span style="color:#366">str</span>(<span style="color:#366">len</span>(json[<span style="color:#c30"></span><span style="color:#c30">&#34;entries&#34;</span>])) <span style="color:#555">+</span> <span style="color:#c30"></span><span style="color:#c30">&#34; entries &#34;</span>
-                   <span style="color:#c30"></span><span style="color:#c30">&#34;from the FriendFeed API&#34;</span>)</code></pre></div>
+        self<span style="color:#555">.</span>write(<span style="color:#c30">&#34;Fetched &#34;</span> <span style="color:#555">+</span> <span style="color:#366">str</span>(<span style="color:#366">len</span>(json[<span style="color:#c30">&#34;entries&#34;</span>])) <span style="color:#555">+</span> <span style="color:#c30">&#34; entries &#34;</span>
+                   <span style="color:#c30">&#34;from the FriendFeed API&#34;</span>)</code></pre></div>
 <p>有关更高级的异步示例，请查看 <a href="https://github.com/tornadoweb/tornado/tree/stable/demos/chat">聊天示例应用程序</a> ，该应用程序使用 <a href="http://en.wikipedia.org/wiki/Push_technology#Long_polling">长轮询</a> 实现 AJAX 聊天室。 长轮询的用户可能希望在客户端关闭连接后覆盖 on_connection_close() 以进行清理（但请参阅该方法的文档字符串以获取注意事项）。</p>
 
     </article>
@@ -322,27 +322,46 @@ app <span style="color:#555">=</span> Application([
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2018 &middot; <a href="https://jeremyyin.com">Jeremy&#39;s blog</a>
+                    &copy; 2018 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
           </div>
         </div>
 
       </footer>
 
-        <script src="https://jeremyyin.com/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/popper.min.js"></script>
-<script src="https://jeremyyin.com/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://jeremyyin.com/mdb/js/mdb.min.js"></script>
-<script src="https://jeremyyin.com/assets/evil-icons.min.js"></script>
-<script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
 
         
-<script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-92987034-1', 'auto');
-ga('send', 'pageview');
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
     </body>
