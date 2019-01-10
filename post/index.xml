@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 05 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>寻找 Sourcetree 替代品</title>
+      <link>/post/2019-01-10-%E5%AF%BB%E6%89%BE-sourcetree-%E6%9B%BF%E4%BB%A3%E5%93%81/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2019-01-10-%E5%AF%BB%E6%89%BE-sourcetree-%E6%9B%BF%E4%BB%A3%E5%93%81/</guid>
+      <description>昨晚听微信张小龙的演讲，这个虽然一直说自己不太善于演讲的人，但是竟然讲了 4 个小时之久，有机会看他讲完，是与第二天看别人的总结有一种完全不一样的体验。
+有人说很幸运我们所使用的这款手机软件掌控在这样的一个人手里，而不是被掌控在其它那样的人手里，比如说微博之类的。
+确实是很幸运。
+最近在找一款值得使用的 Git GUI 客户端，为啥呢，因为，Sourcetree 总给我崩溃。
+Sourcetree 是我一开始编程就在使用的 Git GUI 客户端，所以其实到现在为止，我依然对 git 命令几乎不咋熟悉，但这并不影响我正确地使用 git 作为文件版本控制工具，为我的工作流程提供助力。
+但是最近几个月，它开始不断地崩溃了，错误一个接一个地弹出，最终也只能告诉你说这有个 Bug，你可能要重启电脑才能继续使用，这个 Bug 的详细信息在某个 URL 可以查看。
+每次遇到这个，我的内心是崩溃的，作为可能几个月不关不重启电脑的我，咋可能这就要去重启了呢。
+不。
+我选择换掉它。
+这个世界上几乎能在网上找到的 Git GUI 客户端都可以在这个页面 Mac GUIs 找到，没错，排第一的这位就是 Sourcetree，我准备抛弃的它，如果这个世界上再也没有比它更好的 Git GUI 实现，那就再也没辙了。
+但是，总有柳暗花明处，一款款看一圈下来，让我发现了 Fork 这款客户端。
+一款让人喜欢的客户端有哪些特点：
+ 主要功能基本完善 运行稳定 界面逻辑设计合理，视觉效果现代  差不多满足这三条条件，我就觉得可以选择长期使用了。
+很明显地，Sourcetree 在我这里失去了第二项，至于是不是我系统问题就不得而知了，反正网上说崩溃的也不只是我一个，而是一片一片的。
+Fork ，如果不是说这是要找一款 Git GUI 客户端，其实名字很容易被淹没在茫茫搜索引擎结果和问答讨论信息中，至少国内我暂时没见到有人提及过它，或许，国内真的在用 git 的人真的没那么多吧，毕竟即使看腾讯都还是大部分停留在 svn 的阶段。
+至于为啥一定要找一款 GUI 客户端，而不是用点时间去练习使用 git 命令呢？
+仁者见仁，要我说，因为我喜欢。
+虽然可能说 Fork 目前还有一些功能点还存在一些不合理和不完善，但是按照上面三点，从我最近一周的使用来看，它目前已经高出我预期很多了，非常值得使用。
+以及，它免费，所以即使想要试用也不会有门槛，推荐有需求的人试试看。</description>
+    </item>
     
     <item>
       <title>给网站增加一个类别叫 note</title>
