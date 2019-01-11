@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.52" />
+
+        <title>当 Tornado 连接 MySQL 报错：Too many connections | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>当 Tornado 连接 MySQL 报错：Too many connections</h1>
+        <hr>
+        <p>事情的经过是这样的：</p>
+
+<p>我们对 .NET 程序进行移植，它在 MySQL 中所使用的数据库是很多个，所以请求来了之后其实是动态连接不同的数据库，而不是常见的只有一个库。</p>
+
+<p>我们使用的数据库连接工具是 <a href="https://www.sqlalchemy.org/">SQLAlchemy</a> ，它连接数据库是使用 Engine，事务处理使用的是 Session，每一个请求进来，都会先获取到对应数据库的 engine，然后向 engine 申请一个 session 来实现数据库操作。</p>
+
+<p>由于之前的错误理解，把获取 engine 这步写在了 BaseHandler 下面，在编码阶段其实是看不到问题的，毕竟一个人手动又能开几个数据库连接呢。</p>
+
+<p>但是无意间在一个 k8s 的群里留意到有人提及压测工具，ab 是基于命令的，JMeter 则是使用 Java 开发的有界面工具，Windows 和 Mac 都可以运行，想着可以试试看，刚好可以看看咱自己的这套代码的运行能力如何。</p>
+
+<p>从 10 到 100，然后增加到 1000 就发现了错误出现：Too many connections，这不是该有的结果。</p>
+
+<p>这个问题曾经尝试压测的时候也遇到过，但是没彻底弄明白。</p>
+
+<p>再次通过 Google 进行寻找，让人很失望：清一色的修改 MySQL 的 max_connections。</p>
+
+<p>为啥说很失望呢，你想想，连接超了你就修改最大连接数限制，可是总不能无限增加吧？</p>
+
+<p>但是用户的 Request 是无限增加的呀，直觉上我就认为这并不是解决这个问题的正确方向。</p>
+
+<p>同时也思考是不是可以设置 pool_size=0，这样就是不限连接数，但是一想，肯定也不对。</p>
+
+<p>再次寻找一番，其实并没有明确答案，但是思考一番，engine 其实就是连接代理，按目前获取 engine 的方法，如果每来一个请求就开一个新的 engine，每增加一个 engine 就是增加了一个连接，自然就是无限增加了数据库连接。</p>
+
+<p>如果，engine 不是新开的呢？而是全局使用呢？如何做到全局使用，那就是在 app 启动时候就有了所有的 engine，然后再在 Request 处动态获取到已经事先准备好的 engine，这样不就实现了 engine 的复用了？</p>
+
+<p>上代码：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># app.py</span>
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Application</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application):
+    <span style="color:#069;font-weight:bold">def</span> __init__(self):
+        self<span style="color:#555">.</span>Session <span style="color:#555">=</span> sessionmaker()
+        <span style="color:#09f;font-style:italic"># engine不能在request上创建，而是应该在app全局创建提供给request使用</span>
+        <span style="color:#09f;font-style:italic"># 否则在面对高并发时mysql会出现&#34;Too many connections&#34;错误，而简单修改max_connections并不是正确的做法</span>
+        self<span style="color:#555">.</span>engines <span style="color:#555">=</span> {n: db<span style="color:#555">.</span>make_engine(n) <span style="color:#069;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> DBNAMES}
+        <span style="color:#366">super</span>(Application, self)<span style="color:#555">.</span>__init__(handlers, <span style="color:#555">**</span>settings)
+        
+<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30">&#39;__main__&#39;</span>:
+    application <span style="color:#555">=</span> Application()
+    options<span style="color:#555">.</span>define(<span style="color:#c30">&#39;port&#39;</span>, default<span style="color:#555">=</span><span style="color:#f60">80</span>, <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#366">int</span>)
+    options<span style="color:#555">.</span>parse_command_line()
+    application<span style="color:#555">.</span>listen(options<span style="color:#555">.</span>options<span style="color:#555">.</span>port)
+    ioloop<span style="color:#555">.</span>IOLoop<span style="color:#555">.</span>instance()<span style="color:#555">.</span>start()</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># base.py</span>
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">BaseHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
+    session <span style="color:#555">=</span> None
+
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_engine</span>(self):
+        dbname <span style="color:#555">=</span> self<span style="color:#555">.</span>get_dbname()
+        engine <span style="color:#555">=</span> self<span style="color:#555">.</span>application<span style="color:#555">.</span>engines<span style="color:#555">.</span>get(dbname)
+        <span style="color:#069;font-weight:bold">return</span> engine
+
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_session</span>(self):
+        <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>session <span style="color:#000;font-weight:bold">is</span> None:
+            engine <span style="color:#555">=</span> self<span style="color:#555">.</span>get_engine()
+            self<span style="color:#555">.</span>application<span style="color:#555">.</span>Session<span style="color:#555">.</span>configure(bind<span style="color:#555">=</span>engine)
+            self<span style="color:#555">.</span>session <span style="color:#555">=</span> self<span style="color:#555">.</span>application<span style="color:#555">.</span>Session()
+        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>session
+    
+    <span style="color:#99f">@property</span>
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">db</span>(self):
+        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>get_session()</code></pre></div>
+<p>JMeter 线程开到 10000，压测通过，未再报错。</p>
+
+<p>max_connections 要不要改，可能要改，由于默认 pool_size=5，当数据库很多的时候，连接数=pool_size*数据库数量，这时候就非常容易超出最大连接数了，就必须要调整 pool_size 与  max_connections 来防止 “Too many connections” 错误的出现。</p>
+
+<p>有时候虽然有些方法看似可以立即解决当前的问题，但是，方向却不一定对。</p>
+
+<p>现在，解决了多数据库动态连接的问题，也解决了并发请求导致数据库连接暴增的问题，如果你也有同样类似的需求，或正在进行技术选型却心中没底，或问题已经出现很久却悬而未决，那么你应该知道怎么做了。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<p>Author | Jeremy Yin</p>
+<p>Python Engineer</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank" href="http://www.miibeian.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
