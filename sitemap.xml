@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/2019-03-18-docker-for-mac-%E8%83%BD%E8%80%97%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2019-03-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2019-03-18-%E6%B8%90%E8%BF%9B%E5%BC%8F%E5%A4%A7%E6%89%AB%E9%99%A4/</loc>
+    <lastmod>2019-03-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/note/2019-01-11-2109/</loc>
     <lastmod>2019-01-11T00:00:00+00:00</lastmod>
   </url>
@@ -573,7 +583,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-01-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-03-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -585,7 +595,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-03-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

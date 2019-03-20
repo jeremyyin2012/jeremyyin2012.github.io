@@ -7,10 +7,36 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 Mar 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker for Mac 能耗优化</title>
+      <link>/post/2019-03-18-docker-for-mac-%E8%83%BD%E8%80%97%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2019-03-18-docker-for-mac-%E8%83%BD%E8%80%97%E4%BC%98%E5%8C%96/</guid>
+      <description>应用容器化，极大地优化了开发与运维流程，使得开发环境与运维环境几乎完全保持一致性。
+但是项目多了，开发机器难免动不动就跑起来几十个容器，数据库、API、web、脚本、管理界面、监控工具、日志处理，等等，随随便便就把风扇给呼呼滴转了起来。
+根据个人经验，过程就略去不表了，简单说下方案，以下基于 Docker for Mac，其它平台请自行思考：
+ CPU 给一个核心就足够了，开发机而已，虽然同时运行很多，但是性能足够开发用了 内存看着来，可以根据配置酌情稍微给大点，免得内存跟磁盘相互挪来挪去 volumes 给加上性能优化声明：代码开发以容器外面为准，允许稍微延迟点更新到容器，用 :cached，实际使用来看根本感觉不到延迟；数据库容器以容器里面为准，允许延迟写到磁盘，用 :delegated 换新电脑，顶配  </description>
+    </item>
+    
+    <item>
+      <title>渐进式大扫除</title>
+      <link>/post/2019-03-18-%E6%B8%90%E8%BF%9B%E5%BC%8F%E5%A4%A7%E6%89%AB%E9%99%A4/</link>
+      <pubDate>Mon, 18 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2019-03-18-%E6%B8%90%E8%BF%9B%E5%BC%8F%E5%A4%A7%E6%89%AB%E9%99%A4/</guid>
+      <description>如果我有个带院子的房子，可能某天看到某个角落不太喜欢，就着手去打扫下。
+拿了几件工具出来打扫下，路过某处觉得这儿也看不过去，便顺手处理了下。
+想想，这片也很久没打扫了，你看这都这样了，便扩大了点清理面积，东挪一下，西擦一下，时间慢慢过去，等到阳光逐渐暗下来，发现格局比原先又更优化了些。
+其实，哪有那么多有用的东西，还有，很多东西都是可以叠放堆积，这平展开占多少无谓的空间，整理下就猛然显得宽敞明亮多了。
+宽敞明亮，多么令人舒心的感觉。
+睡一觉去。</description>
+    </item>
     
     <item>
       <title>寻找 Sourcetree 替代品</title>
