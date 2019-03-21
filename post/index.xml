@@ -7,10 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 18 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 Mar 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>我与蚊子的战争</title>
+      <link>/post/2019-03-21-%E6%88%91%E4%B8%8E%E8%9A%8A%E5%AD%90%E7%9A%84%E6%88%98%E4%BA%89/</link>
+      <pubDate>Thu, 21 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2019-03-21-%E6%88%91%E4%B8%8E%E8%9A%8A%E5%AD%90%E7%9A%84%E6%88%98%E4%BA%89/</guid>
+      <description>深圳没有冬天，即使是在理论上最寒冷的冬至那天，蚊子也能在你耳边余音绕梁数日不绝。市面上能尝试的抗蚊大法，曾经都尝试过。
+ 改造房间的各个敞口，成本不小，更有时候基础不行，行不通。 杀蚊喷雾，杀敌三百，自损一万，不值得。 蚊香，你赶我走，你熄我来，生生不息。 苍蝇拍，曾经家中必备，有人拿扇页做蒲扇，也有人拿来做苍蝇拍，好不好用自己知道，这就是一场拼手速的追杀战争。 电蚊拍，这是后来升级了，不拼手速了，拼武器，滋～怕了怕了，快闪。 手，脸疼不疼，手疼不疼，自己知道，待会再来。  以上方案，经过多年试验，没有任何一个可以让你安心睡眠，如果睡觉前还要担心下待会儿会不会被蚊子咬醒的话，基本上就是肯定会被蚊子咬醒了，至于什么时候醒或甚至直接无法入睡，那得看你有多困或蚊子有多勤快。
+近年来，蚊帐伴我左右，倒是享受了几年安心入睡的日子，结果就是一旦任何时候离开了它，就瞬间失去了那妥妥滴安全感。
+但这真的是唯一能让我安心的家伙拾儿了。
+我与蚊子的战争，始于蚊帐外，终于蚊帐内。
+它睡上铺，我睡下铺，隔结界相望，饿死它们。</description>
+    </item>
     
     <item>
       <title>Docker for Mac 能耗优化</title>
