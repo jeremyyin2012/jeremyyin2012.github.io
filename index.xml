@@ -7,10 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 21 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Apr 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tornado and Vue x-template</title>
+      <link>/note/2019-04-22-2301/</link>
+      <pubDate>Mon, 22 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/note/2019-04-22-2301/</guid>
+      <description>当然，如果能用 webpack 系列工具进行开发构建当然是好，但是依然有一些项目的一些页面已经有了一些选型，你也不好从头再来对吧。
+但是 Vue 这套设计思想真的很喜欢怎么办？
+虽然网络上说有多达 7 种编写 Vue template 代码的方式，但是，综合考虑下来，其实除了 webpack 这种方式之外，你还能选择的还算优雅的，真的就只剩下 Vue x-template 了。
+别的框架怎么支持以及兼容我不知道，我倒是只知道 Tornado 与 Vue x-template 的融合开发是怎么样的。
+说多了也是废话，下面看核心部分代码：
+// base.html &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt; &amp;lt;meta name=&amp;#34;viewport&amp;#34; content=&amp;#34;width=device-width, initial-scale=1.0&amp;#34;&amp;gt; &amp;lt;meta http-equiv=&amp;#34;X-UA-Compatible&amp;#34; content=&amp;#34;ie=edge&amp;#34;&amp;gt; {% set DEBUG = handler.application.settings.get(&amp;#39;debug&amp;#39;, False) %} {% if DEBUG %} &amp;lt;script src=&amp;#34;https://unpkg.com/vue@2.6.10/dist/vue.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/vuex@3.1.0/dist/vuex.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/axios@0.18.0/dist/axios.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; {% else %} &amp;lt;script src=&amp;#34;https://unpkg.com/vue@2.6.10/dist/vue.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/vuex@3.1.0/dist/vuex.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/axios@0.18.0/dist/axios.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; {% end %} {% block head %}{% end %} &amp;lt;title&amp;gt;{% block title %}{% end %} - Document&amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; {% block nav %}{% end %} {% block main %}{% end %} {% block bottom %}{% end %} &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt;// count.</description>
+    </item>
     
     <item>
       <title>我与蚊子的战争</title>
