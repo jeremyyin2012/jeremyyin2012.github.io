@@ -7,10 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 22 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Apr 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/note/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tornado and Vue SPA</title>
+      <link>/note/2019-04-28-2211/</link>
+      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/note/2019-04-28-2211/</guid>
+      <description>使用 x-template 写 Vue 已经算很好的体验了，不过，总是想要更好点。
+如果使用 SPA 的模式写，开发的时候有很多好处，无法不想去使用它。
+虽然 SPA 模式其实与后端是什么关系并不大，不过既然使用上了 Tornado，就说说它们如何一起工作。
+如果有部分功能页面已经用 jquery 或者 Vue x-template 模式写了，那么可能会考虑从此以后新上的页面都用 SPA 模式。
+由于项目文件夹已经有很多东西了，创建一个新的 SPA 项目，就新建个文件夹，创建完之后再把一些文件拿过来放到现有项目里面混合到一起，如果不存在名字冲突的文件夹，那最好不过了。
+构建好的文件，dist，静态文件而已，其实来说随便放哪里都可以，只要能被 web 服务器找到。考虑到 static 文件夹其实默认就被 Tornado 作为静态文件所在，所以放这个文件夹下面可能就简单些吧，以及如果 nginx 配置了对 static 文件夹的处理，就会也是一并自动处理了，那么，修改下 Vue 的构建目标地址就好。
+例如类似下面这个 VueHandler 一样，我把项目构建放到了 static/dist 这里，给个路由到这里。这样一个旧项目，既用上了 SPA，也不影响原有项目。
+class VueHandler(web.RequestHandler): @gen.coroutine def get(self, *ags, **kwargs): self.render(&amp;#39;../static/dist/index.html&amp;#39;) class UsersHandler(web.RequestHandler): @gen.coroutine def get(self, *ags, **kwargs): self.redirect(&amp;#39;users/index.html&amp;#39;) def make_app(): handlers = [ (r&amp;#39;/&amp;#39;, HomeHandler), (r&amp;#39;/vue&amp;#39;, VueHandler), (r&amp;#39;/users&amp;#39;, UsersHandler), (r&amp;#39;/users/(.*)&amp;#39;, web.</description>
+    </item>
     
     <item>
       <title>Tornado and Vue x-template</title>

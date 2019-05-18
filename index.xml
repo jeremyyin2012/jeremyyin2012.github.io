@@ -7,10 +7,45 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 22 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 May 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>排序思想之辅助列</title>
+      <link>/post/2019-05-18-%E6%8E%92%E5%BA%8F%E6%80%9D%E6%83%B3%E4%B9%8B%E8%BE%85%E5%8A%A9%E5%88%97/</link>
+      <pubDate>Sat, 18 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2019-05-18-%E6%8E%92%E5%BA%8F%E6%80%9D%E6%83%B3%E4%B9%8B%E8%BE%85%E5%8A%A9%E5%88%97/</guid>
+      <description>曾经在使用 Excel 的时候，经常会遇到排序的需求。
+无论是自己使用，还是同事朋友求助，我都会根据情况推荐利用辅助列。
+其中一个常见的需求自然就是：排序并处理完数据后，需要还原原始行顺序。
+我们很多时候是只想到基于当前已有数据进行操作，这难免就限制了我们的思维广度。如果在理解了 Excel 的核心就是数据，它这种数据的核心就是行和列这种思维之后，操作数据的时候，思维就容易很多。
+比如这个要还原原始行顺序，那么首先就想到应该有一列数据可以帮助我们完成此任务，那么，如果没有此列，就增加此列，输入 1 回车、2 回车，选中两单元格，鼠标放第二单元格右下角变黑色实心十字，双击或下拉拖动就能快速得到一列从 1 到 N 的数字列，它，就代表了我们数据行的原始顺序，此后无论你怎么排序或移动或删除，都能通过它来快速还原原始顺序，根本无需担心数据被搞得乱糟糟的。
+这便是辅助列思想的一个实践，它也不仅仅在还原数据顺序有帮助，甚至在操作排序的过程中也提供了一定的帮助。
+以前我在 Excel 中排序自然不会去刻意讲究什么【排序稳定性】，除非当多条件排序有特别需求，但是这在编程领域却是一条基础保证，如果排序不稳定，那么就无法保证相同值的原始顺序不会发生改变，就与我们人类正常理解的排序存在差异，影响正常数据处理。
+辅助列思想我自己曾经经常使用，也有机会就会给人演示操作并说明增加此列数据的好处。虽然一些讲 Excel 的书也有特别提到序号列并不建议保留，因为表格有行号就可以看到，但是我认为，行号是行号，它是表格软件的一部分，而序号列却是数据的一部分，它在诸多情形下为我们提供了数据服务，所以我的建议是如果有需要，就尽量提供，方便后续进行一些操作。
+辅助列的思维在我曾经的很多场合都会用到，基本上拿到数据首先就会考虑是否需要加入辅助列，不过这次再次想到要提一下，是因为再次在看 Python 的 list 排序这部分文档的时候，有人提到 &amp;ldquo;装饰-排序-去装饰&amp;rdquo; 的排序方法，看了下，这就是辅助字段排序啊，跟曾经 Excel 中的辅助列排序，何其相似！
+不过 Python 已经提供了更优雅的排序函数写法，且默认就是【排序稳定】的，辅助字段排序方法仅仅作为参考学习的例子，仅此而已。
+而结合来看，其思维方式很有参考价值。</description>
+    </item>
+    
+    <item>
+      <title>Tornado and Vue SPA</title>
+      <link>/note/2019-04-28-2211/</link>
+      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/note/2019-04-28-2211/</guid>
+      <description>使用 x-template 写 Vue 已经算很好的体验了，不过，总是想要更好点。
+如果使用 SPA 的模式写，开发的时候有很多好处，无法不想去使用它。
+虽然 SPA 模式其实与后端是什么关系并不大，不过既然使用上了 Tornado，就说说它们如何一起工作。
+如果有部分功能页面已经用 jquery 或者 Vue x-template 模式写了，那么可能会考虑从此以后新上的页面都用 SPA 模式。
+由于项目文件夹已经有很多东西了，创建一个新的 SPA 项目，就新建个文件夹，创建完之后再把一些文件拿过来放到现有项目里面混合到一起，如果不存在名字冲突的文件夹，那最好不过了。
+构建好的文件，dist，静态文件而已，其实来说随便放哪里都可以，只要能被 web 服务器找到。考虑到 static 文件夹其实默认就被 Tornado 作为静态文件所在，所以放这个文件夹下面可能就简单些吧，以及如果 nginx 配置了对 static 文件夹的处理，就会也是一并自动处理了，那么，修改下 Vue 的构建目标地址就好。
+例如类似下面这个 VueHandler 一样，我把项目构建放到了 static/dist 这里，给个路由到这里。这样一个旧项目，既用上了 SPA，也不影响原有项目。
+class VueHandler(web.RequestHandler): @gen.coroutine def get(self, *ags, **kwargs): self.render(&amp;#39;../static/dist/index.html&amp;#39;) class UsersHandler(web.RequestHandler): @gen.coroutine def get(self, *ags, **kwargs): self.redirect(&amp;#39;users/index.html&amp;#39;) def make_app(): handlers = [ (r&amp;#39;/&amp;#39;, HomeHandler), (r&amp;#39;/vue&amp;#39;, VueHandler), (r&amp;#39;/users&amp;#39;, UsersHandler), (r&amp;#39;/users/(.*)&amp;#39;, web.</description>
+    </item>
     
     <item>
       <title>Tornado and Vue x-template</title>

@@ -11,10 +11,8 @@
 
 <meta name="generator" content="Hugo 0.52" />
 
-        <title>Notes | Jeremy&#39;s blog</title>
+        <title>排序思想之辅助列 | Jeremy&#39;s blog</title>
 
-        
-            <link rel="alternate" type="application/rss&#43;xml" href="/note/index.xml">
         
 
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
@@ -118,52 +116,33 @@
                 <div class="row">
                     <div class="col-sm-12">
                             
-<ul class="list-unstyled">
-    
-            <li class="post-item-title"><a href="/note/2019-04-28-2211/">Tornado and Vue SPA</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2019-04-22-2301/">Tornado and Vue x-template</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2019-01-11-2109/">当 Tornado 连接 MySQL 报错：Too many connections</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-30-2042/">使用 Pandas 实现动态查询及处理数据并导出 Excel 文件</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-28-2249/">SQLAlchemy select 中的表别名、列别名</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-28-2102/">dynamically parameter passing in sql where query best practices</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-28-2216/">使用 SQLAlchemy Core 的 select，可是没有定义表对象怎么办</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-26-2133/">dynamically select columns in sql query best practices</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-25-2121/">pymysql: 给 sql 语句传递字典参数</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-23-2226/">nginx-proxy 与 Let&#39;s Encrypt</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-18-2127/">Traefik 与 nginx-proxy</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-17-2125/">折腾与吐槽 Traefik</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-09-27-2123/">自己在用的一些 Python 库</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-09-05-1522/">做手艺活，必然需要一套趁手的工具</a></li>
-            
-    
-    </ul>
 
+    <article>
+        <h1>排序思想之辅助列</h1>
+        <hr>
+        <p>曾经在使用 Excel 的时候，经常会遇到排序的需求。</p>
+
+<p>无论是自己使用，还是同事朋友求助，我都会根据情况推荐利用辅助列。</p>
+
+<p>其中一个常见的需求自然就是：排序并处理完数据后，需要还原原始行顺序。</p>
+
+<p>我们很多时候是只想到基于当前已有数据进行操作，这难免就限制了我们的思维广度。如果在理解了 Excel 的核心就是数据，它这种数据的核心就是行和列这种思维之后，操作数据的时候，思维就容易很多。</p>
+
+<p>比如这个要还原原始行顺序，那么首先就想到应该有一列数据可以帮助我们完成此任务，那么，如果没有此列，就增加此列，输入 1 回车、2 回车，选中两单元格，鼠标放第二单元格右下角变黑色实心十字，双击或下拉拖动就能快速得到一列从 1 到 N 的数字列，它，就代表了我们数据行的原始顺序，此后无论你怎么排序或移动或删除，都能通过它来快速还原原始顺序，根本无需担心数据被搞得乱糟糟的。</p>
+
+<p>这便是辅助列思想的一个实践，它也不仅仅在还原数据顺序有帮助，甚至在操作排序的过程中也提供了一定的帮助。</p>
+
+<p>以前我在 Excel 中排序自然不会去刻意讲究什么【排序稳定性】，除非当多条件排序有特别需求，但是这在编程领域却是一条基础保证，如果排序不稳定，那么就无法保证相同值的原始顺序不会发生改变，就与我们人类正常理解的排序存在差异，影响正常数据处理。</p>
+
+<p>辅助列思想我自己曾经经常使用，也有机会就会给人演示操作并说明增加此列数据的好处。虽然一些讲 Excel 的书也有特别提到序号列并不建议保留，因为表格有行号就可以看到，但是我认为，行号是行号，它是表格软件的一部分，而序号列却是数据的一部分，它在诸多情形下为我们提供了数据服务，所以我的建议是如果有需要，就尽量提供，方便后续进行一些操作。</p>
+
+<p>辅助列的思维在我曾经的很多场合都会用到，基本上拿到数据首先就会考虑是否需要加入辅助列，不过这次再次想到要提一下，是因为再次在看 Python 的 list 排序这部分文档的时候，有人提到 &ldquo;<a href="https://docs.python.org/zh-cn/3/howto/sorting.html#the-old-way-using-decorate-sort-undecorate">装饰-排序-去装饰</a>&rdquo; 的排序方法，看了下，这就是辅助字段排序啊，跟曾经 Excel 中的辅助列排序，何其相似！</p>
+
+<p>不过 Python 已经提供了更优雅的排序函数写法，且默认就是【排序稳定】的，辅助字段排序方法仅仅作为参考学习的例子，仅此而已。</p>
+
+<p>而结合来看，其思维方式很有参考价值。</p>
+
+    </article>
 
 
                   </div>

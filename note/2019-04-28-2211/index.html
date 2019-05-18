@@ -11,10 +11,8 @@
 
 <meta name="generator" content="Hugo 0.52" />
 
-        <title>Notes | Jeremy&#39;s blog</title>
+        <title>Tornado and Vue SPA | Jeremy&#39;s blog</title>
 
-        
-            <link rel="alternate" type="application/rss&#43;xml" href="/note/index.xml">
         
 
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
@@ -118,52 +116,52 @@
                 <div class="row">
                     <div class="col-sm-12">
                             
-<ul class="list-unstyled">
-    
-            <li class="post-item-title"><a href="/note/2019-04-28-2211/">Tornado and Vue SPA</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2019-04-22-2301/">Tornado and Vue x-template</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2019-01-11-2109/">当 Tornado 连接 MySQL 报错：Too many connections</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-30-2042/">使用 Pandas 实现动态查询及处理数据并导出 Excel 文件</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-28-2249/">SQLAlchemy select 中的表别名、列别名</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-28-2102/">dynamically parameter passing in sql where query best practices</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-28-2216/">使用 SQLAlchemy Core 的 select，可是没有定义表对象怎么办</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-26-2133/">dynamically select columns in sql query best practices</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-25-2121/">pymysql: 给 sql 语句传递字典参数</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-23-2226/">nginx-proxy 与 Let&#39;s Encrypt</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-18-2127/">Traefik 与 nginx-proxy</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-10-17-2125/">折腾与吐槽 Traefik</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-09-27-2123/">自己在用的一些 Python 库</a></li>
-            
-    
-            <li class="post-item-title"><a href="/note/2018-09-05-1522/">做手艺活，必然需要一套趁手的工具</a></li>
-            
-    
-    </ul>
 
+    <article>
+        <h1>Tornado and Vue SPA</h1>
+        <hr>
+        <p>使用 x-template 写 Vue 已经算很好的体验了，不过，总是想要更好点。</p>
+
+<p>如果使用 SPA 的模式写，开发的时候有很多好处，无法不想去使用它。</p>
+
+<p>虽然 SPA 模式其实与后端是什么关系并不大，不过既然使用上了 Tornado，就说说它们如何一起工作。</p>
+
+<p>如果有部分功能页面已经用 jquery 或者 Vue x-template 模式写了，那么可能会考虑从此以后新上的页面都用 SPA 模式。</p>
+
+<p>由于项目文件夹已经有很多东西了，创建一个新的 SPA 项目，就新建个文件夹，创建完之后再把一些文件拿过来放到现有项目里面混合到一起，如果不存在名字冲突的文件夹，那最好不过了。</p>
+
+<p>构建好的文件，dist，静态文件而已，其实来说随便放哪里都可以，只要能被 web 服务器找到。考虑到 static 文件夹其实默认就被 Tornado 作为静态文件所在，所以放这个文件夹下面可能就简单些吧，以及如果 nginx 配置了对 static 文件夹的处理，就会也是一并自动处理了，那么，修改下 Vue 的构建目标地址就好。</p>
+
+<p>例如类似下面这个 VueHandler 一样，我把项目构建放到了 static/dist 这里，给个路由到这里。这样一个旧项目，既用上了 SPA，也不影响原有项目。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">VueHandler</span>(web<span style="color:#555">.</span>RequestHandler):
+
+    <span style="color:#99f">@gen.coroutine</span>
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self, <span style="color:#555">*</span>ags, <span style="color:#555">**</span>kwargs):
+        self<span style="color:#555">.</span>render(<span style="color:#c30">&#39;../static/dist/index.html&#39;</span>)
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">UsersHandler</span>(web<span style="color:#555">.</span>RequestHandler):
+
+    <span style="color:#99f">@gen.coroutine</span>
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self, <span style="color:#555">*</span>ags, <span style="color:#555">**</span>kwargs):
+        self<span style="color:#555">.</span>redirect(<span style="color:#c30">&#39;users/index.html&#39;</span>)
+
+<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">make_app</span>():
+    handlers <span style="color:#555">=</span> [
+        (<span style="color:#c30">r</span><span style="color:#c30">&#39;/&#39;</span>, HomeHandler),
+        (<span style="color:#c30">r</span><span style="color:#c30">&#39;/vue&#39;</span>, VueHandler),
+        (<span style="color:#c30">r</span><span style="color:#c30">&#39;/users&#39;</span>, UsersHandler),
+        (<span style="color:#c30">r</span><span style="color:#c30">&#39;/users/(.*)&#39;</span>, web<span style="color:#555">.</span>StaticFileHandler, {<span style="color:#c30">&#39;path&#39;</span>: <span style="color:#c30">&#39;templates/users/dist&#39;</span>}),
+    ]
+    settings <span style="color:#555">=</span> <span style="color:#366">dict</span>(
+        debug<span style="color:#555">=</span>True,
+        template_path<span style="color:#555">=</span><span style="color:#c30">&#39;templates&#39;</span>,
+        static_path<span style="color:#555">=</span><span style="color:#c30">&#39;static&#39;</span>,
+        cookie_secret<span style="color:#555">=</span><span style="color:#c30">&#39;&#39;</span>,
+    )
+    <span style="color:#069;font-weight:bold">return</span> web<span style="color:#555">.</span>Application(handlers, <span style="color:#555">**</span>settings)</code></pre></div>
+<p>如果，是只是想某个页面使用 SPA 来改写，那么其实也差不多的，只不过 Vue 项目的地址是在某一个页面下，比如上面的 users，以兼容现有项目结构，仅仅是路由指向方式改一下也就可以了。</p>
+
+    </article>
 
 
                   </div>
