@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.52" />
+
+        <title>如何在 jQuery 项目中嵌入 Vue | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>如何在 jQuery 项目中嵌入 Vue</h1>
+        <hr>
+        <p>在 2019 年的今天，目前 React, Angular, Vue 主流三大以数据驱动的 JavaScript 前端框架，大致上能说是三分天下了。</p>
+
+<p>而之前基于 jQuery 的开发，甚至基于 jQuery 进行二次开发以实现某种意义上的数据驱动的一些框架，基本上就剩下能维护就维护，不能维护就抛弃之的状态了。</p>
+
+<p>而维护旧的 jQuery 代码，恐怕，也不是那么容易的一件事情。</p>
+
+<p>如果在以前没有这些新玩意，不知道有如今这些更好的解决方案，那还勉强能接受，如今要是写过新东西，再让你回去，恐怕无论谁都是一万个不愿意。无论是从何种角度或者基于何种考虑，尽早用上新东西，才是解放生产力和减少无谓的 Bug 的唯一正道。</p>
+
+<p>而面对旧 jQuery 代码（恐怕很少机会能遇到曾经不用 jQuery 的），一口吃，肯定是吃不下去，就连我这段时间优化三个 80% 相似度的页面代码，我都在完成一个之后就极其地不愿意再继续改剩下两个，虽然剩下的两个页面结构类似，代码也基本上仔细确认一下应该可以利用上已经改好的，但是同一条山路如果没有必要你也不会再去走第二遍，更何况是面对这些几乎没有什么整洁度可言的代码呢。</p>
+
+<p>那么怎么办呢？需求又在不断增加和更新，你要怎么办？</p>
+
+<p>不去改旧的，就放那里吧。要更新，就用新的来替代，要加需求，就用新的来做。</p>
+
+<p>jQuery 的代码无论多么糟糕，就都不要再去动它了，让我们再起个新炉灶吧。</p>
+
+<p>可是起了新炉灶，新旧代码之间还是避免不了要有交互，比如增加一个点击触发一个新的 Dialog。</p>
+
+<p>术语解释下呢，那就是 jQuery 代码如何调用 Vue ？或者说就是 Vue 如何嵌入 jQuery 项目中？</p>
+
+<p>说是 Vue 嵌入 jQuery，其实是基于先来后到，代码量多少来说的，为的是方便理解这种渐进式开发的空间感。</p>
+
+<p>怎么在 Vue 代码中调用 jQuery 方法，这其实有很多人都给出来样板代码，但是更重要一点其实是如果已经用上了 Vue，就真的不要再在里面写 jQuery 了，无论怎么讲都是不合适的。</p>
+
+<p>所以我觉得，问这个问题的大部分人，可能遇到的问题就是原先以 jQuery 为主，然后现在想换到 Vue 来，而旧代码则是设法利用起来，而不是又要再写一波。</p>
+
+<p>如果原先的项目代码整洁度高，我想切换过来应该问题不是很大，数据部分，函数和对象什么的都能迁移过来，而渲染部分，现在已经交给 Vue 就不用自己写了，这可能应该是理想状态，然而……</p>
+
+<p>然而绝大多数我想你需要面对的应该都是&rdquo;一切万物皆基于选择器与事件的漫长的面条式&rdquo;代码，而这几乎是不可能有多少可以重复利用的。</p>
+
+<p>这样导致如果想以 Vue 作为基本盘，复用已有的 jQuery 代码成为不可能。</p>
+
+<p>那么这样该怎么办呢？</p>
+
+<p>所以你应该大致能理解了，为啥叫把 Vue 嵌入 jQuery，就是 jQuery 的基本盘不动，而一些小东小西的，开始用 Vue 来写，这样逐渐逐渐地把整个项目吃下来。因为基本盘如果要做一些改动的话，改动也不会太大，加个字段改个颜色，不会有太大问题，而一些周边小组件啥的，可以从主页面抽离的，比如点击一个按钮触发一个 Dialog，就完全可以用 Vue 来重写了，而且由于结构设计相对更为合理，需要对旧代码的兼容性修改，也相对会少很多，在这同时，还能顺便将原旧代码做一些隔离性优化，比如某行旧的 CSS 影响了新写的 Vue 组件，那么就可以去优化那些原先写的不那么合理的 CSS 代码。</p>
+
+<p>说了这么多，那么到底该如何写呢？</p>
+
+<p>思路其实很简单的：Vue 实例（例如叫 vm）上面 methods 里面的那些方法（函数），都是可以通过 vm 进行调用的。</p>
+
+<p>虽然其实你甚至都可以改 vm 的数据什么的，但是这已经不是本文的目标所在了，要想让 vm 来帮忙完成一些操作，调用 vm 上的方法（函数）是最合理的选择了。</p>
+
+<p>具体实现，如果你是用 Tornado 与 x-template， 大概类似下面这样：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#09f;font-style:italic">// Vue 组件 a-component.html
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#555">&lt;</span>script type<span style="color:#555">=</span><span style="color:#c30">&#34;text/x-template&#34;</span> id<span style="color:#555">=</span><span style="color:#c30">&#34;a-component&#34;</span><span style="color:#555">&gt;</span>
+    <span style="color:#555">&lt;</span>div<span style="color:#555">&gt;</span>
+        <span style="color:#09f;font-style:italic">// 组件 html 代码
+</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">/div&gt;</span>
+<span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">/script&gt;</span>
+
+<span style="color:#555">&lt;</span>script type<span style="color:#555">=</span><span style="color:#c30">&#34;application/javascript&#34;</span><span style="color:#555">&gt;</span>
+    Vue.component(<span style="color:#c30">&#34;a-component&#34;</span>, {
+        template<span style="color:#555">:</span> <span style="color:#c30">&#39;#a-component&#39;</span>,
+        data<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">function</span> () {
+            <span style="color:#069;font-weight:bold">return</span> {}
+        },
+        props<span style="color:#555">:</span> {
+            params<span style="color:#555">:</span> {},
+            is_xx<span style="color:#555">:</span> {},
+        },
+        watch<span style="color:#555">:</span> {},
+        computed<span style="color:#555">:</span> {},
+        methods<span style="color:#555">:</span> {
+            a_func<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">function</span> (params) {
+                <span style="color:#09f;font-style:italic">// 组件功能代码
+</span><span style="color:#09f;font-style:italic"></span>            }
+        },
+        filters<span style="color:#555">:</span> {},
+    })
+<span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">/script&gt;</span>
+
+<span style="color:#555">&lt;</span>style<span style="color:#555">&gt;</span>
+    <span style="color:#09f;font-style:italic">// 这里还有一些 CSS，注意生效范围，要限制在组件内
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">/style&gt;</span>
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#09f;font-style:italic">// 页面 a-page.html
+</span><span style="color:#09f;font-style:italic">// 一些旧的 css 和 js 引入
+</span><span style="color:#09f;font-style:italic">// 然后引入 Vue 相关的东西
+</span><span style="color:#09f;font-style:italic">// 一些旧 html 代码，先不动它
+</span><span style="color:#09f;font-style:italic"></span>
+<span style="color:#555">&lt;</span>div id<span style="color:#555">=</span><span style="color:#c30">&#34;app&#34;</span><span style="color:#555">&gt;</span>
+
+    <span style="color:#555">&lt;</span>a<span style="color:#555">-</span>component
+            <span style="color:#555">:</span>params<span style="color:#555">=</span><span style="color:#c30">&#34;params&#34;</span>
+            <span style="color:#555">:</span>is_xx<span style="color:#555">=</span><span style="color:#c30">&#34;is_xx&#34;</span>
+            <span style="color:#a00;background-color:#faa">@</span>close<span style="color:#555">=</span><span style="color:#c30">&#34;c_func&#34;</span>
+    <span style="color:#555">&gt;&lt;</span><span style="color:#a00;background-color:#faa">/a-component&gt;</span>
+
+<span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">/div&gt;</span>
+
+<span style="color:#09f;font-style:italic">// 引入 Vue 组件
+</span><span style="color:#09f;font-style:italic"></span>{<span style="color:#555">%</span> include <span style="color:#c30">&#39;components/a-component.html&#39;</span> <span style="color:#555">%</span>}
+
+<span style="color:#555">&lt;</span>script<span style="color:#555">&gt;</span>
+    Vue.prototype.$someapi <span style="color:#555">=</span> someapi;
+    <span style="color:#069;font-weight:bold">let</span> vm <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">new</span> Vue({
+        el<span style="color:#555">:</span> <span style="color:#c30">&#39;#app&#39;</span>,
+        data<span style="color:#555">:</span> {
+            params<span style="color:#555">:</span> {},
+            is_xx<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">false</span>,
+        },
+        watch<span style="color:#555">:</span> {},
+        computed<span style="color:#555">:</span> {},
+        methods<span style="color:#555">:</span> {
+            d_func<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">function</span> () {},
+            b_func<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">function</span> (params) {
+                <span style="color:#09f;font-style:italic">// 用来被外界调用的函数方法 b_func，可以带参数进来
+</span><span style="color:#09f;font-style:italic"></span>                <span style="color:#069;font-weight:bold">this</span>.is_xx <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">true</span>
+                <span style="color:#09f;font-style:italic">// ...
+</span><span style="color:#09f;font-style:italic"></span>            },
+            c_funx<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">function</span> () {
+                <span style="color:#069;font-weight:bold">this</span>.is_xx <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">false</span>
+            },
+        },
+        filters<span style="color:#555">:</span> {},
+        created<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">function</span> () {
+            <span style="color:#069;font-weight:bold">this</span>.d_func()
+        },
+    })
+
+<span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">/script&gt;</span>
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#09f;font-style:italic">// 旧 JS 文件 a-js.js
+</span><span style="color:#09f;font-style:italic"></span>(<span style="color:#069;font-weight:bold">function</span> () {
+    <span style="color:#09f;font-style:italic">// 在某个事件的回调函数或者普通函数中调用 Vue 的功能 b_func
+</span><span style="color:#09f;font-style:italic"></span>    e_func<span style="color:#555">:</span> <span style="color:#069;font-weight:bold">function</span>() {
+        <span style="color:#069;font-weight:bold">let</span> params <span style="color:#555">=</span> {}
+        vm.b_func(params)
+    }
+})()
+</code></pre></div>
+<p>这样从周边开始逐渐逐渐地吃掉旧功能代码，最后如果某天想要动基本盘，那个时候，剩下的东西或许就不会那么困难了。</p>
+
+<p>只是，真的要时间。</p>
+
+<p>而时间这个问题，没有标准答案，只能是说，看具体情况吧。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<p>Author | Jeremy Yin</p>
+<p>Python Engineer</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        <script>
+function icp_no_display() {
+    var domain = document.domain;
+    if (domain !== 'isyin.cn') {
+        var t = document.getElementById('icp_link');
+        t.style.display = 'none';
+    }
+}
+icp_no_display();
+</script>
+
+
+
+
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
