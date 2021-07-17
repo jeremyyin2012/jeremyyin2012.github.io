@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Tornado 0106 - 用户指南: 模板与 UI | Jeremy&#39;s blog</title>
 
@@ -120,24 +120,14 @@
     <article>
         <h1>Tornado 0106 - 用户指南: 模板与 UI</h1>
         <hr>
-        
-
-<h1 id="模板和ui">模板和UI</h1>
-
+        <h1 id="模板和ui">模板和UI</h1>
 <p>Tornado 包含一种简单，快速，灵活的模板语言。本节介绍该语言以及国际化等相关问题。</p>
-
 <p>Tornado 也可以与任何其他 Python 模板语言一起使用，尽管没有明确地规定如何将这些系统集成到 RequestHandler.render 中，你只需将模板渲染为字符串并将其传递给RequestHandler.write 就可以了。</p>
-
 <h2 id="配置模板">配置模板</h2>
-
 <p>默认情况下，Tornado 会在与引用它们的 .py 文件相同的目录中查找模板文件。 要将模板文件放在不同的目录中，请使用 template_path <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.Application.settings">应用程序设置</a> （如果不同的处理程序具有不同的模板路径，则覆盖 RequestHandler.get_template_path）。</p>
-
 <p>要从非文件系统位置加载模板，请将 <a href="http://www.tornadoweb.org/en/stable/template.html#tornado.template.BaseLoader">tornado.template.BaseLoader</a> 子类化，并将实例作为 template_loader 应用程序设置传递。</p>
-
 <p>默认情况下，编译的模板会被缓存；要关闭此缓存和重新加载模板，以便始终可以看到对底层文件的更改，请使用应用程序设置 compiled_template_cache = False 或 debug = True。</p>
-
 <h2 id="模板语法">模板语法</h2>
-
 <p>Tornado 模板只是 HTML（或任何其他基于文本的格式），其中 Python 控件序列和表达式嵌入在标记中：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#555">&lt;</span>html<span style="color:#555">&gt;</span>
   <span style="color:#555">&lt;</span>head<span style="color:#555">&gt;</span>
@@ -150,18 +140,15 @@
       {<span style="color:#555">%</span> end <span style="color:#555">%</span>}
     <span style="color:#555">&lt;/</span>ul<span style="color:#555">&gt;</span>
   <span style="color:#555">&lt;/</span>body<span style="color:#555">&gt;</span>
-<span style="color:#555">&lt;/</span>html<span style="color:#555">&gt;</span></code></pre></div>
-<p>如果您将此模板另存为 “template.html” 并将其放在与 Python 文件相同的目录中，则可以使用以下内容呈现此模板：</p>
+<span style="color:#555">&lt;/</span>html<span style="color:#555">&gt;</span>
+</code></pre></div><p>如果您将此模板另存为 “template.html” 并将其放在与 Python 文件相同的目录中，则可以使用以下内容呈现此模板：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
         items <span style="color:#555">=</span> [<span style="color:#c30">&#34;Item 1&#34;</span>, <span style="color:#c30">&#34;Item 2&#34;</span>, <span style="color:#c30">&#34;Item 3&#34;</span>]
-        self<span style="color:#555">.</span>render(<span style="color:#c30">&#34;template.html&#34;</span>, title<span style="color:#555">=</span><span style="color:#c30">&#34;My title&#34;</span>, items<span style="color:#555">=</span>items)</code></pre></div>
-<p>Tornado 模板支持控制语句和表达式。控制语句由 {％ 和 ％} 包围，例如 {％ if len (items) &gt; 2 ％} 。 表达式由 {{ 和 }} 包围，例如 {{ items [0] }} 。</p>
-
+        self<span style="color:#555">.</span>render(<span style="color:#c30">&#34;template.html&#34;</span>, title<span style="color:#555">=</span><span style="color:#c30">&#34;My title&#34;</span>, items<span style="color:#555">=</span>items)
+</code></pre></div><p>Tornado 模板支持控制语句和表达式。控制语句由 {％ 和 ％} 包围，例如 {％ if len (items) &gt; 2 ％} 。 表达式由 {{ 和 }} 包围，例如 {{ items [0] }} 。</p>
 <p>控制语句或多或少地映射到 Python 语句。 我们支持 if, for, while 和 try，所有这些都以 {％ end ％} 终止。 我们还使用 extends 和 block 语句支持模板继承，这些语句在 <a href="http://www.tornadoweb.org/en/stable/template.html#module-tornado.template">tornado.template</a> 的文档中有详细描述。</p>
-
 <p>表达式可以是任何 Python 表达式，包括函数调用。模板代码在包含以下对象和函数的命名空间中执行（请注意，此列表适用于使用 RequestHandler.render 和 render_string 呈现的模板。如果您直接在 RequestHandler 之外使用 tornado.template 模块，则许多条目都是不存在的）。</p>
-
 <ul>
 <li>escape: alias for tornado.escape.xhtml_escape</li>
 <li>xhtml_escape: alias for tornado.escape.xhtml_escape</li>
@@ -181,28 +168,19 @@
 <li>All entries from the ui_methods and ui_modules Application settings</li>
 <li>Any keyword arguments passed to render or render_string</li>
 </ul>
-
 <p>在构建实际应用程序时，如果您将要使用 Tornado 模板的所有功能，尤其是模板继承。请阅读 <a href="http://www.tornadoweb.org/en/stable/template.html#module-tornado.template">tornado.template</a> 部分中有关这些功能的所有内容（某些功能，包括 UIModules 在 tornado.web 模块中实现）</p>
-
 <p>在幕后，Tornado 模板直接转换为 Python。您在模板中包含的表达式将逐字复制到表示模板的 Python 函数中。我们不会试图阻止模板语言中的任何内容，相对于其他更严格的模板系统，我们明确地提供它们所没有的灵活性。因此，如果在模板表达式中编写随机内容，则在执行模板时会出现随机 Python 错误。</p>
-
 <p>默认情况下，使用 tornado.escape.xhtml_escape 函数对所有模板输出进行转义。要更改此行为，可通过将 autoescape = None 传递给 Application 或 tornado.template.Loader 构造函数，将全局更改此行为；对于一个模板文件可使用 {％ autoescape None ％} 指令；对于单个表达式则可以通过替换 {{ &hellip; }} 为 {％ raw &hellip; ％} 的方式来实现。另外，在上述这些地方，也可以使用替代转义函数的名称而不是 None。</p>
-
 <p>请注意，虽然 Tornado 的自动转义有助于避免 XSS 漏洞，但在所有情况下都是不够的。出现在某些位置的表达式（例如 Javascript 或 CSS）可能需要额外的转义。此外，必须注意始终在可能包含不受信任内容的 HTML 属性中使用双引号和 xhtml_escape，或者必须为属性使用单独的转义函数（请参阅 <a href="http://wonko.com/post/html-escaping">http://wonko.com/post/html-escaping</a> ）</p>
-
 <h2 id="国际化">国际化</h2>
-
 <p>当前用户的区域设置（无论它们是否已登录）始终在请求处理程序中作为 self.locale 提供，在模板中始终作为 locale 提供。语言环境的名称（例如 en_US）可用作 locale.name，您可以使用 Locale.translate 方法转换字符串。模板还具有可用于字符串转换的全局函数调用 _() 。 translate 函数有两种形式：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">_(<span style="color:#c30">&#34;Translate this string&#34;</span>)</code></pre></div>
-<p>它根据当前语言环境直接转换字符串。</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">_(<span style="color:#c30">&#34;Translate this string&#34;</span>)
+</code></pre></div><p>它根据当前语言环境直接转换字符串。</p>
 <p>以及：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">_(<span style="color:#c30">&#34;A person liked this&#34;</span>, <span style="color:#c30">&#34;</span><span style="color:#a00">%(num)d</span><span style="color:#c30"> people liked this&#34;</span>,
-  <span style="color:#366">len</span>(people)) <span style="color:#555">%</span> {<span style="color:#c30">&#34;num&#34;</span>: <span style="color:#366">len</span>(people)}</code></pre></div>
-<p>它根据第三个参数的值转换一个可以是单数或复数的字符串。在上面的示例中，如果len(people)为 1，则将返回第一个字符串的转换，否则将返回第二个字符串的转换。</p>
-
+  <span style="color:#366">len</span>(people)) <span style="color:#555">%</span> {<span style="color:#c30">&#34;num&#34;</span>: <span style="color:#366">len</span>(people)}
+</code></pre></div><p>它根据第三个参数的值转换一个可以是单数或复数的字符串。在上面的示例中，如果len(people)为 1，则将返回第一个字符串的转换，否则将返回第二个字符串的转换。</p>
 <p>最常见的翻译模式是使用 Python 命名的占位符作为变量（上例中的 ％(num)d ），因为占位符可以在翻译中移动。</p>
-
 <p>这是一个适当的国际化模板：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#555">&lt;</span>html<span style="color:#555">&gt;</span>
   <span style="color:#555">&lt;</span>head<span style="color:#555">&gt;</span>
@@ -216,35 +194,30 @@
       {<span style="color:#555">%</span> module xsrf_form_html() <span style="color:#555">%</span>}
     <span style="color:#555">&lt;/</span>form<span style="color:#555">&gt;</span>
   <span style="color:#555">&lt;/</span>body<span style="color:#555">&gt;</span>
-<span style="color:#555">&lt;/</span>html<span style="color:#555">&gt;</span></code></pre></div>
-<p>默认情况下，我们使用用户浏览器发送的 Accept-Language 标头检测用户的语言环境。如果找不到合适的 Accept-Language 值，我们选择 en_US。如果您允许用户将其区域设置作为首选项，则可以通过覆盖 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_user_locale">RequestHandler.get_user_locale</a> 来覆盖此默认区域设置选择：</p>
+<span style="color:#555">&lt;/</span>html<span style="color:#555">&gt;</span>
+</code></pre></div><p>默认情况下，我们使用用户浏览器发送的 Accept-Language 标头检测用户的语言环境。如果找不到合适的 Accept-Language 值，我们选择 en_US。如果您允许用户将其区域设置作为首选项，则可以通过覆盖 <a href="http://www.tornadoweb.org/en/stable/web.html#tornado.web.RequestHandler.get_user_locale">RequestHandler.get_user_locale</a> 来覆盖此默认区域设置选择：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">BaseHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_current_user</span>(self):
         user_id <span style="color:#555">=</span> self<span style="color:#555">.</span>get_secure_cookie(<span style="color:#c30">&#34;user&#34;</span>)
-        <span style="color:#069;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">not</span> user_id: <span style="color:#069;font-weight:bold">return</span> None
+        <span style="color:#069;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">not</span> user_id: <span style="color:#069;font-weight:bold">return</span> <span style="color:#069;font-weight:bold">None</span>
         <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>backend<span style="color:#555">.</span>get_user_by_id(user_id)
 
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_user_locale</span>(self):
         <span style="color:#069;font-weight:bold">if</span> <span style="color:#c30">&#34;locale&#34;</span> <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">in</span> self<span style="color:#555">.</span>current_user<span style="color:#555">.</span>prefs:
             <span style="color:#09f;font-style:italic"># Use the Accept-Language header</span>
-            <span style="color:#069;font-weight:bold">return</span> None
-        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>current_user<span style="color:#555">.</span>prefs[<span style="color:#c30">&#34;locale&#34;</span>]</code></pre></div>
-<p>如果 get_user_locale 返回 None，我们将返回 Accept-Language 标头。</p>
-
+            <span style="color:#069;font-weight:bold">return</span> <span style="color:#069;font-weight:bold">None</span>
+        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>current_user<span style="color:#555">.</span>prefs[<span style="color:#c30">&#34;locale&#34;</span>]
+</code></pre></div><p>如果 get_user_locale 返回 None，我们将返回 Accept-Language 标头。</p>
 <p>tornado.locale 模块支持以两种格式加载翻译：gettext 和相关工具使用的 .mo 格式，以及简单的 .csv 格式。 应用程序通常会在启动时调用 <a href="http://www.tornadoweb.org/en/stable/locale.html#tornado.locale.load_translations">tornado.locale.load_translations</a> 或 <a href="http://www.tornadoweb.org/en/stable/locale.html#tornado.locale.load_gettext_translations">tornado.locale.load_gettext_translations</a> ；有关支持的格式的更多详细信息，请参阅这些方法。</p>
-
 <p>您可以使用 <a href="http://www.tornadoweb.org/en/stable/locale.html#tornado.locale.get_supported_locales">tornado.locale.get_supported_locales()</a> 获取应用程序中受支持的语言环境列表。根据支持的语言环境，选择用户的语言环境作为最接近的匹配项。例如，如果用户的语言环境是 es_GT，并且支持 es 语言环境，那么 self.locale 将是该请求的 es。 如果找不到紧密匹配，我们会回到 en_US 上。</p>
-
 <h2 id="ui-模块">UI 模块</h2>
-
 <p>Tornado 支持 UI 模块，可以轻松支持整个应用程序中的标准、可重用的 UI 小部件。UI 模块就像用于呈现页面组件的特殊函数调用一样，它们可以与自己的 CSS 和 JavaScript 打包在一起。</p>
-
 <p>例如，如果您要实施博客，并且希望在博客主页和每个博客条目页面上都显示博客条目，则可以创建一个 Entry 模块以在两个页面上呈现它们。首先，为 UI 模块创建一个 Python 模块，例如 uimodules.py：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Entry</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>UIModule):
-    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">render</span>(self, entry, show_comments<span style="color:#555">=</span>False):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">render</span>(self, entry, show_comments<span style="color:#555">=</span><span style="color:#069;font-weight:bold">False</span>):
         <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>render_string(
-            <span style="color:#c30">&#34;module-entry.html&#34;</span>, entry<span style="color:#555">=</span>entry, show_comments<span style="color:#555">=</span>show_comments)</code></pre></div>
-<p>使用应用程序中的 ui_modules 设置告诉 Tornado 使用 uimodules.py：</p>
+            <span style="color:#c30">&#34;module-entry.html&#34;</span>, entry<span style="color:#555">=</span>entry, show_comments<span style="color:#555">=</span>show_comments)
+</code></pre></div><p>使用应用程序中的 ui_modules 设置告诉 Tornado 使用 uimodules.py：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">.</span> <span style="color:#069;font-weight:bold">import</span> uimodules
 
 <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">HomeHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
@@ -264,29 +237,28 @@ settings <span style="color:#555">=</span> {
 application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, HomeHandler),
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/entry/([0-9]+)&#34;</span>, EntryHandler),
-], <span style="color:#555">**</span>settings)</code></pre></div>
-<p>在模板中，您可以使用 {％ module ％} 语句调用模块。例如，您可以从 home.html 调用 Entry 模块：</p>
+], <span style="color:#555">**</span>settings)
+</code></pre></div><p>在模板中，您可以使用 {％ module ％} 语句调用模块。例如，您可以从 home.html 调用 Entry 模块：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#555">%</span> <span style="color:#069;font-weight:bold">for</span> entry <span style="color:#000;font-weight:bold">in</span> entries <span style="color:#555">%</span>}
   {<span style="color:#555">%</span> module Entry(entry) <span style="color:#555">%</span>}
-{<span style="color:#555">%</span> end <span style="color:#555">%</span>}</code></pre></div>
-<p>和 entry.html：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#555">%</span> module Entry(entry, show_comments<span style="color:#555">=</span>True) <span style="color:#555">%</span>}</code></pre></div>
-<p>模块可以通过覆盖 embedded_css，embedded_javascript，javascript_files 或 css_files 方法来包含自定义 CSS 和 JavaScript 函数：</p>
+{<span style="color:#555">%</span> end <span style="color:#555">%</span>}
+</code></pre></div><p>和 entry.html：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#555">%</span> module Entry(entry, show_comments<span style="color:#555">=</span><span style="color:#069;font-weight:bold">True</span>) <span style="color:#555">%</span>}
+</code></pre></div><p>模块可以通过覆盖 embedded_css，embedded_javascript，javascript_files 或 css_files 方法来包含自定义 CSS 和 JavaScript 函数：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Entry</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>UIModule):
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">embedded_css</span>(self):
         <span style="color:#069;font-weight:bold">return</span> <span style="color:#c30">&#34;.entry { margin-bottom: 1em; }&#34;</span>
 
-    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">render</span>(self, entry, show_comments<span style="color:#555">=</span>False):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">render</span>(self, entry, show_comments<span style="color:#555">=</span><span style="color:#069;font-weight:bold">False</span>):
         <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>render_string(
-            <span style="color:#c30">&#34;module-entry.html&#34;</span>, show_comments<span style="color:#555">=</span>show_comments)</code></pre></div>
-<p>无论在页面上使用模块多少次，模块 CSS和 JavaScript 都将包含在内。CSS 始终包含在页面的 <head> 中，并且 JavaScript 总是包含在页面末尾的 &lt;/ body&gt; 标记之前。</p>
-
+            <span style="color:#c30">&#34;module-entry.html&#34;</span>, show_comments<span style="color:#555">=</span>show_comments)
+</code></pre></div><p>无论在页面上使用模块多少次，模块 CSS和 JavaScript 都将包含在内。CSS 始终包含在页面的 <!-- raw HTML omitted --> 中，并且 JavaScript 总是包含在页面末尾的 &lt;/ body&gt; 标记之前。</p>
 <p>当不需要额外的 Python 代码时，模板文件本身可以用作模块。例如，可以重写前面的示例以将以下内容放在 module-entry.html 中：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{{ set_resources(embedded_css<span style="color:#555">=</span><span style="color:#c30">&#34;.entry { margin-bottom: 1em; }&#34;</span>) }}
-<span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">!</span><span style="color:#555">--</span> more template html<span style="color:#555">...</span> <span style="color:#555">--&gt;</span></code></pre></div>
-<p>将使用以下命令调用此修订的模板模块：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#555">%</span> module Template(<span style="color:#c30">&#34;module-entry.html&#34;</span>, show_comments<span style="color:#555">=</span>True) <span style="color:#555">%</span>}</code></pre></div>
-<p>set_resources 函数仅在通过 {％ module Template(&hellip;) ％}调用的模板中可用。与 {％ include &hellip; ％} 指令不同，模板模块与其包含模板具有不同的命名空间 - 它们只能看到全局模板命名空间和它们自己的关键字参数。</p>
+<span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">!</span><span style="color:#555">--</span> more template html<span style="color:#555">...</span> <span style="color:#555">--&gt;</span>
+</code></pre></div><p>将使用以下命令调用此修订的模板模块：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">{<span style="color:#555">%</span> module Template(<span style="color:#c30">&#34;module-entry.html&#34;</span>, show_comments<span style="color:#555">=</span><span style="color:#069;font-weight:bold">True</span>) <span style="color:#555">%</span>}
+</code></pre></div><p>set_resources 函数仅在通过 {％ module Template(&hellip;) ％}调用的模板中可用。与 {％ include &hellip; ％} 指令不同，模板模块与其包含模板具有不同的命名空间 - 它们只能看到全局模板命名空间和它们自己的关键字参数。</p>
 
     </article>
 
@@ -336,7 +308,7 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

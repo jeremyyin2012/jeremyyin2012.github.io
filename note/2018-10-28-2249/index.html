@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>SQLAlchemy select 中的表别名、列别名 | Jeremy&#39;s blog</title>
 
@@ -121,9 +121,7 @@
         <h1>SQLAlchemy select 中的表别名、列别名</h1>
         <hr>
         <p>难免要用到连表查询，这时候如果一个表不止用一次，或一个列名可能产生冲突，就需要用到别名，同时表别名还能优化查询语句的长度和可读性，SQL 里面的 SELECT，则会用到 AS 或者不用 as 就直接跟在项目后面即可。</p>
-
 <p>那在 SQLAlchemy select 中要怎么实现呢：</p>
-
 <p>不多说，上例子：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># 表别名：select * from my_customer_table as customer</span>
 customer <span style="color:#555">=</span> my_customer_table<span style="color:#555">.</span>alias(<span style="color:#c30">&#39;customer&#39;</span>)
@@ -132,8 +130,8 @@ customer <span style="color:#555">=</span> my_customer_table<span style="color:#
 columns <span style="color:#555">=</span> [
     customer,
     user<span style="color:#555">.</span>c[<span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>label(<span style="color:#c30">&#39;username&#39;</span>)
-]</code></pre></div>
-<p>这样就可以了。</p>
+]
+</code></pre></div><p>这样就可以了。</p>
 
     </article>
 
@@ -183,7 +181,7 @@ columns <span style="color:#555">=</span> [
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

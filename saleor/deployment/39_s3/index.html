@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 39: 部署 - 在 Amazon S3 上存储文件 | Jeremy&#39;s blog</title>
 
@@ -120,65 +120,51 @@
     <article>
         <h1>Saleor 39: 部署 - 在 Amazon S3 上存储文件</h1>
         <hr>
-        
-
-<p>如果您使用容器进行部署（包括 Docker 和 Heroku），您将希望避免将文件存储在容器的易失性文件系统中。此集成允许您将存储此类文件的任务委托给 <a href="https://aws.amazon.com/s3/">Amazon’s S3 service</a>。</p>
-
+        <p>如果您使用容器进行部署（包括 Docker 和 Heroku），您将希望避免将文件存储在容器的易失性文件系统中。此集成允许您将存储此类文件的任务委托给 <a href="https://aws.amazon.com/s3/">Amazon’s S3 service</a>。</p>
 <h2 id="基本配置">基本配置</h2>
-
 <ul>
-<li><code>AWS_ACCESS_KEY_ID</code></li>
-</ul>
-
+<li>
+<p><code>AWS_ACCESS_KEY_ID</code></p>
 <p>您的AWS访问密钥。</p>
-
-<ul>
-<li><code>AWS_SECRET_ACCESS_KEY</code></li>
-</ul>
-
+</li>
+<li>
+<p><code>AWS_SECRET_ACCESS_KEY</code></p>
 <p>您的AWS秘密访问密钥。</p>
-
+</li>
+</ul>
 <h2 id="使用-s3-存储桶提供媒体文件">使用 S3 存储桶提供媒体文件</h2>
-
 <p>如果要存储和提供媒体文件，请设置以下环境变量以将 S3 用作媒体存储区：</p>
-
 <ul>
-<li><code>AWS_MEDIA_BUCKET_NAME</code></li>
-</ul>
-
+<li>
+<p><code>AWS_MEDIA_BUCKET_NAME</code></p>
 <p>用于媒体文件的S3存储桶名称。</p>
-
+</li>
+</ul>
 <p>如果您打算为媒体S3存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 媒体域：</p>
-
 <ul>
-<li><code>AWS_MEDIA_CUSTOM_DOMAIN</code></li>
-</ul>
-
+<li>
+<p><code>AWS_MEDIA_CUSTOM_DOMAIN</code></p>
 <p>用于媒体存储区的 S3 自定义域。</p>
-
+</li>
+</ul>
 <p>Note</p>
-
 <p>媒体文件是指通过管理后台上传的每个数据（产品图像，类别图像等）</p>
-
 <h2 id="使用-s3-存储桶提供静态文件">使用 S3 存储桶提供静态文件</h2>
-
 <p>默认情况下，应用程序服务器将提供静态文件（例如显示页面所需的 CSS 和 JS 文件）。</p>
-
 <p>如果你打算为你的静态文件使用 S3，请设置一个额外的环境变量：</p>
-
 <ul>
-<li><code>AWS_STORAGE_BUCKET_NAME</code></li>
-</ul>
-
+<li>
+<p><code>AWS_STORAGE_BUCKET_NAME</code></p>
 <p>用于静态文件的 S3 存储桶名称。</p>
-
-<p>如果您打算为静态 S3 存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 域：</p>
-
-<ul>
-<li><code>AWS_STATIC_CUSTOM_DOMAIN</code></li>
+</li>
 </ul>
-
+<p>如果您打算为静态 S3 存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 域：</p>
+<ul>
+<li>
+<p><code>AWS_STATIC_CUSTOM_DOMAIN</code></p>
 <p>用于静态存储区的 S3 自定义域。</p>
+</li>
+</ul>
 
     </article>
 
@@ -228,7 +214,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

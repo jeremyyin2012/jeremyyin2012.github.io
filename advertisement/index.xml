@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Advertisements on Jeremy&#39;s blog</title>
@@ -18,7 +17,7 @@
       <pubDate>Thu, 26 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/advertisement/geek-time/</guid>
-      <description> 一年写了 30 几个小产品接口，该想想是不是代码太乱了。Django 说十几行代码完成增删改查，可能培训机构只顾着拉新了吧，MVC 构架可能确实简单。
+      <description>一年写了 30 几个小产品接口，该想想是不是代码太乱了。Django 说十几行代码完成增删改查，可能培训机构只顾着拉新了吧，MVC 构架可能确实简单。
 面向对象听了无数遍，可一次也没创建过自己的对象，一般都用别人现成的对象，还得看别人告诉你怎么用。
 要创建自己的对象了。写爬虫和写爬虫，不一样就是不一样的，Hello World 跑起来简单，可 Demo 和生产环境那是两码事儿。
 还有，需求一直在变，你知道的吧？
@@ -35,7 +34,7 @@
       <pubDate>Wed, 25 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/advertisement/becoming/</guid>
-      <description> 《上手》，是由许岑打造的一个学习平台，借由凡事以上手为目标去学习的理念，打造一系列内容跨度较大的各种课程。
+      <description>《上手》，是由许岑打造的一个学习平台，借由凡事以上手为目标去学习的理念，打造一系列内容跨度较大的各种课程。
 你洗头可能从没洗干净过 - 梁子 </description>
     </item>
     

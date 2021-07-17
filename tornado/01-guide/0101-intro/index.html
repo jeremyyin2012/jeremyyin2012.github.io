@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Tornado 0101 - 用户指南: 简介 | Jeremy&#39;s blog</title>
 
@@ -120,23 +120,16 @@
     <article>
         <h1>Tornado 0101 - 用户指南: 简介</h1>
         <hr>
-        
-
-<h1 id="简介">简介</h1>
-
+        <h1 id="简介">简介</h1>
 <p>Tornado 是一个用 Python 写的 Web 应用框架和异步网络库，最初是由 <a href="https://en.wikipedia.org/wiki/FriendFeed">FriendFeed</a> 开发的。通过使用非阻塞网络 I/O，Tornado 可以扩展到数万个开放连接（C10K），使其成为<a href="http://en.wikipedia.org/wiki/Push_technology#Long_polling">长轮询</a>、<a href="http://en.wikipedia.org/wiki/WebSocket">WebSockets</a> 和其他需要与每个用户建立长期连接的应用程序的理想选择。</p>
-
 <p>Tornado 大致可分为四个主要部分：</p>
-
 <ul>
 <li>一个 Web 应用框架（包括用于创建 Web 应用程序的 RequestHandler 子类，以及各种支持类）。</li>
 <li>HTTP 的客户端和服务器端实现（AsyncHTTPClient 和 HTTPServer）。</li>
 <li>一个异步网络库，包括 IOLoop 和 IOStream 类，它们用作 HTTP 组件的构建模块，也可用于实现其他协议。</li>
 <li>一个协程库（tornado.gen），它允许使用比 <strong>回调</strong> 更直接了当的方式编写异步代码。这类似于 Python 3.5（async def）中引入的 <strong>原生协程</strong> 功能。建议使用 <strong>原生协程</strong> 代替 tornado.gen 模块。</li>
 </ul>
-
 <p>Tornado Web 应用框架和 HTTP 服务器一起提供了一个针对 WSGI 的全栈替代方案。虽然也可以在 <a href="http://www.python.org/dev/peps/pep-3333/">WSGI</a> 容器（WSGIAdapter）中使用 Tornado Web 框架，或者是使用 Tornado HTTP 服务器作为其他 WSGI 框架（WSGIContainer）的容器，但是这些组合都有其局限性，如果想要充分利用 Tornado 的优势，需要同时使用 Tornado 的 Web 应用框架和 HTTP 服务器。</p>
-
 <p>​</p>
 
     </article>
@@ -187,7 +180,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

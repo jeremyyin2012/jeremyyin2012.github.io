@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 22: 架构 - 缩略图 | Jeremy&#39;s blog</title>
 
@@ -120,18 +120,12 @@
     <article>
         <h1>Saleor 22: 架构 - 缩略图</h1>
         <hr>
-        
-
-<p>Saleor 使用 <a href="https://github.com/respondcreate/django-versatileimagefield">VersatileImageField</a> 替换了 Django 的 ImageField 。出于性能原因，在非调试模式下，缩略图由工作者的任务系统预先生成，在保存实例后触发。访问丢失的图像将导致404错误。</p>
-
+        <p>Saleor 使用 <a href="https://github.com/respondcreate/django-versatileimagefield">VersatileImageField</a> 替换了 Django 的 ImageField 。出于性能原因，在非调试模式下，缩略图由工作者的任务系统预先生成，在保存实例后触发。访问丢失的图像将导致404错误。</p>
 <p>在调试模式下，按需生成缩略图。</p>
-
 <h2 id="手动生成产品缩略图">手动生成产品缩略图</h2>
-
 <p>为所有 ProductImage 实例创建缺失的缩略图。</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py create_thumbnails</pre></div>
-<h2 id="删除图像">删除图像</h2>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py create_thumbnails
+</code></pre></div><h2 id="删除图像">删除图像</h2>
 <p>Image 实例不会自动删除图像格式，主图像也不会自动删除。有关删除图像的更多信息，请参见 <a href="https://django-versatileimagefield.readthedocs.io/en/latest/deleting_created_images.html">VersatileImageField 文档</a></p>
 
     </article>
@@ -182,7 +176,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

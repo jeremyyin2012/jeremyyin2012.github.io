@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Tornado 0108 - 用户指南: 运行与部署 | Jeremy&#39;s blog</title>
 
@@ -120,39 +120,29 @@
     <article>
         <h1>Tornado 0108 - 用户指南: 运行与部署</h1>
         <hr>
-        
-
-<h1 id="运行和部署">运行和部署</h1>
-
+        <h1 id="运行和部署">运行和部署</h1>
 <p>由于 Tornado 提供自己的 HTTPServer，因此运行和部署它与其他 Python Web 框架略有不同。您可以编写一个启动服务器的 main() 函数，而不是配置 WSGI 容器来查找应用程序：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">main</span>():
-    app <span style="color:#555">=</span> make_app()
-    app<span style="color:#555">.</span>listen(<span style="color:#f60">8888</span>)
-    IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()
+   app <span style="color:#555">=</span> make_app()
+   app<span style="color:#555">.</span>listen(<span style="color:#f60">8888</span>)
+   IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()
 
 <span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30">&#39;__main__&#39;</span>:
-    main()</code></pre></div>
-<p>配置操作系统或进程管理器以运行此程序以启动服务器。请注意，可能需要增加每个进程的打开文件数（以避免“打开太多文件”-Error）。要提高此限制（例如将其设置为50000），您可以使用 ulimit 命令，修改 /etc/security/limits.conf 或在 supervisord 配置中设置 minfds。</p>
-
+   main()
+</code></pre></div><p>配置操作系统或进程管理器以运行此程序以启动服务器。请注意，可能需要增加每个进程的打开文件数（以避免“打开太多文件”-Error）。要提高此限制（例如将其设置为50000），您可以使用 ulimit 命令，修改 /etc/security/limits.conf 或在 supervisord 配置中设置 minfds。</p>
 <h2 id="进程和端口">进程和端口</h2>
-
 <p>由于Python GIL（全局解释器锁），有必要运行多个 Python 进程以充分利用多 CPU 机器。通常，每个 CPU 最好运行一个进程。</p>
-
 <p>Tornado 包含一个内置的多进程模式，可以同时启动多个进程。这需要对标准主要功能稍作改动：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">main</span>():
     app <span style="color:#555">=</span> make_app()
     server <span style="color:#555">=</span> tornado<span style="color:#555">.</span>httpserver<span style="color:#555">.</span>HTTPServer(app)
     server<span style="color:#555">.</span>bind(<span style="color:#f60">8888</span>)
     server<span style="color:#555">.</span>start(<span style="color:#f60">0</span>)  <span style="color:#09f;font-style:italic"># forks one process per cpu</span>
-    IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()</code></pre></div>
-<p>这是启动多个进程并使它们共享同一端口的最简单方法，尽管它有一些限制。首先，每个子进程都有自己的 IOLoop，因此在 fork 之前没有任何东西触及全局 IOLoop 实例（甚至间接）是很重要的。 其次，在此模型中很难进行零停机更新。最后，由于所有进程共享同一个端口，因此单独监视它们更加困难。</p>
-
+    IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()
+</code></pre></div><p>这是启动多个进程并使它们共享同一端口的最简单方法，尽管它有一些限制。首先，每个子进程都有自己的 IOLoop，因此在 fork 之前没有任何东西触及全局 IOLoop 实例（甚至间接）是很重要的。 其次，在此模型中很难进行零停机更新。最后，由于所有进程共享同一个端口，因此单独监视它们更加困难。</p>
 <p>对于更复杂的部署，建议单独启动进程，并让每个进程侦听不同的端口。supervisord 的 “process groups” 功能是安排此功能的一种好方法。当每个进程使用不同的端口时，通常需要外部负载均衡器（如 HAProxy 或 nginx）向外部访问者提供单个地址。</p>
-
 <h2 id="在负载均衡器后面运行">在负载均衡器后面运行</h2>
-
 <p>在像 nginx 这样的负载均衡器后面运行时，建议将 xheaders = True 传递给 HTTPServer 构造函数。这将告诉 Tornado 使用像 X-Real-IP 这样的标头来获取用户的 IP 地址，而不是将所有流量归因于平衡器的 IP 地址。</p>
-
 <p>这是一个准系统 nginx 配置文件，其结构类似于我们在 FriendFeed 上使用的配置文件。它假定 nginx 和 Tornado 服务器在同一台机器上运行，并且四个 Tornado 服务器在端口 8000 - 8003 上运行：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#069;font-weight:bold">user</span> <span style="color:#c30">nginx</span>;
 <span style="color:#069;font-weight:bold">worker_processes</span> <span style="color:#f60">1</span>;
@@ -224,28 +214,24 @@
             <span style="color:#069;font-weight:bold">proxy_pass</span> <span style="color:#c30">http://frontends</span>;
         }
     }
-}</code></pre></div>
-<h2 id="静态文件和积极的文件缓存">静态文件和积极的文件缓存</h2>
-
+}
+</code></pre></div><h2 id="静态文件和积极的文件缓存">静态文件和积极的文件缓存</h2>
 <p>您可以通过在应用程序中指定 static_path 设置来提供 Tornado 中的静态文件：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">settings <span style="color:#555">=</span> {
     <span style="color:#c30">&#34;static_path&#34;</span>: os<span style="color:#555">.</span>path<span style="color:#555">.</span>join(os<span style="color:#555">.</span>path<span style="color:#555">.</span>dirname(__file__), <span style="color:#c30">&#34;static&#34;</span>),
     <span style="color:#c30">&#34;cookie_secret&#34;</span>: <span style="color:#c30">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span>,
     <span style="color:#c30">&#34;login_url&#34;</span>: <span style="color:#c30">&#34;/login&#34;</span>,
-    <span style="color:#c30">&#34;xsrf_cookies&#34;</span>: True,
+    <span style="color:#c30">&#34;xsrf_cookies&#34;</span>: <span style="color:#069;font-weight:bold">True</span>,
 }
 application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/login&#34;</span>, LoginHandler),
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/(apple-touch-icon\.png)&#34;</span>, tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>StaticFileHandler,
      <span style="color:#366">dict</span>(path<span style="color:#555">=</span>settings[<span style="color:#c30">&#39;static_path&#39;</span>])),
-], <span style="color:#555">**</span>settings)</code></pre></div>
-<p>此设置将自动使来自该静态目录的所有以 /static/serve 开头的请求（例如，http:// localhost:8888/static/foo.png）从指定的静态目录提供文件 foo.png。我们还自动从静态目录中提供 /robots.txt 和 /favicon.ico（即使它们不以 /static/ 前缀开头）。</p>
-
-<p>在上面的设置中，我们已经明确地将 Tornado 配置为使用 StaticFileHandler 从 root 用户提供 apple-touch-icon.png，尽管它实际上位于静态文件目录中。（正则表达式中的捕获组必须告诉 StaticFileHandler 所请求的文件名；回想一下，捕获组作为方法参数传递给处理程序。）您可以执行相同的操作，例如来自站点根目录的 sitemap.xml。当然，您也可以通过在 HTML 中使用相应的 <link /> 标记来避免伪造 root apple-touch-icon.png</p>
-
+], <span style="color:#555">**</span>settings)
+</code></pre></div><p>此设置将自动使来自该静态目录的所有以 /static/serve 开头的请求（例如，http:// localhost:8888/static/foo.png）从指定的静态目录提供文件 foo.png。我们还自动从静态目录中提供 /robots.txt 和 /favicon.ico（即使它们不以 /static/ 前缀开头）。</p>
+<p>在上面的设置中，我们已经明确地将 Tornado 配置为使用 StaticFileHandler 从 root 用户提供 apple-touch-icon.png，尽管它实际上位于静态文件目录中。（正则表达式中的捕获组必须告诉 StaticFileHandler 所请求的文件名；回想一下，捕获组作为方法参数传递给处理程序。）您可以执行相同的操作，例如来自站点根目录的 sitemap.xml。当然，您也可以通过在 HTML 中使用相应的 <!-- raw HTML omitted --> 标记来避免伪造 root apple-touch-icon.png</p>
 <p>为了提高性能，浏览器通常会积极地缓存静态资源，因此浏览器不会发送可能阻止页面呈现的不必要的 If-Modified-Since 或 Etag 请求。Tornado 支持这种开箱即用的静态内容版本控制。</p>
-
 <p>要使用此功能，请在模板中使用 static_url 方法，而不是直接在 HTML 中键入静态文件的URL：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#309;font-weight:bold">html</span>&gt;
    &lt;<span style="color:#309;font-weight:bold">head</span>&gt;
@@ -254,44 +240,38 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
    &lt;<span style="color:#309;font-weight:bold">body</span>&gt;
      &lt;<span style="color:#309;font-weight:bold">div</span>&gt;&lt;<span style="color:#309;font-weight:bold">img</span> <span style="color:#309">src</span><span style="color:#555">=</span><span style="color:#c30">&#34;{{ static_url(&#34;</span><span style="color:#309">images</span><span style="color:#a00;background-color:#faa">/</span><span style="color:#309">logo</span><span style="color:#a00;background-color:#faa">.</span><span style="color:#309">png</span><span style="color:#a00;background-color:#faa">&#34;)</span> <span style="color:#a00;background-color:#faa">}}&#34;</span>/&gt;&lt;/<span style="color:#309;font-weight:bold">div</span>&gt;
    &lt;/<span style="color:#309;font-weight:bold">body</span>&gt;
- &lt;/<span style="color:#309;font-weight:bold">html</span>&gt;</code></pre></div>
-<p>static_url() 函数将该相对路径转换为看起来像 /static/images/logo.png?v=aae54 的URI。 v 参数是 logo.png 中内容的哈希值，它的存在使得 Tornado 服务器向用户的浏览器发送缓存头，这将使浏览器无限期地缓存内容。</p>
-
+ &lt;/<span style="color:#309;font-weight:bold">html</span>&gt;
+</code></pre></div><p>static_url() 函数将该相对路径转换为看起来像 /static/images/logo.png?v=aae54 的URI。 v 参数是 logo.png 中内容的哈希值，它的存在使得 Tornado 服务器向用户的浏览器发送缓存头，这将使浏览器无限期地缓存内容。</p>
 <p>由于 v 参数基于文件的内容，如果更新文件并重新启动服务器，它将开始发送新的 v 值，因此用户的浏览器将自动获取新文件。如果文件的内容没有改变，浏览器将继续使用本地缓存的副本，而无需检查服务器上的更新，从而显着提高了渲染性能。</p>
-
 <p>在生产中，您可能希望从更优化的静态文件服务器（如 nginx）提供静态文件。您几乎可以配置任何 Web 服务器以识别 static_url() 使用的版本标记，并相应地设置缓存标头。以下是我们在 FriendFeed 中使用的 nginx 配置的相关部分：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#069;font-weight:bold">location</span> <span style="color:#c30">/static/</span> {
     <span style="color:#069;font-weight:bold">root</span> <span style="color:#c30">/var/friendfeed/static</span>;
     <span style="color:#069;font-weight:bold">if</span> <span style="color:#c30">(</span><span style="color:#033">$query_string</span><span style="color:#c30">)</span> {
         <span style="color:#069;font-weight:bold">expires</span> <span style="color:#c30">max</span>;
     }
- }</code></pre></div>
-<h2 id="调试模式和自动重新加载">调试模式和自动重新加载</h2>
-
+ }
+</code></pre></div><h2 id="调试模式和自动重新加载">调试模式和自动重新加载</h2>
 <p>如果将 debug = True 传递给 Application 构造函数，则应用程序将以调试/开发模式运行。在此模式下，将启用在开发时为方便起见的几个功能（每个功能也可作为单独的标志使用；如果两者都指定，则单个标志优先）：</p>
-
 <ul>
-<li><p>autoreload = True：应用程序将监视其源文件的更改，并在发生任何更改时重新加载。 这减少了在开发期间手动重启服务器的需要。但是，某些故障（例如导入时的语法错误）仍然可能以调试模式当前无法恢复的方式关闭服务器。</p></li>
-
-<li><p>compiled_template_cache = False：不会缓存模板。</p></li>
-
-<li><p>static_hash_cache = False：静态文件哈希值（由 static_url 函数使用）不会被缓存</p></li>
-
-<li><p>serve_traceback = True：当未捕获 RequestHandler 中的异常时，将生成包含堆栈跟踪的错误页面。</p></li>
+<li>
+<p>autoreload = True：应用程序将监视其源文件的更改，并在发生任何更改时重新加载。 这减少了在开发期间手动重启服务器的需要。但是，某些故障（例如导入时的语法错误）仍然可能以调试模式当前无法恢复的方式关闭服务器。</p>
+</li>
+<li>
+<p>compiled_template_cache = False：不会缓存模板。</p>
+</li>
+<li>
+<p>static_hash_cache = False：静态文件哈希值（由 static_url 函数使用）不会被缓存</p>
+</li>
+<li>
+<p>serve_traceback = True：当未捕获 RequestHandler 中的异常时，将生成包含堆栈跟踪的错误页面。</p>
+</li>
 </ul>
-
 <p>自动重载模式与 HTTPServer 的多进程模式不兼容。如果使用自动加载模式，则不得向 HTTPServer.start 提供除 1 以外的参数（或调用 tornado.process.fork_processes）。</p>
-
 <p>调试模式的自动重新加载功能可作为 tornado.autoreload 中的独立模块使用。这两者可以结合使用以提供针对语法错误的额外稳健性：在应用程序中设置 autoreload = True 以检测运行时的更改，并使用 python -m tornado.autoreload myserver.py 启动它以捕获任何语法错误或其他启动时的错误。</p>
-
 <p>重新加载会丢失任何 Python 解释器命令行参数（例如 -u），因为它使用 sys.executable 和 sys.argv 重新执行 Python。此外，修改这些变量将导致重新加载行为不正确。</p>
-
 <p>在某些平台上（包括 10.6 之前的 Windows 和 Mac OSX），该过程无法“就地”更新，因此当检测到代码更改时，旧服务器退出并启动新服务器。众所周知，这会混淆一些 IDE。</p>
-
 <h2 id="wsgi-和-google-app-engine">WSGI 和 Google App Engine</h2>
-
 <p>Tornado 通常打算独立运行，没有 WSGI 容器。但是，在某些环境（例如 Google App Engine）中，只允许 WSGI，并且应用程序无法运行自己的服务器。在这种情况下，Tornado 支持有限的操作模式，该模式不支持异步操作，但允许在仅 WSGI 环境中使用 Tornado 功能的子集。WSGI 模式中不允许的功能包括协程，@asynchronous 装饰器，AsyncHTTPClient，auth 模块和 WebSockets。</p>
-
 <p>您可以使用 tornado.wsgi.WSGIAdapter 将 Tornado 应用程序转换为 WSGI 应用程序。在此示例中，配置 WSGI 容器以查找应用程序对象：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">tornado.web</span>
 <span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">tornado.wsgi</span>
@@ -303,8 +283,9 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
 tornado_app <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
     (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
 ])
-application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>wsgi<span style="color:#555">.</span>WSGIAdapter(tornado_app)</code></pre></div>
-<p>请参阅 <a href="https://github.com/tornadoweb/tornado/tree/stable/demos/appengine">appengine</a> 示例应用程序，了解基于 Tornado 构建的全功能 AppEngine 应用程序。</p>
+application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>wsgi<span style="color:#555">.</span>WSGIAdapter(tornado_app)
+
+</code></pre></div><p>请参阅 <a href="https://github.com/tornadoweb/tornado/tree/stable/demos/appengine">appengine</a> 示例应用程序，了解基于 Tornado 构建的全功能 AppEngine 应用程序。</p>
 
     </article>
 
@@ -354,7 +335,7 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

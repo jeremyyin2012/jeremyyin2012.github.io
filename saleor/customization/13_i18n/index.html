@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 13: 开发定制 - 国际化 | Jeremy&#39;s blog</title>
 
@@ -120,30 +120,23 @@
     <article>
         <h1>Saleor 13: 开发定制 - 国际化</h1>
         <hr>
-        
-
-<h2 id="从-transifex-获取翻译文件">从 Transifex 获取翻译文件</h2>
-
+        <h2 id="从-transifex-获取翻译文件">从 Transifex 获取翻译文件</h2>
 <p>首先要确保你已经安装了 Transifex 命令行客户端:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ pip install transifex-client</pre></div>
-<p>然后使用 <code>pull</code> 命令获取翻译文件:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ tx pull</pre></div>
-<p>Note</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ pip install transifex-client
+</code></pre></div><p>然后使用 <code>pull</code> 命令获取翻译文件:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ tx pull
+</code></pre></div><p>Note</p>
 <p>要为新创建的翻译建立目录你需要在使用 <code>tx pull</code> 命令的时候带上 <code>--all</code> 标志。</p>
-
 <h2 id="编译消息目录">编译消息目录</h2>
-
 <p>要想看到 Django 的翻译，这一步是必须要的.</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py compilemessages</pre></div>
-<h2 id="提取消息进行翻译">提取消息进行翻译</h2>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py compilemessages
+</code></pre></div><h2 id="提取消息进行翻译">提取消息进行翻译</h2>
 <p>这将使用代码中显示的消息更新英文文件。</p>
-
 <p>对于后端代码和模板：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py makemessages -l en --extension=email,html,py,txt --ignore=&#34;templates/templated_email/compiled/*&#34;</pre></div>
-<p>对于 JavaScript 代码：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py makemessages -l en -d djangojs --ignore=&#34;_build/*&#34; --ignore=&#34;node_modules/*&#34; </pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py makemessages -l en --extension=email,html,py,txt --ignore=&#34;templates/templated_email/compiled/*&#34;
+</code></pre></div><p>对于 JavaScript 代码：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py makemessages -l en -d djangojs --ignore=&#34;_build/*&#34; --ignore=&#34;node_modules/*&#34; 
+</code></pre></div>
     </article>
 
 
@@ -192,7 +185,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

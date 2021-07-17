@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 33: 集成 - Elasticsearch 搜索 | Jeremy&#39;s blog</title>
 
@@ -120,47 +120,32 @@
     <article>
         <h1>Saleor 33: 集成 - Elasticsearch 搜索</h1>
         <hr>
-        
-
-<h2 id="安装">安装</h2>
-
+        <h2 id="安装">安装</h2>
 <p>Elasticsearch 搜索后端需要 Elasticsearch 服务器。为了开发目的，docker-compose 将创建一个运行Elasticsearch 服务器实例的 Docker 容器。</p>
-
 <p>可以使用一组环境变量来配置集成。当您在 Heroku 上部署时，您可以使用提供 Elasticsearch 作为服务的附加组件。默认情况下，Saleor 使用Elasticsearch 5.4.3。</p>
-
 <p>如果您正在其他地方部署，则可以使用以下服务之一：</p>
-
 <blockquote>
 <ul>
 <li><a href="http://www.searchly.com/">http://www.searchly.com/</a></li>
 <li><a href="https://www.elastic.co/cloud">https://www.elastic.co/cloud</a></li>
 </ul>
 </blockquote>
-
 <h2 id="环境变量">环境变量</h2>
-
 <ul>
-<li><code>ELASTICSEARCH_URL</code>或 <code>BONSAI_URL</code> 或 <code>SEARCHBOX_URL</code></li>
-</ul>
-
+<li>
+<p><code>ELASTICSEARCH_URL</code>或 <code>BONSAI_URL</code> 或 <code>SEARCHBOX_URL</code></p>
 <p>elasticsearch 引擎的网址。如果它是空的 - 搜索将不可用。<strong>例：</strong> <code>https://user:password@my-3rdparty-es.com:9200</code></p>
-
+</li>
+</ul>
 <h2 id="数据索引">数据索引</h2>
-
 <p>Saleor 使用<a href="https://github.com/sabricot/django-elasticsearch-dsl">的Django Elasticsearch DSL</a> 作为用于包装 <a href="https://github.com/elastic/elasticsearch-dsl-py">Elasticsearch DSL</a> 启用自动索引和同步。索引在<a href="https://github.com/saleor/saleor/search/documents.py">文档</a>文件中定义。请参考上述项目的文件以获得进一步的帮助。</p>
-
 <p>初始搜索索引可以使用以下命令创建：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py search_index --rebuild</pre></div>
-<p>默认情况下，每次更改索引对象（产品，用户，订单）都会重新编制索引。</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py search_index --rebuild
+</code></pre></div><p>默认情况下，每次更改索引对象（产品，用户，订单）都会重新编制索引。</p>
 <h2 id="搜索集成架构">搜索集成架构</h2>
-
 <p>搜索后端使用 <a href="https://github.com/elastic/elasticsearch-dsl-py">Elasticsearch DSL</a> 在saleor / search / backends中查询定义。</p>
-
 <p>为 elasticsearch 集成，<a href="https://github.com/mirumee/saleor/blob/master/saleor/search/backends/elasticsearch_storefront.py">店面</a>和<a href="https://github.com/mirumee/saleor/blob/master/saleor/search/backends/elasticsearch_dashboard.py">管理后台</a>定义了两个后端。店面搜索仅使用店面索引进行产品搜索，管理后台后端也在用户和订单索引中执行其他搜索。</p>
-
 <h2 id="测试">测试</h2>
-
 <p>搜索功能有两个级别的测试。Elasticsearch 查询的语法由后端的单元测试来保证，<a href="https://github.com/saleor/saleor/tests/test_search.py">集成</a>测试使用 <a href="https://github.com/kevin1024/vcrpy">VCR.py</a> 来模拟外部通信。如果搜索逻辑被修改，请确保记录新的通信并相应地调整测试流程！Pytest将在 CI 的永久记录模式下运行 VCR 以确保没有尝试进行通信，因此请确保最新的卡带始终包含在您的存储库中。</p>
 
     </article>
@@ -211,7 +196,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

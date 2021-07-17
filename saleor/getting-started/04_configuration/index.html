@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 04: 入门 - 设置 | Jeremy&#39;s blog</title>
 
@@ -120,73 +120,61 @@
     <article>
         <h1>Saleor 04: 入门 - 设置</h1>
         <hr>
-        
-
-<p>我们是 <a href="https://12factor.net/">12factor</a> 方法和可移植代码的粉丝， 所以你仅仅使用环境变量就可以设置 Saleor 的大多数配置项。</p>
-
+        <p>我们是 <a href="https://12factor.net/">12factor</a> 方法和可移植代码的粉丝， 所以你仅仅使用环境变量就可以设置 Saleor 的大多数配置项。</p>
 <h2 id="环境变量">环境变量</h2>
-
 <ul>
-<li><p><code>ALLOWED_HOSTS</code><br />
-控制 <a href="https://docs.djangoproject.com/en/1.10/ref/settings/#allowed-hosts">Django&rsquo;s allowed hosts</a> 设置，默认是 <code>localhost</code>。使用英文逗号分隔多个值。</p></li>
-
-<li><p><code>CACHE_URL</code> or <code>REDIS_URL</code><br />
-缓存数据库地址，默认是系统内存。我们推荐使用 Redis，Heroku 的 Redis 会自动导出这个配置。</p></li>
-</ul>
-
+<li>
+<p><code>ALLOWED_HOSTS</code><br>
+控制 <a href="https://docs.djangoproject.com/en/1.10/ref/settings/#allowed-hosts">Django&rsquo;s allowed hosts</a> 设置，默认是 <code>localhost</code>。使用英文逗号分隔多个值。</p>
+</li>
+<li>
+<p><code>CACHE_URL</code> or <code>REDIS_URL</code><br>
+缓存数据库地址，默认是系统内存。我们推荐使用 Redis，Heroku 的 Redis 会自动导出这个配置。</p>
 <p><strong>Example:</strong> <code>redis://redis.example.com:6379/0</code></p>
-
-<p><div class="warning"></p>
-
-<p><div class="admonition-title"></p>
-
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 <p>Warning</p>
-
-<p></div></p>
-
+<!-- raw HTML omitted -->
 <p>如果你计划使用不止一个 WSGI 进程（或运行多个服务器/容器），则需要使用共享缓存服务器。否则，每个进程将拥有自己的每个用户会话的版本，这将导致用户被注销并丢失购物车。</p>
-
-<p></div></p>
-
-<ul>
-<li><code>DATABASE_URL</code><br />
-默认是本地 PostgreSQL 实例。查看 <a href="https://saleor.readthedocs.io/en/latest/customization/docker.html#docker-dev">Using Docker for Development</a> 了解如何在 Docker container 里面运行本地数据库。</li>
-</ul>
-
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p><code>DATABASE_URL</code><br>
+默认是本地 PostgreSQL 实例。查看 <a href="https://saleor.readthedocs.io/en/latest/customization/docker.html#docker-dev">Using Docker for Development</a> 了解如何在 Docker container 里面运行本地数据库。</p>
 <p>大多数 Heroku 的数据库都会自动导出这个设置。</p>
-
 <p><strong>Example:</strong> <code>postgres://user:password@psql.example.com/database</code></p>
-
-<ul>
-<li><p><code>DEBUG</code><br />
+</li>
+<li>
+<p><code>DEBUG</code><br>
 控制 <a href="https://docs.djangoproject.com/en/1.10/ref/settings/#debug">Django&rsquo;s debug mode</a>
-默认是 <code>True</code></p></li>
-
-<li><p><code>DEFAULT_FROM_EMAIL</code><br />
-电子邮件的默认发件人</p></li>
-
-<li><p><code>EMAIL_URL</code><br />
-电子邮件网关地址。默认是打印输出所有信息到终端。</p></li>
-</ul>
-
+默认是 <code>True</code></p>
+</li>
+<li>
+<p><code>DEFAULT_FROM_EMAIL</code><br>
+电子邮件的默认发件人</p>
+</li>
+<li>
+<p><code>EMAIL_URL</code><br>
+电子邮件网关地址。默认是打印输出所有信息到终端。</p>
 <p><strong>Example:</strong> <code>smtp://user:password@smtp.example.com:465/?ssl=True</code></p>
-
-<ul>
-<li><code>INTERNAL_IPS</code><br />
-控制 <a href="https://docs.djangoproject.com/en/1.10/ref/settings/#internal-ips">Django&rsquo;s internal IPs</a> 设置。默认是 <code>127.0.0.1</code></li>
-</ul>
-
+</li>
+<li>
+<p><code>INTERNAL_IPS</code><br>
+控制 <a href="https://docs.djangoproject.com/en/1.10/ref/settings/#internal-ips">Django&rsquo;s internal IPs</a> 设置。默认是 <code>127.0.0.1</code></p>
 <p>多个值用英文逗号分隔。</p>
-
-<ul>
-<li><p><code>SECRET_KEY</code><br />
-控制 <a href="https://docs.djangoproject.com/en/1.10/ref/settings/#secret-key">Django&rsquo;s secret key</a> 设置。</p></li>
-
-<li><p><code>MAX_CART_LINE_QUANTITY</code><br />
-控制可加入购物车单个产品的最大数量（这里我暂时也不太确定是指“单个购物车可添加产品的总数量/行数，还是指”单个产品的最大可购买数量“，原文：Controls maximum number of items in one cart line.）默认值是 <code>50</code></p></li>
-
-<li><p><code>STATIC_URL</code><br />
-控制资源文件的加载路径。默认是 <code>/static/assets/</code></p></li>
+</li>
+<li>
+<p><code>SECRET_KEY</code><br>
+控制 <a href="https://docs.djangoproject.com/en/1.10/ref/settings/#secret-key">Django&rsquo;s secret key</a> 设置。</p>
+</li>
+<li>
+<p><code>MAX_CART_LINE_QUANTITY</code><br>
+控制可加入购物车单个产品的最大数量（这里我暂时也不太确定是指“单个购物车可添加产品的总数量/行数，还是指”单个产品的最大可购买数量“，原文：Controls maximum number of items in one cart line.）默认值是 <code>50</code></p>
+</li>
+<li>
+<p><code>STATIC_URL</code><br>
+控制资源文件的加载路径。默认是 <code>/static/assets/</code></p>
+</li>
 </ul>
 
     </article>
@@ -237,7 +225,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

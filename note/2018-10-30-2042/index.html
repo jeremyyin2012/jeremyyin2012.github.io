@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>使用 Pandas 实现动态查询及处理数据并导出 Excel 文件 | Jeremy&#39;s blog</title>
 
@@ -121,27 +121,21 @@
         <h1>使用 Pandas 实现动态查询及处理数据并导出 Excel 文件</h1>
         <hr>
         <p>需求是这么来的：根据参数执行查询，然后生成 Excel 表供下载，简单说就是查询并导出。</p>
-
 <p>一种思路是根据参数动态生成 select 查询对象，然后执行拿到结果，大概是这样：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#555">...</span>
 sql_select <span style="color:#555">=</span> select(columns)<span style="color:#555">.</span>select_from(join_obj)<span style="color:#555">.</span>where(whereclause)<span style="color:#555">.</span>offset(offset)<span style="color:#555">.</span>limit(limit)<span style="color:#555">.</span>order_by(order_by)
 
 result <span style="color:#555">=</span> session<span style="color:#555">.</span>execute(sql_select)
 count <span style="color:#555">=</span> result<span style="color:#555">.</span>rowcount
-rows <span style="color:#555">=</span> [<span style="color:#366">dict</span>(row) <span style="color:#069;font-weight:bold">for</span> row <span style="color:#000;font-weight:bold">in</span> result<span style="color:#555">.</span>fetchall()]</code></pre></div>
-<p>然后拿到 rows 就可以去该做什么处理就做什么处理了，如果要生存 Excel 表，就可以使用 XlsxWriter 这个工具去写表文件，反正就是对 rows 开个 for 循环就是了。</p>
-
+rows <span style="color:#555">=</span> [<span style="color:#366">dict</span>(row) <span style="color:#069;font-weight:bold">for</span> row <span style="color:#000;font-weight:bold">in</span> result<span style="color:#555">.</span>fetchall()]
+</code></pre></div><p>然后拿到 rows 就可以去该做什么处理就做什么处理了，如果要生存 Excel 表，就可以使用 XlsxWriter 这个工具去写表文件，反正就是对 rows 开个 for 循环就是了。</p>
 <p>不过呢，还有没有更好的办法？</p>
-
 <p>假设如果我要对 rows 的数据要做些高级处理，而不是开个 for 循环。毕竟如果是处理数据的话，Pandas 这个工具在思维方式和代码组织上比 for 循环要更利于思考和维护，而同时我们也知道 Pandas 也能直接输出 Excel 文件，那么是否可以用上它？</p>
-
 <p>按常规，查询得到 rows，然后再生成一个 df，对 df 进行一些处理后再去输出 Excel，甚至同时还要把修改后的数据输出为新的 rows，那么这里：查询得到结果、把结果生成 df 这两个步骤涉及到两步数据转化，理论上来说肯定是有一些消耗的，如果是在 API 服务上使用，则需要考虑性能问题，能少一步就少一步。</p>
-
 <p>那么，是否可以一步到位呢？直接查询结果就得到 df，而不是自行再多做一步中转处理。</p>
-
 <p>Pandas 是可以直接 read_sql 的，具体说明如下：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">read_sql</span>(sql, con, index_col<span style="color:#555">=</span>None, coerce_float<span style="color:#555">=</span>True, params<span style="color:#555">=</span>None,
-             parse_dates<span style="color:#555">=</span>None, columns<span style="color:#555">=</span>None, chunksize<span style="color:#555">=</span>None):
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">read_sql</span>(sql, con, index_col<span style="color:#555">=</span><span style="color:#069;font-weight:bold">None</span>, coerce_float<span style="color:#555">=</span><span style="color:#069;font-weight:bold">True</span>, params<span style="color:#555">=</span><span style="color:#069;font-weight:bold">None</span>,
+             parse_dates<span style="color:#555">=</span><span style="color:#069;font-weight:bold">None</span>, columns<span style="color:#555">=</span><span style="color:#069;font-weight:bold">None</span>, chunksize<span style="color:#555">=</span><span style="color:#069;font-weight:bold">None</span>):
     <span style="color:#c30">&#34;&#34;&#34;
 </span><span style="color:#c30">    Read SQL query or database table into a DataFrame.
 </span><span style="color:#c30">
@@ -149,31 +143,27 @@ rows <span style="color:#555">=</span> [<span style="color:#366">dict</span>(row
 </span><span style="color:#c30">    ----------
 </span><span style="color:#c30">    sql : string SQL query or SQLAlchemy Selectable (select or text object) to be executed, or database table name.
 </span><span style="color:#c30">    con : SQLAlchemy connectable(engine/connection) or database string URI or DBAPI2 connection (fallback mode) Using SQLAlchemy makes it possible to use any DB supported by that library.
-</span><span style="color:#c30">    If a DBAPI2 object, only sqlite3 is supported.</span></code></pre></div>
-<p>所以 Pandas 可以接受 raw sql 也可以接受 SQLAlchemy Selectable 对象。</p>
-
+</span><span style="color:#c30">    If a DBAPI2 object, only sqlite3 is supported.
+</span></code></pre></div><p>所以 Pandas 可以接受 raw sql 也可以接受 SQLAlchemy Selectable 对象。</p>
 <p>这就好说了，如果把做好的的 sql_select 不是传给 session.execute 而是传给 pd.read_sql，这事不就实现了。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">pandas</span> <span style="color:#069;font-weight:bold">as</span> <span style="color:#0cf;font-weight:bold">pd</span>
 
 df <span style="color:#555">=</span> pd<span style="color:#555">.</span>read_sql(sql_select, con<span style="color:#555">=</span>self<span style="color:#555">.</span>get_engine())
-logger<span style="color:#555">.</span>debug(df)</code></pre></div>
-<p>当然，pd 的 con 参数接受的不是一个 session 实例，而是一个 engine，也就是创建 session 一步的那个 engine 参数。</p>
-
+logger<span style="color:#555">.</span>debug(df)
+</code></pre></div><p>当然，pd 的 con 参数接受的不是一个 session 实例，而是一个 engine，也就是创建 session 一步的那个 engine 参数。</p>
 <p>同时，如果需要调试查看 sql 语句和参数，可以多做点工作：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">sqlalchemy.dialects</span> <span style="color:#069;font-weight:bold">import</span> mysql
 <span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">pandas</span> <span style="color:#069;font-weight:bold">as</span> <span style="color:#0cf;font-weight:bold">pd</span>
 
-sql_raw <span style="color:#555">=</span> sql_select<span style="color:#555">.</span><span style="color:#366">compile</span>(dialect<span style="color:#555">=</span>mysql<span style="color:#555">.</span>dialect())
-params <span style="color:#555">=</span> sql_select<span style="color:#555">.</span><span style="color:#366">compile</span>(dialect<span style="color:#555">=</span>mysql<span style="color:#555">.</span>dialect())<span style="color:#555">.</span>params
+sql_raw <span style="color:#555">=</span> sql_select<span style="color:#555">.</span>compile(dialect<span style="color:#555">=</span>mysql<span style="color:#555">.</span>dialect())
+params <span style="color:#555">=</span> sql_select<span style="color:#555">.</span>compile(dialect<span style="color:#555">=</span>mysql<span style="color:#555">.</span>dialect())<span style="color:#555">.</span>params
 logger<span style="color:#555">.</span>debug(sql_raw)
 logger<span style="color:#555">.</span>debug(params)
 
 df <span style="color:#555">=</span> pd<span style="color:#555">.</span>read_sql(sql_select, con<span style="color:#555">=</span>self<span style="color:#555">.</span>get_engine())
-logger<span style="color:#555">.</span>debug(df)</code></pre></div>
-<p>当然其实也可以把 sql_raw 和 params 分开传给 pd.read_sql，但貌似也没这个必要性了。</p>
-
-<p>而后就可以对 df 做处理，以及最终可以调用 df.to_excel(&lsquo;./output/test.xlsx&rsquo;, index=False) 生成 Excel 表格文件，这里加了个 index=False 是为了不让默认的行数索引写入表格。</p>
-
+logger<span style="color:#555">.</span>debug(df)
+</code></pre></div><p>当然其实也可以把 sql_raw 和 params 分开传给 pd.read_sql，但貌似也没这个必要性了。</p>
+<p>而后就可以对 df 做处理，以及最终可以调用 df.to_excel('./output/test.xlsx', index=False) 生成 Excel 表格文件，这里加了个 index=False 是为了不让默认的行数索引写入表格。</p>
 <p>当然也可以继续调用 df.to_dict(orient=&lsquo;records&rsquo;) 生成 rows 来用，或是直接 df.to_json(orient=&lsquo;records&rsquo;) 生成 json 输出了。</p>
 
     </article>
@@ -224,7 +214,7 @@ logger<span style="color:#555">.</span>debug(df)</code></pre></div>
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

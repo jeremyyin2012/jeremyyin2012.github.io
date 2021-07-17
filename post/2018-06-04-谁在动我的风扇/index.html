@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>谁在动我的风扇 | Jeremy&#39;s blog</title>
 
@@ -121,15 +121,10 @@
         <h1>谁在动我的风扇</h1>
         <hr>
         <p>我上次测试如何正常在微信文章中正常显示代码块，时间是 5 月 5 号。</p>
-
 <p>很快是不是，苹果开发者大会也就快要开始了，为啥关注这个呢，因为，希望有新的手机和笔记本，虽然现在不买，还是希望它多更新，一个产品，多出几代，就成熟了。毕竟呢，如果是想要吃第一口热豆腐，是要付出代价的，还是规规矩矩做个稍微不那么发烧友的用户吧。</p>
-
 <p>你问我，干嘛要一直想着这些好东西，随便一般般的凑合用着不也行么？</p>
-
 <p>NO！是不是得凑合，要看情况。比如，吃饭的家伙就不能凑合。</p>
-
 <p>不知不觉，我在本机启动了至少 30 个服务，同事有时问我，你都到底开了些啥，我说，比如：</p>
-
 <ul>
 <li>数据库要有吧，MySQL 肯定少不了，MongoDB 也要吧，Redis 你能缺么，与工作密切相关的配套基础设施，本地自然要跑一份起来。</li>
 <li>Web 服务器，API 的服务，对吧。</li>
@@ -137,57 +132,37 @@
 <li>还有数据处理各种配套的周边服务，比如数据对接、任务系统等等，无论简单与复杂，都至少要本地测试通过了才能上吧。</li>
 <li>然后自己拿来玩的起码十来个吧，拿来学习的十来个吧，等等各种</li>
 </ul>
-
 <p>随便几十个项目搭起来，完全不用凑数。</p>
-
 <p>干嘛要全部跑起来？需要的时候再临时启动不行么？</p>
-
 <p>不行！你知道销售漏斗原理么，不知道啊，那听说过网页页面每多一次操作就流失 30% 用户么？对于日常开发，以及学习，也是同理，需要持续做的事情就是：不断减少操作步骤，降低任务启动门槛。</p>
-
 <p>只有手指跟得上脑袋，才能有效完成任务。</p>
-
 <p>可这样呢，好是好，但问题来了，这电脑它吃得消么？你风扇咋还响呢……</p>
-
 <p>这个问题还确实是个困扰。</p>
-
 <p>跑的任务多了，自然就会给 CPU 和各个组件带来很大的压力，我也无法忍受风扇狂转起来的声音。</p>
-
 <p>我曾以为跑在 Docker 里面的这几十个服务会导致很大压力，从而造成风扇狂转，但是事实是，它们一点都不。除去个别的几个服务已经确定是极其耗资源的类型，同时又不是必须，所以不会日常都开之外，其它的，比想象中的资源消耗低得多，有的可以几乎忽略不计。</p>
-
 <p>我开始开始注意到底是谁在触发风扇，或者说风扇转起来只是表现，消耗 CPU 和磁盘与内存等才是原因。</p>
-
 <p>系统有个工具叫“活动监视器”，能耗选项卡直接列出能耗指数，排序下就知道是谁在捣鬼。</p>
-
 <ul>
 <li>微信电脑版，当消息记录很多存储空间很大时，会直接导致能耗飙高。我发现它很意外，我一直没太仔细看明白能耗数据的正常值应该是多少，但是当我尝试清理完存储空间时，才知道它应该是 0-5 之间才正常。至于它为什么会如此耗能，应该是跟它软件设计基础逻辑有关吧，啥都要本地存。</li>
 <li>惠惠购物助手，这是升级 Chrome 遇到的，升级到 67 版本后，Chrome 就一直狂飙到 100 多，无意间尝试干掉某个进程，却发现提示这个助手被干掉了，原来，竟然是这个插件影响了。删掉删掉。</li>
 <li>微信后台编辑器页面，这个有点诡异，如果新开一个页面，会飙，但是干掉进程之后再刷新，就没事儿，有点诡异。浏览器的细节原理就不懂了，希望它们的开发去干活吧。</li>
 </ul>
-
 <p>我原以为的 Docker 是主因，由于我开的服务较多的缘故，它确实处于能耗首位，所以如果出门在外，关掉它可以保命续航，但是它始终不会飙到能耗 100+ 这么可怕，平常还是很安静的。</p>
-
 <p>同样被我以为是主因之一的 Parallels 也最终确认并不是，只要虚拟机里面没有跑耗能的任务，它，也就没啥事。</p>
-
 <p>嗯，虚拟机里面开几个 Excel 进行操作时，确实会飙。</p>
-
 <p>Adobe PS，曾经好像会，后来发现也不会了，可能更新后兼容更好了。</p>
-
 <p>照片.app 有时候开着如果有新照片同步就会。</p>
-
 <p>大概就这些。</p>
-
 <p>如果是台式机就从不会去在意这个对吧。</p>
-
 <p>如果是 Windows 或许也不会，反正都一直响着。</p>
-
 <p>呃……</p>
-
 <p>勉强放点代码块，看看效果：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">items <span style="color:#555">=</span> [<span style="color:#f60">6</span>, <span style="color:#f60">1</span>, <span style="color:#f60">4</span>, <span style="color:#f60">5</span>, <span style="color:#f60">4</span>, <span style="color:#f60">3</span>, <span style="color:#f60">8</span>, <span style="color:#f60">6</span>]
 new_items <span style="color:#555">=</span> []
 <span style="color:#069;font-weight:bold">for</span> item <span style="color:#000;font-weight:bold">in</span> items:
     <span style="color:#069;font-weight:bold">if</span> item <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">in</span> new_items:
-        new_items<span style="color:#555">.</span>append(item)</code></pre></div>
+        new_items<span style="color:#555">.</span>append(item)
+</code></pre></div>
     </article>
 
 
@@ -236,7 +211,7 @@ new_items <span style="color:#555">=</span> []
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

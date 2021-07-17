@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Tornado 0104 - 用户指南: 队列 | Jeremy&#39;s blog</title>
 
@@ -120,16 +120,10 @@
     <article>
         <h1>Tornado 0104 - 用户指南: 队列</h1>
         <hr>
-        
-
-<h1 id="队列-queue-示例-并发-web-蜘蛛">队列（Queue） 示例 - 并发 Web 蜘蛛</h1>
-
+        <h1 id="队列queue-示例---并发-web-蜘蛛">队列（Queue） 示例 - 并发 Web 蜘蛛</h1>
 <p>Tornado 的 tornado.queues 模块为协程实现异步生产者/消费者模式，类似于 Python 标准库的 queue 模块为线程实现的模式。</p>
-
 <p>产生 Queue.get 的协程暂停，直到队列中有项目为止。如果队列设置了最大大小，则会产生 Queue.put 的协程暂停，直到有另一个项目的空间。</p>
-
 <p>Queue 维护未完成任务的计数，从零开始。put 增加计数；task_done 递减它。</p>
-
 <p>在此处的 web-spider 示例中，队列开始仅包含 base_url。当一个 worker 获取一个页面时，它会解析链接并将新的链接放入队列中，然后调用 task_done 来减少一次计数器。最终，一个工作者获取一个页面，其 URL 之前已经被看到，并且队列中也没有剩余的工作。因此，该worker 对task_done 的调用将计数器减少为零。正在等待 join 的主协程已取消暂停并完成。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic">#!/usr/bin/env python3</span>
 
@@ -145,15 +139,15 @@ base_url <span style="color:#555">=</span> <span style="color:#c30">&#39;http://
 concurrency <span style="color:#555">=</span> <span style="color:#f60">10</span>
 
 
-async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_links_from_url</span>(url):
+<span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_links_from_url</span>(url):
     <span style="color:#c30">&#34;&#34;&#34;Download the page at `url` and parse it for links.
 </span><span style="color:#c30">
 </span><span style="color:#c30">    Returned links have had the fragment after `#` removed, and have been made
 </span><span style="color:#c30">    absolute so, e.g. the URL &#39;gen.html#tornado.gen.coroutine&#39; becomes
 </span><span style="color:#c30">    &#39;http://www.tornadoweb.org/en/stable/gen.html&#39;.
 </span><span style="color:#c30">    &#34;&#34;&#34;</span>
-    response <span style="color:#555">=</span> await httpclient<span style="color:#555">.</span>AsyncHTTPClient()<span style="color:#555">.</span>fetch(url)
-    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30">&#39;fetched </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> url)
+    response <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">await</span> httpclient<span style="color:#555">.</span>AsyncHTTPClient()<span style="color:#555">.</span>fetch(url)
+    <span style="color:#366">print</span>(<span style="color:#c30">&#39;fetched </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> url)
 
     html <span style="color:#555">=</span> response<span style="color:#555">.</span>body<span style="color:#555">.</span>decode(errors<span style="color:#555">=</span><span style="color:#c30">&#39;ignore&#39;</span>)
     <span style="color:#069;font-weight:bold">return</span> [urljoin(url, remove_fragment(new_url))
@@ -181,54 +175,55 @@ async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c
     <span style="color:#069;font-weight:bold">return</span> url_seeker<span style="color:#555">.</span>urls
 
 
-async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">main</span>():
+<span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">main</span>():
     q <span style="color:#555">=</span> queues<span style="color:#555">.</span>Queue()
     start <span style="color:#555">=</span> time<span style="color:#555">.</span>time()
     fetching, fetched <span style="color:#555">=</span> <span style="color:#366">set</span>(), <span style="color:#366">set</span>()
 
-    async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">fetch_url</span>(current_url):
+    <span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">fetch_url</span>(current_url):
         <span style="color:#069;font-weight:bold">if</span> current_url <span style="color:#000;font-weight:bold">in</span> fetching:
             <span style="color:#069;font-weight:bold">return</span>
 
-        <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30">&#39;fetching </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> current_url)
+        <span style="color:#366">print</span>(<span style="color:#c30">&#39;fetching </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> current_url)
         fetching<span style="color:#555">.</span>add(current_url)
-        urls <span style="color:#555">=</span> await get_links_from_url(current_url)
+        urls <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">await</span> get_links_from_url(current_url)
         fetched<span style="color:#555">.</span>add(current_url)
 
         <span style="color:#069;font-weight:bold">for</span> new_url <span style="color:#000;font-weight:bold">in</span> urls:
             <span style="color:#09f;font-style:italic"># Only follow links beneath the base URL</span>
             <span style="color:#069;font-weight:bold">if</span> new_url<span style="color:#555">.</span>startswith(base_url):
-                await q<span style="color:#555">.</span>put(new_url)
+                <span style="color:#069;font-weight:bold">await</span> q<span style="color:#555">.</span>put(new_url)
 
-    async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">worker</span>():
-        async <span style="color:#069;font-weight:bold">for</span> url <span style="color:#000;font-weight:bold">in</span> q:
-            <span style="color:#069;font-weight:bold">if</span> url <span style="color:#000;font-weight:bold">is</span> None:
+    <span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">worker</span>():
+        <span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">for</span> url <span style="color:#000;font-weight:bold">in</span> q:
+            <span style="color:#069;font-weight:bold">if</span> url <span style="color:#000;font-weight:bold">is</span> <span style="color:#069;font-weight:bold">None</span>:
                 <span style="color:#069;font-weight:bold">return</span>
             <span style="color:#069;font-weight:bold">try</span>:
-                await fetch_url(url)
+                <span style="color:#069;font-weight:bold">await</span> fetch_url(url)
             <span style="color:#069;font-weight:bold">except</span> <span style="color:#c00;font-weight:bold">Exception</span> <span style="color:#069;font-weight:bold">as</span> e:
-                <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30">&#39;Exception: </span><span style="color:#a00">%s</span><span style="color:#c30"> </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> (e, url))
+                <span style="color:#366">print</span>(<span style="color:#c30">&#39;Exception: </span><span style="color:#a00">%s</span><span style="color:#c30"> </span><span style="color:#a00">%s</span><span style="color:#c30">&#39;</span> <span style="color:#555">%</span> (e, url))
             <span style="color:#069;font-weight:bold">finally</span>:
                 q<span style="color:#555">.</span>task_done()
 
-    await q<span style="color:#555">.</span>put(base_url)
+    <span style="color:#069;font-weight:bold">await</span> q<span style="color:#555">.</span>put(base_url)
 
     <span style="color:#09f;font-style:italic"># Start workers, then wait for the work queue to be empty.</span>
     workers <span style="color:#555">=</span> gen<span style="color:#555">.</span>multi([worker() <span style="color:#069;font-weight:bold">for</span> _ <span style="color:#000;font-weight:bold">in</span> <span style="color:#366">range</span>(concurrency)])
-    await q<span style="color:#555">.</span>join(timeout<span style="color:#555">=</span>timedelta(seconds<span style="color:#555">=</span><span style="color:#f60">300</span>))
+    <span style="color:#069;font-weight:bold">await</span> q<span style="color:#555">.</span>join(timeout<span style="color:#555">=</span>timedelta(seconds<span style="color:#555">=</span><span style="color:#f60">300</span>))
     <span style="color:#069;font-weight:bold">assert</span> fetching <span style="color:#555">==</span> fetched
-    <span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30">&#39;Done in </span><span style="color:#a00">%d</span><span style="color:#c30"> seconds, fetched </span><span style="color:#a00">%s</span><span style="color:#c30"> URLs.&#39;</span> <span style="color:#555">%</span> (
+    <span style="color:#366">print</span>(<span style="color:#c30">&#39;Done in </span><span style="color:#a00">%d</span><span style="color:#c30"> seconds, fetched </span><span style="color:#a00">%s</span><span style="color:#c30"> URLs.&#39;</span> <span style="color:#555">%</span> (
         time<span style="color:#555">.</span>time() <span style="color:#555">-</span> start, <span style="color:#366">len</span>(fetched)))
 
     <span style="color:#09f;font-style:italic"># Signal all the workers to exit.</span>
     <span style="color:#069;font-weight:bold">for</span> _ <span style="color:#000;font-weight:bold">in</span> <span style="color:#366">range</span>(concurrency):
-        await q<span style="color:#555">.</span>put(None)
-    await workers
+        <span style="color:#069;font-weight:bold">await</span> q<span style="color:#555">.</span>put(<span style="color:#069;font-weight:bold">None</span>)
+    <span style="color:#069;font-weight:bold">await</span> workers
 
 
 <span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30">&#39;__main__&#39;</span>:
     io_loop <span style="color:#555">=</span> ioloop<span style="color:#555">.</span>IOLoop<span style="color:#555">.</span>current()
-    io_loop<span style="color:#555">.</span>run_sync(main)</code></pre></div>
+    io_loop<span style="color:#555">.</span>run_sync(main)
+</code></pre></div>
     </article>
 
 
@@ -277,7 +272,7 @@ async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

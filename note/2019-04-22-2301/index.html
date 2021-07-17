@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Tornado and Vue x-template | Jeremy&#39;s blog</title>
 
@@ -121,13 +121,9 @@
         <h1>Tornado and Vue x-template</h1>
         <hr>
         <p>当然，如果能用 webpack 系列工具进行开发构建当然是好，但是依然有一些项目的一些页面已经有了一些选型，你也不好从头再来对吧。</p>
-
 <p>但是 Vue 这套设计思想真的很喜欢怎么办？</p>
-
 <p>虽然网络上说有多达 7 种编写 Vue template 代码的方式，但是，综合考虑下来，其实除了 webpack 这种方式之外，你还能选择的还算优雅的，真的就只剩下 Vue x-template 了。</p>
-
 <p>别的框架怎么支持以及兼容我不知道，我倒是只知道 Tornado 与 Vue x-template 的融合开发是怎么样的。</p>
-
 <p>说多了也是废话，下面看核心部分代码：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">// base.html
 <span style="color:#099">&lt;!DOCTYPE html&gt;</span>
@@ -164,7 +160,8 @@
 
 &lt;/<span style="color:#309;font-weight:bold">body</span>&gt;
 
-&lt;/<span style="color:#309;font-weight:bold">html</span>&gt;</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">// count.html
+&lt;/<span style="color:#309;font-weight:bold">html</span>&gt;
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">// count.html
 &lt;<span style="color:#309;font-weight:bold">script</span> <span style="color:#309">type</span><span style="color:#555">=</span><span style="color:#c30">&#34;text/x-template&#34;</span> <span style="color:#309">id</span><span style="color:#555">=</span><span style="color:#c30">&#34;count&#34;</span>&gt;
     <span style="color:#555">&lt;</span>button v<span style="color:#555">-</span>on<span style="color:#555">:</span>click<span style="color:#555">=</span><span style="color:#c30">&#34;count += inc&#34;</span><span style="color:#555">&gt;</span>You clicked me {{<span style="color:#555">!</span> count }} times.<span style="color:#555">&lt;</span><span style="color:#a00;background-color:#faa">/button&gt;</span>
 &lt;/<span style="color:#309;font-weight:bold">script</span>&gt;
@@ -179,7 +176,8 @@
         },
         props<span style="color:#555">:</span> [<span style="color:#c30">&#39;inc&#39;</span>,]
     })
-&lt;/<span style="color:#309;font-weight:bold">script</span>&gt;</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">// index.html
+&lt;/<span style="color:#309;font-weight:bold">script</span>&gt;
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">// index.html
 {% extends &#34;base.html&#34; %}
 
 
@@ -211,16 +209,13 @@
         }
     })
 &lt;/<span style="color:#309;font-weight:bold">script</span>&gt;
-{% end %}</code></pre></div>
-<p>它的组织结构极其类似于 .vue 的那种单文件组件，只不过这里则是 .html，以及 style 不是局部的，其它几乎就差异非常小了，非常值得使用。</p>
-
+{% end %}
+</code></pre></div><p>它的组织结构极其类似于 .vue 的那种单文件组件，只不过这里则是 .html，以及 style 不是局部的，其它几乎就差异非常小了，非常值得使用。</p>
 <p>关于模版语法的冲突问题，有两种解决方案，不过都是修改 Vue x-template 这部分的代码：</p>
-
 <ul>
 <li>修改 <a href="https://cn.vuejs.org/v2/api/#delimiters">Vue delimiters</a> ；</li>
-<li>修改 &ldquo;{{&rdquo; 为 &ldquo;{{!&ldquo;，这是来自于 Tornado 核心开发者 Ben Darnell 在 <a href="https://stackoverflow.com/a/51800749">stackoverflow</a> 的回复，所以我个人比较偏向于这种方法；</li>
+<li>修改 &ldquo;{{&rdquo; 为 &ldquo;{{!&quot;，这是来自于 Tornado 核心开发者 Ben Darnell 在 <a href="https://stackoverflow.com/a/51800749">stackoverflow</a> 的回复，所以我个人比较偏向于这种方法；</li>
 </ul>
-
 <p>差不多就这么多了，趁感冒还没好，赶紧先留下点记录，要是有错误那就是我眼花导致的，请原谅。</p>
 
     </article>
@@ -271,7 +266,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

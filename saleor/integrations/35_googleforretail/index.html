@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 35: 集成 - 谷歌零售 | Jeremy&#39;s blog</title>
 
@@ -121,15 +121,11 @@
         <h1>Saleor 35: 集成 - 谷歌零售</h1>
         <hr>
         <p>Saleor 有用于生成产品 Feed 的工具，可用于 Google Merchant Center。最终文件被压缩成 CSV 并保存在 <code>saleor.data_feeds.google_merchant.FILE_PATH</code> 变量所指定的位置。</p>
-
 <p>要生成 Feed 使用命令：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py update_feeds</pre></div>
-<p>建议定期运行此命令。</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py update_feeds
+</code></pre></div><p>建议定期运行此命令。</p>
 <p>Merchant Center 很少有国家/地区相关设置，因此请在 Google 信息中心验证您的 Feed。您还可以在那里指定您的运费，这是许多国家/地区必需的 Feed 参数。在 <a href="https://support.google.com/merchants">Google Support pages</a> 可以找到更多信息。</p>
-
-<p>Google 所需的其中一项字段是*品牌*属性。Feed 生成器会在变体属性中对*品牌*或*发布商*进行检查（如果没有，则会去*产品*里面找）。</p>
-
+<p>Google 所需的其中一项字段是<em>品牌</em>属性。Feed 生成器会在变体属性中对<em>品牌</em>或<em>发布商</em>进行检查（如果没有，则会去<em>产品</em>里面找）。</p>
 <p>Feed 可以从这个网址下载：<code>http://&lt;yourserver&gt;/feeds/google/</code></p>
 
     </article>
@@ -180,7 +176,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

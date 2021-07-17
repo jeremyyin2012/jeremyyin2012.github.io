@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 06: 入门 - 调试工具 | Jeremy&#39;s blog</title>
 
@@ -120,34 +120,28 @@
     <article>
         <h1>Saleor 06: 入门 - 调试工具</h1>
         <hr>
-        
-
-<p>我们内建了一些调试工具。</p>
-
+        <p>我们内建了一些调试工具。</p>
 <h2 id="django-debug-toolbar">Django debug toolbar</h2>
-
 <p>如果 Django 是运行在 debug 模式下，<a href="https://github.com/jazzband/django-debug-toolbar">Django Debug Toolbar</a> 就是开启的。</p>
-
 <h2 id="silk">Silk</h2>
-
 <p>Silk 开启与否可以通过环境变量来控制</p>
-
 <ul>
-<li><code>ENABLE_SILK</code><br />
+<li><code>ENABLE_SILK</code><br>
 控制 <a href="https://github.com/jazzband/django-silk">django-silk</a>.
 默认是 <code>False</code></li>
 </ul>
-
 <ol>
-<li>设置环境变量</li>
-</ol>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">   $ export ENABLE_SILK=&#39;True&#39;</code></pre></div>
-<ol>
-<li>从 requirements_dev.txt 安装库:</li>
-</ol>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">   $ python -m pip install -r requirements_dev.txt</code></pre></div>
-<ol>
-<li>重启服务</li>
+<li>
+<p>设置环境变量</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ export ENABLE_SILK=&#39;True&#39;
+</code></pre></div></li>
+<li>
+<p>从 requirements_dev.txt 安装库:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python -m pip install -r requirements_dev.txt
+</code></pre></div></li>
+<li>
+<p>重启服务</p>
+</li>
 </ol>
 
     </article>
@@ -198,7 +192,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

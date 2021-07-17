@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 01: 入门 - 在 macOS 上安装 | Jeremy&#39;s blog</title>
 
@@ -120,126 +120,98 @@
     <article>
         <h1>Saleor 01: 入门 - 在 macOS 上安装</h1>
         <hr>
-        
-
-<h2 id="准备工作">准备工作</h2>
-
+        <h2 id="准备工作">准备工作</h2>
 <p>在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。</p>
-
-<h3 id="node-js">Node.js</h3>
-
+<h3 id="nodejs">Node.js</h3>
 <p>建议是 Version 8 或更高版本。</p>
-
 <p><a href="https://nodejs.org/en/download/">Node.js downloads page</a></p>
-
 <h3 id="postgresql">PostgreSQL</h3>
-
 <p>运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。</p>
-
 <p><a href="https://www.postgresql.org/download/macosx/">PostgreSQL download page</a></p>
-
 <p>你一定要记住在安装的时候所设定的管理员密码。</p>
-
 <h3 id="command-line-tools-for-xcode">Command Line Tools for Xcode</h3>
-
 <p>下载并安装最新版本的 &ldquo;Command Line Tools (macOS 10.x) for Xcode 9.x&rdquo;.</p>
-
 <p><a href="https://developer.apple.com/download/more/">Downloads for Apple Developers page</a></p>
-
 <p>然后运行：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ xcode-select --install</code></pre></div>
-<h3 id="homebrew">Homebrew</h3>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ xcode-select --install
+</code></pre></div><h3 id="homebrew">Homebrew</h3>
 <p>运行下面的命令安装 Homebrew:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ /usr/bin/ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34;</code></pre></div>
-<h3 id="python-3">Python 3</h3>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ /usr/bin/ruby -e &#34;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&#34;
+</code></pre></div><h3 id="python-3">Python 3</h3>
 <p>使用 Homebrew 安装最新版本的 Python 3:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ brew install python3</code></pre></div>
-<h3 id="git">Git</h3>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ brew install python3
+</code></pre></div><h3 id="git">Git</h3>
 <p>使用 Homebrew 安装 Git:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ brew install git</code></pre></div>
-<h3 id="gtk">Gtk+</h3>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ brew install git
+</code></pre></div><h3 id="gtk">Gtk+</h3>
 <p>使用 Homebrew 安装 the graphical libraries necessary for PDF creation:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ brew install cairo pango gdk-pixbuf libffi</code></pre></div>
-<h2 id="安装">安装</h2>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ brew install cairo pango gdk-pixbuf libffi
+</code></pre></div><h2 id="安装">安装</h2>
 <ol>
-<li><p>克隆这个仓库 （或是使用你自己的副本）：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ git clone https://github.com/mirumee/saleor.git</code></pre></div></li>
-
-<li><p>进入目录：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ cd saleor/</code></pre></div></li>
-
-<li><p>安装依赖库：</p>
-
+<li>
+<p>克隆这个仓库 （或是使用你自己的副本）：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ git clone https://github.com/mirumee/saleor.git
+</code></pre></div></li>
+<li>
+<p>进入目录：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ cd saleor/
+</code></pre></div></li>
+<li>
+<p>安装依赖库：</p>
 <p>在安装任何 Python 包之前，我们强烈推荐先创建一个虚拟环境。</p>
-
 <p><a href="https://docs.python.org/3/tutorial/venv.html">creating a virtual environment</a></p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ pip install -r requirements.txt</code></pre></div></li>
-
-<li><p>设置一个环境变量 <code>SECRET_KEY</code> :</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ pip install -r requirements.txt
+</code></pre></div></li>
+<li>
+<p>设置一个环境变量 <code>SECRET_KEY</code> :</p>
 <p>我们有想过设一个默认值，但是我们最终决定不设默认值，因为怕有人直接用这个默认值上了生产环境，所以还是由你自己来设一个。</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ export SECRET_KEY=&#39;&lt;mysecretkey&gt;&#39;</code></pre></div>
-<div class="warning">
-
-<div class="admonition-title">
-
-Warning
-
-</div>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ export SECRET_KEY=&#39;&lt;mysecretkey&gt;&#39;
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Warning</p>
+<!-- raw HTML omitted -->
 <p>秘钥（Secret key）应该是一个只有你们团队自己知道的独一无二的字符串，使用一个别人可能知道的 <code>SECRET_KEY</code> 会破坏 Django 的许多安全性保护，并可能导致特权升级和远程代码执行漏洞。</p>
-
 <p>参考：<a href="https://docs.djangoproject.com/en/1.11/ref/settings/#secret-key">Django&rsquo;s documentation</a></p>
-
-<p></div></p></li>
-
-<li><p>创建一个 PostgreSQL 用户：</p>
-
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>创建一个 PostgreSQL 用户：</p>
 <p>除非你已经设置过，否则商店的用户名和密码都默认是 <code>saleor</code> ，请记得给你的用户设置 <code>SUPERUSER</code> 权限，这样它才可以创建数据库和数据库扩展。</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ createuser --superuser --pwprompt saleor</code></pre></div>
-<p>当提示需要密码的时候输入 <code>saleor</code></p></li>
-
-<li><p>准备数据库:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ python manage.py migrate</code></pre></div>
-<div class="warning">
-
-<div class="admonition-title">
-
-Warning
-
-</div>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ createuser --superuser --pwprompt saleor
+</code></pre></div><p>当提示需要密码的时候输入 <code>saleor</code></p>
+</li>
+<li>
+<p>准备数据库:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py migrate
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Warning</p>
+<!-- raw HTML omitted -->
 <p>这个命令需要有创建数据库扩展的权限，如果你收到与 <code>CREATE EXTENSION</code> 相关的错误信息请参考用户创建步骤的说明。</p>
-
-<p></div></p></li>
-
-<li><p>安装前端依赖库:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ npm install</code></pre></div>
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
-
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>安装前端依赖库:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ npm install
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Note</p>
+<!-- raw HTML omitted -->
 <p>如果这一步安装失败请回到上面去确认下使用的 Node.js 版本是不是足够新。</p>
-
-<p></div></p></li>
-
-<li><p>准备前端资源文件:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ npm run build-assets</code></pre></div></li>
-
-<li><p>编译电子邮件:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ npm run build-emails</code></pre></div></li>
-
-<li><p>启动开发服务器:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-console" data-lang="console">$ python manage.py runserver</code></pre></div></li>
+<!-- raw HTML omitted -->
+</li>
+<li>
+<p>准备前端资源文件:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ npm run build-assets
+</code></pre></div></li>
+<li>
+<p>编译电子邮件:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ npm run build-emails
+</code></pre></div></li>
+<li>
+<p>启动开发服务器:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py runserver
+</code></pre></div></li>
 </ol>
 
     </article>
@@ -290,7 +262,7 @@ Note
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

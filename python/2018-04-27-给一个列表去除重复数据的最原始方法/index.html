@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>给一个列表去除重复数据的最原始方法 | Jeremy&#39;s blog</title>
 
@@ -125,11 +125,10 @@
 new_items <span style="color:#555">=</span> []
 <span style="color:#069;font-weight:bold">for</span> item <span style="color:#000;font-weight:bold">in</span> items:
     <span style="color:#069;font-weight:bold">if</span> item <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">in</span> new_items:
-        new_items<span style="color:#555">.</span>append(item)</code></pre></div>
-<p>new_items:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[<span style="color:#f60">6</span>, <span style="color:#f60">1</span>, <span style="color:#f60">4</span>, <span style="color:#f60">5</span>, <span style="color:#f60">3</span>, <span style="color:#f60">8</span>]</code></pre></div>
-<p>这应该是给一个列表去除重复还保留顺序的最兼容的办法了，为啥叫最兼容，意思是绝大多数情况下你按这个写法去操作，无论列表里面是什么东西，它都能很好地帮你处理成功。</p>
-
+        new_items<span style="color:#555">.</span>append(item)
+</code></pre></div><p>new_items:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[<span style="color:#f60">6</span>, <span style="color:#f60">1</span>, <span style="color:#f60">4</span>, <span style="color:#f60">5</span>, <span style="color:#f60">3</span>, <span style="color:#f60">8</span>]
+</code></pre></div><p>这应该是给一个列表去除重复还保留顺序的最兼容的办法了，为啥叫最兼容，意思是绝大多数情况下你按这个写法去操作，无论列表里面是什么东西，它都能很好地帮你处理成功。</p>
 <p>比如，列表里面不是简单的数字或字符，而是一个一个的字典（对象），这也是可以的。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">items <span style="color:#555">=</span> [
     {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>},
@@ -143,13 +142,11 @@ new_items <span style="color:#555">=</span> []
 new_items <span style="color:#555">=</span> []
 <span style="color:#069;font-weight:bold">for</span> item <span style="color:#000;font-weight:bold">in</span> items:
     <span style="color:#069;font-weight:bold">if</span> item <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">in</span> new_items:
-        new_items<span style="color:#555">.</span>append(item)</code></pre></div>
-<p>new_items:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]</code></pre></div>
-<p>而之前有种利用 OrderedDict 进行操作去重复并保留顺序的方法，则不适用于这种包含多个字典的情况。</p>
-
+        new_items<span style="color:#555">.</span>append(item)
+</code></pre></div><p>new_items:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]
+</code></pre></div><p>而之前有种利用 OrderedDict 进行操作去重复并保留顺序的方法，则不适用于这种包含多个字典的情况。</p>
 <p>为啥有时候会偏爱 OrderedDict 这种方法呢，因为：代码行数和思考方式，如果能有种方法可以快速帮你做到，自然是选快捷的。而且，在实际情况中，你可能需要在一个环节同时面对十几个字段的去重复操作，这时候能有一种内建的方法能支持你快速实现并让代码结构很流畅，是很辛福的事情。</p>
-
 <p>当然，也可以把上面的办法独立写个函数，这样就可以到处调用了。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">A_items <span style="color:#555">=</span> [
     {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>},
@@ -182,17 +179,17 @@ B_items <span style="color:#555">=</span> [
     <span style="color:#069;font-weight:bold">return</span> new_items
 
 my_A_items <span style="color:#555">=</span> select_distinct(A_items)
-my_B_items <span style="color:#555">=</span> select_distinct(B_items)</code></pre></div>
-<p>my_A_items:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]</code></pre></div>
-<p>my_B_items:</p>
+my_B_items <span style="color:#555">=</span> select_distinct(B_items)
+</code></pre></div><p>my_A_items:</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">6</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">1</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">4</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">5</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">3</span>}, {<span style="color:#c30">&#39;age&#39;</span>: <span style="color:#f60">8</span>}]
+</code></pre></div><p>my_B_items:</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[{<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">60</span>},
  {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">10</span>},
  {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">40</span>},
  {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">50</span>},
  {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">30</span>},
- {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">80</span>}]</code></pre></div>
-<p>这样，你可能不止两个三个需要处理，有时候可能是十几个，这样代码结构上的流畅性就很可观了。</p>
+ {<span style="color:#c30">&#39;quantity&#39;</span>: <span style="color:#f60">80</span>}]
+</code></pre></div><p>这样，你可能不止两个三个需要处理，有时候可能是十几个，这样代码结构上的流畅性就很可观了。</p>
 
     </article>
 
@@ -242,7 +239,7 @@ my_B_items <span style="color:#555">=</span> select_distinct(B_items)</code></pr
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 24: 架构 - 订单管理 | Jeremy&#39;s blog</title>
 
@@ -120,54 +120,43 @@
     <article>
         <h1>Saleor 24: 架构 - 订单管理</h1>
         <hr>
-        
-
-<p>订单是在客户完成结账流程后创建的。订单对象本身仅包含客户订单的一些基本信息。</p>
-
-<h2 id="履行-fulfillment-可以理解为发货与发货单">履行（Fulfillment）（可以理解为发货与发货单）</h2>
-
+        <p>订单是在客户完成结账流程后创建的。订单对象本身仅包含客户订单的一些基本信息。</p>
+<h2 id="履行fulfillment可以理解为发货与发货单">履行（Fulfillment）（可以理解为发货与发货单）</h2>
 <p>履行代表一组带有相应跟踪编号的装运物品。履行是由商店经营者创建的，以便在所订购的订单中标记选定的产品已被履行。</p>
-
 <p>有两种可能的履行状态：</p>
-
 <ul>
-<li><p><code>NEW</code></p>
-
-<p>新创建履行的默认状态。</p></li>
-
-<li><p><code>CANCELED</code></p>
-
-<p>履行由商店操作员取消。这一行动是不可逆转的。</p></li>
+<li>
+<p><code>NEW</code></p>
+<p>新创建履行的默认状态。</p>
+</li>
+<li>
+<p><code>CANCELED</code></p>
+<p>履行由商店操作员取消。这一行动是不可逆转的。</p>
+</li>
 </ul>
-
-<h2 id="订单状态-order-statuses">订单状态（Order statuses）</h2>
-
+<h2 id="订单状态order-statuses">订单状态（Order statuses）</h2>
 <p>根据其履行情况，有四种可能的订单状态：</p>
-
 <ul>
-<li><p><code>UNFULFILLED</code></p>
-
+<li>
+<p><code>UNFULFILLED</code></p>
 <p>没有与订单相关的履行或每一个履行都被取消。需要店铺操作员采取行动才能继续订单处理。</p>
-
-<p>可以理解为还未发货</p></li>
-
-<li><p><code>PARTIALLY FULFILLED</code></p>
-
+<p>可以理解为还未发货</p>
+</li>
+<li>
+<p><code>PARTIALLY FULFILLED</code></p>
 <p>有一些履行 <code>FULFILLED</code> 状态与订单有关。需要店铺操作员采取行动才能继续订单处理。</p>
-
-<p>可以理解为部分发货</p></li>
-
-<li><p><code>FULFILLED</code></p>
-
+<p>可以理解为部分发货</p>
+</li>
+<li>
+<p><code>FULFILLED</code></p>
 <p>每个订单行都在现有履行中完成。订单不需要店铺经营者的进一步行动。</p>
-
-<p>可以理解为发货完成</p></li>
-
-<li><p><code>CANCELED</code></p>
-
-<p>订单已被取消。每个履行（如果有的话）都具有 <code>CANCELED</code> 状态。订单不需要店铺经营者的进一步行动。</p></li>
+<p>可以理解为发货完成</p>
+</li>
+<li>
+<p><code>CANCELED</code></p>
+<p>订单已被取消。每个履行（如果有的话）都具有 <code>CANCELED</code> 状态。订单不需要店铺经营者的进一步行动。</p>
+</li>
 </ul>
-
 <p>还有 <code>DRAFT</code> （草稿）状态，用于从订单后台新创建并尚未发布的订单。这个操作一般用于客服售后流程。</p>
 
     </article>
@@ -218,7 +207,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

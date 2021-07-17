@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Traefik 与 nginx-proxy | Jeremy&#39;s blog</title>
 
@@ -121,27 +121,16 @@
         <h1>Traefik 与 nginx-proxy</h1>
         <hr>
         <p>尝试去测试 Envoy，甚至还去看了 Istio。</p>
-
 <p>Envoy 跑了个 front-proxy 的 demo，Istio 也尝试了下，起了一地容器，可惜想看看管理页面，失败。</p>
-
 <p>这两货，都是所谓云原生平台工具，想了想，k8s 都还没折腾好呢，这俩货确实有点太重了。</p>
-
 <p>又回去继续试试 Traefik，这次果然心平气和了很多。开台机器，设置域名，启动容器，打开页面，竟然，通了。</p>
-
 <p>但是，到此，并不表示对它的好感有增，原先吐槽的点依然还是存在。通是通了，但是还有很多东西没着落：https 在哪，配置文件到底要不要自定义，默认的配置文件在哪儿……即使进去容器里面，也没找到什么东西，命令行的说明也是云里雾里（根本没有）</p>
-
 <p>再想着瞅一眼 nginx-proxy，还是试试吧。</p>
-
 <p>下载，docker-compose up -d 走起，看到日志说正在干嘛了，心里放心了很多，不像 Traefik 默认啥信息都没有，空空白白的一片黑，遇到连接错误也不知道为啥。</p>
-
 <p>比较下，感觉 nginx-proxy 还是可以拿来仔细研究看看，实在不行，前面还可以继续套一层普通 nginx 完成其它事情，不是么。</p>
-
 <p>k8s 可能还要一段时间才能成熟到我等非资深用户也能放心使用，新东西，还是需要时间等待。</p>
-
 <p>基于 k8s 的相关东西，可能就更需要时间了。</p>
-
 <p>nginx，跑了可是很多年了，才成熟到我们非资深用户也可以简简单单就稳定地跑起来。</p>
-
 <p>基础工具选好搭好，我们放开手去写业务逻辑。</p>
 
     </article>
@@ -192,7 +181,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>pymysql: 给 sql 语句传递字典参数 | Jeremy&#39;s blog</title>
 
@@ -121,7 +121,6 @@
         <h1>pymysql: 给 sql 语句传递字典参数</h1>
         <hr>
         <p>pymysql 执行 sql 操作的最主要一个方法就是：cursor.execute(sql, *args)</p>
-
 <p>它给了个这样的例子：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">pymysql.cursors</span>
 
@@ -148,32 +147,27 @@ connection <span style="color:#555">=</span> pymysql<span style="color:#555">.</
         sql <span style="color:#555">=</span> <span style="color:#c30">&#34;SELECT `id`, `password` FROM `users` WHERE `email`=</span><span style="color:#a00">%s</span><span style="color:#c30">&#34;</span>
         cursor<span style="color:#555">.</span>execute(sql, (<span style="color:#c30">&#39;webmaster@python.org&#39;</span>,))
         result <span style="color:#555">=</span> cursor<span style="color:#555">.</span>fetchone()
-        <span style="color:#069;font-weight:bold">print</span>(result)
+        <span style="color:#366">print</span>(result)
 <span style="color:#069;font-weight:bold">finally</span>:
-    connection<span style="color:#555">.</span>close()</code></pre></div>
-<p>语句写好了，里面可能有很多占位符 %s，但是数据参数，如果有很多，又要一个一个定好位置组成 tuple 再给它么？长期这么干最后总会心累的，能不能直接传 dict 给它呢？</p>
-
+    connection<span style="color:#555">.</span>close()
+</code></pre></div><p>语句写好了，里面可能有很多占位符 %s，但是数据参数，如果有很多，又要一个一个定好位置组成 tuple 再给它么？长期这么干最后总会心累的，能不能直接传 dict 给它呢？</p>
 <p>答案当然是可以的，有人在 <a href="https://stackoverflow.com/questions/29721519/string-formatting-on-sql-insert-using-dict">stackoverflow</a> 上也问了这个问题，答案中还解答了关于数据库驱动的 paramstyle 问题，因为支持什么样的模式，完全看数据库驱动的实现方式了。</p>
-
 <ul>
 <li>%s 这种占位符的，叫 format 模式，一般可以使用 %(name)s 这种格式来使用字典参数</li>
 <li>? 这种占位符的，叫 qmark 模式，一般会使用 :name 这种格式来使用字典参数，SQLAlchemy 看起来就是用的这种</li>
 </ul>
-
 <p>还有一种叫 numeric 模式的，具体可以看下这个 <a href="https://www.python.org/dev/peps/pep-0249/#paramstyle">paramstyle</a> 的说明</p>
-
 <p>查询数据库驱动支持什么样的，这里只看下 pymysql：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In[<span style="color:#f60">21</span>]: <span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">pymysql</span>
 In[<span style="color:#f60">22</span>]: pymysql<span style="color:#555">.</span>paramstyle
-Out[<span style="color:#f60">22</span>]: <span style="color:#c30">&#39;pyformat&#39;</span></code></pre></div>
-<p>以及，pymysql 也在 <a href="https://pymysql.readthedocs.io/en/latest/modules/cursors.html#pymysql.cursors.Cursor.execute">execute</a> 文档中明确提到这么一句：</p>
-
+Out[<span style="color:#f60">22</span>]: <span style="color:#c30">&#39;pyformat&#39;</span>
+</code></pre></div><p>以及，pymysql 也在 <a href="https://pymysql.readthedocs.io/en/latest/modules/cursors.html#pymysql.cursors.Cursor.execute">execute</a> 文档中明确提到这么一句：</p>
 <p>If args is a list or tuple, %s can be used as a placeholder in the query. If args is a dict, %(name)s can be used as a placeholder in the query.</p>
-
 <p>这样，就能确定可以使用 %(name)s 这种格式来使用字典参数了：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">params <span style="color:#555">=</span> {<span style="color:#c30">&#39;limit&#39;</span>: <span style="color:#f60">10</span>}
 sql <span style="color:#555">=</span> <span style="color:#c30">&#39;select * from test limit </span><span style="color:#a00">%(limit)s</span><span style="color:#c30">&#39;</span>
-cursor<span style="color:#555">.</span>execute(sql, params)</code></pre></div>
+cursor<span style="color:#555">.</span>execute(sql, params)
+</code></pre></div>
     </article>
 
 
@@ -222,7 +216,7 @@ cursor<span style="color:#555">.</span>execute(sql, params)</code></pre></div>
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

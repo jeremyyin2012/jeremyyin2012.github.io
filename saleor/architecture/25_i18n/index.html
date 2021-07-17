@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 25: 架构 - 国际化 | Jeremy&#39;s blog</title>
 
@@ -120,40 +120,22 @@
     <article>
         <h1>Saleor 25: 架构 - 国际化</h1>
         <hr>
-        
-
-<p>默认情况下，语言和语言环境是根据 Web 浏览器提供的首选项列表确定的。GeoIP 用于确定访问者的国家和当地货币。</p>
-
+        <p>默认情况下，语言和语言环境是根据 Web 浏览器提供的首选项列表确定的。GeoIP 用于确定访问者的国家和当地货币。</p>
 <p>Note</p>
-
 <p>Saleor 使用 Transifex 协调翻译。如果您希望提供帮助，请前往 <a href="https://www.transifex.com/mirumee/saleor-1/">translation dashboard</a></p>
-
 <p>所有翻译都由社区处理。所有翻译团队都是开放的，欢迎所有人申请一种新语言。</p>
-
-<h2 id="翻译-translation">翻译（Translation）</h2>
-
+<h2 id="翻译translation">翻译（Translation）</h2>
 <p>Saleor 使用 <code>gettext</code> 翻译。这是翻译软件的行业标准，也是翻译 Django 应用程序的最常用方法。</p>
-
 <p>Saleor 的店面和管理后台都准备好翻译。他们使用单独的翻译域名，可以单独翻译。所有翻译都提供准确的上下文描述，使翻译更容易。</p>
-
 <p>目前无法翻译数据库内容（如产品说明），但计划在未来版本中使用。</p>
-
-<h2 id="本土化-localization">本土化（Localization）</h2>
-
-<h3 id="数据格式-data-formats">数据格式（Data formats）</h3>
-
+<h2 id="本土化localization">本土化（Localization）</h2>
+<h3 id="数据格式data-formats">数据格式（Data formats）</h3>
 <p>Saleor使用 <a href="http://babel.pocoo.org/en/latest/">Babel</a> 作为 Unicode 的 CLDR 库的接口，以提供准确的数字和日期格式以及适当的货币名称。</p>
-
-<h3 id="地址表格-address-forms">地址表格（Address forms）</h3>
-
+<h3 id="地址表格address-forms">地址表格（Address forms）</h3>
 <p><a href="https://github.com/mirumee/google-i18n-address">Google’s address format database</a> 用于提供特定于语言环境的地址格式和表单。它还负责地址验证，因此您不必知道如何向中国递送包裹或阿拉伯联合酋长国是否使用邮政编码（他们不会）。</p>
-
-<h3 id="货币转换-currency-conversion">货币转换（Currency conversion）</h3>
-
+<h3 id="货币转换currency-conversion">货币转换（Currency conversion）</h3>
 <p>Saleor可以使用货币汇率数据来显示访客本地货币的价格估算值。请参阅 <a href="https://saleor.readthedocs.io/en/latest/integrations/openexchangerates.html#openexchangerates">Open Exchange Rates</a> 以了解如何设置  <a href="https://openexchangerates.org/">Open Exchange Rates</a>。</p>
-
-<h3 id="电话号码格式-phone-numbers-format">电话号码格式（Phone numbers format）</h3>
-
+<h3 id="电话号码格式phone-numbers-format">电话号码格式（Phone numbers format）</h3>
 <p>Saleor 使用 <a href="https://github.com/googlei18n/libphonenumber">Google’s libphonenumber library</a> 来确保提供的数字是正确的。您需要选择前缀并单独键入号码。无论选择哪个国家，您都可以输入属于任何其他国家/地区格式的电话号码。</p>
 
     </article>
@@ -204,7 +186,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

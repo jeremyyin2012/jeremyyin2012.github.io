@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>dynamically parameter passing in sql where query best practices | Jeremy&#39;s blog</title>
 
@@ -121,25 +121,17 @@
         <h1>dynamically parameter passing in sql where query best practices</h1>
         <hr>
         <p>搞定了 select columns 的动态列查询，接着就该来搞定 where and or 的动态参数化查询了。</p>
-
 <p>猛一想，where 这部分的参数化查询，如果我用 pymysql 的 cursor，或者用 SQLAlchemy 的 engine 或者 session 直接调用 execute 执行文本语句，也是可以给语句的 where 参数动态传参的呀？</p>
-
 <p>不，我说的更进一步的：除了参数可以动态传入，我想要 where 语句也要动态改变，即动态条件查询。</p>
-
 <p>可能要是没辙的话 大多数都跑去冒着 sql 注入的危险，启用文本格式化工具来写一堆条件来动态拼接语句了。</p>
-
 <p>不说最后拼出来的对不对，开发效率、调试速度，总要顾及一下吧？</p>
-
 <p>之前的动态列查询使用了 SQLAlchemy Core 里面 select 工具，通过可以定义单个 column 的办法动态处理得到供 select 使用的 columns，实现无论你要多少列，要什么不要什么，都可以通过列名称参数进行动态地处理得到，具体再多去写一些实际需求，应该就会熟练上手了。</p>
-
 <p>而 where 的动态化，你基本也想到了，还是会在 select 这个工具下面来进行。</p>
-
 <p>看官方的写法：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(users<span style="color:#555">.</span>c<span style="color:#555">.</span><span style="color:#366">id</span> <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c<span style="color:#555">.</span>user_id)</code></pre></div>
-<p>不过目前写后台 API 程序的话，基本上可能会这么写：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;user_id&#39;</span>])</code></pre></div>
-<p>然后再把这里的字符根据情况使用变量名替换掉。</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(users<span style="color:#555">.</span>c<span style="color:#555">.</span>id <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c<span style="color:#555">.</span>user_id)
+</code></pre></div><p>不过目前写后台 API 程序的话，基本上可能会这么写：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;user_id&#39;</span>])
+</code></pre></div><p>然后再把这里的字符根据情况使用变量名替换掉。</p>
 <p>上面的 where 只有一个条件，如果有多个条件，要用到连接符了，同时也有提供专门的连接词来处理：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">sqlalchemy.sql</span> <span style="color:#069;font-weight:bold">import</span> and_, or_, not_
 and_(
@@ -150,18 +142,16 @@ and_(
         addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;email_address&#39;</span>] <span style="color:#555">==</span> <span style="color:#c30">&#39;jack@yahoo.com&#39;</span>
     ),
     not_(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">&gt;</span> <span style="color:#f60">5</span>)
-)</code></pre></div>
-<p>相对应的三个连接符就是：&amp;、|、~</p>
-
+)
+</code></pre></div><p>相对应的三个连接符就是：&amp;、|、~</p>
 <p>不过目前来看，我会更喜欢连接词方式，为啥，因为要动态化呀，嗯？没看出来咋搞？这样：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">clauses <span style="color:#555">=</span> []
 
 clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;name&#39;</span>]<span style="color:#555">.</span>like(<span style="color:#c30">&#39;j%&#39;</span>))
 clauses<span style="color:#555">.</span>append(users<span style="color:#555">.</span>c[<span style="color:#c30">&#39;id&#39;</span>] <span style="color:#555">==</span> addresses<span style="color:#555">.</span>c[<span style="color:#c30">&#39;user_id&#39;</span>])
 
-s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(and_(<span style="color:#555">*</span>clauses))</code></pre></div>
-<p>重点就在这个星号 *，标准的 *args 赋值模式，对吧。这样你就可以自由地去操作 clauses 这个列表了，根据不同的情况，动态地往里面加任何可以加的查询条件，甚至嵌套几层 and_ , or_ , not_ 进去都是可以的。</p>
-
+s <span style="color:#555">=</span> select([users, addresses])<span style="color:#555">.</span>where(and_(<span style="color:#555">*</span>clauses))
+</code></pre></div><p>重点就在这个星号 *，标准的 *args 赋值模式，对吧。这样你就可以自由地去操作 clauses 这个列表了，根据不同的情况，动态地往里面加任何可以加的查询条件，甚至嵌套几层 and_ , or_ , not_ 进去都是可以的。</p>
 <p>好了，基本就这样了，更多细节，其实要自己真的去尝试写了才会有概念，这里仅是做个笔记。</p>
 
     </article>
@@ -212,7 +202,7 @@ s <span style="color:#555">=</span> select([users, addresses])<span style="color
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

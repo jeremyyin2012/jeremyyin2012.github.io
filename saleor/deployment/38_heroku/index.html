@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 38: 部署 - Heroku | Jeremy&#39;s blog</title>
 
@@ -120,10 +120,8 @@
     <article>
         <h1>Saleor 38: 部署 - Heroku</h1>
         <hr>
-        
-
-<h2 id="配置-configuration">配置（Configuration）</h2>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ heroku create --buildpack https://github.com/heroku/heroku-buildpack-nodejs.git
+        <h2 id="配置configuration">配置（Configuration）</h2>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ heroku create --buildpack https://github.com/heroku/heroku-buildpack-nodejs.git
 $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-python.git
 $ heroku addons:create heroku-postgresql:hobby-dev
 $ heroku addons:create heroku-redis:hobby-dev
@@ -131,26 +129,23 @@ $ heroku addons:create sendgrid:starter
 $ heroku config:set ALLOWED_HOSTS=&#39;&lt;your hosts here&gt;&#39;
 $ heroku config:set NODE_MODULES_CACHE=false
 $ heroku config:set NPM_CONFIG_PRODUCTION=false
-$ heroku config:set SECRET_KEY=&#39;&lt;your secret key here&gt;&#39;</pre></div>
-<p>Note</p>
-
+$ heroku config:set SECRET_KEY=&#39;&lt;your secret key here&gt;&#39;
+</code></pre></div><p>Note</p>
 <p>Heroku 的存储是不稳定的。这意味着应用程序的所有实例都将具有单独的磁盘，并且每次重新启动应用程序时都将丢失对本地磁盘所做的所有更改。最好的方法是使用 Amazon S3 等云存储。有关配置详细信息，请参阅  <a href="https://saleor.readthedocs.io/en/latest/deployment/s3.html#amazon-s3">Storing Files on Amazon S3</a> 。</p>
-
-<h2 id="部署-deployment">部署（Deployment）</h2>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ git push heroku master</pre></div>
-<h2 id="准备数据库-preparing-the-database">准备数据库（Preparing the Database）</h2>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ heroku run python manage.py migrate</pre></div>
-<h2 id="更新货币汇率-updating-currency-exchange-rates">更新货币汇率（Updating Currency Exchange Rates）</h2>
-
+<h2 id="部署deployment">部署（Deployment）</h2>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ git push heroku master
+</code></pre></div><h2 id="准备数据库preparing-the-database">准备数据库（Preparing the Database）</h2>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ heroku run python manage.py migrate
+</code></pre></div><h2 id="更新货币汇率updating-currency-exchange-rates">更新货币汇率（Updating Currency Exchange Rates）</h2>
 <p>这需要定期运行。实现此目的的最佳方法是使用 Heroku 的调度程序服务（Heroku’s Scheduler service）。我们将其添加到我们的应用程序中：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ heroku addons:create scheduler</pre></div>
-<p>然后登录到您的 Heroku 帐户，在活动插件列表中找到 Heroku Scheduler 插件，并让它每天运行以下命令：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">python manage.py update_exchange_rates --all</pre></div>
-<h2 id="启用-elasticsearch-enabling-elasticsearch">启用 Elasticsearch（Enabling Elasticsearch）</h2>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ heroku addons:create scheduler
+</code></pre></div><p>然后登录到您的 Heroku 帐户，在活动插件列表中找到 Heroku Scheduler 插件，并让它每天运行以下命令：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">python manage.py update_exchange_rates --all
+</code></pre></div><h2 id="启用-elasticsearchenabling-elasticsearch">启用 Elasticsearch（Enabling Elasticsearch）</h2>
 <p>默认情况下，Saleor 使用Postgres 作为搜索后端，但如果您想切换到 Elasticsearch，可以使用 Bonsai 插件轻松实现。为此，请运行以下命令：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ heroku addons:create bonsai:sandbox-6 --version=5.4
-$ heroku run python manage.py search_index --create</pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ heroku addons:create bonsai:sandbox-6 --version=5.4
+$ heroku run python manage.py search_index --create
+</code></pre></div>
     </article>
 
 
@@ -199,7 +194,7 @@ $ heroku run python manage.py search_index --create</pre></div>
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

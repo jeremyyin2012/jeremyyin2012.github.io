@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 18: 参与我们 - 编码风格 | Jeremy&#39;s blog</title>
 
@@ -120,42 +120,32 @@
     <article>
         <h1>Saleor 18: 参与我们 - 编码风格</h1>
         <hr>
-        
-
-<h2 id="python">Python</h2>
-
+        <h2 id="python">Python</h2>
 <p>始终遵循 <a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a> ，但请记住，一致性非常重要。</p>
-
 <h3 id="string-literals">String Literals</h3>
-
 <p>优先使用单引号加双引号，除非字符串本身包含需要不必要地转义的单引号。</p>
-
 <h3 id="wrapping-code">Wrapping Code</h3>
-
 <p>When wrapping code follow the “hanging grid” format:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">some_dict = {
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">some_dict = {
     &#39;one&#39;: 1,
     &#39;two&#39;: 2,
-    &#39;three&#39;: 3}</pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">some_list = [
-    &#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;]</pre></div>
-<p>Python是一种基于缩进的语言，我们相信漂亮，可读的代码比保存一行 <code>git diff</code> 更重要。 即使 Django 项目似乎鼓励这种编程风格，请避免使用括号，括号，方括号或悬挂逗号。下面这种是错误的做法：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">this_is_wrong = {
+    &#39;three&#39;: 3}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">some_list = [
+    &#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;]
+</code></pre></div><p>Python是一种基于缩进的语言，我们相信漂亮，可读的代码比保存一行 <code>git diff </code> 更重要。 即使 Django 项目似乎鼓励这种编程风格，请避免使用括号，括号，方括号或悬挂逗号。下面这种是错误的做法：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">this_is_wrong = {
    &#39;one&#39;: 1,
    &#39;two&#39;: 2,
    &#39;three&#39;: 3,
-}</pre></div>
-<p>请在括号后立即打破多行代码，并避免依赖精确数量的空格进行对齐，下面这种做法也是错误的：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">also_wrong(&#39;this is hard&#39;,
+}
+</code></pre></div><p>请在括号后立即打破多行代码，并避免依赖精确数量的空格进行对齐，下面这种做法也是错误的：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">also_wrong(&#39;this is hard&#39;,
            &#39;to maintain&#39;,
-           &#39;as it often needs to be realigned&#39;)</pre></div>
-<h3 id="linters">Linters</h3>
-
+           &#39;as it often needs to be realigned&#39;)
+</code></pre></div><h3 id="linters">Linters</h3>
 <p>使用 <a href="https://github.com/timothycrosley/isort">isort</a> 来维护一致的进口。</p>
-
 <p>使用 <a href="https://www.pylint.org/">pylint</a> 与 <code>pylint-django</code> 插件来捕获代码中的错误。</p>
-
 <p>使用 <a href="http://pycodestyle.pycqa.org/en/latest/">pycodestyle</a> 确保您的代码符合 PEP 8。</p>
-
 <p>使用 <a href="http://pycodestyle.pycqa.org/en/latest/">pycodestyle</a> 检查您的文档字符串格式是否正确。</p>
 
     </article>
@@ -206,7 +196,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 27: 架构 - 支付 | Jeremy&#39;s blog</title>
 
@@ -120,16 +120,10 @@
     <article>
         <h1>Saleor 27: 架构 - 支付</h1>
         <hr>
-        
-
-<h2 id="支持的网关-supported-gateways">支持的网关（Supported Gateways）</h2>
-
+        <h2 id="支持的网关supported-gateways">支持的网关（Supported Gateways）</h2>
 <p>Saleor 使用 <a href="http://django-payments.readthedocs.io/en/latest/">django-payments</a> 库来处理付款。</p>
-
-<p>默认配置使用*虚拟*后端。这意味着开发人员可以轻松模拟不同的付款结果。</p>
-
+<p>默认配置使用<em>虚拟</em>后端。这意味着开发人员可以轻松模拟不同的付款结果。</p>
 <p>以下是支持的支付提供商列表：</p>
-
 <ul>
 <li>Authorize.Net</li>
 <li>Braintree</li>
@@ -142,39 +136,22 @@
 <li>Sofort.com</li>
 <li>Stripe</li>
 </ul>
-
 <p>请注意，此列表仅供参考。请咨询 <a href="http://django-payments.readthedocs.io/en/latest/modules.html">django-payments documentation</a> 以获得最新的列表和说明。</p>
-
 <p>Note</p>
-
 <p>所有付款后端默认使用沙盒模式。这对于开发非常有用，但确保在部署到生产服务器时使用生产模式。</p>
-
 <h2 id="3-d-secure">3-D Secure</h2>
-
 <p>3-D Secure 是一种卡保护协议，允许商家部分减轻欺诈责任。实际上，它大大降低了退款的可能性。</p>
-
 <p>Saleor 支持 3-D Secure 但是否使用取决于付款处理器和正在使用的卡。</p>
-
-<h2 id="欺诈保护-fraud-protection">欺诈保护（Fraud Protection）</h2>
-
+<h2 id="欺诈保护fraud-protection">欺诈保护（Fraud Protection）</h2>
 <p>一些支付后端提供了自动欺诈保护启发式。如果此类信息可用，Saleor 会将其显示在订单管理面板中。</p>
-
-<h2 id="授权和捕获-authorisation-and-capture">授权和捕获（Authorisation and Capture）</h2>
-
+<h2 id="授权和捕获authorisation-and-capture">授权和捕获（Authorisation and Capture）</h2>
 <p>部分支付后端支持预授权支付。详情请参阅 <a href="http://django-payments.readthedocs.io/en/latest/preauth.html">django-payments documentation</a>。</p>
-
 <p>授权和捕获是一个两步过程。</p>
-
 <p>首先，资金被锁定在付款人的账户上，但不会转移到您的银行。</p>
-
 <p>然后根据提供商和卡的类型，您可能需要几天到一个月的时间才从卡上进行扣钱，金额不超过授权金额。</p>
-
 <p>当订单准备好后才能确定准确的价格时，这非常有用。如果您的企业更喜欢手动筛选企图欺诈的订单，这也很有用。</p>
-
 <p>使用预授权付款查看订单时，Saleor 将提供选项以捕捉或释放资金。</p>
-
-<h2 id="退款-refunds">退款（Refunds）</h2>
-
+<h2 id="退款refunds">退款（Refunds）</h2>
 <p>您可以针对所有收取的付款进行部分或全部退款。当您修改订单并删除 Saleor 将提供的物品时，系统会自动发出部分退款。</p>
 
     </article>
@@ -225,7 +202,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

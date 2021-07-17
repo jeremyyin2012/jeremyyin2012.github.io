@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Saleors on Jeremy&#39;s blog</title>
@@ -42,17 +41,17 @@ $ brew install python3 Git 使用 Homebrew 安装 Git:</description>
 准备工作 在正式运行 Saleor 之前，需要在电脑上安装一些额外软件。
 Python 下载最新的 3.6 版 Windows 安装包，然后根据说明进行安装。
 Python download page
-记得勾选 &amp;ldquo;Add Python 3.6 to PATH&amp;ldquo;
+记得勾选 &amp;ldquo;Add Python 3.6 to PATH&amp;rdquo;
 Node.js 建议是 Version 8 或更高版本。
 Node.js downloads page
-记得勾选 &amp;ldquo;Add to PATH&amp;ldquo;
+记得勾选 &amp;ldquo;Add to PATH&amp;rdquo;
 PostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。
 PostgreSQL download page
 你一定要记住在安装的时候所设定的管理员密码。
 GTK+ 下载 64-bit Windows installer
-记得勾选 &amp;ldquo;Set up PATH environment variable to include GTK+&amp;ldquo;
+记得勾选 &amp;ldquo;Set up PATH environment variable to include GTK+&amp;rdquo;
 Compilers 下载并安装最新版本的 Visual C++ build tools.
-安装  克隆这个仓库 （或是使用你自己的副本）：</description>
+安装   克隆这个仓库 （或是使用你自己的副本）：</description>
     </item>
     
     <item>
@@ -66,13 +65,14 @@ Compilers 下载并安装最新版本的 Visual C++ build tools.
 Python 3 Saleor 建议使用 Python 3.4 或者更高版本。大多数 Linux 系统都有一个内置已经安装好的版本，但是如果不是，那就要去了解下如何安装 Python 3.6.
 Node.js 建议是 Version 8 或更高版本。
 查看 installation instructions.
-Note  Debian 和 Ubuntu 用户使用系统安装包进行安装 Node.js 的话依然还需要安装 nodejs-legacy
-
+Note
+Debian 和 Ubuntu 用户使用系统安装包进行安装 Node.js 的话依然还需要安装 nodejs-legacy
 PostgreSQL 运行 Saleor 需要 PostgreSQL version 9.4 或更高版本。
 PostgreSQL download page
 你一定要记住在安装的时候所设定的管理员密码。
 GTK+ 有一些功能，比如“创建 PDF”，需要额外的系统库支持。
-Debian / Ubuntu Debian 9.0 Stretch 或以上, Ubuntu 16.04 Xenial 或以上:</description>
+Debian / Ubuntu Debian 9.0 Stretch 或以上, Ubuntu 16.04 Xenial 或以上:
+$ sudo apt-get install build-essential python3-dev python3-pip python3-cffi libcairo2 libpango-1.</description>
     </item>
     
     <item>
@@ -82,25 +82,24 @@ Debian / Ubuntu Debian 9.0 Stretch 或以上, Ubuntu 16.04 Xenial 或以上:</de
       
       <guid>/saleor/getting-started/04_configuration/</guid>
       <description>我们是 12factor 方法和可移植代码的粉丝， 所以你仅仅使用环境变量就可以设置 Saleor 的大多数配置项。
-环境变量  ALLOWED_HOSTS
+环境变量   ALLOWED_HOSTS
 控制 Django&amp;rsquo;s allowed hosts 设置，默认是 localhost。使用英文逗号分隔多个值。
- CACHE_URL or REDIS_URL
+  CACHE_URL or REDIS_URL
 缓存数据库地址，默认是系统内存。我们推荐使用 Redis，Heroku 的 Redis 会自动导出这个配置。
-  Example: redis://redis.example.com:6379/0
+Example: redis://redis.example.com:6379/0
 Warning
-
 如果你计划使用不止一个 WSGI 进程（或运行多个服务器/容器），则需要使用共享缓存服务器。否则，每个进程将拥有自己的每个用户会话的版本，这将导致用户被注销并丢失购物车。
-
- DATABASE_URL
-默认是本地 PostgreSQL 实例。查看 Using Docker for Development 了解如何在 Docker container 里面运行本地数据库。  大多数 Heroku 的数据库都会自动导出这个设置。
+  DATABASE_URL
+默认是本地 PostgreSQL 实例。查看 Using Docker for Development 了解如何在 Docker container 里面运行本地数据库。
+大多数 Heroku 的数据库都会自动导出这个设置。
 Example: postgres://user:password@psql.example.com/database
- DEBUG
+  DEBUG
 控制 Django&amp;rsquo;s debug mode 默认是 True
- DEFAULT_FROM_EMAIL
+  DEFAULT_FROM_EMAIL
 电子邮件的默认发件人
- EMAIL_URL
+  EMAIL_URL
 电子邮件网关地址。默认是打印输出所有信息到终端。
-  Example: smtp://user:password@smtp.</description>
+Example: smtp://user:password@smtp.example.com:465/?ssl=True</description>
     </item>
     
     <item>
@@ -121,11 +120,14 @@ $ python manage.py createsuperuser 按照提示提供您的电子邮件地址和
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/saleor/getting-started/06_dev-tools-2/</guid>
-      <description> 我们内建了一些调试工具。
+      <description>我们内建了一些调试工具。
 Django debug toolbar 如果 Django 是运行在 debug 模式下，Django Debug Toolbar 就是开启的。
 Silk Silk 开启与否可以通过环境变量来控制
  ENABLE_SILK
-控制 django-silk. 默认是 False   设置环境变量  $ export ENABLE_SILK=&amp;#39;True&amp;#39;  从 requirements_dev.txt 安装库:  $ python -m pip install -r requirements_dev.txt  重启服务  </description>
+控制 django-silk. 默认是 False    设置环境变量
+$ export ENABLE_SILK=&amp;#39;True&amp;#39;   从 requirements_dev.txt 安装库:
+$ python -m pip install -r requirements_dev.txt   重启服务
+  </description>
     </item>
     
     <item>
@@ -135,7 +137,7 @@ Silk Silk 开启与否可以通过环境变量来控制
       
       <guid>/saleor/getting-started/07_example-data/</guid>
       <description>如果您想要一些数据来测试您的新店面，您可以使用示例产品和订单填充数据库：
-$ python manage.py populatedb</description>
+$ python manage.py populatedb </description>
     </item>
     
     <item>
@@ -151,7 +153,12 @@ Warning
 要构建资源库，您需要 node 和 webpack module bundler
 Warning
 我们的配置公开了 PostgreSQL，Redis 和 Elasticsearch 端口。如果由于端口冲突而运行此 Docker 文件时遇到问题，可以从 docker-compose.yml 文件中删除关于 &amp;lsquo;ports&amp;rsquo; 的部分。
-用法  安装 JavaScript 依赖：  $ npm install  准备静态资源库 assets:  $ npm run build-assets  创建 email:  $ npm run build-emails  使用 docker-compose 创建容器：  $ docker-compose build  准备数据库：  $ docker-compose run web python manage.</description>
+用法   安装 JavaScript 依赖：
+$ npm install   准备静态资源库 assets:
+$ npm run build-assets   创建 email:
+$ npm run build-emails   使用 docker-compose 创建容器：
+$ docker-compose build   准备数据库：
+$ docker-compose run web python manage.</description>
     </item>
     
     <item>
@@ -170,12 +177,12 @@ Warning
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/saleor/customization/10_emails/</guid>
-      <description> 发送邮件 邮件是使用 Django-Templated-Email 进行发送的。
+      <description>发送邮件 邮件是使用 Django-Templated-Email 进行发送的。
 自定义邮件模版 电子邮件模板在 templates/templated_email 中，它有两个子目录。 source 包含 *.email 和 *.mjml 文件，彼此相邻，按应用程序名称分组。 这些 MJML 文件被编译为 *.html 并放入 compiled 目录。
 在 *.email 中的普通电子邮件通过引用编译的 *.html 文件来包含 HTML 版本。
 编译 MJML 源电子邮件使用 MJML ，并且在使用之前必须编译为HTML。
 要编译邮件的话就运行命令：
-$ npm run build-emails</description>
+$ npm run build-emails </description>
     </item>
     
     <item>
@@ -193,7 +200,7 @@ webpack 会自动监测到本地文件的修改，这在开发过程中有非常
 To run webpack in watch mode run:
 $ npm start Warning
 使用上面这种方式创建的文件并不是完全可以在生产环境下直接使用的，要使用下面的命令进行操作：
-$ npm run build-assets --production</description>
+$ npm run build-assets --production </description>
     </item>
     
     <item>
@@ -212,7 +219,7 @@ $ npm run build-assets --production</description>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/saleor/customization/13_i18n/</guid>
-      <description> 从 Transifex 获取翻译文件 首先要确保你已经安装了 Transifex 命令行客户端:
+      <description>从 Transifex 获取翻译文件 首先要确保你已经安装了 Transifex 命令行客户端:
 $ pip install transifex-client 然后使用 pull 命令获取翻译文件:
 $ tx pull Note
 要为新创建的翻译建立目录你需要在使用 tx pull 命令的时候带上 --all 标志。
@@ -233,7 +240,7 @@ $ python manage.py makemessages -l en -d djangojs --ignore=&amp;#34;_build/*&amp
 该项目目前只包含很少的前端代码，因此测试套件仅涵盖后端代码。
 要运行后端测试，请使用 pytest:
 $ py.test 您还可以测试所有支持的 Django 和 Python 版本。 这通常只有在您想要将更改回送给 Saleor 时才需要。 要做到这一点，你可以使用 Tox:
-$ tox</description>
+$ tox </description>
     </item>
     
     <item>
@@ -277,7 +284,7 @@ Saleor 的存储库包含一个 .editorconfig file 文件，它描述了我们�
       <description>Python 始终遵循 PEP 8 ，但请记住，一致性非常重要。
 String Literals 优先使用单引号加双引号，除非字符串本身包含需要不必要地转义的单引号。
 Wrapping Code When wrapping code follow the “hanging grid” format:
-some_dict = { &amp;#39;one&amp;#39;: 1, &amp;#39;two&amp;#39;: 2, &amp;#39;three&amp;#39;: 3}some_list = [ &amp;#39;foo&amp;#39;, &amp;#39;bar&amp;#39;, &amp;#39;baz&amp;#39;] Python是一种基于缩进的语言，我们相信漂亮，可读的代码比保存一行 git diff 更重要。 即使 Django 项目似乎鼓励这种编程风格，请避免使用括号，括号，方括号或悬挂逗号。下面这种是错误的做法：
+some_dict = { &amp;#39;one&amp;#39;: 1, &amp;#39;two&amp;#39;: 2, &amp;#39;three&amp;#39;: 3} some_list = [ &amp;#39;foo&amp;#39;, &amp;#39;bar&amp;#39;, &amp;#39;baz&amp;#39;] Python是一种基于缩进的语言，我们相信漂亮，可读的代码比保存一行 git diff  更重要。 即使 Django 项目似乎鼓励这种编程风格，请避免使用括号，括号，方括号或悬挂逗号。下面这种是错误的做法：
 this_is_wrong = { &amp;#39;one&amp;#39;: 1, &amp;#39;two&amp;#39;: 2, &amp;#39;three&amp;#39;: 3, } 请在括号后立即打破多行代码，并避免依赖精确数量的空格进行对齐，下面这种做法也是错误的：
 also_wrong(&amp;#39;this is hard&amp;#39;, &amp;#39;to maintain&amp;#39;, &amp;#39;as it often needs to be realigned&amp;#39;) Linters 使用 isort 来维护一致的进口。
 使用 pylint 与 pylint-django 插件来捕获代码中的错误。</description>
@@ -307,7 +314,8 @@ Warning
 货币不存储在数据库中。在生产环境中更改默认货币不会重新计算任何现有订单。所有数字将保持不变，并且会被错误地显示为新货币。
 Money 和 TaxedMoney 在 Saleor 的代码库中，金额存在 Money 或 TaxedMoney 实例。
 Money 是以特定货币表示金额的类型：100 USD 是由 Money(100, &amp;lsquo;USD&amp;rsquo;) 表示。这种类型不包含对商业有用的任何附加信息，但是与 Decimal 不同，它实施保护和检查以计算和比较货币价值。Money amounts 使用 MoneyField 存储在 model 上，MoneyField 提供货币和储值金额的自己的安全检查。如果您需要使用 Money 对象的 Decimal （十进制数字），您可以在 amount 属性中找到它。
-Products （产品）和 shipping methods prices （运输方式价格）使用 MoneyField 进行存储，并假定为 gross amounts （总额）。然后使用 TaxedAmount（net = item.price，gross = item.price）方法将这些金额转换为 TaxedMoney 对象，然后在解决项目的最终价格（税前和折扣前）进行转换。</description>
+Products （产品）和 shipping methods prices （运输方式价格）使用 MoneyField 进行存储，并假定为 gross amounts （总额）。然后使用 TaxedAmount（net = item.price，gross = item.price）方法将这些金额转换为 TaxedMoney 对象，然后在解决项目的最终价格（税前和折扣前）进行转换。
+Note</description>
     </item>
     
     <item>
@@ -322,11 +330,14 @@ Products （产品）和 shipping methods prices （运输方式价格）使用 
 封面类型是在我们的商店中创建单独变体的唯一属性，因此我们使用“Book”作为产品类型 product type ，为它启用变体并使用“Cover type”作为变体属性 variant attribute 。
 Class Diagram 产品变体（Product Variants） 变体是你店里最重要的物品。所有购物车和库存操作都使用变体。即使产品没有多种变体，商店也会在后台创建一个。
 产品（Products） 介绍几个产品变体 product variants 的常见细节。当商店显示类别视图时，列表中的项目是不同的产品 products 。如果变体没有重写属性（例如：价格），则从产品 products 中获取默认值。
- available_on  在此日期之前，该产品未在店面中列出，且用户不可用。
- is_featured  特色产品显示在首页
-产品类型（Product Types） 将类型看作您的产品的模板。多个 产品 products 可以使用相同的产品类型 product type。
- product_attributes  所有 产品变体 product variants 之间共享的属性。例如：发布者，所有书籍变体都由同一家公司出版。
- variant_attributes  这是什么区别不同的 变体 variants 。例如：封面类型，你的书可以用硬或软的封面。</description>
+  available_on
+在此日期之前，该产品未在店面中列出，且用户不可用。
+  is_featured
+特色产品显示在首页
+  产品类型（Product Types） 将类型看作您的产品的模板。多个 产品 products 可以使用相同的产品类型 product type。
+  product_attributes
+所有 产品变体 product variants 之间共享的属性。例如：发布者，所有书籍变体都由同一家公司出版。
+  variant_attributes</description>
     </item>
     
     <item>
@@ -350,10 +361,10 @@ $ python manage.py create_thumbnails 删除图像 Image 实例不会自动删除
       <description>每个产品型号都有一个库存单位（SKU）。
 每个变体保存了关于“数量”的相关信息，总库存数量 quantity 包括分配给已经生成的订单的已分配数量 quantity allocated 和可用数量 quantity available 。
 Example: 有五盒鞋子。其中三个已经出售给客户，但尚未处理发货。总库存数量 quantity 为 5，已分配数量 quantity allocated 为 3，可用数量 quantity available 为 2。
-每个变体也有一个*成本价格*（您的商店必须支付才能拿得到货的价格，可以理解为采购价）。
-产品可用性（Product Availability） 如果一个*变体*还有未分配的库存数量，则它就表示是*有货*的。
+每个变体也有一个成本价格（您的商店必须支付才能拿得到货的价格，可以理解为采购价）。
+产品可用性（Product Availability） 如果一个变体还有未分配的库存数量，则它就表示是有货的。
 可订购的最高数量是产品变体中的可用数量 quantity available。
-为新订单分配库存（Allocating Stock for New Orders） 一旦下订单，完成每个订单行所需的数量立即标记为*已分配*。
+为新订单分配库存（Allocating Stock for New Orders） 一旦下订单，完成每个订单行所需的数量立即标记为已分配。
 Example: 一位顾客又下了一盒鞋子的订单。总库存数量 quantity 是 5, 已分配数量 quantity allocated 现在就是 4 ，然后可用数量 quantity available 就变成了 1.
 发货后减少库存（Decreasing Stock After Shipment） 一旦交付组（可以理解为发货单）被标记为发货，这个发货单里面的每条记录所对应的产品变体将手头的数量和分配的数量都减少了出货的数量。
 Example: A 仓库的两箱鞋子被运送给客户。总库存数量 quantity 现在就是 3，已分配数量 quantity allocated 则变为 2，可用数量 quantity available 依然是 1。</description>
@@ -368,21 +379,21 @@ Example: A 仓库的两箱鞋子被运送给客户。总库存数量 quantity �
       <description>订单是在客户完成结账流程后创建的。订单对象本身仅包含客户订单的一些基本信息。
 履行（Fulfillment）（可以理解为发货与发货单） 履行代表一组带有相应跟踪编号的装运物品。履行是由商店经营者创建的，以便在所订购的订单中标记选定的产品已被履行。
 有两种可能的履行状态：
- NEW
+  NEW
 新创建履行的默认状态。
- CANCELED
+  CANCELED
 履行由商店操作员取消。这一行动是不可逆转的。
   订单状态（Order statuses） 根据其履行情况，有四种可能的订单状态：
- UNFULFILLED
+  UNFULFILLED
 没有与订单相关的履行或每一个履行都被取消。需要店铺操作员采取行动才能继续订单处理。
 可以理解为还未发货
- PARTIALLY FULFILLED
+  PARTIALLY FULFILLED
 有一些履行 FULFILLED 状态与订单有关。需要店铺操作员采取行动才能继续订单处理。
 可以理解为部分发货
- FULFILLED
+  FULFILLED
 每个订单行都在现有履行中完成。订单不需要店铺经营者的进一步行动。
 可以理解为发货完成
- CANCELED
+  CANCELED
 订单已被取消。每个履行（如果有的话）都具有 CANCELED 状态。订单不需要店铺经营者的进一步行动。
   还有 DRAFT （草稿）状态，用于从订单后台新创建并尚未发布的订单。这个操作一般用于客服售后流程。</description>
     </item>
@@ -425,7 +436,7 @@ Saleor 的店面和管理后台都准备好翻译。他们使用单独的翻译�
       
       <guid>/saleor/architecture/27_payments/</guid>
       <description>支持的网关（Supported Gateways） Saleor 使用 django-payments 库来处理付款。
-默认配置使用*虚拟*后端。这意味着开发人员可以轻松模拟不同的付款结果。
+默认配置使用虚拟后端。这意味着开发人员可以轻松模拟不同的付款结果。
 以下是支持的支付提供商列表：
  Authorize.Net Braintree Coinbase Cybersource Dotpay Google Wallet PayPal Sage Pay Sofort.com Stripe  请注意，此列表仅供参考。请咨询 django-payments documentation 以获得最新的列表和说明。
 Note
@@ -448,8 +459,8 @@ Saleor 支持 3-D Secure 但是否使用取决于付款处理器和正在使用�
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/saleor/architecture/28_settings/</guid>
-      <description>*网站设置*模块允许您从管理后台更改常见的商店设置，如店铺名称或域名。通过从 SITE_SETTINGS_ID 变量中选择 pk 确定设置对象。
-情境处理器 感谢 saleor.site.context_processors.settings 您可以通过 settings 变量访问模板中的*网站设置*。</description>
+      <description>网站设置模块允许您从管理后台更改常见的商店设置，如店铺名称或域名。通过从 SITE_SETTINGS_ID 变量中选择 pk 确定设置对象。
+情境处理器 感谢 saleor.site.context_processors.settings 您可以通过 settings 变量访问模板中的网站设置。</description>
     </item>
     
     <item>
@@ -489,7 +500,7 @@ Nofollow 链接（Nofollow links） 搜索引擎抓取工具无法在您的网�
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/saleor/integrations/31_smo/</guid>
-      <description>打开图表 为了更有效和高效参与社交媒体，我们在主页和所有的产品/类别中添加了 Open Graph Protocol 。
+      <description>打开图表 为了更有效和高效参与社交媒体，我们在主页和所有的产品/类别中添加了 [Open Graph Protocol](The Open Graph protocol) 。
 Open Graph meta 标签可以控制在社交媒体上分享页面时显示的内容（描述，标题，网址，照片等），从而将您的网页转变为社交图表中的丰富对象。</description>
     </item>
     
@@ -512,8 +523,9 @@ Open Graph meta 标签可以控制在社交媒体上分享页面时显示的内�
       <description>安装 Elasticsearch 搜索后端需要 Elasticsearch 服务器。为了开发目的，docker-compose 将创建一个运行Elasticsearch 服务器实例的 Docker 容器。
 可以使用一组环境变量来配置集成。当您在 Heroku 上部署时，您可以使用提供 Elasticsearch 作为服务的附加组件。默认情况下，Saleor 使用Elasticsearch 5.4.3。
 如果您正在其他地方部署，则可以使用以下服务之一：
-  http://www.searchly.com/ https://www.elastic.co/cloud   环境变量  ELASTICSEARCH_URL或 BONSAI_URL 或 SEARCHBOX_URL  elasticsearch 引擎的网址。如果它是空的 - 搜索将不可用。例： https://user:password@my-3rdparty-es.com:9200
-数据索引 Saleor 使用的Django Elasticsearch DSL 作为用于包装 Elasticsearch DSL 启用自动索引和同步。索引在文档文件中定义。请参考上述项目的文件以获得进一步的帮助。
+  http://www.searchly.com/ https://www.elastic.co/cloud   环境变量   ELASTICSEARCH_URL或 BONSAI_URL 或 SEARCHBOX_URL
+elasticsearch 引擎的网址。如果它是空的 - 搜索将不可用。例： https://user:password@my-3rdparty-es.com:9200
+  数据索引 Saleor 使用的Django Elasticsearch DSL 作为用于包装 Elasticsearch DSL 启用自动索引和同步。索引在文档文件中定义。请参考上述项目的文件以获得进一步的帮助。
 初始搜索索引可以使用以下命令创建：
 $ python manage.py search_index --rebuild 默认情况下，每次更改索引对象（产品，用户，订单）都会重新编制索引。
 搜索集成架构 搜索后端使用 Elasticsearch DSL 在saleor / search / backends中查询定义。
@@ -531,8 +543,11 @@ $ python manage.py search_index --rebuild 默认情况下，每次更改索引�
 不过，我们使用 Google Analytics Measurement Protocol 支持服务器端 Google Analytics 。
 这是使用 google-measurement-protocol ，不使用 cookie，但代价是不会报告无法追踪服务器端的东西，如地理定位和屏幕分辨率。
 为了让它工作，你需要导出下面的环境变量：
- GOOGLE_ANALYTICS_TRACKING_ID  您的信息页的Google “跟踪 ID”。
- ​ ​  </description>
+  GOOGLE_ANALYTICS_TRACKING_ID
+您的信息页的Google “跟踪 ID”。
+  ​
+  ​
+  </description>
     </item>
     
     <item>
@@ -545,7 +560,7 @@ $ python manage.py search_index --rebuild 默认情况下，每次更改索引�
 要生成 Feed 使用命令：
 $ python manage.py update_feeds 建议定期运行此命令。
 Merchant Center 很少有国家/地区相关设置，因此请在 Google 信息中心验证您的 Feed。您还可以在那里指定您的运费，这是许多国家/地区必需的 Feed 参数。在 Google Support pages 可以找到更多信息。
-Google 所需的其中一项字段是*品牌*属性。Feed 生成器会在变体属性中对*品牌*或*发布商*进行检查（如果没有，则会去*产品*里面找）。
+Google 所需的其中一项字段是品牌属性。Feed 生成器会在变体属性中对品牌或发布商进行检查（如果没有，则会去产品里面找）。
 Feed 可以从这个网址下载：http://&amp;lt;yourserver&amp;gt;/feeds/google/</description>
     </item>
     
@@ -558,8 +573,9 @@ Feed 可以从这个网址下载：http://&amp;lt;yourserver&amp;gt;/feeds/googl
       <description>这种整合将使您的客户能够以当地货币查看产品价格。当地价格仅作为估算提供，客户仍按商店的默认货币收费。
 在开始之前，您需要一个 Open Exchange Rates account。除非您需要每天多次更新汇率，否则免费订阅计划应该足够了，当然也可以考虑为 Open Exchange Rates 提供的优质服务购买付费方案。首先去注册并创建一个“App ID”。
 导出以下环境变量：
- OPENEXCHANGERATES_API_KEY  您商店的开放式汇率“应用程序ID”。
-要更新汇率，至少每天运行一次以下命令：
+  OPENEXCHANGERATES_API_KEY
+您商店的开放式汇率“应用程序ID”。
+  要更新汇率，至少每天运行一次以下命令：
 $ python manage.py update_exchange_rates --all Note
 Heroku 用户可以使用 Scheduler add-on 在预定义的时间每天自动调用该命令。</description>
     </item>
@@ -573,7 +589,7 @@ Heroku 用户可以使用 Scheduler add-on 在预定义的时间每天自动调�
       <description>您需要先安装 Docker。
 在构建镜像之前，请确保您准备好了用于生产环境的所有前端资源文件：
 $ npm run build-assets --production $ npm run build-emails $ python manage.py collectstatic 然后使用 Docker 构建镜像：
-$ docker build -t mystorefront .</description>
+$ docker build -t mystorefront . </description>
     </item>
     
     <item>
@@ -594,19 +610,25 @@ Heroku 的存储是不稳定的。这意味着应用程序的所有实例都将�
       
       <guid>/saleor/deployment/39_s3/</guid>
       <description>如果您使用容器进行部署（包括 Docker 和 Heroku），您将希望避免将文件存储在容器的易失性文件系统中。此集成允许您将存储此类文件的任务委托给 Amazon’s S3 service。
-基本配置  AWS_ACCESS_KEY_ID  您的AWS访问密钥。
- AWS_SECRET_ACCESS_KEY  您的AWS秘密访问密钥。
-使用 S3 存储桶提供媒体文件 如果要存储和提供媒体文件，请设置以下环境变量以将 S3 用作媒体存储区：
- AWS_MEDIA_BUCKET_NAME  用于媒体文件的S3存储桶名称。
-如果您打算为媒体S3存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 媒体域：
- AWS_MEDIA_CUSTOM_DOMAIN  用于媒体存储区的 S3 自定义域。
-Note
+基本配置   AWS_ACCESS_KEY_ID
+您的AWS访问密钥。
+  AWS_SECRET_ACCESS_KEY
+您的AWS秘密访问密钥。
+  使用 S3 存储桶提供媒体文件 如果要存储和提供媒体文件，请设置以下环境变量以将 S3 用作媒体存储区：
+  AWS_MEDIA_BUCKET_NAME
+用于媒体文件的S3存储桶名称。
+  如果您打算为媒体S3存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 媒体域：
+  AWS_MEDIA_CUSTOM_DOMAIN
+用于媒体存储区的 S3 自定义域。
+  Note
 媒体文件是指通过管理后台上传的每个数据（产品图像，类别图像等）
 使用 S3 存储桶提供静态文件 默认情况下，应用程序服务器将提供静态文件（例如显示页面所需的 CSS 和 JS 文件）。
 如果你打算为你的静态文件使用 S3，请设置一个额外的环境变量：
- AWS_STORAGE_BUCKET_NAME  用于静态文件的 S3 存储桶名称。
-如果您打算为静态 S3 存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 域：
- AWS_STATIC_CUSTOM_DOMAIN  用于静态存储区的 S3 自定义域。</description>
+  AWS_STORAGE_BUCKET_NAME
+用于静态文件的 S3 存储桶名称。
+  如果您打算为静态 S3 存储桶使用自定义域，则可以将此环境变量设置为您的自定义 S3 域：
+  AWS_STATIC_CUSTOM_DOMAIN
+用于静态存储区的 S3 自定义域。</description>
     </item>
     
     <item>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>给 Scrapy 的 Spider 传递参数 | Jeremy&#39;s blog</title>
 
@@ -121,35 +121,25 @@
         <h1>给 Scrapy 的 Spider 传递参数</h1>
         <hr>
         <p>绝大多数情况下，我们写一个 Spider 会直接将需要的信息写在 Spider 里面，再不济也可能开个文件独立存储下需要的参数啥的，但这仅当 Spider 需求的这些信息是固定不变的情况下，而一旦需要从外部提交一些信息给它来动态调用，就需要用到传递参数了。</p>
-
 <p>先放两个官方文档链接</p>
-
 <ul>
-<li><a href="https://doc.scrapy.org/en/latest/topics/spiders.html#spider-arguments">Scrapy Spider arguments</a></li>
-</ul>
-
+<li>
+<p><a href="https://doc.scrapy.org/en/latest/topics/spiders.html#spider-arguments">Scrapy Spider arguments</a></p>
 <p>使用 scrapy crawl 命令启动使用 -a 后面加参数名和参数值，这应该也就仅在测试时候使用下了。</p>
-
-<ul>
-<li><a href="http://scrapyd.readthedocs.io/en/latest/api.html#schedule-json">Scrapyd schedule.json</a></li>
-</ul>
-
+</li>
+<li>
+<p><a href="http://scrapyd.readthedocs.io/en/latest/api.html#schedule-json">Scrapyd schedule.json</a></p>
 <p>同样在 curl 中使用 -d 后面加参数名和参数值，也是测试时候会用到，可以简单理解它类似一个 form 表单向 URL 去 POST 数据，所以使用 requests 来接这个接口的话，就是：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">  resp = requests.post(url=url, data=data)</pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">resp = requests.post(url=url, data=data)
+</code></pre></div></li>
+</ul>
 <p>这么说，那就是往这个 data 数据里面根据需求不断增加字段名和字段值就行了么，嗯，理解是这么理解，貌似也没啥问题，反正加了什么就在 Spider 那边同样根据字段把值提取出来就可以了，就这样可以了。</p>
-
 <p>不过，还是要说下，不断增加参数以及不断增加维护提取值的逻辑，字段数量多起来了，有点烦人呢。</p>
-
 <p>还有哦，刚为啥说把它简单理解为 form 表单呢，因为它的参数只支持字符串啊：</p>
-
 <p>Keep in mind that spider arguments are only strings. The spider will not do any parsing on its own. </p>
-
 <p>那要是想提交点稍稍复杂点的数据咋办？</p>
-
 <p>我的解决方案是：把所有的自定义的参数都先放到一个 dict 里面去，然后用 json.dumps 处理下，这样把它这整个整体作为一个参数放进 data 里面提交过去，至于 Spider 那边就同样用 json.loads 反向处理下这一个字段值，这样很简单就拿到全部自定义参数了，无论它有多少，无论它怎么变化多端，就都好说了，反正你自定义的，全部都在这里面。</p>
-
 <p>至于这个参数名叫啥是最好，我也不太完全确定，暂时用了一个 s 来表示。</p>
-
 <p>通过 API 来启动 Spider 的话，又能传递你想要的参数进去，可扩展性就好很多了。</p>
 
     </article>
@@ -200,7 +190,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

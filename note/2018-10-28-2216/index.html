@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>使用 SQLAlchemy Core 的 select，可是没有定义表对象怎么办 | Jeremy&#39;s blog</title>
 
@@ -121,15 +121,10 @@
         <h1>使用 SQLAlchemy Core 的 select，可是没有定义表对象怎么办</h1>
         <hr>
         <p>你看到了，动态列查询、动态条件查询，两大动态查询都使用 使用 SQLAlchemy Core 的 select 工具来进行实现，发现没有，要想使用 select，那就必须要有表对象，有了表对象，它才能帮你实现各种动态查询条件语句的生成，没有这些表对象为基础，那可就巧妇难为无米之炊了。</p>
-
 <p>那么，是否就一定要把这些表对象一个一个，一列一列，完完整整地重新敲出来呢？</p>
-
 <p>我一开始就是这么干的。</p>
-
 <p>等我干了几个表，发现太折磨人了。如果建表是自己来，那么一定会去写这些个 Table 的定义，但是如果是接手了一个现有的数据库呢？全部重新手打实现，真的就是要死要活了。</p>
-
 <p>作为程序员思维者，Python 生态已经很成熟了吧，<a href="https://docs.sqlalchemy.org/en/latest/core/index.html">SQLAlchemy</a> 如此强大，是否可以帮忙从数据库里面读取这些 Table 信息出来？</p>
-
 <p>结果真的是可以的：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">sqlalchemy</span> <span style="color:#069;font-weight:bold">import</span> create_engine
 <span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">sqlalchemy</span> <span style="color:#069;font-weight:bold">import</span> MetaData
@@ -137,10 +132,9 @@ db_uri <span style="color:#555">=</span> <span style="color:#c30">&#39;mysql+pym
 engine <span style="color:#555">=</span> create_engine(db_uri)
 metadata <span style="color:#555">=</span> MetaData()
 metadata<span style="color:#555">.</span>reflect(bind<span style="color:#555">=</span>engine)
-<span style="color:#069;font-weight:bold">print</span>(metadata<span style="color:#555">.</span>tables)
-<span style="color:#09f;font-style:italic"># immutabledict({&#39;address&#39;: Table(&#39;address&#39;, MetaData(bind=None), Column(&#39;ID&#39;, ...</span></code></pre></div>
-<p>看到输出这么一串，简直想哭啊。</p>
-
+<span style="color:#366">print</span>(metadata<span style="color:#555">.</span>tables)
+<span style="color:#09f;font-style:italic"># immutabledict({&#39;address&#39;: Table(&#39;address&#39;, MetaData(bind=None), Column(&#39;ID&#39;, ...</span>
+</code></pre></div><p>看到输出这么一串，简直想哭啊。</p>
 <p>好了，想要怎么用就不用我多说了，有了这个字典，想怎么用怎么用去。</p>
 
     </article>
@@ -191,7 +185,7 @@ metadata<span style="color:#555">.</span>reflect(bind<span style="color:#555">=<
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

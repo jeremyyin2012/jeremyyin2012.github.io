@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>当 Tornado 连接 MySQL 报错：Too many connections | Jeremy&#39;s blog</title>
 
@@ -121,31 +121,18 @@
         <h1>当 Tornado 连接 MySQL 报错：Too many connections</h1>
         <hr>
         <p>事情的经过是这样的：</p>
-
 <p>我们对 .NET 程序进行移植，它在 MySQL 中所使用的数据库是很多个，所以请求来了之后其实是动态连接不同的数据库，而不是常见的只有一个库。</p>
-
 <p>我们使用的数据库连接工具是 <a href="https://www.sqlalchemy.org/">SQLAlchemy</a> ，它连接数据库是使用 Engine，事务处理使用的是 Session，每一个请求进来，都会先获取到对应数据库的 engine，然后向 engine 申请一个 session 来实现数据库操作。</p>
-
 <p>由于之前的错误理解，把获取 engine 这步写在了 BaseHandler 下面，在编码阶段其实是看不到问题的，毕竟一个人手动又能开几个数据库连接呢。</p>
-
 <p>但是无意间在一个 k8s 的群里留意到有人提及压测工具，ab 是基于命令的，JMeter 则是使用 Java 开发的有界面工具，Windows 和 Mac 都可以运行，想着可以试试看，刚好可以看看咱自己的这套代码的运行能力如何。</p>
-
 <p>从 10 到 100，然后增加到 1000 就发现了错误出现：Too many connections，这不是该有的结果。</p>
-
 <p>这个问题曾经尝试压测的时候也遇到过，但是没彻底弄明白。</p>
-
 <p>再次通过 Google 进行寻找，让人很失望：清一色的修改 MySQL 的 max_connections。</p>
-
 <p>为啥说很失望呢，你想想，连接超了你就修改最大连接数限制，可是总不能无限增加吧？</p>
-
 <p>但是用户的 Request 是无限增加的呀，直觉上我就认为这并不是解决这个问题的正确方向。</p>
-
 <p>同时也思考是不是可以设置 pool_size=0，这样就是不限连接数，但是一想，肯定也不对。</p>
-
 <p>再次寻找一番，其实并没有明确答案，但是思考一番，engine 其实就是连接代理，按目前获取 engine 的方法，如果每来一个请求就开一个新的 engine，每增加一个 engine 就是增加了一个连接，自然就是无限增加了数据库连接。</p>
-
 <p>如果，engine 不是新开的呢？而是全局使用呢？如何做到全局使用，那就是在 app 启动时候就有了所有的 engine，然后再在 Request 处动态获取到已经事先准备好的 engine，这样不就实现了 engine 的复用了？</p>
-
 <p>上代码：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># app.py</span>
 
@@ -162,10 +149,11 @@
     options<span style="color:#555">.</span>define(<span style="color:#c30">&#39;port&#39;</span>, default<span style="color:#555">=</span><span style="color:#f60">80</span>, <span style="color:#366">type</span><span style="color:#555">=</span><span style="color:#366">int</span>)
     options<span style="color:#555">.</span>parse_command_line()
     application<span style="color:#555">.</span>listen(options<span style="color:#555">.</span>options<span style="color:#555">.</span>port)
-    ioloop<span style="color:#555">.</span>IOLoop<span style="color:#555">.</span>instance()<span style="color:#555">.</span>start()</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># base.py</span>
+    ioloop<span style="color:#555">.</span>IOLoop<span style="color:#555">.</span>instance()<span style="color:#555">.</span>start()
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># base.py</span>
 
 <span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">BaseHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
-    session <span style="color:#555">=</span> None
+    session <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">None</span>
 
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_engine</span>(self):
         dbname <span style="color:#555">=</span> self<span style="color:#555">.</span>get_dbname()
@@ -173,7 +161,7 @@
         <span style="color:#069;font-weight:bold">return</span> engine
 
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get_session</span>(self):
-        <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>session <span style="color:#000;font-weight:bold">is</span> None:
+        <span style="color:#069;font-weight:bold">if</span> self<span style="color:#555">.</span>session <span style="color:#000;font-weight:bold">is</span> <span style="color:#069;font-weight:bold">None</span>:
             engine <span style="color:#555">=</span> self<span style="color:#555">.</span>get_engine()
             self<span style="color:#555">.</span>application<span style="color:#555">.</span>Session<span style="color:#555">.</span>configure(bind<span style="color:#555">=</span>engine)
             self<span style="color:#555">.</span>session <span style="color:#555">=</span> self<span style="color:#555">.</span>application<span style="color:#555">.</span>Session()
@@ -181,13 +169,10 @@
     
     <span style="color:#99f">@property</span>
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">db</span>(self):
-        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>get_session()</code></pre></div>
-<p>JMeter 线程开到 10000，压测通过，未再报错。</p>
-
+        <span style="color:#069;font-weight:bold">return</span> self<span style="color:#555">.</span>get_session()
+</code></pre></div><p>JMeter 线程开到 10000，压测通过，未再报错。</p>
 <p>max_connections 要不要改，可能要改，由于默认 pool_size=5，当数据库很多的时候，连接数=pool_size*数据库数量，这时候就非常容易超出最大连接数了，就必须要调整 pool_size 与  max_connections 来防止 “Too many connections” 错误的出现。</p>
-
 <p>有时候虽然有些方法看似可以立即解决当前的问题，但是，方向却不一定对。</p>
-
 <p>现在，解决了多数据库动态连接的问题，也解决了并发请求导致数据库连接暴增的问题，如果你也有同样类似的需求，或正在进行技术选型却心中没底，或问题已经出现很久却悬而未决，那么你应该知道怎么做了。</p>
 
     </article>
@@ -238,7 +223,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

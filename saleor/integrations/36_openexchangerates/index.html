@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 36: 集成 - 汇率转换 | Jeremy&#39;s blog</title>
 
@@ -121,21 +121,17 @@
         <h1>Saleor 36: 集成 - 汇率转换</h1>
         <hr>
         <p>这种整合将使您的客户能够以当地货币查看产品价格。当地价格仅作为估算提供，客户仍按商店的默认货币收费。</p>
-
 <p>在开始之前，您需要一个 <a href="https://openexchangerates.org/">Open Exchange Rates account</a>。除非您需要每天多次更新汇率，否则免费订阅计划应该足够了，当然也可以考虑为 Open Exchange Rates 提供的优质服务购买付费方案。首先去注册并创建一个“App ID”。</p>
-
 <p>导出以下环境变量：</p>
-
 <ul>
-<li><code>OPENEXCHANGERATES_API_KEY</code></li>
-</ul>
-
+<li>
+<p><code>OPENEXCHANGERATES_API_KEY</code></p>
 <p>您商店的开放式汇率“应用程序ID”。</p>
-
+</li>
+</ul>
 <p>要更新汇率，至少每天运行一次以下命令：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ python manage.py update_exchange_rates --all</pre></div>
-<p>Note</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ python manage.py update_exchange_rates --all
+</code></pre></div><p>Note</p>
 <p>Heroku 用户可以使用 <a href="https://elements.heroku.com/addons/scheduler">Scheduler add-on</a> 在预定义的时间每天自动调用该命令。</p>
 
     </article>
@@ -186,7 +182,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

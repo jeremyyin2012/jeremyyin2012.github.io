@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Hugo 的文件管理方案 | Jeremy&#39;s blog</title>
 
@@ -121,51 +121,30 @@
         <h1>Hugo 的文件管理方案</h1>
         <hr>
         <p>绝大多数的静态网站生成工具，无论是从 Markdown 文件还是 rST 格式的文件，甚至其它格式的文件，基本原理就是：利用一种面向用户友好的文本格式，通过工具处理为 HTML 格式，例如用户使用 Markdown 撰写文章，Hugo 帮忙处理为 HTML 文件。而后拿到静态的 HTML 文件则抛给例如 Nginx 这种 Web 服务器去提供服务即可。</p>
-
 <p>而处理的过程，则需要有按一定规则进行，例如标题与 URL 如何处理，文章日期如何处理，是否支持草稿，生成的网站页面列表如何排序，图片如何插入并显示等等。</p>
-
 <p>这里我取“如何编写带图片的文章”这个需求来说明下我的使用方案。</p>
-
 <p>其实如果仅仅只是文字内容，一篇文章一个 Markdown 文件，Hugo 以及大多数其它工具都会利用文件名来生成一个文件夹，而后此文件夹下面则会放入一个 index.html 文件。</p>
-
 <p>这是为啥呢，因为类似 Nginx 这种 Web 服务器，它的基本逻辑就是去某个文件夹下寻找 index.html 文件，而如果同时你又有提供文件名称，它则会去寻找对应的文件名。</p>
-
 <p>如果自己启动一个 Nginx 服务的话，有时候你会需要用到下面这段代码：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#069;font-weight:bold">try_files</span>  <span style="color:#033">$uri</span> <span style="color:#033">$uri.html</span> <span style="color:#033">$uri/index.html</span> <span style="color:#c30">index.html</span>;</code></pre></div>
-<p>所以这里其实可以看到，$uri 这个东西，要么指一个文件，要么指一个文件夹。</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#069;font-weight:bold">try_files</span>  <span style="color:#033">$uri</span> <span style="color:#033">$uri.html</span> <span style="color:#033">$uri/index.html</span> <span style="color:#c30">index.html</span>;
+</code></pre></div><p>所以这里其实可以看到，$uri 这个东西，要么指一个文件，要么指一个文件夹。</p>
 <p>如果你页面上有插入图片或者其他资源文件，那么你要么可以指定完整的文件路径地址，要么，就可以直接放到某个文件夹下面，与 index.html 平级，这样 index.html 引入的文件都可以是相对于当前页面所在文件夹的路径即可。</p>
-
 <p>这就是服务器方面的逻辑。</p>
-
 <p>下面是本地编写时候的逻辑。</p>
-
 <p>我使用的 Markdown 编辑器是 Typora，虽然它 bug 不断，修了一个又有另一个，但目前并没有其它任何一个编辑器能让我放弃它。</p>
-
 <p>它的实时编辑并渲染的功能，打出来任何一二三级标题和列表与段落，立马就显示为漂亮的效果，这才是一个内容编辑器应有的优秀视觉效果。</p>
-
 <p>而如果我插入一张图片，它则会立即渲染显示，我能立即看到效果。它插入图片所生成的 Markdown 内容一般会是这样的：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown">![<span style="color:#309;font-weight:bold">IMG_6004</span>](<span style="color:#309">IMG_6004-4755009.jpg</span>)</code></pre></div>
-<p>这足够简单了，有插入菜单可以操作，如果你知道文件名，也可以自己写成这样，它就能渲染给你看。</p>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown">![<span style="color:#309;font-weight:bold">IMG_6004</span>](<span style="color:#309">IMG_6004-4755009.jpg</span>)
+</code></pre></div><p>这足够简单了，有插入菜单可以操作，如果你知道文件名，也可以自己写成这样，它就能渲染给你看。</p>
 <p>但是，有个问题。</p>
-
 <p>如果你的图片是放在某一个地方的，比如全部都在一个 <code>static/img</code> 文件夹下面，那这就有个问题。可能对与 Hugo 这样的工具最终渲染完成的网页是能显示图片的，但是你本地的编辑器，却不一定能显示出来，因为它没有能力去更高级文件夹去寻找文件，相对的它只能去自己的的子级文件夹去寻找文件。</p>
-
 <p>我曾经也是这么整理文件的，图片的归图片，文章的归文章，如果文件与图片不够多，是没有问题的，然而一旦文章和图片多了起来，需要考虑的问题就有了：图片是否最终到网站是能正常显示的（路径对不对），图片名称是否要改一改（万一文件名冲突就乱了）等等问题。</p>
-
 <p>所以现在呢，我所使用的方案就是：</p>
-
 <p>如果是要插入图片的，就建一个以文章名称命名的文件夹，里面放一个 index.md 文件，图片等文件就也放当前文章这个文件夹里面即可。</p>
-
 <p>这样，既能保证本地编辑是能实时渲染，也能保证最终呈现是正确无误的，而工作环境仅需要考虑当前文件夹，不用翻来覆去地寻找和核对。</p>
-
 <p>而如果是不需要插入图片的文章，依然还是一个以文章名称命名的 <code>.md</code> 文件即可。</p>
-
 <p>如果需要转移文章到新的目录，或者是寻找一个图片，都无需担心太多，直接操作，以文件夹为管理核心即可。</p>
-
 <p>这便是我的内容资源管理方案，很不错了。</p>
-
 <p>废话这么多，还是不如放一个文件夹路径图来的有视觉感：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">.
 ├── about
@@ -174,14 +153,14 @@
 │   │   └── qrcode_for_jeremyyincom_1280.jpg
 │   └── index.html
 ├── post
-│   ├── <span style="color:#f60">2018</span>-01-11-关联了两款小程序.md
-│   ├── <span style="color:#f60">2018</span>-02-05-一款小小的物流数据产品.md
-│   ├── <span style="color:#f60">2018</span>-03-19-现已加入 Algolia 搜索服务.md
-│   ├── <span style="color:#f60">2018</span>-04-13-我是如何搞砸了本站搜索服务的.md
-│   ├── <span style="color:#f60">2018</span>-04-18-小站构建工具已成功切换到 Hugo.md
-│   ├── <span style="color:#f60">2018</span>-04-19-开始翻译一个文档：Saleor.md
-│   ├── <span style="color:#f60">2018</span>-04-22-Saleor 初稿已翻译完成.md
-│   ├── <span style="color:#f60">2018</span>-04-26-今天全是干货
+│   ├── 2018-01-11-关联了两款小程序.md
+│   ├── 2018-02-05-一款小小的物流数据产品.md
+│   ├── 2018-03-19-现已加入 Algolia 搜索服务.md
+│   ├── 2018-04-13-我是如何搞砸了本站搜索服务的.md
+│   ├── 2018-04-18-小站构建工具已成功切换到 Hugo.md
+│   ├── 2018-04-19-开始翻译一个文档：Saleor.md
+│   ├── 2018-04-22-Saleor 初稿已翻译完成.md
+│   ├── 2018-04-26-今天全是干货
 │   │   ├── IMG_5991-4755089.jpg
 │   │   ├── IMG_5997-4755064.jpg
 │   │   ├── IMG_5998-4755103.jpg
@@ -191,20 +170,21 @@
 │   │   ├── IMG_6003-4755030.jpg
 │   │   ├── IMG_6004-4755009.jpg
 │   │   └── index.md
-│   ├── <span style="color:#f60">2018</span>-05-02-从 Jekyll 到 Hugo 的一些细节.md
-│   └── <span style="color:#f60">2018</span>-05-03-Hugo 的文件管理方案.md
+│   ├── 2018-05-02-从 Jekyll 到 Hugo 的一些细节.md
+│   └── 2018-05-03-Hugo 的文件管理方案.md
 ├── python
-│   ├── <span style="color:#f60">2016</span>-06-28-给一个列表去重复却又要保留顺序.md
-│   ├── <span style="color:#f60">2016</span>-12-23-if True or <span style="color:#069;font-weight:bold">if</span> not True.md
-│   ├── <span style="color:#f60">2017</span>-06-14-造个轮子.md
-│   ├── <span style="color:#f60">2017</span>-09-02-努力投身 Python <span style="color:#f60">3</span> 的怀抱.md
-│   └── <span style="color:#f60">2018</span>-04-27-给一个列表去除重复数据的最原始方法.md
+│   ├── 2016-06-28-给一个列表去重复却又要保留顺序.md
+│   ├── 2016-12-23-if True or <span style="color:#069;font-weight:bold">if</span> not True.md
+│   ├── 2017-06-14-造个轮子.md
+│   ├── 2017-09-02-努力投身 Python <span style="color:#f60">3</span> 的怀抱.md
+│   └── 2018-04-27-给一个列表去除重复数据的最原始方法.md
 └── saleor
     ├── architecture
     │   ├── 20_money.md
     │   ├── 21_products
     │   ├── 22_thumbnails.md
-    │   ├── 23_stock.md</code></pre></div>
+    │   ├── 23_stock.md
+</code></pre></div>
     </article>
 
 
@@ -253,7 +233,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

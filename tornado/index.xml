@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tornados on Jeremy&#39;s blog</title>
+    <title>Tornadoes on Jeremy&#39;s blog</title>
     <link>/tornado/</link>
-    <description>Recent content in Tornados on Jeremy&#39;s blog</description>
+    <description>Recent content in Tornadoes on Jeremy&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
@@ -122,7 +121,7 @@ class MainHandler(tornado.web.RequestHandler): def get(self): items = [&amp;#34;
       <description>认证与安全 Cookies 和 secure cookies 您可以使用 set_cookie 方法在用户的浏览器中设置 cookies：
 class MainHandler(tornado.web.RequestHandler): def get(self): if not self.get_cookie(&amp;#34;mycookie&amp;#34;): self.set_cookie(&amp;#34;mycookie&amp;#34;, &amp;#34;myvalue&amp;#34;) self.write(&amp;#34;Your cookie was not set yet!&amp;#34;) else: self.write(&amp;#34;Your cookie was set!&amp;#34;) Cookies 不安全，客户可以轻松修改。如果您需要设置 Cookies，例如，识别当前登录的用户，则需要对 Cookies 进行签名以防止伪造。Tornado 使用 set_secure_cookie 和 get_secure_cookie 方法来支持签名的 Cookies。要使用这些方法，您需要在创建应用程序时指定名为 cookie_secret 的密钥。您可以将应用程序设置作为关键字参数传递给应用程序：
 application = tornado.web.Application([ (r&amp;#34;/&amp;#34;, MainHandler), ], cookie_secret=&amp;#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&amp;#34;) 除了时间戳和 HMAC 签名之外，签名 cookies 还包含 cookies 的编码值。如果 cookies 是旧的或签名不匹配，get_secure_cookie 将返回 None，就像没有设置 cookies 一样。以上示例的安全版本：
-class MainHandler(tornado.web.RequestHandler): def get(self): if not self.get_secure_cookie(&amp;#34;mycookie&amp;#34;): self.</description>
+class MainHandler(tornado.web.RequestHandler): def get(self): if not self.get_secure_cookie(&amp;#34;mycookie&amp;#34;): self.set_secure_cookie(&amp;#34;mycookie&amp;#34;, &amp;#34;myvalue&amp;#34;) self.</description>
     </item>
     
     <item>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 23: 架构 - 库存管理 | Jeremy&#39;s blog</title>
 
@@ -120,32 +120,18 @@
     <article>
         <h1>Saleor 23: 架构 - 库存管理</h1>
         <hr>
-        
-
-<p>每个产品型号都有一个库存单位（SKU）。</p>
-
+        <p>每个产品型号都有一个库存单位（SKU）。</p>
 <p>每个变体保存了关于“数量”的相关信息，<strong>总库存数量</strong> <strong>quantity</strong> 包括分配给已经生成的订单的<strong>已分配数量</strong> <strong>quantity allocated</strong> 和<strong>可用数量</strong> <strong>quantity available</strong> 。</p>
-
 <p><strong>Example:</strong> 有五盒鞋子。其中三个已经出售给客户，但尚未处理发货。<strong>总库存数量</strong> <strong>quantity</strong> 为 <strong>5</strong>，<strong>已分配数量</strong> <strong>quantity allocated</strong> 为 <strong>3</strong>，<strong>可用数量</strong> <strong>quantity available</strong> 为 <strong>2</strong>。</p>
-
-<p>每个变体也有一个*成本价格*（您的商店必须支付才能拿得到货的价格，可以理解为采购价）。</p>
-
-<h2 id="产品可用性-product-availability">产品可用性（Product Availability）</h2>
-
-<p>如果一个*变体*还有未分配的库存数量，则它就表示是*有货*的。</p>
-
+<p>每个变体也有一个<em>成本价格</em>（您的商店必须支付才能拿得到货的价格，可以理解为采购价）。</p>
+<h2 id="产品可用性product-availability">产品可用性（Product Availability）</h2>
+<p>如果一个<em>变体</em>还有未分配的库存数量，则它就表示是<em>有货</em>的。</p>
 <p>可订购的最高数量是产品变体中的可用数量 quantity available。</p>
-
-<h2 id="为新订单分配库存-allocating-stock-for-new-orders">为新订单分配库存（Allocating Stock for New Orders）</h2>
-
-<p>一旦下订单，完成每个订单行所需的数量立即标记为*已分配*。</p>
-
+<h2 id="为新订单分配库存allocating-stock-for-new-orders">为新订单分配库存（Allocating Stock for New Orders）</h2>
+<p>一旦下订单，完成每个订单行所需的数量立即标记为<em>已分配</em>。</p>
 <p><strong>Example:</strong> 一位顾客又下了一盒鞋子的订单。<strong>总库存数量</strong> <strong>quantity</strong> 是 <strong>5</strong>, <strong>已分配数量</strong> <strong>quantity allocated</strong> 现在就是 <strong>4</strong> ，然后<strong>可用数量</strong> <strong>quantity available</strong> 就变成了 <strong>1</strong>.</p>
-
-<h2 id="发货后减少库存-decreasing-stock-after-shipment">发货后减少库存（Decreasing Stock After Shipment）</h2>
-
+<h2 id="发货后减少库存decreasing-stock-after-shipment">发货后减少库存（Decreasing Stock After Shipment）</h2>
 <p>一旦交付组（可以理解为发货单）被标记为发货，这个发货单里面的每条记录所对应的产品变体将手头的数量和分配的数量都减少了出货的数量。</p>
-
 <p><strong>Example:</strong> A 仓库的两箱鞋子被运送给客户。<strong>总库存数量</strong> <strong>quantity</strong> 现在就是 <strong>3</strong>，<strong>已分配数量</strong> <strong>quantity allocated</strong> 则变为 <strong>2</strong>，<strong>可用数量</strong> <strong>quantity available</strong> 依然是 <strong>1</strong>。</p>
 
     </article>
@@ -196,7 +182,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Tornado 0103 - 用户指南: 协程 | Jeremy&#39;s blog</title>
 
@@ -120,41 +120,32 @@
     <article>
         <h1>Tornado 0103 - 用户指南: 协程</h1>
         <hr>
-        
-
-<h1 id="协程-coroutines">协程（Coroutines）</h1>
-
+        <h1 id="协程coroutines">协程（Coroutines）</h1>
 <p>协程是在 Tornado 中编写异步代码的推荐方法。协程使用 Python await 或 yield 关键字来挂起和恢复执行而不是一系列回调（在 gevent 这样的框架中看到的协作轻量级线程有时也被称为协程，但在 Tornado 中所有协程都使用显式上下文切换并被称为异步函数）。</p>
-
 <p>协程几乎和同步代码一样简单，但不需要花费任何线程成本。它们还通过减少上下文切换可能发生的位置数量，使 <a href="https://glyph.twistedmatrix.com/2014/02/unyielding.html">并发性</a> 更易于推理。</p>
-
 <p>Example:</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">fetch_coroutine</span>(url):
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">fetch_coroutine</span>(url):
     http_client <span style="color:#555">=</span> AsyncHTTPClient()
-    response <span style="color:#555">=</span> await http_client<span style="color:#555">.</span>fetch(url)
-    <span style="color:#069;font-weight:bold">return</span> response<span style="color:#555">.</span>body</code></pre></div>
-<h2 id="原生协程与装饰器协程-native-vs-decorated-coroutines">原生协程与装饰器协程（Native vs decorated coroutines）</h2>
-
+    response <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">await</span> http_client<span style="color:#555">.</span>fetch(url)
+    <span style="color:#069;font-weight:bold">return</span> response<span style="color:#555">.</span>body
+</code></pre></div><h2 id="原生协程与装饰器协程native-vs-decorated-coroutines">原生协程与装饰器协程（Native vs decorated coroutines）</h2>
 <p>Python 3.5 引入了async 和 await 关键字（使用这些关键字的函数也称为“原生协程（native coroutines）”）。为了与旧版本的 Python 兼容，您可以使用 tornado.gen.coroutine 装饰器来使用“装饰”或“基于 yield ”的协同程序。</p>
-
 <p>尽可能使用原生协程。仅在需要与旧版本的 Python 兼容时才使用修饰器协程。Tornado 文档中的示例通常使用原生形式。</p>
-
 <p>两种形式之间的翻译通常很简单：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># Decorated:                    # Native:</span>
 
 <span style="color:#09f;font-style:italic"># Normal function declaration</span>
 <span style="color:#09f;font-style:italic"># with decorator                # &#34;async def&#34; keywords</span>
-<span style="color:#99f">@gen.coroutine</span>
-<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">a</span>():                        async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">a</span>():
+<span style="color:#99f">@gen</span><span style="color:#555">.</span>coroutine
+<span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">a</span>():                        <span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">a</span>():
     <span style="color:#09f;font-style:italic"># &#34;yield&#34; all async funcs       # &#34;await&#34; all async funcs</span>
-    b <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">yield</span> c()                   b <span style="color:#555">=</span> await c()
+    b <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">yield</span> c()                   b <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">await</span> c()
     <span style="color:#09f;font-style:italic"># &#34;return&#34; and &#34;yield&#34;</span>
     <span style="color:#09f;font-style:italic"># cannot be mixed in</span>
     <span style="color:#09f;font-style:italic"># Python 2, so raise a</span>
     <span style="color:#09f;font-style:italic"># special exception.            # Return normally</span>
-    <span style="color:#069;font-weight:bold">raise</span> gen<span style="color:#555">.</span>Return(b)             <span style="color:#069;font-weight:bold">return</span> b</code></pre></div>
-<p>两种形式的协程之间的其他差异是：</p>
-
+    <span style="color:#069;font-weight:bold">raise</span> gen<span style="color:#555">.</span>Return(b)             <span style="color:#069;font-weight:bold">return</span> b
+</code></pre></div><p>两种形式的协程之间的其他差异是：</p>
 <ul>
 <li>原生协程通常更快。</li>
 <li>原生协程可以使用 async for 和 async with 语句，这使得某些模式更加简单。</li>
@@ -164,133 +155,121 @@
 <li>装饰器协程可以支持与其他软件包的集成，包括通过转换函数注册表的 Twisted。要在原生协程中访问此功能，请使用 tornado.gen.convert_yielded。</li>
 <li>装饰器协程总是返回一个 Future 对象。原生协程返回一个 <strong>awaitable</strong> 对象，而不是 Future。在 Tornado 中，两者大多可以互换。</li>
 </ul>
-
 <h2 id="怎么运行的">怎么运行的</h2>
-
 <p>本节介绍装饰器协程的操作。原生协程在概念上是相似的，但由于与 Python 运行时的额外集成而稍微复杂一些。</p>
-
 <p>包含 yield 的函数是生成器。所有生成器都是异步的，在调用时，它们返回一个生成器对象而不是运行完成。 @gen.coroutine 装饰器通过 yield 表达式与生成器通信，并通过返回 Future 与协程的调用者通信。</p>
-
 <p>这是 coroutine 装饰器内循环的简化版本：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># Simplified inner loop of tornado.gen.Runner</span>
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">run</span>(self):
     <span style="color:#09f;font-style:italic"># send(x) makes the current yield return x.</span>
     <span style="color:#09f;font-style:italic"># It returns when the next yield is reached</span>
-    future <span style="color:#555">=</span> self<span style="color:#555">.</span>gen<span style="color:#555">.</span>send(self<span style="color:#555">.</span><span style="color:#366">next</span>)
+    future <span style="color:#555">=</span> self<span style="color:#555">.</span>gen<span style="color:#555">.</span>send(self<span style="color:#555">.</span>next)
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">callback</span>(f):
-        self<span style="color:#555">.</span><span style="color:#366">next</span> <span style="color:#555">=</span> f<span style="color:#555">.</span>result()
+        self<span style="color:#555">.</span>next <span style="color:#555">=</span> f<span style="color:#555">.</span>result()
         self<span style="color:#555">.</span>run()
-    future<span style="color:#555">.</span>add_done_callback(callback)</code></pre></div>
-<p>装饰器从生成器接收 Future，等待（不阻塞）该 Future 完成，然后 “unwraps” Future 并将结果作为 yield 表达式的结果发送回生成器。大多数异步代码从不直接接触 Future 类，除非立即将异步函数返回的 Future 传递给 yield 表达式。</p>
-
+    future<span style="color:#555">.</span>add_done_callback(callback)
+</code></pre></div><p>装饰器从生成器接收 Future，等待（不阻塞）该 Future 完成，然后 “unwraps” Future 并将结果作为 yield 表达式的结果发送回生成器。大多数异步代码从不直接接触 Future 类，除非立即将异步函数返回的 Future 传递给 yield 表达式。</p>
 <h2 id="如何调用协程">如何调用协程</h2>
-
 <p>协程不会以正常方式引发异常：它们引发的任何异常都将被困在等待（awaitable）对象中，直到它被 yielded 为止。这意味着以正确的方式调用协同程序很重要，否则您可能会发现未被注意到的错误：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">divide</span>(x, y):
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">divide</span>(x, y):
     <span style="color:#069;font-weight:bold">return</span> x <span style="color:#555">/</span> y
 
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">bad_call</span>():
     <span style="color:#09f;font-style:italic"># This should raise a ZeroDivisionError, but it won&#39;t because</span>
     <span style="color:#09f;font-style:italic"># the coroutine is called incorrectly.</span>
-    divide(<span style="color:#f60">1</span>, <span style="color:#f60">0</span>)</code></pre></div>
-<p>在几乎所有情况下，任何调用协程的函数都必须是协程本身，并在调用中使用 await 或 yield 关键字。当覆盖超类中定义的方法时，请查阅文档以查看是否允许协程（文档应该说方法（method）“可能是协程”或“可能返回 Future”）：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">good_call</span>():
+    divide(<span style="color:#f60">1</span>, <span style="color:#f60">0</span>)
+</code></pre></div><p>在几乎所有情况下，任何调用协程的函数都必须是协程本身，并在调用中使用 await 或 yield 关键字。当覆盖超类中定义的方法时，请查阅文档以查看是否允许协程（文档应该说方法（method）“可能是协程”或“可能返回 Future”）：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">good_call</span>():
     <span style="color:#09f;font-style:italic"># await will unwrap the object returned by divide() and raise</span>
     <span style="color:#09f;font-style:italic"># the exception.</span>
-    await divide(<span style="color:#f60">1</span>, <span style="color:#f60">0</span>)</code></pre></div>
-<p>有时你可能想要“解雇并忘记”一个协程而不等待它的结果。在这种情况下，建议使用IOLoop.spawn_callback，这使得 IOLoop 负责调用。如果失败，IOLoop 将记录堆栈跟踪：</p>
+    <span style="color:#069;font-weight:bold">await</span> divide(<span style="color:#f60">1</span>, <span style="color:#f60">0</span>)
+</code></pre></div><p>有时你可能想要“解雇并忘记”一个协程而不等待它的结果。在这种情况下，建议使用IOLoop.spawn_callback，这使得 IOLoop 负责调用。如果失败，IOLoop 将记录堆栈跟踪：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># The IOLoop will catch the exception and print a stack trace in</span>
 <span style="color:#09f;font-style:italic"># the logs. Note that this doesn&#39;t look like a normal call, since</span>
 <span style="color:#09f;font-style:italic"># we pass the function object to be called by the IOLoop.</span>
-IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>spawn_callback(divide, <span style="color:#f60">1</span>, <span style="color:#f60">0</span>)</code></pre></div>
-<p>对于使用 @gen.coroutine 的函数，IOLoop.spawn_callback 这种方式是建议使用，但是对于使用 async def 的函数则是必须使用（否则协程运行程序将无法启动）。</p>
-
+IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>spawn_callback(divide, <span style="color:#f60">1</span>, <span style="color:#f60">0</span>)
+</code></pre></div><p>对于使用 @gen.coroutine 的函数，IOLoop.spawn_callback 这种方式是建议使用，但是对于使用 async def 的函数则是必须使用（否则协程运行程序将无法启动）。</p>
 <p>最后，在程序的顶层，如果 IOLoop 尚未运行，你可以启动 IOLoop，运行协程，然后使用IOLoop.run_sync 方法停止 IOLoop。这通常用于启动面向批处理的程序的 main 函数：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#09f;font-style:italic"># run_sync() doesn&#39;t take arguments, so we must wrap the</span>
 <span style="color:#09f;font-style:italic"># call in a lambda.</span>
-IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>run_sync(<span style="color:#069;font-weight:bold">lambda</span>: divide(<span style="color:#f60">1</span>, <span style="color:#f60">0</span>))</code></pre></div>
-<h2 id="协程模式">协程模式</h2>
-
+IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>run_sync(<span style="color:#069;font-weight:bold">lambda</span>: divide(<span style="color:#f60">1</span>, <span style="color:#f60">0</span>))
+</code></pre></div><h2 id="协程模式">协程模式</h2>
 <h3 id="调用阻塞函数">调用阻塞函数</h3>
-
 <p>从协程中调用阻塞函数的最简单方法是使用IOLoop.run_in_executor，它返回与协程兼容的 Futures：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">call_blocking</span>():
-    await IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>run_in_executor(blocking_func, args)</code></pre></div>
-<h3 id="并行">并行</h3>
-
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">call_blocking</span>():
+    <span style="color:#069;font-weight:bold">await</span> IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>run_in_executor(blocking_func, args)
+</code></pre></div><h3 id="并行">并行</h3>
 <p>multi 函数接受其值为 Futures 的 lists 和 dicts，并且并行等待所有这些 Futures：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado.gen</span> <span style="color:#069;font-weight:bold">import</span> multi
 
-async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">parallel_fetch</span>(url1, url2):
-    resp1, resp2 <span style="color:#555">=</span> await multi([http_client<span style="color:#555">.</span>fetch(url1),
+<span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">parallel_fetch</span>(url1, url2):
+    resp1, resp2 <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">await</span> multi([http_client<span style="color:#555">.</span>fetch(url1),
                                 http_client<span style="color:#555">.</span>fetch(url2)])
 
-async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">parallel_fetch_many</span>(urls):
-    responses <span style="color:#555">=</span> await multi ([http_client<span style="color:#555">.</span>fetch(url) <span style="color:#069;font-weight:bold">for</span> url <span style="color:#000;font-weight:bold">in</span> urls])
+<span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">parallel_fetch_many</span>(urls):
+    responses <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">await</span> multi ([http_client<span style="color:#555">.</span>fetch(url) <span style="color:#069;font-weight:bold">for</span> url <span style="color:#000;font-weight:bold">in</span> urls])
     <span style="color:#09f;font-style:italic"># responses is a list of HTTPResponses in the same order</span>
 
-async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">parallel_fetch_dict</span>(urls):
-    responses <span style="color:#555">=</span> await multi({url: http_client<span style="color:#555">.</span>fetch(url)
+<span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">parallel_fetch_dict</span>(urls):
+    responses <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">await</span> multi({url: http_client<span style="color:#555">.</span>fetch(url)
                              <span style="color:#069;font-weight:bold">for</span> url <span style="color:#000;font-weight:bold">in</span> urls})
-    <span style="color:#09f;font-style:italic"># responses is a dict {url: HTTPResponse}</span></code></pre></div>
-<p>在装饰器协程中，可以直接 yield list 或 dict：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#99f">@gen.coroutine</span>
+    <span style="color:#09f;font-style:italic"># responses is a dict {url: HTTPResponse}</span>
+</code></pre></div><p>在装饰器协程中，可以直接 yield list 或 dict：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#99f">@gen</span><span style="color:#555">.</span>coroutine
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">parallel_fetch_decorated</span>(url1, url2):
     resp1, resp2 <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">yield</span> [http_client<span style="color:#555">.</span>fetch(url1),
-                          http_client<span style="color:#555">.</span>fetch(url2)])</code></pre></div>
-<h3 id="交错">交错</h3>
-
+                          http_client<span style="color:#555">.</span>fetch(url2)])
+</code></pre></div><h3 id="交错">交错</h3>
 <p>有时去保存 Future 而不是立即 yield 它，是会很有用的，因此你可以在等待之前启动另一个操作。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado.gen</span> <span style="color:#069;font-weight:bold">import</span> convert_yielded
 
-async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
+<span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
     <span style="color:#09f;font-style:italic"># convert_yielded() starts the native coroutine in the background.</span>
     <span style="color:#09f;font-style:italic"># This is equivalent to asyncio.ensure_future() (both work in Tornado).</span>
     fetch_future <span style="color:#555">=</span> convert_yielded(self<span style="color:#555">.</span>fetch_next_chunk())
-    <span style="color:#069;font-weight:bold">while</span> True:
+    <span style="color:#069;font-weight:bold">while</span> <span style="color:#069;font-weight:bold">True</span>:
         chunk <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">yield</span> fetch_future
-        <span style="color:#069;font-weight:bold">if</span> chunk <span style="color:#000;font-weight:bold">is</span> None: <span style="color:#069;font-weight:bold">break</span>
+        <span style="color:#069;font-weight:bold">if</span> chunk <span style="color:#000;font-weight:bold">is</span> <span style="color:#069;font-weight:bold">None</span>: <span style="color:#069;font-weight:bold">break</span>
         self<span style="color:#555">.</span>write(chunk)
         fetch_future <span style="color:#555">=</span> convert_yielded(self<span style="color:#555">.</span>fetch_next_chunk())
-        <span style="color:#069;font-weight:bold">yield</span> self<span style="color:#555">.</span>flush()</code></pre></div>
-<p>这对于装饰器协程来说更容易一些，因为它们在被调用时就立即启动：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#99f">@gen.coroutine</span>
+        <span style="color:#069;font-weight:bold">yield</span> self<span style="color:#555">.</span>flush()
+</code></pre></div><p>这对于装饰器协程来说更容易一些，因为它们在被调用时就立即启动：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#99f">@gen</span><span style="color:#555">.</span>coroutine
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
     fetch_future <span style="color:#555">=</span> self<span style="color:#555">.</span>fetch_next_chunk()
-    <span style="color:#069;font-weight:bold">while</span> True:
+    <span style="color:#069;font-weight:bold">while</span> <span style="color:#069;font-weight:bold">True</span>:
         chunk <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">yield</span> fetch_future
-        <span style="color:#069;font-weight:bold">if</span> chunk <span style="color:#000;font-weight:bold">is</span> None: <span style="color:#069;font-weight:bold">break</span>
+        <span style="color:#069;font-weight:bold">if</span> chunk <span style="color:#000;font-weight:bold">is</span> <span style="color:#069;font-weight:bold">None</span>: <span style="color:#069;font-weight:bold">break</span>
         self<span style="color:#555">.</span>write(chunk)
         fetch_future <span style="color:#555">=</span> self<span style="color:#555">.</span>fetch_next_chunk()
-        <span style="color:#069;font-weight:bold">yield</span> self<span style="color:#555">.</span>flush()</code></pre></div>
-<h3 id="循环">循环</h3>
-
+        <span style="color:#069;font-weight:bold">yield</span> self<span style="color:#555">.</span>flush()
+</code></pre></div><h3 id="循环">循环</h3>
 <p>在原生协程中，可以使用 async for。在旧版本的 Python 中，使用协程进行循环是很棘手的，因为无法在 for 循环或 while 循环的每次迭代中产生并捕获 yield 的结果。相反，您需要将循环条件与访问结果分开，如本例中的 <a href="https://motor.readthedocs.io/en/stable/">Motor</a>：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">motor</span>
 db <span style="color:#555">=</span> motor<span style="color:#555">.</span>MotorClient()<span style="color:#555">.</span>test
 
-<span style="color:#99f">@gen.coroutine</span>
+<span style="color:#99f">@gen</span><span style="color:#555">.</span>coroutine
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">loop_example</span>(collection):
     cursor <span style="color:#555">=</span> db<span style="color:#555">.</span>collection<span style="color:#555">.</span>find()
     <span style="color:#069;font-weight:bold">while</span> (<span style="color:#069;font-weight:bold">yield</span> cursor<span style="color:#555">.</span>fetch_next):
-        doc <span style="color:#555">=</span> cursor<span style="color:#555">.</span>next_object()</code></pre></div>
-<h3 id="在后台运行">在后台运行</h3>
-
+        doc <span style="color:#555">=</span> cursor<span style="color:#555">.</span>next_object()
+</code></pre></div><h3 id="在后台运行">在后台运行</h3>
 <p>PeriodicCallback 通常不与协程一起使用。相反，一个协程可以包含一个 while True：循环并使用 tornado.gen.sleep：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">minute_loop</span>():
-    <span style="color:#069;font-weight:bold">while</span> True:
-        await do_something()
-        await gen<span style="color:#555">.</span>sleep(<span style="color:#f60">60</span>)
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">minute_loop</span>():
+    <span style="color:#069;font-weight:bold">while</span> <span style="color:#069;font-weight:bold">True</span>:
+        <span style="color:#069;font-weight:bold">await</span> do_something()
+        <span style="color:#069;font-weight:bold">await</span> gen<span style="color:#555">.</span>sleep(<span style="color:#f60">60</span>)
 
 <span style="color:#09f;font-style:italic"># Coroutines that loop forever are generally started with</span>
 <span style="color:#09f;font-style:italic"># spawn_callback().</span>
-IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>spawn_callback(minute_loop)</code></pre></div>
-<p>有时可能需要更复杂的循环。例如，上面这个循环需要设计为每 60 + N 秒运行一次，其中 N 是 do_something() 的运行时间。要完全每 60 秒运行一次，请使用上面的交错模式：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">minute_loop2</span>():
-    <span style="color:#069;font-weight:bold">while</span> True:
+IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>spawn_callback(minute_loop)
+</code></pre></div><p>有时可能需要更复杂的循环。例如，上面这个循环需要设计为每 60 + N 秒运行一次，其中 N 是 do_something() 的运行时间。要完全每 60 秒运行一次，请使用上面的交错模式：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">minute_loop2</span>():
+    <span style="color:#069;font-weight:bold">while</span> <span style="color:#069;font-weight:bold">True</span>:
         nxt <span style="color:#555">=</span> gen<span style="color:#555">.</span>sleep(<span style="color:#f60">60</span>)   <span style="color:#09f;font-style:italic"># Start the clock.</span>
-        await do_something()  <span style="color:#09f;font-style:italic"># Run while the clock is ticking.</span>
-        await nxt             <span style="color:#09f;font-style:italic"># Wait for the timer to run out.</span></code></pre></div>
+        <span style="color:#069;font-weight:bold">await</span> do_something()  <span style="color:#09f;font-style:italic"># Run while the clock is ticking.</span>
+        <span style="color:#069;font-weight:bold">await</span> nxt             <span style="color:#09f;font-style:italic"># Wait for the timer to run out.</span>
+</code></pre></div>
     </article>
 
 
@@ -339,7 +318,7 @@ IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

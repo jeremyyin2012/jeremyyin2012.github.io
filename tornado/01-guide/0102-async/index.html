@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Tornado 0102 - 用户指南: 异步和非阻塞 I/O | Jeremy&#39;s blog</title>
 
@@ -120,63 +120,48 @@
     <article>
         <h1>Tornado 0102 - 用户指南: 异步和非阻塞 I/O</h1>
         <hr>
-        
-
-<h1 id="异步和非阻塞-i-o-asynchronous-and-non-blocking-i-o">异步和非阻塞 I/O（Asynchronous and non-Blocking I/O）</h1>
-
+        <h1 id="异步和非阻塞-ioasynchronous-and-non-blocking-io">异步和非阻塞 I/O（Asynchronous and non-Blocking I/O）</h1>
 <p>实时 Web 功能需要为每个用户长期保持大部分空闲连接。在传统的同步 Web 服务器中，这意味着要为每个用户投入一个线程，这成本可能非常昂贵。</p>
-
 <p>为了最小化并发连接的成本，Tornado 使用单线程事件循环。这意味着所有应用程序代码都应该是异步和非阻塞的，因为一次只能有一个操作处于活动状态。</p>
-
 <p><strong>异步</strong> 和 <strong>非阻塞</strong> 这两个术语是密切相关的，并且通常可以互换使用，但它们并不完全相同。</p>
-
-<h2 id="阻塞-blocking">阻塞（Blocking）</h2>
-
+<h2 id="阻塞blocking">阻塞（Blocking）</h2>
 <p>函数在返回之前等待某事发生时会阻塞（blocks）。一个函数可能由于多种原因而阻塞：网络 I/O、磁盘 I/O、互斥锁等。事实上，每一个函数在运行和使用 CPU 时都会至少有一点阻塞（对于一个极端的例子来说明为什么 CPU 阻塞必须像其他类型的阻塞一样严肃，考虑密码散列函数，如 <a href="http://bcrypt.sourceforge.net/">bcrypt</a> ，它设计使用数百毫秒的 CPU 时间，远远超过典型的网络或磁盘访问）。</p>
-
 <p>一个函数可能在某些方面是阻塞的，而在其他方面是非阻塞的。虽然各种阻塞都要尽量减少，但在 Tornado 的上下文中，我们通常情况是谈论在网络 I/O 上下文中的阻塞。</p>
-
-<h2 id="异步-asynchronous">异步（Asynchronous）</h2>
-
+<h2 id="异步asynchronous">异步（Asynchronous）</h2>
 <p>异步函数在它执行完成之前就会返回，并且通常在触发应用程序中的一些未来操作之前，会将某些工作放到后台去执行（相反地，同步函数一定要等到执行完它所有操作才会返回）。异步接口有很多种风格：</p>
-
 <ul>
 <li>回调参数</li>
 <li>返回占位符（Future，Promise，Deferred）</li>
 <li>交付队列</li>
 <li>回调注册表（例如 POSIX 信号）</li>
 </ul>
-
 <p>无论使用哪种类型的接口，定义的每种异步函数都需要让调用者使用不同的交互方式；没有一种毫无成本的方法可以使同步函数直接变成异步函数，却又对其调用者透明的（像 gevent 这样的系统使用轻量级线程来提供与异步系统相当的性能，但它们实际上并不会使事情变成异步）。</p>
-
 <p>Tornado 中的异步操作通常返回占位符对象（Futures），但一些低级别组件（例如使用回调的IOLoop）除外。Futures 通常会通过 await 或 yield 关键字转换为结果。</p>
-
 <h2 id="examples">Examples</h2>
-
 <p>这是一个同步函数示例：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado.httpclient</span> <span style="color:#069;font-weight:bold">import</span> HTTPClient
 
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">synchronous_fetch</span>(url):
     http_client <span style="color:#555">=</span> HTTPClient()
     response <span style="color:#555">=</span> http_client<span style="color:#555">.</span>fetch(url)
-    <span style="color:#069;font-weight:bold">return</span> response<span style="color:#555">.</span>body</code></pre></div>
-<p>这是使用原生协程进行重写的异步函数：</p>
+    <span style="color:#069;font-weight:bold">return</span> response<span style="color:#555">.</span>body
+</code></pre></div><p>这是使用原生协程进行重写的异步函数：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado.httpclient</span> <span style="color:#069;font-weight:bold">import</span> AsyncHTTPClient
 
-async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">asynchronous_fetch</span>(url):
+<span style="color:#069;font-weight:bold">async</span> <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">asynchronous_fetch</span>(url):
     http_client <span style="color:#555">=</span> AsyncHTTPClient()
-    response <span style="color:#555">=</span> await http_client<span style="color:#555">.</span>fetch(url)
-    <span style="color:#069;font-weight:bold">return</span> response<span style="color:#555">.</span>body</code></pre></div>
-<p>或者为了与旧版本的 Python 兼容，使用 tornado.gen 模块：</p>
+    response <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">await</span> http_client<span style="color:#555">.</span>fetch(url)
+    <span style="color:#069;font-weight:bold">return</span> response<span style="color:#555">.</span>body
+</code></pre></div><p>或者为了与旧版本的 Python 兼容，使用 tornado.gen 模块：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado.httpclient</span> <span style="color:#069;font-weight:bold">import</span> AsyncHTTPClient
 <span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado</span> <span style="color:#069;font-weight:bold">import</span> gen
 
-<span style="color:#99f">@gen.coroutine</span>
+<span style="color:#99f">@gen</span><span style="color:#555">.</span>coroutine
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">async_fetch_gen</span>(url):
     http_client <span style="color:#555">=</span> AsyncHTTPClient()
     response <span style="color:#555">=</span> <span style="color:#069;font-weight:bold">yield</span> http_client<span style="color:#555">.</span>fetch(url)
-    <span style="color:#069;font-weight:bold">raise</span> gen<span style="color:#555">.</span>Return(response<span style="color:#555">.</span>body)</code></pre></div>
-<p>协程有点神奇，但它的内部其实是这样做的：</p>
+    <span style="color:#069;font-weight:bold">raise</span> gen<span style="color:#555">.</span>Return(response<span style="color:#555">.</span>body)
+</code></pre></div><p>协程有点神奇，但它的内部其实是这样做的：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">tornado.concurrent</span> <span style="color:#069;font-weight:bold">import</span> Future
 
 <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">async_fetch_manual</span>(url):
@@ -186,11 +171,9 @@ async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c
     <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">on_fetch</span>(f):
         my_future<span style="color:#555">.</span>set_result(f<span style="color:#555">.</span>result()<span style="color:#555">.</span>body)
     fetch_future<span style="color:#555">.</span>add_done_callback(on_fetch)
-    <span style="color:#069;font-weight:bold">return</span> my_future</code></pre></div>
-<p>请注意，协程在请求完成之前就返回其 Future。这就是使协程异步的原因。</p>
-
+    <span style="color:#069;font-weight:bold">return</span> my_future
+</code></pre></div><p>请注意，协程在请求完成之前就返回其 Future。这就是使协程异步的原因。</p>
 <p>你用协程所能做的任何事情你也可以通过传递回调对象来实现，但协程提供了很重要的简化，它让你可以使用与同步模式相同的方式组织代码。这对于错误处理尤为重要，因为 try / except 块的工作方式与协程中的预期相同，而回调则会很难实现。我们将在本指南的下一部分中对协程进行深入探讨。</p>
-
 <p>​</p>
 
     </article>
@@ -241,7 +224,7 @@ async <span style="color:#069;font-weight:bold">def</span> <span style="color:#c
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

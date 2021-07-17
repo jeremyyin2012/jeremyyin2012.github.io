@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pythons on Jeremy&#39;s blog</title>
@@ -85,13 +84,14 @@ import pandas as pd import numpy as np # 维护好各种表头对应关系的标
       <guid>/python/2018-07-05-%E7%BB%99-scrapy-%E7%9A%84-spider-%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0/</guid>
       <description>绝大多数情况下，我们写一个 Spider 会直接将需要的信息写在 Spider 里面，再不济也可能开个文件独立存储下需要的参数啥的，但这仅当 Spider 需求的这些信息是固定不变的情况下，而一旦需要从外部提交一些信息给它来动态调用，就需要用到传递参数了。
 先放两个官方文档链接
- Scrapy Spider arguments  使用 scrapy crawl 命令启动使用 -a 后面加参数名和参数值，这应该也就仅在测试时候使用下了。
- Scrapyd schedule.json  同样在 curl 中使用 -d 后面加参数名和参数值，也是测试时候会用到，可以简单理解它类似一个 form 表单向 URL 去 POST 数据，所以使用 requests 来接这个接口的话，就是：
-resp = requests.post(url=url, data=data) 这么说，那就是往这个 data 数据里面根据需求不断增加字段名和字段值就行了么，嗯，理解是这么理解，貌似也没啥问题，反正加了什么就在 Spider 那边同样根据字段把值提取出来就可以了，就这样可以了。
+  Scrapy Spider arguments
+使用 scrapy crawl 命令启动使用 -a 后面加参数名和参数值，这应该也就仅在测试时候使用下了。
+  Scrapyd schedule.json
+同样在 curl 中使用 -d 后面加参数名和参数值，也是测试时候会用到，可以简单理解它类似一个 form 表单向 URL 去 POST 数据，所以使用 requests 来接这个接口的话，就是：
+resp = requests.post(url=url, data=data)   这么说，那就是往这个 data 数据里面根据需求不断增加字段名和字段值就行了么，嗯，理解是这么理解，貌似也没啥问题，反正加了什么就在 Spider 那边同样根据字段把值提取出来就可以了，就这样可以了。
 不过，还是要说下，不断增加参数以及不断增加维护提取值的逻辑，字段数量多起来了，有点烦人呢。
 还有哦，刚为啥说把它简单理解为 form 表单呢，因为它的参数只支持字符串啊：
-Keep in mind that spider arguments are only strings. The spider will not do any parsing on its own. 那要是想提交点稍稍复杂点的数据咋办？
-我的解决方案是：把所有的自定义的参数都先放到一个 dict 里面去，然后用 json.</description>
+Keep in mind that spider arguments are only strings. The spider will not do any parsing on its own. 那要是想提交点稍稍复杂点的数据咋办？</description>
     </item>
     
     <item>
@@ -148,9 +148,9 @@ items = [ {&amp;#39;age&amp;#39;: 6}, {&amp;#39;age&amp;#39;: 1}, {&amp;#39;age&
 能清晰解释出差速器原理的，也是不错了。
 可是，当轮到复杂度同样不比造房子造汽车底多少，有时候甚至更为复杂的编程领域时，为什么大家就不觉得这有什么难度了呢？
  我觉得这个没那么复杂，你这样，这样，然后这样……，不就可以了嘛，我认为理论上是肯定可以的，你就照我说的做，到时候看到问题我再告诉你改哪里……
-我不管技术上怎么实现哈，我就只说我的需求……
-我想要你实现我把这个处理完的文件在手机上就能直接发给别人，这样我就不用还去开电脑了，晚上谁还不是想躺床上拿手机点几下就把活干完的……
-你这个一两天肯定是做不出来嘛，半个月你能不能做出来……
+  我不管技术上怎么实现哈，我就只说我的需求……
+  我想要你实现我把这个处理完的文件在手机上就能直接发给别人，这样我就不用还去开电脑了，晚上谁还不是想躺床上拿手机点几下就把活干完的……
+  你这个一两天肯定是做不出来嘛，半个月你能不能做出来……
  我觉着我要是能半个月定制化做个订单系统出来（仅仅后台 API ），我也觉得我完全能配得上 professional 这个词了。
 可惜，认清现实吧。
 一周，也就结识了个多级分类。

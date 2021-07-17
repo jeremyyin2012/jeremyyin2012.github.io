@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>从 Jekyll 到 Hugo 的一些细节 | Jeremy&#39;s blog</title>
 
@@ -121,27 +121,18 @@
         <h1>从 Jekyll 到 Hugo 的一些细节</h1>
         <hr>
         <p>这篇是早些时候弄完 Hugo 就可以写了的，不过事事匆忙，就给搁置了。</p>
-
 <p>第一个细节是，类别，也叫目录或分类，无论是 Jekyll 还是 Hugo 它们使用的都是 categories 这个单词来处理类别。</p>
-
 <p>Jekyll 直接在每一篇文章里面的 Front Matter 里面标记这篇文章属于哪个类别，当然，你也可以标记多个，这点从程序的角度来看，蛮合理的，类似于数据库的设计逻辑。但是，对于内容维护者来说，用一个很有意思的词来说，就是它不够 for Humans，意思就是这样的设计，不是为人类而设计的，不是站在人类的角度去思考问题的。不太确定 Jekyll 现在是否支持以文件夹来分类文件了，不过已经成功切换到 Hugo 了。</p>
-
 <p>所以，切换到 Hugo 的主要原因其一就是这个内容维护的方式问题。现在，所有文章都归属它们唯一的文件夹里面，如果哪天想修改下类别，就修改文件夹的名称即可，So easy。</p>
-
 <p>有人可能会提到 Tags，是的，一篇文章可能会有好几个 Tag 需要标记，这就随便你文章里面标记好了，我其实没特别的喜好 Tag 这个功能，随意贴标签？没有的事儿。</p>
-
 <p>Hugo 还有一个更特殊的站点目录组织方式，叫 Taxonomies，意义上和 categories 差不多，不过有它特别的地方，暂时我也不想整复杂的，你有兴趣可以了解下，看上去还挺不错的。</p>
-
 <p>第二个细节，是搜索服务。</p>
-
 <p>切换到 Hugo 后，原使用的 jekyll-algolia 工具就废弃了，而 Algolia 方面则并未针对 Hugo 给出指导性的文档可供参考。</p>
-
 <p>虽然有些麻烦，不过了解了一番 Algolia 的 API 文档，以及参考了一篇来自于 <a href="https://forestry.io/blog/search-with-algolia-in-hugo/">Forestry</a> 的它们是如何接入 Algolia 搜索的文章之后，解决了如何生成索引数据，然后上传更新的部分没有使用文章里面的东西，而是使用了 Algolia 的 Python API 进行接入，简单的不像样子。</p>
-
 <p>我取代码里面核心的部分出来：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">filename <span style="color:#555">=</span> <span style="color:#c30">&#39;public/algolia.json&#39;</span>
 rows <span style="color:#555">=</span> json<span style="color:#555">.</span>load(<span style="color:#366">open</span>(filename))
-<span style="color:#069;font-weight:bold">print</span>(<span style="color:#c30">&#39;update algolia index&#39;</span>)
+<span style="color:#366">print</span>(<span style="color:#c30">&#39;update algolia index&#39;</span>)
 
 client <span style="color:#555">=</span> client_for_admin()
 index <span style="color:#555">=</span> client<span style="color:#555">.</span>init_index(INDEX_NAME)
@@ -158,8 +149,8 @@ index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#3
 index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;attributesToHighlight&#39;</span>: [<span style="color:#c30">&#34;title&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>]})
 index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;attributesToSnippet&#39;</span>: [<span style="color:#c30">&#39;title&#39;</span>, <span style="color:#c30">&#39;content:120&#39;</span>]})
 index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;highlightPreTag&#39;</span>: <span style="color:#c30">&#39;&lt;em class=&#34;ais-Highlight&#34;&gt;&#39;</span>, <span style="color:#c30">&#39;highlightPostTag&#39;</span>: <span style="color:#c30">&#39;&lt;/em&gt;&#39;</span>})
-<span style="color:#069;font-weight:bold">print</span>({<span style="color:#c30">&#39;delete&#39;</span>: <span style="color:#366">len</span>(ids_to_delete), <span style="color:#c30">&#39;save&#39;</span>: <span style="color:#366">len</span>(rows)})</code></pre></div>
-<p>而 algolia.json 则是这样的格式（内容太多就用 <code>…</code> 替代了）：</p>
+<span style="color:#366">print</span>({<span style="color:#c30">&#39;delete&#39;</span>: <span style="color:#366">len</span>(ids_to_delete), <span style="color:#c30">&#39;save&#39;</span>: <span style="color:#366">len</span>(rows)})
+</code></pre></div><p>而 algolia.json 则是这样的格式（内容太多就用 <code>…</code> 替代了）：</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
     {
         <span style="color:#309;font-weight:bold">&#34;content&#34;</span>: <span style="color:#c30">&#34;啥也不说，先看代码\nitems = ...&#34;</span>,
@@ -177,17 +168,14 @@ index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#3
         <span style="color:#309;font-weight:bold">&#34;section&#34;</span>: <span style="color:#c30">&#34;post&#34;</span>,
         <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;今天全是干货&#34;</span>
     }
-]</code></pre></div>
-<p>而关于 Algolia 的细节，有几个设置参数是值得提及的：</p>
-
+]
+</code></pre></div><p>而关于 Algolia 的细节，有几个设置参数是值得提及的：</p>
 <ul>
 <li>searchableAttributes 与 attributesToHighlight，这两个无需多说，照着设置就好了。</li>
 <li>attributesToSnippet，这个是值得重点说道的，为啥呢，因为它直接解决了一个关键问题：当搜索关键词时，只返回关键词所在的部分上下文，而不是返回整个文章，这样，在搜索结果列表就显示的是搜索出来的上下文，而你则可以自定义你想要的上下文长度是多少。曾经在 jekyll-aloglia 的逻辑中，它将文章切分为好多个碎片的这个极其不合理的操作模式也就不需要了（30 篇切出了近 500 条数据，那一千篇要切多少份&hellip;）。</li>
 <li>highlightPreTag，这个是配合 CSS 高亮代码的设置，我从 Hugo 切换过来后，接入 Algolia 开始死活不给显示高亮词，我很纳闷，后来才思考是不是哪里设置不对，果然让我找到我自己更新的索引数据当中缺失了这个设置。当然现在我细读文档发现，它在查询的时候也可以设定，这也是一种方式了。</li>
 </ul>
-
 <p>所以除了无法知晓 jekyll-algolia 的作者为什么要将文章进行切分存储之外，还有一些更深入的细节，可能需要自己去探索了。</p>
-
 <p>Hugo 是个很好的 Markdown 网页生成工具，Algolia 也是个非常好的站内搜索服务提供商，GitHub 是个很好的静态网页托管服务提供商，需要感谢这么多人和公司开发并提供了这么多的免费又好用的服务和工具。</p>
 
     </article>
@@ -238,7 +226,7 @@ index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#3
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

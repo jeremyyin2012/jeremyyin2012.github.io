@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>给一个列表去重复却又要保留顺序 | Jeremy&#39;s blog</title>
 
@@ -120,30 +120,20 @@
     <article>
         <h1>给一个列表去重复却又要保留顺序</h1>
         <hr>
-        
-
-<h2 id="collections-ordereddict-fromkeys-list-keys">collections.OrderedDict.fromkeys(list).keys()</h2>
-
+        <h2 id="collectionsordereddictfromkeyslistkeys">collections.OrderedDict.fromkeys(list).keys()</h2>
 <p>在 Python 中，有时候有需要用到保留原始顺序而又能去掉重复的列表。</p>
-
 <p>而在 Python 自身的基本数据结构里面，给 list 去除重复可以用 set(list) 来进行操作而得到一个没有重复的set集合，但是这样也就把list元素原有的先后出现的顺序而被打乱了，打的乱七八糟的。</p>
-
 <p>会写 Python 的也可能会找到很多的解决办法，有容易的有复杂的有高级的。</p>
-
 <h3 id="我的方法">我的方法</h3>
-
 <p>在 Python 的 collections 包里面有个数据结构叫 OrderedDict，有序字典。</p>
-
 <p>字典的 key 有个特性是不会重复，Python 默认的字典的 key 也是无序的，这是由它本身的特性决定的，但是有人结合了 list 的特性，制造了这个有序字典的数据结构，它输出的 key 和 value 都是有序的。</p>
-
 <p>所以利用它的这些特性，这样理论上就会很容易就能得到有序的没有重复的 list 了。</p>
 <div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">collections</span>
 datalist <span style="color:#555">=</span> [<span style="color:#c30">&#39;1&#39;</span>, <span style="color:#c30">&#39;4&#39;</span>, <span style="color:#c30">&#39;3&#39;</span>, <span style="color:#c30">&#39;2&#39;</span>, <span style="color:#c30">&#39;2&#39;</span>, <span style="color:#c30">&#39;4&#39;</span>]
 newlist <span style="color:#555">=</span> collections<span style="color:#555">.</span>OrderedDict<span style="color:#555">.</span>fromkeys(datalist)<span style="color:#555">.</span>keys()
-<span style="color:#069;font-weight:bold">print</span>(newlist)
-[<span style="color:#c30">&#39;1&#39;</span>, <span style="color:#c30">&#39;4&#39;</span>, <span style="color:#c30">&#39;3&#39;</span>, <span style="color:#c30">&#39;2&#39;</span>]</code></pre></div>
-<p>这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。</p>
-
+<span style="color:#366">print</span>(newlist)
+[<span style="color:#c30">&#39;1&#39;</span>, <span style="color:#c30">&#39;4&#39;</span>, <span style="color:#c30">&#39;3&#39;</span>, <span style="color:#c30">&#39;2&#39;</span>]
+</code></pre></div><p>这样就能得到一个保留元素第一次出现的先后顺序又去除了重复元素的list了。一般用来给人查看或者是显示操作结果的时候，是对人很友好的。</p>
 <p>好了，这里其实是第一次正经测试 Markdown 语法来写文章的内容，目前看起来貌似还蛮美观的吭。</p>
 
     </article>
@@ -194,7 +184,7 @@ newlist <span style="color:#555">=</span> collections<span style="color:#555">.<
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 10: 开发定制 - 自定义邮件 | Jeremy&#39;s blog</title>
 
@@ -120,24 +120,16 @@
     <article>
         <h1>Saleor 10: 开发定制 - 自定义邮件</h1>
         <hr>
-        
-
-<h2 id="发送邮件">发送邮件</h2>
-
+        <h2 id="发送邮件">发送邮件</h2>
 <p>邮件是使用 <a href="https://github.com/vintasoftware/django-templated-email">Django-Templated-Email</a> 进行发送的。</p>
-
 <h2 id="自定义邮件模版">自定义邮件模版</h2>
-
 <p>电子邮件模板在 <code>templates/templated_email</code> 中，它有两个子目录。 <code>source</code> 包含 <code>*.email</code> 和 <code>*.mjml</code> 文件，彼此相邻，按应用程序名称分组。 这些 MJML 文件被编译为 <code>*.html</code> 并放入 <code>compiled</code> 目录。</p>
-
 <p>在 <code>*.email</code> 中的普通电子邮件通过引用编译的 <code>*.html</code> 文件来包含 HTML 版本。</p>
-
 <h2 id="编译-mjml">编译 MJML</h2>
-
 <p>源电子邮件使用 <a href="https://mjml.io/">MJML</a> ，并且在使用之前必须编译为HTML。</p>
-
 <p>要编译邮件的话就运行命令：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">$ npm run build-emails</pre></div>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$ npm run build-emails
+</code></pre></div>
     </article>
 
 
@@ -186,7 +178,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>

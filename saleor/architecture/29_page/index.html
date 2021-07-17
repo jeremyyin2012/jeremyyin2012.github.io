@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.52" />
+<meta name="generator" content="Hugo 0.85.0" />
 
         <title>Saleor 29: 架构 - 页面 | Jeremy&#39;s blog</title>
 
@@ -120,17 +120,12 @@
     <article>
         <h1>Saleor 29: 架构 - 页面</h1>
         <hr>
-        
-
-<h2 id="设置自定义页面">设置自定义页面</h2>
-
+        <h2 id="设置自定义页面">设置自定义页面</h2>
 <p>您可以在后台管理的“页面”（Pages）菜单中设置页面，如“关于我们”或“重要通告！”。请注意，如果您不是管理员，则需要加入拥有相应权限的用户组。</p>
-
 <h2 id="在店面中引用页面">在店面中引用页面</h2>
-
 <p>如果您想要在店面中添加最近创建的页面的链接，则只需将以下代码放入：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;a href=&#34;{% url &#34;page:details&#34; slug=&#34;terms-of-service&#34; %}&#34;&gt;服务条款&lt;/a&gt;</pre></div>
-<p>在相应的模板中。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">&lt;a href=&#34;{% url &#34;page:details&#34; slug=&#34;terms-of-service&#34; %}&#34;&gt;服务条款&lt;/a&gt;
+</code></pre></div><p>在相应的模板中。</p>
 
     </article>
 
@@ -180,7 +175,7 @@
       
           <div class="footer left column one-half">
             <section class="small-font">
-                    &copy; 2019 &middot; <a href="/">Jeremy&#39;s blog</a>
+                    &copy; 2021 &middot; <a href="/">Jeremy&#39;s blog</a>
                     <a id="icp_link" target="_blank"
                       href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
             </section>
