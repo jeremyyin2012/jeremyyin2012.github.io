@@ -1,0 +1,31 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rusts on Jeremy&#39;s blog</title>
+    <link>/rust/</link>
+    <description>Recent content in Rusts on Jeremy&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
+    <lastBuildDate>Tue, 18 Apr 2023 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="/rust/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>返回值有多种格式那要怎么声明 Rust 结构体</title>
+      <link>/rust/2023-04-18-%E8%BF%94%E5%9B%9E%E5%80%BC%E6%9C%89%E5%A4%9A%E7%A7%8D%E6%A0%BC%E5%BC%8F%E9%82%A3%E8%A6%81%E6%80%8E%E4%B9%88%E5%A3%B0%E6%98%8E-rust-%E7%BB%93%E6%9E%84%E4%BD%93/</link>
+      <pubDate>Tue, 18 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/2023-04-18-%E8%BF%94%E5%9B%9E%E5%80%BC%E6%9C%89%E5%A4%9A%E7%A7%8D%E6%A0%BC%E5%BC%8F%E9%82%A3%E8%A6%81%E6%80%8E%E4%B9%88%E5%A3%B0%E6%98%8E-rust-%E7%BB%93%E6%9E%84%E4%BD%93/</guid>
+      <description>这算是 Rust 的第一篇内容，虽然有点水，但总算开动了。
+最难跨越的就是真正开始去行动的那一刻。
+Rust 的结构体和枚举非常厉害，它在形式上，也非常接近人的常规理解：层层分解。
+写 Rust 其实有很大的一部分内容就是写结构体声明，一旦结构体声明出来了，基本上心理上就是落实了一大半了。
+今天看下这种情况，比如你要请求一个接口，然后这个接口的返回值吧，并不总是保持一致的结构，而是根据不同情况有所不同的。
+就比如拿 https://support.huaweicloud.com/api-ecs/ecs_02_0101.html#section7 这个页面的接口进行举例。
+它的接口，除请求失败以外，请求成功的响应中，还分为正常响应和错误响应，而且错误响应可能也还有些字段内容是不一定返回的。
+// 响应示例 { &amp;#34;job_id&amp;#34;: &amp;#34;ff808082739334d80173943ec9b42130&amp;#34;, &amp;#34;order_id&amp;#34;: &amp;#34;CS2007281506xxxxx&amp;#34;, &amp;#34;serverIds&amp;#34;: [ &amp;#34;fe0528f0-5b1c-4c8c-9adf-e5d5047b8c17&amp;#34;, &amp;#34;679854ae-a50d-40c9-8132-b19bf3a306a1&amp;#34; ] } // 或 { &amp;#34;error&amp;#34;: { &amp;#34;code&amp;#34;: &amp;#34;Ecs.0005&amp;#34;, &amp;#34;message&amp;#34;: &amp;#34;request body is illegal.&amp;#34; } } // 或 { &amp;#34;error&amp;#34;: { &amp;#34;message&amp;#34;: &amp;#34;privateIp [%s] is not in this subnet [%s]&amp;#34;, &amp;#34;code&amp;#34;: &amp;#34;Ecs.0005&amp;#34;, &amp;#34;details&amp;#34;: [ { &amp;#34;code&amp;#34;: &amp;#34;Ecs.0039&amp;#34; } ] } } 如果是在 Python 里面，上来粗暴点对待可能就是直接解析为字典 dict 然后结合状态码与字典 key 值进行判断处理了，而如果用到了高版本的 Python 然后又想要认真点对待，可能会去声明两个 dataclass 然后也根据状态码来使用 if else 进行分别处理。</description>
+    </item>
+    
+  </channel>
+</rss>

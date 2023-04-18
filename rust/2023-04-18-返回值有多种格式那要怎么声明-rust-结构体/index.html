@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+        <title>返回值有多种格式那要怎么声明 Rust 结构体 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>返回值有多种格式那要怎么声明 Rust 结构体</h1>
+        <hr>
+        <p>这算是 Rust 的第一篇内容，虽然有点水，但总算开动了。</p>
+<p>最难跨越的就是真正开始去行动的那一刻。</p>
+<p>Rust 的结构体和枚举非常厉害，它在形式上，也非常接近人的常规理解：层层分解。</p>
+<p>写 Rust 其实有很大的一部分内容就是写结构体声明，一旦结构体声明出来了，基本上心理上就是落实了一大半了。</p>
+<p>今天看下这种情况，比如你要请求一个接口，然后这个接口的返回值吧，并不总是保持一致的结构，而是根据不同情况有所不同的。</p>
+<p>就比如拿 <a href="https://support.huaweicloud.com/api-ecs/ecs_02_0101.html#section7">https://support.huaweicloud.com/api-ecs/ecs_02_0101.html#section7</a> 这个页面的接口进行举例。</p>
+<p>它的接口，除请求失败以外，请求成功的响应中，还分为正常响应和错误响应，而且错误响应可能也还有些字段内容是不一定返回的。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">响应示例</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;job_id&#34;</span>: <span style="color:#c30">&#34;ff808082739334d80173943ec9b42130&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;order_id&#34;</span>: <span style="color:#c30">&#34;CS2007281506xxxxx&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;serverIds&#34;</span>: [
+        <span style="color:#c30">&#34;fe0528f0-5b1c-4c8c-9adf-e5d5047b8c17&#34;</span>,
+        <span style="color:#c30">&#34;679854ae-a50d-40c9-8132-b19bf3a306a1&#34;</span>
+    ] 
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">或</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;error&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;code&#34;</span>: <span style="color:#c30">&#34;Ecs.0005&#34;</span>, 
+        <span style="color:#309;font-weight:bold">&#34;message&#34;</span>: <span style="color:#c30">&#34;request body is illegal.&#34;</span>
+    }
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">或</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;error&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;message&#34;</span>: <span style="color:#c30">&#34;privateIp [%s] is not in this subnet [%s]&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;code&#34;</span>: <span style="color:#c30">&#34;Ecs.0005&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;details&#34;</span>: [
+            {
+                <span style="color:#309;font-weight:bold">&#34;code&#34;</span>: <span style="color:#c30">&#34;Ecs.0039&#34;</span>
+            }
+        ]
+    }
+}
+</code></pre></div><p>如果是在 Python 里面，上来粗暴点对待可能就是直接解析为字典 <code>dict</code> 然后结合状态码与字典 <code>key</code> 值进行判断处理了，而如果用到了高版本的 Python 然后又想要认真点对待，可能会去声明两个 <code>dataclass</code> 然后也根据状态码来使用 <code>if else</code> 进行分别处理。</p>
+<p>那么这种场景在 Rust 中怎么声明结构体呢？都说 Rust 是强类型，然后就一脸懵了，可能还有人跑去说泛型什么的，但是其实真没那么复杂。</p>
+<p>看代码。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span>serde::{Deserializer,<span style="color:#bbb"> </span>Serializer};<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span>schemars::JsonSchema;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[serde(untagged)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">CreateCloudServersRes</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>HwcApiError(HwcApiError),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>CreateCloudServers(CreateCloudServers),<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">HwcApiError</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>error: <span style="color:#0a8;font-weight:bold">HwcApiErrorBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">HwcApiErrorBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>code: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>message: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>details: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>HwcApiErrorBodyDetail<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">HwcApiErrorBodyDetail</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>code: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">CreateCloudServers</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>job_id: <span style="color:#0a8;font-weight:bold">Uuid</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>order_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;serverIds&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>server_ids: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>Uuid<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>这样就实现了对这个接口响应的结构体声明，在使用的时候，就如下这样：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>client<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>reqwest::Client::new();<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>resp<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>client.post(url).headers(headers).json(<span style="color:#555">&amp;</span>req).send().<span style="color:#069;font-weight:bold">await</span><span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>resp.json::<span style="color:#555">&lt;</span>CreateCloudServersRes<span style="color:#555">&gt;</span>().<span style="color:#069;font-weight:bold">await</span><span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span>{<span style="color:#bbb"> 
+</span><span style="color:#bbb">    </span>CreateCloudServersRes::CreateCloudServers(data)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{},<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>CreateCloudServersRes::HwcApiError(err)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{},<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>然后就再对这个返回值枚举进行处理即可，当然同样也还可以再结合状态码进行一些处理逻辑，在业务逻辑处理上，语言上的差异就没那么大了，看你的具体需求。</p>
+<p>如果在拿 res 的时候并不想让错误直接向上层抛出，那么可以去除 <code>.await?;</code> 这里的问号成为 <code>.await;</code> 这样就可以自己来针对性地做一些事情，而我们在 Python 里面经常会用  <code>try: ... except Exception as e: ...</code> 来处理一些特别任务，例如记录点特别的日志什么的：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>resp.json::<span style="color:#555">&lt;</span>CreateCloudServersRes<span style="color:#555">&gt;</span>().<span style="color:#069;font-weight:bold">await</span>;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#366">Ok</span>(res)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>info<span style="color:#555">!</span>(<span style="color:#c30">&#34;do something success: req: {:?} res: {:?}&#34;</span>,<span style="color:#bbb"> </span><span style="color:#555">&amp;</span>req,<span style="color:#bbb"> </span><span style="color:#555">&amp;</span>res);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span>{<span style="color:#bbb"> 
+</span><span style="color:#bbb">            </span>CreateCloudServersRes::CreateCloudServers(data)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{},<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>CreateCloudServersRes::HwcApiError(err)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{},<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#366">Err</span>(err)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>capture_error(<span style="color:#555">&amp;</span>err);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>error<span style="color:#555">!</span>(<span style="color:#c30">&#34;do something failed: req: {:?} error: {:?}&#34;</span>,<span style="color:#bbb"> </span><span style="color:#555">&amp;</span>req,<span style="color:#bbb"> </span><span style="color:#555">&amp;</span>err);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">return</span><span style="color:#bbb"> </span><span style="color:#366">Err</span>(err.into());<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>当然这里这个 match 也可以用 let else 等写法进行替代，看你自己的需求。</p>
+<p>整体上来说，面对接口在不同情况返回不同格式的结构的时候，在 Rust 中就可以以这样的形式去实现即可。</p>
+<p>总结下知识点：</p>
+<ul>
+<li>对于完全格式不同的结构体，可以使用 <code>enum</code> 然后内嵌结构体进行声明</li>
+<li>使用 <code>#[serde(untagged)]</code> 直接穿透解析不同情况下为相对应的结构体</li>
+<li>使用 <code>Option&lt;T&gt;</code> 对可能不一定总是存在的字段声明为可选字段</li>
+<li>使用 <code>#[serde(rename = &quot;serverIds&quot;)]</code> 对字段名称不怎么规范或者关键字冲突进行重命名而声明对应的解析字段</li>
+<li>如果不想向上层直接抛出错误，可以不加 <code>?</code> 然后自己对 <code>Result&lt;T, E&gt;</code> 进行处理，这其实非常相当于 Python 里面的 <code>try: ... except Exception as e: ...</code> 但是却又比它感觉上更直观更可靠。</li>
+</ul>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<h5><a href="/about">Jeremy Yin</a></h5>
+<p>Python Engineer, Business System Architect</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+<script src="/jeremy/js/icp.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
