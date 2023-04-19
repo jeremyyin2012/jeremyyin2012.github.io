@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+        <title>钉钉消息通知要怎么声明 Rust 结构体 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/rust/">Rust</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>钉钉消息通知要怎么声明 Rust 结构体</h1>
+        <hr>
+        <p>今天我们来看下钉钉的消息格式，比起对接接口的返回值，这个业务的结构体声明就烦琐许多了，当然，更多的也是体力活和细心加理解。</p>
+<p>它的文档地址是这个：https://open.dingtalk.com/document/orgapp/message-types-and-data-format 由于钉钉分第三方企业应用和企业内部应用，而仅有企业内部应用能够支持到完整丰富的消息格式，第三方应用被限制在三种格式的模版申请上，这里就以企业内部应用的消息通知来进行说明。</p>
+<p>先看下它的几个基本格式：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">文本消息</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;text&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;content&#34;</span>: <span style="color:#c30">&#34;月会通知&#34;</span>
+    }
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">图片消息</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;image&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;image&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span>: <span style="color:#c30">&#34;@lADOADmaWMzazQKA&#34;</span>
+    }
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">语音消息</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;voice&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;voice&#34;</span>: {
+       <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span>: <span style="color:#c30">&#34;@lADOADmaWMzazQKA&#34;</span>,
+       <span style="color:#309;font-weight:bold">&#34;duration&#34;</span>: <span style="color:#c30">&#34;10&#34;</span>
+    }
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">文件消息</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;file&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;file&#34;</span>: {
+       <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span>: <span style="color:#c30">&#34;MEDIA_ID&#34;</span>
+    }
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">链接消息</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;link&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;link&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;messageUrl&#34;</span>: <span style="color:#c30">&#34;http://s.dingtalk.com/market/dingtalk/error_code.php&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;picUrl&#34;</span>:<span style="color:#c30">&#34;@lALOACZwe2Rk&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;测试&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;测试&#34;</span>
+    }
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">OA</span> <span style="color:#a00;background-color:#faa">消息</span>
+{
+     <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;oa&#34;</span>,
+     <span style="color:#309;font-weight:bold">&#34;oa&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;message_url&#34;</span>: <span style="color:#c30">&#34;http://dingtalk.com&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;head&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;bgcolor&#34;</span>: <span style="color:#c30">&#34;FFBBBBBB&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;头部标题&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;body&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;正文标题&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;form&#34;</span>: [
+                {
+                    <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;姓名:&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;张三&#34;</span>
+                },
+                {
+                    <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;年龄:&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;20&#34;</span>
+                },
+                {
+                    <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;身高:&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;1.8米&#34;</span>
+                },
+                {
+                    <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;体重:&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;130斤&#34;</span>
+                },
+                {
+                    <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;学历:&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;本科&#34;</span>
+                },
+                {
+                    <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;爱好:&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;打球、听音乐&#34;</span>
+                }
+            ],
+            <span style="color:#309;font-weight:bold">&#34;rich&#34;</span>: {
+                <span style="color:#309;font-weight:bold">&#34;num&#34;</span>: <span style="color:#c30">&#34;15.6&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;unit&#34;</span>: <span style="color:#c30">&#34;元&#34;</span>
+            },
+            <span style="color:#309;font-weight:bold">&#34;content&#34;</span>: <span style="color:#c30">&#34;大段文本大段文本大段文本大段文本大段文本大段文本&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;image&#34;</span>: <span style="color:#c30">&#34;@lADOADmaWMzazQKA&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;file_count&#34;</span>: <span style="color:#c30">&#34;3&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;author&#34;</span>: <span style="color:#c30">&#34;李四 &#34;</span>
+        }
+    }
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">markdown</span> <span style="color:#a00;background-color:#faa">消息</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;markdown&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;markdown&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;首屏会话透出的展示内容&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;# 这是支持markdown的文本   \n   ## 标题2    \n   * 列表1   \n  ![alt 啊](https://img.alicdn.com/tps/TB1XLjqNVXXXXc4XVXXXXXXXXXX-170-64.png)&#34;</span>
+    }
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">卡片消息</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;action_card&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;action_card&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;是透出到会话列表和通知的文案&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;markdown&#34;</span>: <span style="color:#c30">&#34;支持markdown格式的正文内容&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;single_title&#34;</span>: <span style="color:#c30">&#34;查看详情&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;single_url&#34;</span>: <span style="color:#c30">&#34;https://open.dingtalk.com&#34;</span>
+    }
+}
+</code></pre></div><p>发现规律没有，就是都有一个共同的字段叫 <code>msgtype</code> ，而它的值，又恰好是它另外一个字段的键，这它另外那个字段的值，才是真正的消息内容结构。</p>
+<p>按照 Python 或者其他语言的直觉想法，可能认为这应该有多少种类型就命多少个结构体，<code>msgtype</code> 的值看起来是个枚举，那么就给它命几个枚举值即可。</p>
+<p>至于嵌套的结构，在 Python 中可能会也可能不会声明，甚至整个所有消息结构都不声明，但这个毕竟不是长久之计。而在 Golang 里面，直接声明嵌套的 struct 也是很容易的事情，那么直接八个结构体也能搞定，如果是还没有升级到可以用上泛型的版本，那么用到这些消息的方法里面可能就得用 interface {} 来声明参数类型了，这时候的编码体验其实并不比 Python 好多少。</p>
+<p>那么在 Rust 里面，也可以按照类似的思路，先实现一波。</p>
+<p>与 Golang 不同，Rust 是不能直接声明嵌套结构体的，而是要声明新的结构体。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 钉钉企业内部应用消息（工作通知）消息类型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema, Ord, PartialOrd, Eq, PartialEq, Hash)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;text&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Text,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;image&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Image,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 语音消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;voice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Voice,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文件消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;file&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>File,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 链接消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;link&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Link,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// OA消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;oa&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Oa,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// Markdown 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;markdown&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Markdown,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;action_card&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>ActionCard,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgTextMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>msgtype: <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#0a8;font-weight:bold">DingtalkOrgTextMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgTextMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息内容，建议500字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgImageMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>msgtype: <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>image: <span style="color:#0a8;font-weight:bold">DingtalkOrgImageMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图片消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgImageMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 媒体文件mediaid，建议宽600像素 x 400像素，宽高比3 : 2。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 语音消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgVoiceMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>msgtype: <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>voice: <span style="color:#0a8;font-weight:bold">DingtalkOrgVoiceMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 语音消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgVoiceMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 媒体文件ID。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 正整数，小于60，表示音频时长。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>duration: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文件消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgFileMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>msgtype: <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>file: <span style="color:#0a8;font-weight:bold">DingtalkOrgFileMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文件消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgFileMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 媒体文件ID，引用的媒体文件最大10MB。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 链接消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgLinkMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>msgtype: <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>link: <span style="color:#0a8;font-weight:bold">DingtalkOrgLinkMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 链接消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgLinkMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息点击链接地址，当发送消息为小程序时支持小程序跳转链接。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;messageUrl&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>message_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 媒体文件ID
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;picUrl&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pic_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息标题，建议100字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息描述，建议500字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>msgtype: <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>oa: <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息点击链接地址，当发送消息为小程序时支持小程序跳转链接。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>message_url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// PC端点击消息时跳转到的地址。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pc_message_url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息头部内容。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>head: <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyHead</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息状态栏，只支持接收者的userid列表，userid最多不能超过5个人。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>status_bar: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>DingtalkOrgOaMsgBodyStatusBar<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体 body
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>body: <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 head
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyHead</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息头部的背景颜色。长度限制为8个英文字符，其中前2为表示透明度，后6位表示颜色值。不要添加0x。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>bgcolor: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息的头部标题。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 status_bar
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyStatusBar</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 状态栏文案。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>status_value: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 状态栏背景色，默认为黑色，推荐0xFF加六位颜色值。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>status_bg: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 body
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的标题，建议50个字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的表单，最多显示6个，超过会被隐藏。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>form: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>DingtalkOrgOaMsgBodyBodyFormItem<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 单行富文本信息。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>rich: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>DingtalkOrgOaMsgBodyBodyRich<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的内容，最多显示3行。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体中的图片，支持图片资源@mediaId。建议宽600像素 x 400像素，宽高比3 : 2。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>image: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 自定义的附件数目。此数字仅供显示，钉钉不作验证。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>file_count: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 自定义的作者名字。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>author: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 body.form
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyBodyFormItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的关键字。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>key: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的关键字对应的值。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>value: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 body.rich
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyBodyRich</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 单行富文本信息的数目。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>num: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 单行富文本信息的单位。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>unit: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// Markdown 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgMarkdownMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>msgtype: <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>markdown: <span style="color:#0a8;font-weight:bold">DingtalkOrgMarkdownMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// Markdown 消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgMarkdownMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 首屏会话透出的展示内容。注意：消息列表不显示，如需在消息列表显示请组装到text里面
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// markdown格式的消息，最大不超过5000字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgActionCardMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>msgtype: <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>action_card: <span style="color:#0a8;font-weight:bold">DingtalkOrgActionCardMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 卡片消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgActionCardMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 透出到会话列表和通知的文案。注意：消息列表不显示，如需在消息列表显示请组装到markdown里面
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息内容，支持markdown，语法参考标准markdown语法。建议1000个字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>markdown: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用整体跳转ActionCard样式时的标题。必须与single_url同时设置，最长20个字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>single_title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息点击链接地址，当发送消息为小程序时支持小程序跳转链接，最长500个字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>single_url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用独立跳转ActionCard样式时的按钮排列方式：0 竖直排列 1 横向排列，必须与btn_json_list同时设置。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>btn_orientation: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用独立跳转ActionCard样式时的按钮列表；必须与btn_orientation同时设置，且长度不超过1000字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>btn_json_list: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>DingtalkOrgActionCardMsgBodyBtnJsonListItem<span style="color:#555">&gt;&gt;</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 卡片消息体 btn_json_list
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgActionCardMsgBodyBtnJsonListItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用独立跳转ActionCard样式时的按钮的标题，最长20个字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用独立跳转ActionCard样式时的跳转链接，最长700个字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>action_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>这样，我们第一版的钉钉企业内部应用的消息通知的结构体就全部声明完成了，而后要在此基础上做任何业务逻辑，只要结构体声明没啥问题，写起代码来基本不用太再去操心里面的数据结构的细节问题，IDE 编辑器能给出来提示的，肯定就是正常可用的。</p>
+<p>由于这里声明了八个大结构体，在函数参数的使用时候，一个方案是用泛型 <code>T</code> 来处理。但是这个方案有个问题，其实八种类型就是已经限定了范围的，这时候使用泛型其实是不太符合业务语义的。例如这时候去自动生成 OpenAPI 或 Swagger 的文档，就无法清晰地表达出接口的要求。</p>
+<p>另外一个方案可能是用我们上一篇提到的多种结构的枚举类型进行简单包装一层，也是可以用的，这样就可以不用泛型来处理了。这种方案，就很好地解决了业务语义的问题，自动生成的接口文档也是清晰明确的。</p>
+<p>不过，这里依然还有一个小问题：虽然这八个结构体里面都声明了 <code>msgtype</code> 为枚举类型，能限定传入的参数是八个枚举当中的任意一个，但是如果我这时候给 <code>DingtalkOrgImageMsg</code> 的 <code>msgtype</code> 传入一个 <code>DingtalkOrgMsgType::Text</code> 是允许的么？</p>
+<p>发现问题了，这种声明方式，没有办法严格限制传入的 <code>msgtype</code> 的枚举值是对应类型所要求的值。</p>
+<p>那么怎么解决？</p>
+<p>首先想到的肯定是去写校验方法，这在 Python 的场景里面很常见，拿到任何的参数，虽然都能正常初始化为类实例或者都能正常解析为一个字典，但是然后要对这个数据进行各种校验逻辑，通过了所有校验环节，然后才能进入后续的业务流程。</p>
+<p>这个思路在 Golang 里面依然如此，以及还得考虑默认的初始值对值校验的影响。</p>
+<p>而在 Rust 这里，其实有更清晰和简单的方案：枚举声明，与方案二的枚举不同的是，这次的枚举声明有那么些不一样，具体请看代码，并与上一版的进行对比查看：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 钉钉企业内部应用消息（工作通知）消息类型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema, Ord, PartialOrd, Eq, PartialEq, Hash)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgMsgType</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;text&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Text,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;image&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Image,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 语音消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;voice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Voice,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文件消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;file&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>File,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 链接消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;link&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Link,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// OA消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;oa&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Oa,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// Markdown 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;markdown&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Markdown,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;action_card&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>ActionCard,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 钉钉企业内部应用消息（工作通知）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[serde(tag = </span><span style="color:#c30">&#34;msgtype&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;text&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Text(DingtalkOrgTextMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;image&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Image(DingtalkOrgImageMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 语音消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;voice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Voice(DingtalkOrgVoiceMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文件消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;file&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>File(DingtalkOrgFileMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 链接消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;link&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Link(DingtalkOrgLinkMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// OA消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;oa&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Oa(DingtalkOrgOaMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// Markdown 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;markdown&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Markdown(DingtalkOrgMarkdownMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;action_card&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>ActionCard(DingtalkOrgActionCardMsg),<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgTextMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#0a8;font-weight:bold">DingtalkOrgTextMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgTextMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息内容，建议500字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgImageMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>image: <span style="color:#0a8;font-weight:bold">DingtalkOrgImageMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图片消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgImageMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 媒体文件mediaid，建议宽600像素 x 400像素，宽高比3 : 2。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 语音消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgVoiceMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>voice: <span style="color:#0a8;font-weight:bold">DingtalkOrgVoiceMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 语音消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgVoiceMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 媒体文件ID。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 正整数，小于60，表示音频时长。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>duration: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文件消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgFileMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>file: <span style="color:#0a8;font-weight:bold">DingtalkOrgFileMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文件消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgFileMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 媒体文件ID，引用的媒体文件最大10MB。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 链接消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgLinkMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>link: <span style="color:#0a8;font-weight:bold">DingtalkOrgLinkMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 链接消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgLinkMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息点击链接地址，当发送消息为小程序时支持小程序跳转链接。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;messageUrl&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>message_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 媒体文件ID
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;picUrl&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pic_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息标题，建议100字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息描述，建议500字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>oa: <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息点击链接地址，当发送消息为小程序时支持小程序跳转链接。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>message_url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// PC端点击消息时跳转到的地址。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pc_message_url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息头部内容。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>head: <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyHead</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息状态栏，只支持接收者的userid列表，userid最多不能超过5个人。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>status_bar: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>DingtalkOrgOaMsgBodyStatusBar<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体 body
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>body: <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 head
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyHead</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息头部的背景颜色。长度限制为8个英文字符，其中前2为表示透明度，后6位表示颜色值。不要添加0x。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>bgcolor: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息的头部标题。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 status_bar
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyStatusBar</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 状态栏文案。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>status_value: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 状态栏背景色，默认为黑色，推荐0xFF加六位颜色值。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>status_bg: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 body
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的标题，建议50个字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的表单，最多显示6个，超过会被隐藏。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>form: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>DingtalkOrgOaMsgBodyBodyFormItem<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 单行富文本信息。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>rich: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>DingtalkOrgOaMsgBodyBodyRich<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的内容，最多显示3行。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体中的图片，支持图片资源@mediaId。建议宽600像素 x 400像素，宽高比3 : 2。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>image: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 自定义的附件数目。此数字仅供显示，钉钉不作验证。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>file_count: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 自定义的作者名字。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>author: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 body.form
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyBodyFormItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的关键字。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>key: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息体的关键字对应的值。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>value: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// OA 消息体 body.rich
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgOaMsgBodyBodyRich</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 单行富文本信息的数目。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>num: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 单行富文本信息的单位。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>unit: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// Markdown 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgMarkdownMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>markdown: <span style="color:#0a8;font-weight:bold">DingtalkOrgMarkdownMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// Markdown 消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgMarkdownMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 首屏会话透出的展示内容。注意：消息列表不显示，如需在消息列表显示请组装到text里面
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// markdown格式的消息，最大不超过5000字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgActionCardMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>action_card: <span style="color:#0a8;font-weight:bold">DingtalkOrgActionCardMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 卡片消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgActionCardMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 透出到会话列表和通知的文案。注意：消息列表不显示，如需在消息列表显示请组装到markdown里面
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息内容，支持markdown，语法参考标准markdown语法。建议1000个字符以内。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>markdown: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用整体跳转ActionCard样式时的标题。必须与single_url同时设置，最长20个字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>single_title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息点击链接地址，当发送消息为小程序时支持小程序跳转链接，最长500个字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>single_url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用独立跳转ActionCard样式时的按钮排列方式：0 竖直排列 1 横向排列，必须与btn_json_list同时设置。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>btn_orientation: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用独立跳转ActionCard样式时的按钮列表；必须与btn_orientation同时设置，且长度不超过1000字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>btn_json_list: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>DingtalkOrgActionCardMsgBodyBtnJsonListItem<span style="color:#555">&gt;&gt;</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 卡片消息体 btn_json_list
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">DingtalkOrgActionCardMsgBodyBtnJsonListItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用独立跳转ActionCard样式时的按钮的标题，最长20个字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 使用独立跳转ActionCard样式时的跳转链接，最长700个字符。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>action_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>粗看上去 <code>DingtalkOrgMsg</code> 非常像是方案二的声明一个综合性的多结构枚举，但是你发现，<code>msgtype</code> 字段从每个消息结构体中抽走了，然后使用 <code>#[serde(tag = &quot;msgtype&quot;)]</code> 进行统一地声明，再结合 <code>#[serde(rename = &quot;text&quot;)]</code> 这种声明方式，它就能完美地与文档中的 Json 结构进行一一对应。</p>
+<p>同时在自动生成 OpenAPI 或 Swagger 文档的时候，它的语义是 <code>OneOf</code> 而不是方案二中的 <code>AnyOf</code> 了，完美符合业务语义。</p>
+<p>以及此时，<code>DingtalkOrgMsgType</code> 这个枚举的存在价值可能不大了，实际应用中可能就清理掉了，看具体情况吧。</p>
+<p>不知道你看明白了么？</p>
+<p>总结一下知识点：</p>
+<ul>
+<li>对于可枚举的多种结构，可以使用 <code>enum</code> 进行综合性声明为一个枚举结构</li>
+<li>对于每种结构中可能存在有一个共同字段，可以使用 <code>#[serde(tag = &quot;msgtype&quot;)]</code> 进行表示</li>
+<li>对于每种子结构，有一个动态的键需要声明，则可以用 <code>#[serde(rename = &quot;text&quot;)]</code> 进行表示</li>
+<li>对于每个子级，无论有多深，都可以层层分解，最后得到一个个逻辑非常清晰和层次分明的结构体，这在业务流程中逐级组合数据时，有非常好的代码正确性和质量保证。</li>
+</ul>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<h5><a href="/about">Jeremy Yin</a></h5>
+<p>Python Engineer, Business System Architect</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+<script src="/jeremy/js/icp.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
