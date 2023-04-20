@@ -1,0 +1,1480 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+        <title>企业微信消息通知要怎么声明 Rust 结构体 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/rust/">Rust</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>企业微信消息通知要怎么声明 Rust 结构体</h1>
+        <hr>
+        <p>是的，今天来看企业微信的消息通知了，跟各大平台的消息通知杠上了，实际上是跟 Rust 的结构体杠上了。</p>
+<p>毕竟，数据结构的设计和声明是编程工作中非常重要的部分，数据结构和结构体声明好了，代码其实就已经走好了很大一段路了。</p>
+<p>而跟 Python 接触这些年，发现大多数情况下可能趋于只关注逻辑，却忘记了去关注数据结构的声明，宁愿很多时候在代码里面做很多奇奇怪怪的一些临时数据操作，也很难认真去真真切切地看一下到底有哪些数据主体，他们的关系是什么样的。谁和谁是同一个层面的，却被分在了不同的地方；谁又和谁本质上不是同一个东西，却又在代码里面绕啊绕，绕成了一个东西。</p>
+<p>企业微信的消息通知，比钉钉的消息通知要稍微复杂一点，除了基本的几种消息结构外，它还有“模版卡片”这种复杂的消息结构，它的数据结构，其实等于在它的内层又声明了好几种更细分的格式定义，这里我们参考的文档是这个 <a href="https://developer.work.weixin.qq.com/document/path/90372">https://developer.work.weixin.qq.com/document/path/90372</a></p>
+<p>惯例，先看它的 json 声明</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">文本消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1|PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;text&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;text&#34;</span> : {
+       <span style="color:#309;font-weight:bold">&#34;content&#34;</span> : <span style="color:#c30">&#34;你的快递已到，请携带工卡前往邮件中心领取。\n出发前可查看&lt;a href=\&#34;http://work.weixin.qq.com\&#34;&gt;邮件中心视频实况&lt;/a&gt;，聪明避开排队。&#34;</span>
+   },
+   <span style="color:#309;font-weight:bold">&#34;safe&#34;</span>:<span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">图片消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1|PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;image&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;image&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span> : <span style="color:#c30">&#34;MEDIA_ID&#34;</span>
+   },
+   <span style="color:#309;font-weight:bold">&#34;safe&#34;</span>:<span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">语音消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1|PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;voice&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;voice&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span> : <span style="color:#c30">&#34;MEDIA_ID&#34;</span>
+   },
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">视频消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1|PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;video&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;video&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span> : <span style="color:#c30">&#34;MEDIA_ID&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;title&#34;</span> : <span style="color:#c30">&#34;Title&#34;</span>,
+       <span style="color:#309;font-weight:bold">&#34;description&#34;</span> : <span style="color:#c30">&#34;Description&#34;</span>
+   },
+   <span style="color:#309;font-weight:bold">&#34;safe&#34;</span>:<span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">文件消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1|PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;file&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;file&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span> : <span style="color:#c30">&#34;1Yv-zXfHjSjU-7LH-GwtYqDGS-zz6w22KmWAT5COgP7o&#34;</span>
+   },
+   <span style="color:#309;font-weight:bold">&#34;safe&#34;</span>:<span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">文本卡片消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1 | PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;textcard&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;textcard&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span> : <span style="color:#c30">&#34;领奖通知&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;description&#34;</span> : <span style="color:#c30">&#34;&lt;div class=\&#34;gray\&#34;&gt;2016年9月26日&lt;/div&gt; &lt;div class=\&#34;normal\&#34;&gt;恭喜你抽中iPhone 7一台，领奖码：xxxx&lt;/div&gt;&lt;div class=\&#34;highlight\&#34;&gt;请于2016年10月10日前联系行政同事领取&lt;/div&gt;&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span> : <span style="color:#c30">&#34;URL&#34;</span>,
+                        <span style="color:#309;font-weight:bold">&#34;btntxt&#34;</span>:<span style="color:#c30">&#34;更多&#34;</span>
+   },
+   <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">图文消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1 | PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;news&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;news&#34;</span> : {
+       <span style="color:#309;font-weight:bold">&#34;articles&#34;</span> : [
+           {
+               <span style="color:#309;font-weight:bold">&#34;title&#34;</span> : <span style="color:#c30">&#34;中秋节礼品领取&#34;</span>,
+               <span style="color:#309;font-weight:bold">&#34;description&#34;</span> : <span style="color:#c30">&#34;今年中秋节公司有豪礼相送&#34;</span>,
+               <span style="color:#309;font-weight:bold">&#34;url&#34;</span> : <span style="color:#c30">&#34;URL&#34;</span>,
+               <span style="color:#309;font-weight:bold">&#34;picurl&#34;</span> : <span style="color:#c30">&#34;http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png&#34;</span>, 
+			   <span style="color:#309;font-weight:bold">&#34;appid&#34;</span>: <span style="color:#c30">&#34;wx123123123123123&#34;</span>,
+        	   <span style="color:#309;font-weight:bold">&#34;pagepath&#34;</span>: <span style="color:#c30">&#34;pages/index?userid=zhangsan&amp;orderid=123123123&#34;</span>
+           }
+        ]
+   },
+   <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">图文消息（mpnews）</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1 | PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span>: <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;mpnews&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;mpnews&#34;</span> : {
+       <span style="color:#309;font-weight:bold">&#34;articles&#34;</span>:[
+           {
+               <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;Title&#34;</span>, 
+               <span style="color:#309;font-weight:bold">&#34;thumb_media_id&#34;</span>: <span style="color:#c30">&#34;MEDIA_ID&#34;</span>,
+               <span style="color:#309;font-weight:bold">&#34;author&#34;</span>: <span style="color:#c30">&#34;Author&#34;</span>,
+               <span style="color:#309;font-weight:bold">&#34;content_source_url&#34;</span>: <span style="color:#c30">&#34;URL&#34;</span>,
+               <span style="color:#309;font-weight:bold">&#34;content&#34;</span>: <span style="color:#c30">&#34;Content&#34;</span>,
+               <span style="color:#309;font-weight:bold">&#34;digest&#34;</span>: <span style="color:#c30">&#34;Digest description&#34;</span>
+            }
+       ]
+   },
+   <span style="color:#309;font-weight:bold">&#34;safe&#34;</span>:<span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">markdown消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1|PartyID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span>: <span style="color:#c30">&#34;markdown&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+   <span style="color:#309;font-weight:bold">&#34;markdown&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;content&#34;</span>: <span style="color:#c30">&#34;您的会议室已经预定，稍后会同步到`邮箱` 
+</span><span style="color:#c30">                                &gt;**事项详情** 
+</span><span style="color:#c30">                                &gt;事　项：&lt;font color=\&#34;info\&#34;&gt;开会&lt;/font&gt; 
+</span><span style="color:#c30">                                &gt;组织者：@miglioguan 
+</span><span style="color:#c30">                                &gt;参与者：@miglioguan、@kunliu、@jamdeezhou、@kanexiong、@kisonwang 
+</span><span style="color:#c30">                                &gt; 
+</span><span style="color:#c30">                                &gt;会议室：&lt;font color=\&#34;info\&#34;&gt;广州TIT 1楼 301&lt;/font&gt; 
+</span><span style="color:#c30">                                &gt;日　期：&lt;font color=\&#34;warning\&#34;&gt;2018年5月18日&lt;/font&gt; 
+</span><span style="color:#c30">                                &gt;时　间：&lt;font color=\&#34;comment\&#34;&gt;上午9:00-11:00&lt;/font&gt; 
+</span><span style="color:#c30">                                &gt; 
+</span><span style="color:#c30">                                &gt;请准时参加会议。 
+</span><span style="color:#c30">                                &gt; 
+</span><span style="color:#c30">                                &gt;如需修改会议信息，请点击：[修改会议信息](https://work.weixin.qq.com)&#34;</span>
+   },
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+
+<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">小程序通知消息</span>
+{
+   <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;zhangsan|lisi&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span>: <span style="color:#c30">&#34;1|2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;totag&#34;</span>: <span style="color:#c30">&#34;1|2&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;miniprogram_notice&#34;</span>,
+   <span style="color:#309;font-weight:bold">&#34;miniprogram_notice&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;appid&#34;</span>: <span style="color:#c30">&#34;wx123123123123123&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;page&#34;</span>: <span style="color:#c30">&#34;pages/index?userid=zhangsan&amp;orderid=123123123&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;会议室预订成功通知&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;description&#34;</span>: <span style="color:#c30">&#34;4月27日 16:16&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;emphasis_first_item&#34;</span>: <span style="color:#069;font-weight:bold">true</span>,
+        <span style="color:#309;font-weight:bold">&#34;content_item&#34;</span>: [
+            {
+                <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;会议室&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;402&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;会议地点&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;广州TIT-402会议室&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;会议时间&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;2018年8月1日 09:00-09:30&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;参与人员&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;周剑轩&#34;</span>
+            }
+        ]
+    },
+   <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+   <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+</code></pre></div><p>看到这里，我们分析一下啊，<code>touser</code> <code>toparty</code> <code>totag</code> <code>enable_id_trans</code> <code>enable_duplicate_check</code> <code>duplicate_check_interval</code> 这些字段虽然每个里面都有，但是它们是业务逻辑里面的字段，不是消息本身的字段数据，真正消息本身的字段就只有 <code>msg type</code> 和那个动态根据消息类型不同而不同的键，所以其实你发现又与钉钉的消息结构思路就一致了。</p>
+<p>然后，就是更为复杂的模版卡片消息，不怕麻烦，json 我们也一样仔细看一下。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">模版卡片消息</span> <span style="color:#a00;background-color:#faa">-</span> <span style="color:#a00;background-color:#faa">文本通知型</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1 | PartyID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;template_card&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+    <span style="color:#309;font-weight:bold">&#34;template_card&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;card_type&#34;</span> : <span style="color:#c30">&#34;text_notice&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;source&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;icon_url&#34;</span>: <span style="color:#c30">&#34;图片的url&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;企业微信&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc_color&#34;</span>: <span style="color:#f60">1</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;action_menu&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;卡片副交互辅助文本说明&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;action_list&#34;</span>: [
+                {<span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;接受推送&#34;</span>, <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;A&#34;</span>},
+                {<span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;不再推送&#34;</span>, <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;B&#34;</span>}
+            ]
+        },
+        <span style="color:#309;font-weight:bold">&#34;task_id&#34;</span>: <span style="color:#c30">&#34;task_id&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;main_title&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span> : <span style="color:#c30">&#34;欢迎使用企业微信&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span> : <span style="color:#c30">&#34;您的好友正在邀请您加入企业微信&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;quote_area&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;企业微信的引用样式&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;quote_text&#34;</span>: <span style="color:#c30">&#34;企业微信真好用呀真好用&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;emphasis_content&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;100&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;核心数据&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;sub_title_text&#34;</span> : <span style="color:#c30">&#34;下载企业微信还能抢红包！&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;horizontal_content_list&#34;</span> : [
+            {
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;邀请人&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;张三&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;企业微信官网&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;点击访问&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;企业微信下载&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;企业微信.apk&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span>: <span style="color:#c30">&#34;文件的media_id&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">3</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;员工信息&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;点击查看&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;userid&#34;</span>: <span style="color:#c30">&#34;zhangsan&#34;</span>
+            }
+        ],
+        <span style="color:#309;font-weight:bold">&#34;jump_list&#34;</span> : [
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+                <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;企业微信官网&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>,
+                <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;跳转小程序&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;appid&#34;</span>: <span style="color:#c30">&#34;小程序的appid&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;pagepath&#34;</span>: <span style="color:#c30">&#34;/index.html&#34;</span>
+            }
+        ],
+        <span style="color:#309;font-weight:bold">&#34;card_action&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>,
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;appid&#34;</span>: <span style="color:#c30">&#34;小程序的appid&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;pagepath&#34;</span>: <span style="color:#c30">&#34;/index.html&#34;</span>
+        }
+    },
+    <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">模版卡片消息</span> <span style="color:#a00;background-color:#faa">-</span> <span style="color:#a00;background-color:#faa">图文展示型</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1 | PartyID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;template_card&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+    <span style="color:#309;font-weight:bold">&#34;template_card&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;card_type&#34;</span> : <span style="color:#c30">&#34;news_notice&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;source&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;icon_url&#34;</span>: <span style="color:#c30">&#34;图片的url&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;企业微信&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc_color&#34;</span>: <span style="color:#f60">1</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;action_menu&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;卡片副交互辅助文本说明&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;action_list&#34;</span>: [
+                {<span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;接受推送&#34;</span>, <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;A&#34;</span>},
+                {<span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;不再推送&#34;</span>, <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;B&#34;</span>}
+            ]
+        },
+        <span style="color:#309;font-weight:bold">&#34;task_id&#34;</span>: <span style="color:#c30">&#34;task_id&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;main_title&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span> : <span style="color:#c30">&#34;欢迎使用企业微信&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span> : <span style="color:#c30">&#34;您的好友正在邀请您加入企业微信&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;quote_area&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;企业微信的引用样式&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;quote_text&#34;</span>: <span style="color:#c30">&#34;企业微信真好用呀真好用&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;image_text_area&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;企业微信的左图右文样式&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;企业微信真好用呀真好用&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;image_url&#34;</span>: <span style="color:#c30">&#34;https://img.iplaysoft.com/wp-content/uploads/2019/free-images/free_stock_photo_2x.jpg&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;card_image&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;图片的url&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;aspect_ratio&#34;</span>: <span style="color:#f60">1.3</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;vertical_content_list&#34;</span>: [
+            {
+                <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;惊喜红包等你来拿&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;下载企业微信还能抢红包！&#34;</span>
+            }
+        ],
+        <span style="color:#309;font-weight:bold">&#34;horizontal_content_list&#34;</span> : [
+            {
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;邀请人&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;张三&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;企业微信官网&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;点击访问&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;企业微信下载&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;企业微信.apk&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span>: <span style="color:#c30">&#34;文件的media_id&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">3</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;员工信息&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;点击查看&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;userid&#34;</span>: <span style="color:#c30">&#34;zhangsan&#34;</span>
+            }
+        ],
+        <span style="color:#309;font-weight:bold">&#34;jump_list&#34;</span> : [
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+                <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;企业微信官网&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>,
+                <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;跳转小程序&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;appid&#34;</span>: <span style="color:#c30">&#34;小程序的appid&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;pagepath&#34;</span>: <span style="color:#c30">&#34;/index.html&#34;</span>
+            }
+        ],
+        <span style="color:#309;font-weight:bold">&#34;card_action&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>,
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;appid&#34;</span>: <span style="color:#c30">&#34;小程序的appid&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;pagepath&#34;</span>: <span style="color:#c30">&#34;/index.html&#34;</span>
+        }
+    },
+    <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">模版卡片消息</span> <span style="color:#a00;background-color:#faa">-</span> <span style="color:#a00;background-color:#faa">按钮交互型</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1 | PartyID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;template_card&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+    <span style="color:#309;font-weight:bold">&#34;template_card&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;card_type&#34;</span> : <span style="color:#c30">&#34;button_interaction&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;source&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;icon_url&#34;</span>: <span style="color:#c30">&#34;图片的url&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;企业微信&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc_color&#34;</span>: <span style="color:#f60">1</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;action_menu&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;卡片副交互辅助文本说明&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;action_list&#34;</span>: [
+                {<span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;接受推送&#34;</span>, <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;A&#34;</span>},
+                {<span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;不再推送&#34;</span>, <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;B&#34;</span>}
+            ]
+        },
+        <span style="color:#309;font-weight:bold">&#34;main_title&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span> : <span style="color:#c30">&#34;欢迎使用企业微信&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span> : <span style="color:#c30">&#34;您的好友正在邀请您加入企业微信&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;quote_area&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;企业微信的引用样式&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;quote_text&#34;</span>: <span style="color:#c30">&#34;企业微信真好用呀真好用&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;sub_title_text&#34;</span> : <span style="color:#c30">&#34;下载企业微信还能抢红包！&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;horizontal_content_list&#34;</span> : [
+            {
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;邀请人&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;张三&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;企业微信官网&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;点击访问&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;企业微信下载&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;企业微信.apk&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;media_id&#34;</span>: <span style="color:#c30">&#34;文件的media_id&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">3</span>,
+                <span style="color:#309;font-weight:bold">&#34;keyname&#34;</span>: <span style="color:#c30">&#34;员工信息&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;value&#34;</span>: <span style="color:#c30">&#34;点击查看&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;userid&#34;</span>: <span style="color:#c30">&#34;zhangsan&#34;</span>
+            }
+        ],
+        <span style="color:#309;font-weight:bold">&#34;card_action&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>,
+            <span style="color:#309;font-weight:bold">&#34;url&#34;</span>: <span style="color:#c30">&#34;https://work.weixin.qq.com&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;appid&#34;</span>: <span style="color:#c30">&#34;小程序的appid&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;pagepath&#34;</span>: <span style="color:#c30">&#34;/index.html&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;task_id&#34;</span>: <span style="color:#c30">&#34;task_id&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;button_selection&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;question_key&#34;</span>: <span style="color:#c30">&#34;btn_question_key1&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;企业微信评分&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;option_list&#34;</span>: [
+                {
+                    <span style="color:#309;font-weight:bold">&#34;id&#34;</span>: <span style="color:#c30">&#34;btn_selection_id1&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;100分&#34;</span>
+                },
+                {
+                    <span style="color:#309;font-weight:bold">&#34;id&#34;</span>: <span style="color:#c30">&#34;btn_selection_id2&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;101分&#34;</span>
+                }
+            ],
+            <span style="color:#309;font-weight:bold">&#34;selected_id&#34;</span>: <span style="color:#c30">&#34;btn_selection_id1&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;button_list&#34;</span>: [
+            {
+                <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;按钮1&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;style&#34;</span>: <span style="color:#f60">1</span>,
+                <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;button_key_1&#34;</span>
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;按钮2&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;style&#34;</span>: <span style="color:#f60">2</span>,
+                <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;button_key_2&#34;</span>
+            }
+        ]
+    },
+    <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">模版卡片消息</span> <span style="color:#a00;background-color:#faa">-</span> <span style="color:#a00;background-color:#faa">投票选择型</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1 | PartyID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;template_card&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+    <span style="color:#309;font-weight:bold">&#34;template_card&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;card_type&#34;</span> : <span style="color:#c30">&#34;vote_interaction&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;source&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;icon_url&#34;</span>: <span style="color:#c30">&#34;图片的url&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;企业微信&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;main_title&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span> : <span style="color:#c30">&#34;欢迎使用企业微信&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span> : <span style="color:#c30">&#34;您的好友正在邀请您加入企业微信&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;task_id&#34;</span>: <span style="color:#c30">&#34;task_id&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;checkbox&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;question_key&#34;</span>: <span style="color:#c30">&#34;question_key1&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;option_list&#34;</span>: [
+                {
+                    <span style="color:#309;font-weight:bold">&#34;id&#34;</span>: <span style="color:#c30">&#34;option_id1&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;选择题选项1&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;is_checked&#34;</span>: <span style="color:#069;font-weight:bold">true</span>
+                },
+                {
+                    <span style="color:#309;font-weight:bold">&#34;id&#34;</span>: <span style="color:#c30">&#34;option_id2&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;选择题选项2&#34;</span>,
+                    <span style="color:#309;font-weight:bold">&#34;is_checked&#34;</span>: <span style="color:#069;font-weight:bold">false</span>
+                }
+            ],
+            <span style="color:#309;font-weight:bold">&#34;mode&#34;</span>: <span style="color:#f60">1</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;submit_button&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;提交&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;key&#34;</span>
+        }
+    },
+    <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+</code></pre></div><div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">模版卡片消息</span> <span style="color:#a00;background-color:#faa">-</span> <span style="color:#a00;background-color:#faa">多项选择型</span>
+{
+    <span style="color:#309;font-weight:bold">&#34;touser&#34;</span> : <span style="color:#c30">&#34;UserID1|UserID2|UserID3&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;toparty&#34;</span> : <span style="color:#c30">&#34;PartyID1 | PartyID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;totag&#34;</span> : <span style="color:#c30">&#34;TagID1 | TagID2&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;msgtype&#34;</span> : <span style="color:#c30">&#34;template_card&#34;</span>,
+    <span style="color:#309;font-weight:bold">&#34;agentid&#34;</span> : <span style="color:#f60">1</span>,
+    <span style="color:#309;font-weight:bold">&#34;template_card&#34;</span> : {
+        <span style="color:#309;font-weight:bold">&#34;card_type&#34;</span> : <span style="color:#c30">&#34;multiple_interaction&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;source&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;icon_url&#34;</span>: <span style="color:#c30">&#34;图片的url&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span>: <span style="color:#c30">&#34;企业微信&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;main_title&#34;</span> : {
+            <span style="color:#309;font-weight:bold">&#34;title&#34;</span> : <span style="color:#c30">&#34;欢迎使用企业微信&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;desc&#34;</span> : <span style="color:#c30">&#34;您的好友正在邀请您加入企业微信&#34;</span>
+        },
+        <span style="color:#309;font-weight:bold">&#34;task_id&#34;</span>: <span style="color:#c30">&#34;task_id&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;select_list&#34;</span>: [
+            {
+                <span style="color:#309;font-weight:bold">&#34;question_key&#34;</span>: <span style="color:#c30">&#34;question_key1&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;选择器标签1&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;selected_id&#34;</span>: <span style="color:#c30">&#34;selection_id1&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;option_list&#34;</span>: [
+                    {
+                        <span style="color:#309;font-weight:bold">&#34;id&#34;</span>: <span style="color:#c30">&#34;selection_id1&#34;</span>,
+                        <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;选择器选项1&#34;</span>
+                    },
+                    {
+                        <span style="color:#309;font-weight:bold">&#34;id&#34;</span>: <span style="color:#c30">&#34;selection_id2&#34;</span>,
+                        <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;选择器选项2&#34;</span>
+                    }
+                ]
+            },
+            {
+                <span style="color:#309;font-weight:bold">&#34;question_key&#34;</span>: <span style="color:#c30">&#34;question_key2&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;选择器标签2&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;selected_id&#34;</span>: <span style="color:#c30">&#34;selection_id3&#34;</span>,
+                <span style="color:#309;font-weight:bold">&#34;option_list&#34;</span>: [
+                    {
+                        <span style="color:#309;font-weight:bold">&#34;id&#34;</span>: <span style="color:#c30">&#34;selection_id3&#34;</span>,
+                        <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;选择器选项3&#34;</span>
+                    },
+                    {
+                        <span style="color:#309;font-weight:bold">&#34;id&#34;</span>: <span style="color:#c30">&#34;selection_id4&#34;</span>,
+                        <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;选择器选项4&#34;</span>
+                    }
+                ]
+            }
+        ],
+        <span style="color:#309;font-weight:bold">&#34;submit_button&#34;</span>: {
+            <span style="color:#309;font-weight:bold">&#34;text&#34;</span>: <span style="color:#c30">&#34;提交&#34;</span>,
+            <span style="color:#309;font-weight:bold">&#34;key&#34;</span>: <span style="color:#c30">&#34;key&#34;</span>
+        }
+    },
+    <span style="color:#309;font-weight:bold">&#34;enable_id_trans&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;enable_duplicate_check&#34;</span>: <span style="color:#f60">0</span>,
+    <span style="color:#309;font-weight:bold">&#34;duplicate_check_interval&#34;</span>: <span style="color:#f60">1800</span>
+}
+</code></pre></div><p>可以看到，这模版卡片消息的复杂度可比基本消息类型复杂多了。</p>
+<p>我们先把基本消息类型来实现一下，先看看效果。</p>
+<p>这次很自然地，你会发现同样也用到了枚举类型进行综合性声明，并用到了 <code>serde</code> 的 <code>tag</code> 和 <code>rename</code> 属性，这基本和之前的枚举声明类似的套路，就不用再细说了吧。</p>
+<p><code>model/msg/wework/mod.rs</code></p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">mod</span> <span style="color:#0cf;font-weight:bold">template_card</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">crate</span>::model::msg::wework::template_card::WeworkTemplateCardMsg;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema, Ord, PartialOrd, Eq, PartialEq, Hash)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">WeworkMsgType</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;text&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Text,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;image&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Image,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 语音消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;voice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Voice,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 视频消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;video&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Video,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文件消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;file&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>File,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;textcard&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>TextCard,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;news&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>News,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息(mpnews)
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;mpnews&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>MpNews,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// markdown 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;markdown&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Markdown,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 小程序通知消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;miniprogram_notice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>MiniProgramNotice,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 模版卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;template_card&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>TemplateCard,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema, Ord, PartialOrd, Eq, PartialEq, Hash)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">WeworkMsgTemplateCardType</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本通知型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;text_notice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>TextNotice,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文展示型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;news_notice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>NewsNotice,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮交互型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;button_interaction&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>ButtonInteraction,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 投票选择型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;vote_interaction&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>VoteInteraction,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 多项选择型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;multiple_interaction&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>MultipleInteraction,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[serde(tag = </span><span style="color:#c30">&#34;msgtype&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">WeworkMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;text&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Text(WeworkTextMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;image&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Image(WeworkImageMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 语音消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;voice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Voice(WeworkVoiceMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 视频消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;video&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Video(WeworkVideoMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文件消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;file&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>File(WeworkFileMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;textcard&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>TextCard(WeworkTextCardMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;news&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>News(WeworkNewsMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息(mpnews)
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;mpnews&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>MpNews(WeworkMpNewsMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// markdown 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;markdown&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Markdown(WeworkMarkdownMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 小程序通知消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;miniprogram_notice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>MiniProgramNotice(WeworkMiniProgramNoticeMsg),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 模版卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;template_card&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>TemplateCard(WeworkTemplateCardMsg),<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本消息 text
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkTextMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#0a8;font-weight:bold">WeworkTextMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkTextMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息内容，最长不超过2048个字节，超过将截断（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图片消息 image
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkImageMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>image: <span style="color:#0a8;font-weight:bold">WeworkImageMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图片消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkImageMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图片媒体文件id，可以调用上传临时素材接口获取
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 语音消息 voice
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkVoiceMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>voice: <span style="color:#0a8;font-weight:bold">WeworkVoiceMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 语音消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkVoiceMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 语音文件id，可以调用上传临时素材接口获取
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 视频消息 video
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkVideoMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>video: <span style="color:#0a8;font-weight:bold">WeworkVideoMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 视频消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkVideoMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 视频媒体文件id，可以调用上传临时素材接口获取
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 视频消息的标题，不超过128个字节，超过会自动截断
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 视频消息的描述，不超过512个字节，超过会自动截断
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>description: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文件消息 file
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkFileMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>file: <span style="color:#0a8;font-weight:bold">WeworkFileMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文件消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkFileMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文件id，可以调用上传临时素材接口获取
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本卡片消息 textcard
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkTextCardMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>textcard: <span style="color:#0a8;font-weight:bold">WeworkTextCardMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本卡片消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkTextCardMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 标题，不超过128个字节，超过会自动截断（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 描述，不超过512个字节，超过会自动截断（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>description: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击后跳转的链接。最长2048字节，请确保包含了协议头(http/https)
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮文字。 默认为“详情”， 不超过4个文字，超过自动截断。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>btntxt: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图文消息 news
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkNewsMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>news: <span style="color:#0a8;font-weight:bold">WeworkNewsMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图文消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkNewsMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息，一个图文消息支持1到8条图文
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>articles: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>WeworkNewsMsgBodyArticle<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 一条图文
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkNewsMsgBodyArticle</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 标题，不超过128个字节，超过会自动截断（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 描述，不超过512个字节，超过会自动截断（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>description: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击后跳转的链接。 最长2048字节，请确保包含了协议头(http/https)，小程序或者url必须填写一个
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息的图片链接，最长2048字节，支持JPG、PNG格式，较好的效果为大图 1068*455，小图150*150。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>picurl: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 小程序appid，必须是与当前应用关联的小程序，appid和pagepath必须同时填写，填写后会忽略url字段
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>appid: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击消息卡片后的小程序页面，最长128字节，仅限本小程序内的页面。appid和pagepath必须同时填写，填写后会忽略url字段
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pagepath: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图文消息 mpnews（图文内容存储在企业微信）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkMpNewsMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>mpnews: <span style="color:#0a8;font-weight:bold">WeworkMpNewsMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图文消息体 mpnews
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkMpNewsMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息，一个图文消息支持1到8条图文
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>articles: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>WeworkMpNewsMsgBodyArticle<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 一条图文消息 mpnews
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkMpNewsMsgBodyArticle</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 标题，不超过128个字节，超过会自动截断（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息缩略图的media_id, 可以通过素材管理接口获得。此处thumb_media_id即上传接口返回的media_id
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>thumb_media_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息的作者，不超过64个字节
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>author: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息点击“阅读原文”之后的页面链接
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content_source_url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息的内容，支持html标签，不超过666 K个字节（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文消息的描述，不超过512个字节，超过会自动截断（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>digest: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// Markdown 消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkMarkdownMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>markdown: <span style="color:#0a8;font-weight:bold">WeworkMarkdownMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// Markdown 消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkMarkdownMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// markdown内容，最长不超过2048个字节，必须是utf8编码
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 小程序消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkMiniProgramNoticeMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>miniprogram_notice: <span style="color:#0a8;font-weight:bold">WeworkMiniProgramNoticeMsgBody</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 小程序消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkMiniProgramNoticeMsgBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 小程序appid，必须是与当前应用关联的小程序
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>appid: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击消息卡片后的小程序页面，最长1024个字节，仅限本小程序内的页面。该字段不填则消息点击后不跳转。
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>page: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息标题，长度限制4-12个汉字（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息描述，长度限制4-12个汉字（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>description: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 是否放大第一个content_item
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>emphasis_first_item: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#078;font-weight:bold">bool</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 消息内容键值对，最多允许10个item
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>content_item: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>WeworkMiniProgramNoticeMsgBodyContentItem<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 小程序消息体内容
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkMiniProgramNoticeMsgBodyContentItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 长度10个汉字以内
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>key: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 长度30个汉字以内（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>value: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span></code></pre></div><p>虽然“模版卡片”的消息复杂，但是无论是外层结构还是内层结构，都一样还是那个套路，那这事就清晰明朗了。</p>
+<p>由于“模版卡片”的消息结构毕竟复杂，这写到差不多的时候，自然就会想要把它独立出去为一个单独的文件，这样在代码查看和整体结构上会有一个更好的体验和设计，这时候就要用到 Rust 的 ”模块“ <code>mod</code> 这个概念了。</p>
+<p>先说在前面，如果你用过 Python 的话，你会发现 Rust 的模块 <code>mod.rs</code> 与 Python 中的模块 <code>__init__.py</code> 它俩非常相似，可以说几乎雷同了。</p>
+<p><code>model/msg/wework/template_card.rs</code></p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 模版卡片消息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">WeworkTemplateCardMsg</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 模版卡片消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>template_card: <span style="color:#0a8;font-weight:bold">TemplateCard</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 模版卡片消息体
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[serde(tag = </span><span style="color:#c30">&#34;card_type&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">TemplateCard</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 文本通知型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;text_notice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>TextNotice(TextNotice),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图文展示型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;news_notice&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>NewsNotice(NewsNotice),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮交互型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;button_interaction&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>ButtonInteraction(ButtonInteraction),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 投票选择型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;vote_interaction&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>VoteInteraction(VoteInteraction),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 多项选择型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;multiple_interaction&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>MultipleInteraction(MultipleInteraction),<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 文本通知型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">TextNotice</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片来源样式信息，不需要来源样式可不填写
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>source: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>Source<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片右上角更多操作按钮
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>action_menu: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>ActionMenu<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 任务id，同一个应用任务id不能重复，只能由数字、字母和“_-@”组成，最长128字节，填了action_menu字段的话本字段必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>task_id: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 一级标题
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>main_title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>MainTile<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 引用文献样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>quote_area: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>QuoteArea<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 关键数据样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>emphasis_content: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>EmphasisContent<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 二级普通文本，建议不超过160个字，（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>sub_title_text: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 二级标题+文本列表，该字段可为空数组，但有数据的话需确认对应字段是否必填，列表长度不超过6
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>horizontal_content_list: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>HorizontalContentItem<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转指引样式的列表，该字段可为空数组，但有数据的话需确认对应字段是否必填，列表长度不超过3
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>jump_list: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>JumpItem<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 整体卡片的点击跳转事件，text_notice必填本字段
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>card_action: <span style="color:#0a8;font-weight:bold">CardAction</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图文展示型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">NewsNotice</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片来源样式信息，不需要来源样式可不填写
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>source: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>Source<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片右上角更多操作按钮
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>action_menu: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>ActionMenu<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 任务id，同一个应用任务id不能重复，只能由数字、字母和“_-@”组成，最长128字节
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>task_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 一级标题
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>main_title: <span style="color:#0a8;font-weight:bold">MainTile</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 引用文献样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>quote_area: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>QuoteArea<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 左图右文样式，news_notice类型的卡片，card_image和image_text_area两者必填一个字段，不可都不填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>image_text_area: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>ImageTextArea<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">///图片样式，news_notice类型的卡片，card_image和image_text_area两者必填一个字段，不可都不填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>card_image: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>CardImage<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片二级垂直内容，该字段可为空数组，但有数据的话需确认对应字段是否必填，列表长度不超过4
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>vertical_content_list: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>VerticalContentItem<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 二级标题+文本列表，该字段可为空数组，但有数据的话需确认对应字段是否必填，列表长度不超过6
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>horizontal_content_list: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>HorizontalContentItem<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转指引样式的列表，该字段可为空数组，但有数据的话需确认对应字段是否必填，列表长度不超过3
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>jump_list: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>JumpItem<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 整体卡片的点击跳转事件，news_notice必填本字段
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>card_action: <span style="color:#0a8;font-weight:bold">CardAction</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 按钮交互型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">ButtonInteraction</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片来源样式信息，不需要来源样式可不填写
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>source: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>Source<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片右上角更多操作按钮
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>action_menu: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>ActionMenu<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 一级标题
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>main_title: <span style="color:#0a8;font-weight:bold">MainTile</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 引用文献样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>quote_area: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>QuoteArea<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 二级普通文本，建议不超过160个字，（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>sub_title_text: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 二级标题+文本列表，该字段可为空数组，但有数据的话需确认对应字段是否必填，列表长度不超过6
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>horizontal_content_list: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>HorizontalContentItem<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 整体卡片的点击跳转事件
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>card_action: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>CardAction<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 任务id，同一个应用任务id不能重复，只能由数字、字母和“_-@”组成，最长128字节
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>task_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>button_selection: <span style="color:#0a8;font-weight:bold">ButtonSelection</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮列表，列表长度不超过6
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>button_list: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>ButtonItem<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 投票选择型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">VoteInteraction</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片来源样式信息，不需要来源样式可不填写
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>source: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>Source<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 一级标题
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>main_title: <span style="color:#0a8;font-weight:bold">MainTile</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 任务id，同一个应用任务id不能重复，只能由数字、字母和“_-@”组成，最长128字节
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>task_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 选择题样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>checkbox: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>Checkbox<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 提交按钮样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>submit_button: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>SubmitButton<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 多项选择型
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">MultipleInteraction</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片来源样式信息，不需要来源样式可不填写
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>source: <span style="color:#366">Option</span><span style="color:#555">&lt;</span>Source<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 一级标题
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>main_title: <span style="color:#0a8;font-weight:bold">MainTile</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 任务id，同一个应用任务id不能重复，只能由数字、字母和“_-@”组成，最长128字节
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>task_id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器列表，multiple_interaction类型的卡片该字段不可为空，一个消息最多支持 3 个选择器
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>select_list: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>SelectItem<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 提交按钮样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>submit_button: <span style="color:#0a8;font-weight:bold">SubmitButton</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 卡片来源样式信息
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Source</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 来源图片的url，来源图片的尺寸建议为72*72
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>icon_url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 来源图片的描述，建议不超过20个字，（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>desc: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 来源文字的颜色，目前支持：0(默认) 灰色，1 黑色，2 红色，3 绿色
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>desc_color: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">ActionMenu</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 更多操作界面的描述
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>desc: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 操作列表，列表长度取值范围为 [1, 3]
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>action_list: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>ActionMenuItem<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 操作
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">ActionMenuItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 操作的描述文案
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 操作key值，用户点击后，会产生回调事件将本参数作为EventKey返回，回调事件会带上该key值，最长支持1024字节，不可重复
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>key: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">MainTile</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 一级标题，建议不超过36个字，文本通知型卡片本字段非必填，但不可本字段和sub_title_text都不填，（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 标题辅助信息，建议不超过44个字，（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>desc: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">QuoteArea</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 引用文献样式区域点击事件，0或不填代表没有点击事件，1 代表跳转url，2 代表跳转小程序
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;type&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>type_: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#078;font-weight:bold">i32</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击跳转的url，quote_area.type是1时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击跳转的小程序的appid，必须是与当前应用关联的小程序，quote_area.type是2时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>appid: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击跳转的小程序的pagepath，quote_area.type是2时选填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pagepath: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 引用文献样式的标题
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 引用文献样式的引用文案
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>quote_text: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 左图右文样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">ImageTextArea</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 左图右文样式区域点击事件，0或不填代表没有点击事件，1 代表跳转url，2 代表跳转小程序
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;type&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>type_: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#078;font-weight:bold">i32</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击跳转的url，image_text_area.type是1时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击跳转的小程序的appid，必须是与当前应用关联的小程序，image_text_area.type是2时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>appid: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 点击跳转的小程序的pagepath，image_text_area.type是2时选填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pagepath: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 左图右文样式的标题
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 左图右文样式的描述
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>desc: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 左图右文样式的图片url
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>image_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 图片样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">CardImage</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图片的url
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 图片的宽高比，宽高比要小于2.25，大于1.3，不填该参数默认1.3
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>aspect_ratio: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#078;font-weight:bold">f64</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 卡片二级垂直内容
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">VerticalContentItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 卡片二级标题，建议不超过38个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 二级普通文本，建议不超过160个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>desc: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 关键数据样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">EmphasisContent</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 关键数据样式的数据内容，建议不超过14个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 关键数据样式的数据描述内容，建议不超过22个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>desc: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 二级标题+文本列表
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">HorizontalContentItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 链接类型，0或不填代表不是链接，1 代表跳转url，2 代表下载附件，3 代表点击跳转成员详情
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;type&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>type_: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 二级标题，建议不超过5个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>keyname: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 二级文本，如果horizontal_content_list.type是2，该字段代表文件名称（要包含文件类型），建议不超过30个字，（支持id转译）
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>value: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 链接跳转的url，horizontal_content_list.type是1时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 附件的media_id，horizontal_content_list.type是2时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>media_id: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 成员详情的userid，horizontal_content_list.type是3时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>userid: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 跳转指引样式的列表
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">JumpItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转链接类型，0或不填代表不是链接，1 代表跳转url，2 代表跳转小程序
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;type&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>type_: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转链接样式的文案内容，建议不超过18个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转链接的url，jump_list.type是1时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转链接的小程序的appid，必须是与当前应用关联的小程序，jump_list.type是2时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>appid: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转链接的小程序的pagepath，jump_list.type是2时选填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pagepath: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 整体卡片的点击跳转事件
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">CardAction</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转事件类型，1 代表跳转url，2 代表打开小程序。text_notice卡片模版中该字段取值范围为[1,2]
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;type&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>type_: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转事件的url，card_action.type是1时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转事件的小程序的appid，必须是与当前应用关联的小程序，card_action.type是2时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>appid: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转事件的小程序的pagepath，card_action.type是2时选填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>pagepath: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 下拉式的选择器
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">ButtonSelection</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器的key，用户提交选项后，会产生回调事件，回调事件会带上该key值表示该题，最长支持1024字节
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>questioin_key: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器左边的标题
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 选项列表，下拉选项不超过 10 个，最少1个
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>option_list: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>ButtonSelectionOptionItem<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 默认选定的id，不填或错填默认第一个
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>selected_id: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 下拉式的选择器 选项列表
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">ButtonSelectionOptionItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器选项的id，用户提交后，会产生回调事件，回调事件会带上该id值表示该选项，最长支持128字节，不可重复
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器选项的文案，建议不超过16个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 按钮
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">ButtonItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮点击事件类型，0 或不填代表回调点击事件，1 代表跳转url
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;type&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>type_: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮文案，建议不超过10个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮样式，目前可填1~4，不填或错填默认1
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>style: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#078;font-weight:bold">i32</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮key值，用户点击后，会产生回调事件将本参数作为EventKey返回，回调事件会带上该key值，最长支持1024字节，不可重复，button_list.type是0时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>key: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 跳转事件的url，button_list.type是1时必填
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>url: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 选择题样式
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Checkbox</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 选择题key值，用户提交选项后，会产生回调事件，回调事件会带上该key值表示该题，最长支持1024字节
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>question_key: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 选择题模式，单选：0，多选：1，不填默认0
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>mode: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#078;font-weight:bold">i32</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 选项list，选项个数不超过 20 个，最少1个
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>option_list: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>CheckboxOptionItem<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 选项
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">CheckboxOptionItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 选项id，用户提交选项后，会产生回调事件，回调事件会带上该id值表示该选项，最长支持128字节，不可重复
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 选项文案描述，建议不超过17个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 该选项是否要默认选中
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>is_checked: <span style="color:#078;font-weight:bold">bool</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 提交按钮
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">SubmitButton</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 按钮文案，建议不超过10个字，不填默认为提交
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 提交按钮的key，会产生回调事件将本参数作为EventKey返回，最长支持1024字节
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>key: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 下拉式的选择器
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">SelectItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器题目的key，用户提交选项后，会产生回调事件，回调事件会带上该key值表示该题，最长支持1024字节，不可重复
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>question_key: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器上面的title
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>title: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 默认选定的id，不填或错填默认第一个
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>selected_id: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 选项列表，下拉选项不超过 10 个，最少1个
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>option_list: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>SelectItemOptionItem<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#c30;font-style:italic">/// 下拉式的选择器 选项列表
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">SelectItemOptionItem</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器选项的id，用户提交选项后，会产生回调事件，回调事件会带上该id值表示该选项，最长支持128字节，不可重复
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>id: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// 下拉式的选择器选项的文案，建议不超过16个字
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>text: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>这次又是类似，无论多么复杂的结构，层层分解，每次声明局部的一个小部分的时候，就关注局部的这个小部分就可以了，取个合理的名称，如果名称太长，考虑合理简化一些，字段名称是什么，序列化和反序列化时候的名称要不要变化，它是一个可选字段还是必选字段，它的数据类型又是什么，如果是一个对象，那么就又再给它命一个结构出来即可，循环往复这个动作，最终完成所有结构的声明即可。</p>
+<p>这次除了新增了关于 “模块“ <code>mod.rs</code> 的知识之外，其实就没有更多的要细说的了，编程，基本知识学到位之后，到最后，其实就是一个需要细心和耐心的体力活，只要是自己手写出来的代码，你都始终会有印象的，那时候才算知识的真正学会了。</p>
+<p>顺便提一嘴，你想想，如果不是去声明这些结构体，而是面对着层层嵌套的 json 直接进行操作，你觉得会有什么样的体验？</p>
+<p>还有哦，结构体的文档说明一定要有，否则过一段时间你就忘记了它是什么意思了。同时呢，这些结构体上的文档说明，也会被其他工具所用来自动化地去展示非常详尽的接口文档，包括字段值的类型，例如 OpenAPI 或 Swagger 等，这是我在 Python 或者 Golang 从未得到过完善解决甚至有时根本无法解决，而在 Rust 这里，被做到了极致。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<h5><a href="/about">Jeremy Yin</a></h5>
+<p>Python Engineer, Business System Architect</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+<script src="/jeremy/js/icp.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
