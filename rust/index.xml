@@ -6,10 +6,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 20 Apr 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 21 Apr 2023 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/rust/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>飞书消息通知要怎么声明 Rust 结构体</title>
+      <link>/rust/2023-04-21-%E9%A3%9E%E4%B9%A6%E6%B6%88%E6%81%AF%E9%80%9A%E7%9F%A5%E8%A6%81%E6%80%8E%E4%B9%88%E5%A3%B0%E6%98%8E-rust-%E7%BB%93%E6%9E%84%E4%BD%93/</link>
+      <pubDate>Fri, 21 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/2023-04-21-%E9%A3%9E%E4%B9%A6%E6%B6%88%E6%81%AF%E9%80%9A%E7%9F%A5%E8%A6%81%E6%80%8E%E4%B9%88%E5%A3%B0%E6%98%8E-rust-%E7%BB%93%E6%9E%84%E4%BD%93/</guid>
+      <description>在企业服务这一板块，除了钉钉、企业微信，还有飞书，如果你要是在做一个与各大平台对接的产品，基本上必然少不了要对接各个平台的消息通知。
+所以今天来简单看看飞书的消息通知在 Rust 中又会怎样声明数据结构。
+飞书的消息格式是三大平台中形式最为丰富结构最为复杂的，无论是在技术领域还是在某些领域，后来者居上始终是一条铁律，如果一个后来者做不到超越前者，而如果仅仅只是跟随或者受到了前者的牵绊，那么就始终是坐不上头把交椅的。
+而这个超越，不是说功能做的多么地复杂功能有多么地多，而是最终的客户体验的全面超越。支持做到客户体验的超越，背后是整个思维体系、产品理念、技术架构的全面换代超越，而这是平庸的部门管理者所无法真正理解的，毕竟职场里面的利益斗争真的是处处可见，几乎没有人是首先想到的是如何把事情做好，反而是首先上来就考虑自己的眼前的短期利益，而冠冕堂皇地还会被封装在一个叫做“投入产出比” “提高执行效率”的套话里面。
+但始终是没有人会真正地理解：眼前最优解并不是近期最优解，近期最优解并不是长期最优解。
+看似选对了每一小步的最优解，但却离全局最优解越来越远。深度学习为了防止过度拟合都需要引入随机变量，而企业内部如果只为追求完美无暇和表面上的漂亮，最终将获得的是一潭死水。
+理念和方向选错了，走的再快那又如何呢？
+我又废话了，扯回来飞书消息通知，它发送消息的内容格式说明的文档在 https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/im-v1/message/create_json
+第一眼看上去你以为跟钉钉和企业微信也没啥差别，不就是那么几种常见的消息格式么，但是如果仔细想，每个平台都有一种消息格式是比较特殊和复杂度较高显示效果漂亮的，其实飞书也不例外：消息卡片，可以从文档跳到这里地址：https://open.feishu.cn/document/ukTMukTMukTM/uczM3QjL3MzN04yNzcDN 就能看到这个极为复杂和效果丰富的消息卡片的说明了。
+这次由于格式复杂，内容量很大，就不全量贴代码了（其实是没写完 ^-^ ）
+先看几个简单的例子：
+一开始的文本消息就有好几个例子，我们只先看一个。
+// 文本消息 { &amp;#34;receive_id&amp;#34;: &amp;#34;oc_xxx&amp;#34;, &amp;#34;content&amp;#34;: &amp;#34;{\&amp;#34;text\&amp;#34;:\&amp;#34;firstline \\n second line \&amp;#34;}&amp;#34;, &amp;#34;msg_type&amp;#34;: &amp;#34;text&amp;#34; } // 图片消息 { &amp;#34;receive_id&amp;#34;: &amp;#34;oc_xxx&amp;#34;, &amp;#34;content&amp;#34;: &amp;#34;{\&amp;#34;image_key\&amp;#34;: \&amp;#34;img_v2_xxx\&amp;#34;}&amp;#34;, &amp;#34;msg_type&amp;#34;: &amp;#34;image&amp;#34; } // 富文本消息 { &amp;#34;zh_cn&amp;#34;: { &amp;#34;title&amp;#34;: &amp;#34;我是一个标题&amp;#34;, &amp;#34;content&amp;#34;: [ [ { &amp;#34;tag&amp;#34;: &amp;#34;text&amp;#34;, &amp;#34;text&amp;#34;: &amp;#34;第一行:&amp;#34;, &amp;#34;style&amp;#34;: [&amp;#34;bold&amp;#34;, &amp;#34;underline&amp;#34;] }, { &amp;#34;tag&amp;#34;: &amp;#34;a&amp;#34;, &amp;#34;href&amp;#34;: &amp;#34;http://www.feishu.cn&amp;#34;, &amp;#34;text&amp;#34;: &amp;#34;超链接&amp;#34;, &amp;#34;style&amp;#34;: [&amp;#34;bold&amp;#34;, &amp;#34;italic&amp;#34;] }, { &amp;#34;tag&amp;#34;: &amp;#34;at&amp;#34;, &amp;#34;user_id&amp;#34;: &amp;#34;ou_1avnmsbv3k45jnk34j5&amp;#34;, &amp;#34;user_name&amp;#34;: &amp;#34;tom&amp;#34;, &amp;#34;style&amp;#34;: [&amp;#34;lineThrough&amp;#34;] } ], [{ &amp;#34;tag&amp;#34;: &amp;#34;img&amp;#34;, &amp;#34;image_key&amp;#34;: &amp;#34;img_7ea74629-9191-4176-998c-2e603c9c5e8g&amp;#34; }], [	{ &amp;#34;tag&amp;#34;: &amp;#34;text&amp;#34;, &amp;#34;text&amp;#34;: &amp;#34;第二行:&amp;#34;, &amp;#34;style&amp;#34;: [&amp;#34;bold&amp;#34;, &amp;#34;underline&amp;#34;] }, { &amp;#34;tag&amp;#34;: &amp;#34;text&amp;#34;, &amp;#34;text&amp;#34;: &amp;#34;文本测试&amp;#34; } ], [{ &amp;#34;tag&amp;#34;: &amp;#34;img&amp;#34;, &amp;#34;image_key&amp;#34;: &amp;#34;img_7ea74629-9191-4176-998c-2e603c9c5e8g&amp;#34; }], [{ &amp;#34;tag&amp;#34;: &amp;#34;media&amp;#34;, &amp;#34;file_key&amp;#34;: &amp;#34;file_v2_0dcdd7d9-fib0-4432-a519-41d25aca542j&amp;#34;, &amp;#34;image_key&amp;#34;: &amp;#34;img_7ea74629-9191-4176-998c-2e603c9c5e8g&amp;#34; }], [{ &amp;#34;tag&amp;#34;: &amp;#34;emotion&amp;#34;, &amp;#34;emoji_type&amp;#34;: &amp;#34;SMILE&amp;#34; }] ] }, &amp;#34;en_us&amp;#34;: { .</description>
+    </item>
     
     <item>
       <title>企业微信消息通知要怎么声明 Rust 结构体</title>
