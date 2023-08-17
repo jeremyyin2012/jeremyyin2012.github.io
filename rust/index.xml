@@ -6,10 +6,58 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Fri, 21 Apr 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Jun 2023 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/rust/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Rust 和 Python 有些相通的地方</title>
+      <link>/rust/2023-06-05-rust-%E5%92%8C-python-%E6%9C%89%E4%BA%9B%E7%9B%B8%E9%80%9A%E7%9A%84%E5%9C%B0%E6%96%B9/</link>
+      <pubDate>Mon, 05 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/2023-06-05-rust-%E5%92%8C-python-%E6%9C%89%E4%BA%9B%E7%9B%B8%E9%80%9A%E7%9A%84%E5%9C%B0%E6%96%B9/</guid>
+      <description>事先说明，所谓相通，就是便于方便理解它，但是它们本质是不一样的。
+或者也能说思想是类似的，但是实现是完全不一样的。
+目前只能挑想到的点浅浅地说一下，不保证完整覆盖和足够深入，如有错误还请谅解并指出。
+打印显示，这应该是最常用到，但是又很容易忽视其基本原理的一个地方。
+例如我有很多书，然后我就声明了这样一个对象叫 Book（这个代码是网上已有的 https://realpython.com/python-repr-vs-str/）
+class Book: def __init__(self, title, author): self.title = title self.author = author def __repr__(self): class_name = type(self).__name__ return f&amp;#34;{class_name}(title={self.title!r}, author={self.author!r})&amp;#34; def __str__(self): return f&amp;#39;&amp;#34;{self.title}&amp;#34; by {self.author}&amp;#39; odyssey = Book(&amp;#34;The Odyssey&amp;#34;, &amp;#34;Homer&amp;#34;) print(repr(odyssey)) # Book(title=&amp;#39;The Odyssey&amp;#39;, author=&amp;#39;Homer&amp;#39;) print(str(odyssey)) # &amp;#34;The Odyssey&amp;#34; by Homer 如果你用 python str repr 作为关键词去 Google 搜，你会看到有我参考到的这一篇，以及还有很多关于 python 中 str 和 repr 有何区别和如何使用的详细讲解。
+如果简单说，__str__ 就是面向人，用于友好显示，__repr__ 就是面向程序，用于代码调试和代码生成等场合。大多数情况下，你可能关注 __str__ 更多一些。
+在 python 里面，有一个全局可使用的 str 函数（其实它是 class），通过调用对象上的 __str__ 来把一切东西都转为字符串，然后跟字符串相关的一切函数例如 print 也是同理。当然，还有一些降级动作，例如如果找不到 __str__ 就用 __repr__ 什么的，这里就不深究了。</description>
+    </item>
+    
+    <item>
+      <title>Rust 在面对返回数据的字段格式不固定时该怎么办（续）</title>
+      <link>/rust/2023-05-10-rust-%E5%9C%A8%E9%9D%A2%E5%AF%B9%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AD%97%E6%AE%B5%E6%A0%BC%E5%BC%8F%E4%B8%8D%E5%9B%BA%E5%AE%9A%E6%97%B6%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E%E7%BB%AD/</link>
+      <pubDate>Wed, 10 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/2023-05-10-rust-%E5%9C%A8%E9%9D%A2%E5%AF%B9%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AD%97%E6%AE%B5%E6%A0%BC%E5%BC%8F%E4%B8%8D%E5%9B%BA%E5%AE%9A%E6%97%B6%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E%E7%BB%AD/</guid>
+      <description>说了要续的，等不及了，先续个小点的，不然对不住这标题。
+拿个例子，对接了一个接口，你会收到这样的返回：
+{ &amp;#34;allow_type&amp;#34;: { &amp;#34;id_list&amp;#34;: [], &amp;#34;type&amp;#34;: 3 } } 你以为这结构应该没啥特别的吧？看起来语义和字段设计都没啥毛病，大概意思你也能猜个 789 对不对。
+一旦当你以为程序跑起来顺顺利利的时候，一联调，总会偶尔出现导致程序 panic 出现的情况，看错误提示又无法直接定位到具体是什么问题，一开始莫名其妙很多次，等到狠下心来将收到的原始文本打印出来真正认真比对数据，才能发现问题所在。
+因为你不知道的是，偶尔，你也会收到这样的返回：
+{ &amp;#34;allow_type&amp;#34;: { &amp;#34;id_list&amp;#34;: &amp;#34;all&amp;#34;, &amp;#34;type&amp;#34;: 1 } } 现在你发现问题了，再搜集多几个场景，你发现这样的数据：
+{ &amp;#34;allow_type&amp;#34;: { &amp;#34;id_list&amp;#34;: [], &amp;#34;type&amp;#34;: 2 } } 最后去真正分析了业务逻辑，type=1 和 2 的时候，根本不用管这个 id_list，只有 type=3 的时候才会关心 id_list 具体有什么内容。
+所以 type 本身即表示了语义分类，而在 type=1 的时候填一个 &amp;ldquo;all&amp;rdquo; 根本就是多次一举，或许可能开发这个接口的同学心里可能还在默念：你看我这写的多么清晰。
+看过了前面企业微信、钉钉、飞书的消息结构体的声明的文章，你可能觉得这个好像也没啥难度，或许可能用枚举就能把它的这个多种情况能完美声明出来，但你也知道这个场景下，数据结构语义与业务语义有偏差才是重点，而很明显这里是有可能统一标准的，而不需要使用枚举进行多个类型结合，也更不需要在后续的业务逻辑处理中，进行 match 的分支处理。
+基于统一标准的思路，这里的 id_list 那就应该是 [] 的格式，当 type=1 时，应该是 id_list=[] 这样的。
+而问题就来到了如何在收到 &amp;ldquo;all&amp;rdquo; 的时候把它在结构体上解析为 [] 的事情。</description>
+    </item>
+    
+    <item>
+      <title>Rust 在面对返回数据的字段格式不固定时该怎么办</title>
+      <link>/rust/2023-05-09-rust-%E5%9C%A8%E9%9D%A2%E5%AF%B9%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AD%97%E6%AE%B5%E6%A0%BC%E5%BC%8F%E4%B8%8D%E5%9B%BA%E5%AE%9A%E6%97%B6%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E/</link>
+      <pubDate>Tue, 09 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/2023-05-09-rust-%E5%9C%A8%E9%9D%A2%E5%AF%B9%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AD%97%E6%AE%B5%E6%A0%BC%E5%BC%8F%E4%B8%8D%E5%9B%BA%E5%AE%9A%E6%97%B6%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E/</guid>
+      <description>用静态语言去对接不那么严谨设计的别人的系统和服务，通常会遇到返回的数据结构中的字段值类型出现各种不一致的情况，例如：
+ Bool，它一会返回 false 或者 true，一会返回 1 或者 0 Int，它一会返回 &amp;ldquo;314&amp;rdquo;，一会又返回 314 Float，它一会返回 &amp;ldquo;3.14&amp;rdquo;，一会又返回 3.14 Array，它一会返回 [&amp;ldquo;a&amp;rdquo;, &amp;ldquo;b&amp;rdquo;]，一会又返回 &amp;ldquo;all&amp;rdquo; Object，它一会返回 {}，一会又返回 &amp;ldquo;all&amp;rdquo; 等等诸如此类，防不胜防  而这些情况，说实话，如果以我所遇到的情况来说，那就基本上是 Python 的居最多，毕竟其他语言也没咋深入接触过多少项目。
+我曾经将一个 Django 1.8 基于 Python 2 的项目，先是经历一波原地结构重整，然后再升级到基于 Python 的 Sanic 版本，完美。
+后来我又想用它来尝试原地用 Rust 重写，因为业务流程的代码结构已经非常整洁，所以基本上只需要按照结构一比一逐步实现上层的 API 声明，下层的外部服务对接和数据库的调用，而中层的核心业务逻辑的部分，基本上可以照抄原 Python 的结构，甚至函数名称都不需要变，也不需要增加或减少函数方法。
+说实话，是非常满意的，Rust 相比原来 Python 3 的代码总量，增加了大概 50% 左右，即 Python : Rust 约等于 1 : 1.5 这样的一个比例，而这增加的 50% 基本上是什么呢？核心绝大部分都是 model 包的声明，即数据结构的声明。这些数据结构，基本就是 struct 和 enum，还有一些就是 type alias，type alias 也是我挺喜爱的一个特性之一，在表达业务语义上，有着非常优秀的体验。</description>
+    </item>
     
     <item>
       <title>飞书消息通知要怎么声明 Rust 结构体</title>

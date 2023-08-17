@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+        <title>Rust 在面对返回数据的字段格式不固定时该怎么办（续） | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/rust/">Rust</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>Rust 在面对返回数据的字段格式不固定时该怎么办（续）</h1>
+        <hr>
+        <p>说了要续的，等不及了，先续个小点的，不然对不住这标题。</p>
+<p>拿个例子，对接了一个接口，你会收到这样的返回：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#309;font-weight:bold">&#34;allow_type&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;id_list&#34;</span>: [],
+        <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">3</span>
+    }
+}
+</code></pre></div><p>你以为这结构应该没啥特别的吧？看起来语义和字段设计都没啥毛病，大概意思你也能猜个 789 对不对。</p>
+<p>一旦当你以为程序跑起来顺顺利利的时候，一联调，总会偶尔出现导致程序 panic 出现的情况，看错误提示又无法直接定位到具体是什么问题，一开始莫名其妙很多次，等到狠下心来将收到的原始文本打印出来真正认真比对数据，才能发现问题所在。</p>
+<p>因为你不知道的是，偶尔，你也会收到这样的返回：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#309;font-weight:bold">&#34;allow_type&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;id_list&#34;</span>: <span style="color:#c30">&#34;all&#34;</span>,
+        <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">1</span>
+    }
+}
+</code></pre></div><p>现在你发现问题了，再搜集多几个场景，你发现这样的数据：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#309;font-weight:bold">&#34;allow_type&#34;</span>: {
+        <span style="color:#309;font-weight:bold">&#34;id_list&#34;</span>: [],
+        <span style="color:#309;font-weight:bold">&#34;type&#34;</span>: <span style="color:#f60">2</span>
+    }
+}
+</code></pre></div><p>最后去真正分析了业务逻辑，type=1 和 2 的时候，根本不用管这个 id_list，只有 type=3 的时候才会关心 id_list 具体有什么内容。</p>
+<p>所以 type 本身即表示了语义分类，而在 type=1 的时候填一个 &ldquo;all&rdquo; 根本就是多次一举，或许可能开发这个接口的同学心里可能还在默念：你看我这写的多么清晰。</p>
+<p>看过了前面企业微信、钉钉、飞书的消息结构体的声明的文章，你可能觉得这个好像也没啥难度，或许可能用枚举就能把它的这个多种情况能完美声明出来，但你也知道这个场景下，数据结构语义与业务语义有偏差才是重点，而很明显这里是有可能统一标准的，而不需要使用枚举进行多个类型结合，也更不需要在后续的业务逻辑处理中，进行 match 的分支处理。</p>
+<p>基于统一标准的思路，这里的 id_list 那就应该是 [] 的格式，当 type=1 时，应该是 id_list=[] 这样的。</p>
+<p>而问题就来到了如何在收到 &ldquo;all&rdquo; 的时候把它在结构体上解析为 [] 的事情。</p>
+<p>第一个思路，我是这样想的，用一个结构体应该能搞定这个事情：</p>
+<ul>
+<li>先用 serde_json::Value 把数据装到一个私有字段，延迟进行具体的解析</li>
+<li>声明一个真正的对外的公开标准字段，但是不参与数据解析，它将由我们自己写的函数去处理得到</li>
+<li>然后再写一个具体的处理逻辑把这个私有字段的数据处理到这个公开的标准字段上</li>
+<li>这样对外就是公开的标准字段，接收数据就是结构内部私有字段，把问题在结构内部进行消化</li>
+<li>但是需要使用方主动调用一个处理此事的函数，实现数据的处理，比直接解析多一步</li>
+</ul>
+<p>serde_json::Value 首先要理解，它是一个可以描述 json 中所有类型的一个数据类型，其实呢，它也就是一个 Rust 里面的枚举类型。</p>
+<p>第二个要理解的是 Rust 的结构体里面的字段是支持 私有 和 公开 这两个情况的，而且默认是私有，声明了 pub 才是公开。</p>
+<p>第三个是 serde_json 针对字段数据的解析，根据场景的不同需求，有非常多的属性可以配置，我们所遇见的大多数情况都能直接使用它的这些属性进行配置化处理。</p>
+<p>下面具体看代码，首先是这个结构体局部：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">EnableConf</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;type&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>type_: <span style="color:#0a8;font-weight:bold">CompanyEnableType</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>id_list: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>Uuid<span style="color:#555">&gt;</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#bbb"> </span><span style="color:#366">Default</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">for</span><span style="color:#bbb"> </span>EnableConf<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">default</span>()<span style="color:#bbb"> </span>-&gt; <span style="color:#0a8;font-weight:bold">Self</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>Self<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>type_: <span style="color:#0a8;font-weight:bold">CompanyEnableType</span>::All,<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>id_list: <span style="color:#0a8;font-weight:bold">vec</span><span style="color:#555">!</span>[],<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, JsonSchema, PartialEq, Eq)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">CompanyEnableType</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>All<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span><span style="color:#f60">1</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Enterprise<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span><span style="color:#f60">2</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Specific<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span><span style="color:#f60">3</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>然后看它被使用到的地方，声明私有字段和公开字段，以及它们的 serde 属性：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">MainMenu</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>menu_id: <span style="color:#0a8;font-weight:bold">MenuID</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename(deserialize = </span><span style="color:#c30">&#34;name&#34;</span><span style="color:#099">))]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>menu_name: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename(deserialize = </span><span style="color:#c30">&#34;main_menu_code&#34;</span><span style="color:#099">))]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>menu_code: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>icon_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>router_url: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename(deserialize = </span><span style="color:#c30">&#34;sort_value&#34;</span><span style="color:#099">))]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>sort: <span style="color:#078;font-weight:bold">u32</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>product_status: <span style="color:#078;font-weight:bold">u32</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(skip_serializing)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>permission: <span style="color:#0a8;font-weight:bold">PermCode</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(skip_serializing)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>product_system_id: <span style="color:#0a8;font-weight:bold">SubsystemID</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(skip_serializing, rename(deserialize = </span><span style="color:#c30">&#34;allow_type&#34;</span><span style="color:#099">))]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>allow_type_value: <span style="color:#0a8;font-weight:bold">Value</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(skip_deserializing, skip_serializing)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>allow_type: <span style="color:#0a8;font-weight:bold">EnableConf</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(skip_serializing, rename(deserialize = </span><span style="color:#c30">&#34;visible_type&#34;</span><span style="color:#099">))]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>visible_type_value: <span style="color:#0a8;font-weight:bold">Value</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(skip_deserializing, skip_serializing)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>visible_type: <span style="color:#0a8;font-weight:bold">VisibleConf</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>然后写一个处理函数，这个函数独立在外或者直接在 impl 里面写都是可以的，由于好几个结构体类型都得用它，所以就独立函数出来：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">parse_allow_type</span>(allow_type_value: <span style="color:#069">&amp;</span><span style="color:#0a8;font-weight:bold">serde_json</span>::Value)<span style="color:#bbb"> </span>-&gt; <span style="color:#366">Result</span><span style="color:#555">&lt;</span>EnableConf,<span style="color:#bbb"> </span>Error<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>type_default<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>CompanyEnableType::All;<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>id_list_default: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>Uuid<span style="color:#555">&gt;</span><span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>vec<span style="color:#555">!</span>[];<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>allow_type_value<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>allow_type_value.as_object();<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">if</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#366">Some</span>(allow_type_value)<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>allow_type_value<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>type_<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>allow_type_value.get(<span style="color:#c30">&#34;type&#34;</span>);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">if</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#366">Some</span>(v)<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>type_<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>v.as_u64()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                </span><span style="color:#366">Some</span>(<span style="color:#f60">1</span>)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                    </span>type_default<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>CompanyEnableType::All;<span style="color:#bbb">
+</span><span style="color:#bbb">                </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">                </span><span style="color:#366">Some</span>(<span style="color:#f60">2</span>)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                    </span>type_default<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>CompanyEnableType::Enterprise;<span style="color:#bbb">
+</span><span style="color:#bbb">                </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">                </span><span style="color:#366">Some</span>(<span style="color:#f60">3</span>)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                    </span>type_default<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>CompanyEnableType::Specific;<span style="color:#bbb">
+</span><span style="color:#bbb">                </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">                </span>_<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{}<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>id_list<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>allow_type_value.get(<span style="color:#c30">&#34;id_list&#34;</span>);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">if</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#366">Some</span>(v)<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>id_list<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span><span style="color:#069;font-weight:bold">if</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#366">Some</span>(arr)<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>v.as_array()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                </span><span style="color:#069;font-weight:bold">for</span><span style="color:#bbb"> </span>item<span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">in</span><span style="color:#bbb"> </span>arr.iter()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                    </span><span style="color:#069;font-weight:bold">if</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#366">Some</span>(s)<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>item.as_str()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>Uuid::from_str(s);<span style="color:#bbb">
+</span><span style="color:#bbb">                        </span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>id<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                            </span><span style="color:#366">Ok</span>(id)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                                </span>id_list_default.push(id);<span style="color:#bbb">
+</span><span style="color:#bbb">                            </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">                            </span><span style="color:#366">Err</span>(e)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{}<span style="color:#bbb">
+</span><span style="color:#bbb">                        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">                    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">                </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>conf<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>EnableConf<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>type_: <span style="color:#0a8;font-weight:bold">type_default</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>id_list: <span style="color:#0a8;font-weight:bold">id_list_default</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>};<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#366">Ok</span>(conf)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#bbb"> </span>MainMenu<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#c30;font-style:italic">/// todo 可能有更好的方法就是写 Deserialize 来处理，但是目前没搞定全局之前先这样过
+</span><span style="color:#c30;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#09f;font-style:italic">// &#34;allow_type&#34;: {
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#09f;font-style:italic">//     &#34;id_list&#34;: &#34;all&#34;,
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#09f;font-style:italic">//     &#34;type&#34;: 1
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#09f;font-style:italic">// }
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#09f;font-style:italic">// &#34;allow_type&#34;: {
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#09f;font-style:italic">//     &#34;id_list&#34;: [],
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#09f;font-style:italic">//     &#34;type&#34;: 3
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#09f;font-style:italic">// }
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">parse_allow_type</span>(<span style="color:#555">&amp;</span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>self)<span style="color:#bbb"> </span>-&gt; <span style="color:#366">Result</span><span style="color:#555">&lt;</span>(),<span style="color:#bbb"> </span>Error<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>self.allow_type<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>parse_allow_type(<span style="color:#555">&amp;</span>self.allow_type_value)<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#366">Ok</span>(())<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">parse_visible_type</span>(<span style="color:#555">&amp;</span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>self)<span style="color:#bbb"> </span>-&gt; <span style="color:#366">Result</span><span style="color:#555">&lt;</span>(),<span style="color:#bbb"> </span>Error<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>self.visible_type<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>parse_visible_type(<span style="color:#555">&amp;</span>self.visible_type_value)<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#366">Ok</span>(())<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#bbb"> </span>MainMenuDetail<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">parse_allow_type</span>(<span style="color:#555">&amp;</span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>self)<span style="color:#bbb"> </span>-&gt; <span style="color:#366">Result</span><span style="color:#555">&lt;</span>(),<span style="color:#bbb"> </span>Error<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>self.allow_type<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>parse_allow_type(<span style="color:#555">&amp;</span>self.allow_type_value)<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#366">Ok</span>(())<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">parse_visible_type</span>(<span style="color:#555">&amp;</span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>self)<span style="color:#bbb"> </span>-&gt; <span style="color:#366">Result</span><span style="color:#555">&lt;</span>(),<span style="color:#bbb"> </span>Error<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>self.visible_type<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>parse_visible_type(<span style="color:#555">&amp;</span>self.visible_type_value)<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#366">Ok</span>(())<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#bbb"> </span>SubMenu<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">parse_allow_type</span>(<span style="color:#555">&amp;</span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>self)<span style="color:#bbb"> </span>-&gt; <span style="color:#366">Result</span><span style="color:#555">&lt;</span>(),<span style="color:#bbb"> </span>Error<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>self.allow_type<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>parse_allow_type(<span style="color:#555">&amp;</span>self.allow_type_value)<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#366">Ok</span>(())<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">parse_visible_type</span>(<span style="color:#555">&amp;</span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>self)<span style="color:#bbb"> </span>-&gt; <span style="color:#366">Result</span><span style="color:#555">&lt;</span>(),<span style="color:#bbb"> </span>Error<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>self.visible_type<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>parse_visible_type(<span style="color:#555">&amp;</span>self.visible_type_value)<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#366">Ok</span>(())<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>然后再在业务代码的函数里面去主动调一下这个函数，就能解析出我们想要的标准数据：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">menu.parse_allow_type()<span style="color:#555">?</span>;<span style="color:#bbb">
+</span></code></pre></div><p>这样后续再做业务逻辑，你能绝对保证你拿到的是标准的数据结构，而不需要再临时做些 if else 判断啥的。</p>
+<p>你看，其实是不是还挺容易的？</p>
+<p>而且还保持了几个原则：</p>
+<ul>
+<li>把问题在内部解决，对外都是标准数据，要烂，也是烂局部，不影响大环境</li>
+<li>即便没有用到复杂的高级特性，也是完美地实现了尽量简单易懂的处理方案</li>
+</ul>
+<p>当然，始终还是要业务代码多一次调用，对数据多做一次 mut 操作，但也一样保持了只在局部处理掉这个细节问题，不把问题继续往外抛出影响外部使用。</p>
+<p>当然你也看到了，这是方案一，方案二可能就是如同备注里面说的：去写 Deserialize 方法</p>
+<p>但是由于写 Deserialize 方法还是需要对 serde 和 serde_json 有一定的了解和对写解析器有一定的功底经验，才能合理地写出正确的解析逻辑来，在没有这个经验之前，当前这种也是一个比较合理的方案。</p>
+<p>其实结构体这部分还有方案三：与声明私有字段不同，可能考虑多个结构体进行转换，这样结构更清晰，不像现在需要利用到 serde_json 的一些字段属性来帮忙处理，导致结构体内部字段比较杂乱，不太看的清楚。但这两方案思路都是类似，没有绝对好坏，看情况选择即可。</p>
+<p>那，等再续？</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<h5><a href="/about">Jeremy Yin</a></h5>
+<p>Python Engineer, Business System Architect</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+<script src="/jeremy/js/icp.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>

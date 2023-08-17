@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+        <title>Rust 和 Python 有些相通的地方 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/rust/">Rust</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>Rust 和 Python 有些相通的地方</h1>
+        <hr>
+        <p>事先说明，所谓相通，就是便于方便理解它，但是它们本质是不一样的。</p>
+<p>或者也能说思想是类似的，但是实现是完全不一样的。</p>
+<p>目前只能挑想到的点浅浅地说一下，不保证完整覆盖和足够深入，如有错误还请谅解并指出。</p>
+<p>打印显示，这应该是最常用到，但是又很容易忽视其基本原理的一个地方。</p>
+<p>例如我有很多书，然后我就声明了这样一个对象叫 Book（这个代码是网上已有的 <a href="https://realpython.com/python-repr-vs-str/">https://realpython.com/python-repr-vs-str/</a>）</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">Book</span>:
+    <span style="color:#069;font-weight:bold">def</span> __init__(self, title, author):
+        self<span style="color:#555">.</span>title <span style="color:#555">=</span> title
+        self<span style="color:#555">.</span>author <span style="color:#555">=</span> author
+
+    <span style="color:#069;font-weight:bold">def</span> __repr__(self):
+        class_name <span style="color:#555">=</span> <span style="color:#366">type</span>(self)<span style="color:#555">.</span>__name__
+        <span style="color:#069;font-weight:bold">return</span> <span style="color:#c30">f</span><span style="color:#c30">&#34;</span><span style="color:#a00">{</span>class_name<span style="color:#a00">}</span><span style="color:#c30">(title=</span><span style="color:#a00">{</span>self<span style="color:#555">.</span>title<span style="color:#a00">!r}</span><span style="color:#c30">, author=</span><span style="color:#a00">{</span>self<span style="color:#555">.</span>author<span style="color:#a00">!r}</span><span style="color:#c30">)&#34;</span>
+
+    <span style="color:#069;font-weight:bold">def</span> __str__(self):
+        <span style="color:#069;font-weight:bold">return</span> <span style="color:#c30">f</span><span style="color:#c30">&#39;&#34;</span><span style="color:#a00">{</span>self<span style="color:#555">.</span>title<span style="color:#a00">}</span><span style="color:#c30">&#34; by </span><span style="color:#a00">{</span>self<span style="color:#555">.</span>author<span style="color:#a00">}</span><span style="color:#c30">&#39;</span>
+
+
+odyssey <span style="color:#555">=</span> Book(<span style="color:#c30">&#34;The Odyssey&#34;</span>, <span style="color:#c30">&#34;Homer&#34;</span>)
+
+<span style="color:#366">print</span>(<span style="color:#366">repr</span>(odyssey))  <span style="color:#09f;font-style:italic"># Book(title=&#39;The Odyssey&#39;, author=&#39;Homer&#39;)</span>
+<span style="color:#366">print</span>(<span style="color:#366">str</span>(odyssey))  <span style="color:#09f;font-style:italic"># &#34;The Odyssey&#34; by Homer</span>
+</code></pre></div><p>如果你用 python str repr 作为关键词去 Google 搜，你会看到有我参考到的这一篇，以及还有很多关于 python 中 str 和 repr 有何区别和如何使用的详细讲解。</p>
+<p>如果简单说，<code>__str__</code> 就是面向人，用于友好显示，<code>__repr__</code> 就是面向程序，用于代码调试和代码生成等场合。大多数情况下，你可能关注 <code>__str__</code> 更多一些。</p>
+<p>在 python 里面，有一个全局可使用的 str 函数（其实它是 class），通过调用对象上的 <code>__str__</code> 来把一切东西都转为字符串，然后跟字符串相关的一切函数例如 print 也是同理。当然，还有一些降级动作，例如如果找不到  <code>__str__</code> 就用  <code>__repr__</code> 什么的，这里就不深究了。</p>
+<p>而同样，repr 则调用的是 <code>__repr__</code>。</p>
+<p>然后，我们把这块代码用 rust 实现一下。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span>std::fmt::{Display,<span style="color:#bbb"> </span>Formatter,<span style="color:#bbb"> </span>Write};<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">Book</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>title: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>author: <span style="color:#366">String</span>,<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#bbb"> </span>Book<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">new</span>(title: <span style="color:#366">String</span>,<span style="color:#bbb"> </span>author: <span style="color:#366">String</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#0a8;font-weight:bold">Self</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>Self<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>title,<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>author,<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#bbb"> </span>Display<span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">for</span><span style="color:#bbb"> </span>Book<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">fmt</span>(<span style="color:#555">&amp;</span>self,<span style="color:#bbb"> </span>f: <span style="color:#069">&amp;</span><span style="color:#0a8;font-weight:bold">mut</span><span style="color:#bbb"> </span>Formatter<span style="color:#555">&lt;</span><span style="color:#309">&#39;_</span><span style="color:#555">&gt;</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#0a8;font-weight:bold">std</span>::fmt::<span style="color:#366">Result</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>f.write_str(format<span style="color:#555">!</span>(<span style="color:#c30">&#34;\&#34;{}\&#34; by {}&#34;</span>,<span style="color:#bbb"> </span>self.title,<span style="color:#bbb"> </span>self.author).as_str())<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">main</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>odyssey<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>Book::new(<span style="color:#c30">&#34;The Odyssey&#34;</span>.to_owned(),<span style="color:#bbb"> </span><span style="color:#c30">&#34;Homer&#34;</span>.to_owned());<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>println<span style="color:#555">!</span>(<span style="color:#c30">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>odyssey);<span style="color:#bbb">  </span><span style="color:#09f;font-style:italic">// Book { title: &#34;The Odyssey&#34;, author: &#34;Homer&#34; }
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">    </span>println<span style="color:#555">!</span>(<span style="color:#c30">&#34;{}&#34;</span>,<span style="color:#bbb"> </span>odyssey);<span style="color:#bbb">  </span><span style="color:#09f;font-style:italic">// &#34;The Odyssey&#34; by Homer
+</span><span style="color:#09f;font-style:italic"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>这两份代码，可以对比参照着仔细看看。</p>
+<p><code>impl Display for Book</code> 里面的 <code>fn fmt</code> 方法基本就是对应着 <code>def __str__</code> ，然后结构体上面的 <code>#[derive(Debug)]</code> 就对应着 <code>def __repr__</code> ，你看是不是这个关系。</p>
+<p>然后你看 rust 这边后面都是用 <code>println!</code> 来打印，里面用了不同的占位符来让程序分别去调用不同的实现来打印，其实 python 也是有类似的：</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#366">print</span>(<span style="color:#c30">f</span><span style="color:#c30">&#34;</span><span style="color:#a00">{</span>odyssey<span style="color:#a00">!r}</span><span style="color:#c30">&#34;</span>)
+<span style="color:#366">print</span>(<span style="color:#c30">f</span><span style="color:#c30">&#34;</span><span style="color:#a00">{</span>odyssey<span style="color:#a00">!s}</span><span style="color:#c30">&#34;</span>)
+</code></pre></div><p>以及如果不是使用 f string 而是使用 &ldquo;{}&quot;.format 方法也是同样有用的。</p>
+<p>好，总结一下。</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>Python</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>面向代码</td>
+<td>实现 <code>__repr__</code> 然后通过 repr 或 !r 调用</td>
+<td>实现 <code>Debug</code> 然后通过 <code>{:?}</code> 调用</td>
+</tr>
+<tr>
+<td>面向人类</td>
+<td>实现 <code>__str__</code> 然后通过 str 或 !s 调用</td>
+<td>实现 <code>Display</code> 然后通过 <code>{}</code> 调用</td>
+</tr>
+</tbody>
+</table>
+<p>Python 参考 <a href="https://docs.python.org/3/library/string.html">https://docs.python.org/3/library/string.html</a></p>
+<p>Rust 参考 <a href="https://doc.rust-lang.org/std/fmt/">https://doc.rust-lang.org/std/fmt/</a></p>
+<p>所以到这里，你会发现 Python 里面经常被人整得神神秘秘玄乎玄乎的 Magic Method 或者又叫 Dunder Method，你可以理解为大家在设计数据结构或者对象的时候都需要去遵循的一组“接口协议”即可，你实现了它们，那么就可用通过内置或者规范的调用方法进行使用，实现你想要的效果。</p>
+<p>而在 Rust 这边，这个对我们还没学过几门语言的人来说几乎全新的 Trait 这个词，它更接近“接口协议”这种理解。你实现了它们，就会按照设计好的规范去调用它，得到你想要的结果。</p>
+<p>在 Python 这边，由于经常使用内置数据结构，可能还不怎么经常需要写 <code>__str__</code> ，但是在 Rust 这边，实现 <code>Display</code> 几乎是很常用的需求，因为很多调用最终都会最终调到它身上来。</p>
+<p>由于 Python 遵循了 C 系语言的设计规范，而 Rust 在很多地方也借鉴了 C 系语言的设计规范，所以你能看到 Rust 在很多地方有着 和 Python 类似的设计规范，例如字符格式化的一些格式占位符、日期格式化的格式占位符等等，其实这些也大大降低了理解和切换语言思维的难度，是个好事情。</p>
+<p>由于 Python 的极度灵活性，和它所常用的场景，导致要么经常不设计自己合理的数据类，要么被继承击昏了头脑绕来绕去，最后使得代码难以维护。</p>
+<p>代码被创造出来其实是容易的，真的很容易，哪怕是从网络上直接 CV 下来的很多时候也能跑得很好。</p>
+<p>然而真正难的是维护，现实世界里面的商业项目，是不断添加新功能、特性，需求的不断变化，不断去满足现实世界里面一些看起来奇奇怪怪的使用场景，场景和条件组合的持续不断扩展，外界条件的持续变化，你没覆盖到的各种边界意外事件，各种特殊情况的特别处理等等，还有可能已经过时的一些历史包袱。</p>
+<p>可能这也是大多数都总是更偏向于写一个新的，而抛弃那个旧的的原因之一。</p>
+<p>偏向只是偏向，但很多时候，你并没有这样的机会。</p>
+<p>一旦选定，就只能是原地打转而已。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<h5><a href="/about">Jeremy Yin</a></h5>
+<p>Python Engineer, Business System Architect</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+<script src="/jeremy/js/icp.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
