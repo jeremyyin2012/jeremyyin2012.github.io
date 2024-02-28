@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+        <title>Rust&#43;Rocket&#43;Sentry&#43;Anyhow 的错误处理和上报 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/rust/">Rust</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>Rust&#43;Rocket&#43;Sentry&#43;Anyhow 的错误处理和上报</h1>
+        <hr>
+        <p>其实，Go 和 Rust 它们两者对错误的设计非常相似，这种相似，却因为后续更进一步的设计决策方向的差异，导致有了非常不同的体验。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#555">...</span>
+<span style="color:#069;font-weight:bold">if</span> err <span style="color:#555">!=</span> <span style="color:#069;font-weight:bold">nil</span> {
+		trace.GlobalLogger.<span style="color:#c0f">For</span>(ctx).<span style="color:#c0f">Error</span>(<span style="color:#c30">&#34;WantDoSomeThing CallSomeOne Failed&#34;</span>,
+			zap.<span style="color:#c0f">Any</span>(<span style="color:#c30">&#34;param&#34;</span>, param), zap.<span style="color:#c0f">Error</span>(err))
+		<span style="color:#069;font-weight:bold">return</span> <span style="color:#069;font-weight:bold">nil</span>, errno.IntranetAccessErr.<span style="color:#c0f">WithErr</span>(err)
+	}
+<span style="color:#555">...</span>
+</code></pre></div><p>这是曾经一个使用 Go 编写的业务系统中其中一处对于调用错误的处理，WantDoSomeThing 是这个代码块所在函数体的函数名称，CallSomeOne 是这个 err 所来源的调用函数名称。</p>
+<p>这个业务系统中，有无数个地方有这样的 if err != nil 并配合 withErr 返回的处理，这样你在遇到业务问题需要进行排查的时候，你有办法通过 trace 服务或者是日志服务来大致快速地看到它出问题时候的整个调用链。</p>
+<p>虽然做不到类似 Python 的 Sentry 集成能有非常高级又详细的错误堆栈信息，但是也是一个非常有力的业务问题排查辅助工具。</p>
+<p>后来来到了 Rust 这边，如果设计的好，能看到类似这样带上 with_context 的业务代码。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">get_res</span>()<span style="color:#bbb"> </span>-&gt; <span style="color:#0a8;font-weight:bold">anyhow</span>::<span style="color:#366">Result</span><span style="color:#555">&lt;</span>Person<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>s<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span><span style="color:#c30">&#34;09900&#34;</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>res: <span style="color:#0a8;font-weight:bold">Person</span><span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>serde_json::from_str(s).with_context(<span style="color:#555">||</span><span style="color:#bbb"> </span>format<span style="color:#555">!</span>(<span style="color:#c30">&#34;parse person error: {}&#34;</span>,<span style="color:#bbb"> </span>s))<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#366">Ok</span>(res)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>最早的时候，我没留意，很多时候可能就是类似这样，不会带上 with_context 去添加附加信息。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>res: <span style="color:#0a8;font-weight:bold">Person</span><span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>serde_json::from_str(s)<span style="color:#555">?</span>;<span style="color:#bbb">
+</span></code></pre></div><p>那么其实这种不带 with_context 呢，到后面生产环境服务出现问题的时候，就可能会比较棘手，你可能大概率无法通过报错提示来快速定位大致是哪个位置出现了问题，哪怕是定位到了一个函数体内，但是如果这个函数调用了许多方法，然后又都不带 with_context 的话，就真的比较难一眼看出谁可能出问题了。虽然 Rust 是目前最严格的语言，但是在面对业务问题，有时候可能是返回数据问题或者是第三方函数返回值的问题，这些都依然还是需要我们自己去控制的。</p>
+<p>虽然说 Rust 与 Go 它们两个在设计上存在某种相似性，即每一个函数层层调用的返回结果，把它们都串起来之后，你会发现都存在一个数据流 + 一个错误流的设计模式。</p>
+<p>但是 Rust 更进一步地，将数据与错误通过 Result 类型进行封装，又通过 ? 语法糖巧妙地实现了错误流的便捷向上传输，使得我们不再需要在一堆又一堆的 if err != nil 缝隙中去仔细寻找真正的业务代码逻辑。</p>
+<p>通过 ? 语法糖便捷地向上传递错误信息，但是这里在真正的复杂业务系统里面，一旦真正出现业务问题时，会遇到一个问题，就是你可能无法直观地知晓这个错误提示它的最开始来源是哪里。</p>
+<p>想要快速地知晓错误来源，有两个办法：一个是通过错误代码回溯，一个是通过错误日志提示。</p>
+<p>错误代码回溯，需要你设置 RUST_BACKTRACE: &lsquo;1&rsquo; 这个环境变量，目前根据我搜集到的信息来看，是非常建议在生产环境进行开启的，哪些说影响性能的，可能没有仔细分析状况，它仅在出现错误产生回溯时才会影响性能，如果代码逻辑正常，是不会出现性能影响的，如果你生产环境出现了错误，你肯定是希望能拿到足够的信息来分析并解决掉这个问题，而不是屏蔽掉而当它不存在。</p>
+<p>错误代码回溯，大多数情况下，你会在服务日志里面看得到，但这需要你能接触到服务部署或者有日志采集服务帮你采集并聚合日志供你搜索和分析。</p>
+<p>但是更多数情况，是用户，这个用户可能是业务调用方，例如前端，也可能是其它服务，甚至也有可能是客户或者是客服，通过某些方式拿到了这样一个消息提示，然后把它反馈给你，希望你能帮助排查问题并予以解决或解答。</p>
+<p>而如果是直接面向客户的服务，它所面向客户的错误，有可能是这样的，一个非常笼统的错误提示，是不会把具体的错误细节暴露给客户的，就是没有任何能帮助你排查错误的有价值的信息。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Internal Server Error
+</code></pre></div><p>而什么才是能帮助排查错误的有价值的信息呢？大概有可能是这样的。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">Error: parse person error: 09900: invalid number at line 1 column 2
+</code></pre></div><p>它其实是有结构的：将调用链上所有携带的错误提示文本，通过冒号进行拼接，从外到内。</p>
+<p>这是在 Rust 服务中所能拿到的比较好的错误文本提示信息了。</p>
+<p>为什么这么说，我们来看看设计细节。</p>
+<p>这是我们服务内部的 Error 定义，基于 thiserror 进行设计。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#099">#[derive(Error, Debug)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">Error</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[error(</span><span style="color:#c30">&#34;{0:?}&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Feedback(Code),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[error(transparent)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Anyhow(<span style="color:#099">#[from]</span><span style="color:#bbb"> </span>anyhow::Error),<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>然后在处理服务的错误返回值的时候，需要声明 Responder 实现，这个在每个框架有可能不一样，但是思路是差不多的。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#555">&lt;</span><span style="color:#309">&#39;r</span><span style="color:#555">&gt;</span><span style="color:#bbb"> </span>Responder<span style="color:#555">&lt;</span><span style="color:#309">&#39;r</span>,<span style="color:#bbb"> </span><span style="color:#366">&#39;static</span><span style="color:#555">&gt;</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">for</span><span style="color:#bbb"> </span>Error<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">respond_to</span>(self,<span style="color:#bbb"> </span>req: <span style="color:#069">&amp;</span><span style="color:#309">&#39;r</span><span style="color:#bbb"> </span>Request<span style="color:#555">&lt;</span><span style="color:#309">&#39;_</span><span style="color:#555">&gt;</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#0a8;font-weight:bold">response</span>::<span style="color:#366">Result</span><span style="color:#555">&lt;</span><span style="color:#366">&#39;static</span><span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>code<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>self.get_code();<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>res: <span style="color:#0a8;font-weight:bold">Res</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span><span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>Res<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>code,<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>msg: <span style="color:#0a8;font-weight:bold">format</span><span style="color:#555">!</span>(<span style="color:#c30">&#34;Error: {:#}&#34;</span>,<span style="color:#bbb"> </span>self),<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>data: <span style="color:#366">None</span>,<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>};<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>string<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>serde_json::to_string(<span style="color:#555">&amp;</span>res).map_err(<span style="color:#555">|</span>e<span style="color:#555">|</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>error_<span style="color:#555">!</span>(<span style="color:#c30">&#34;JSON failed to serialize: {:?}&#34;</span>,<span style="color:#bbb"> </span>e);<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>Status::InternalServerError<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>})<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>capture_anyhow(<span style="color:#555">&amp;</span>format_err<span style="color:#555">!</span>(<span style="color:#c30">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>self));<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>tracing::error<span style="color:#555">!</span>(<span style="color:#c30">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>self);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>content::RawJson(string).respond_to(req)<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>注意看这里面有几个细节。</p>
+<p>msg: format!(&ldquo;Error: {:#}&rdquo;, self), 这个里面的 {:#} 则是将错误以冒号分隔的方式层层拼接为文本，然后在接口的 msg 消息里面返回，方便一旦出现问题时，能留下有效的错误提示信息供快速确定问题方向。</p>
+<p>capture_anyhow(&amp;format_err!(&quot;{:?}&quot;, self)); 这里面的 {:?} 则是将错误的问题提示和代码的完整回溯都拿到，然后 format_err 转化为可被 capture_anyhow 接受的类型（不使用 capture_error 的原因是它所上报的回溯有可能丢失了原始代码的信息，与 log 打出来的日志不一致），然后上报到 Sentry 服务上，这样你就能在 Sentry 后台看到这个报错信息和完整的代码回溯细节。虽然，它远比不上 Python 能完整抓到上下文甚至包括变量的值，但对于 Rust 本身来说，已经非常足够了，如果需要变量值，就需要自己主动把变量的值通过 with_context  携带到对应上下文的日志里面去了。</p>
+<p>这里用到了几个对 Error 进行格式化的符号，具体解释下。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">format<span style="color:#555">!</span>(<span style="color:#c30">&#34;Failed to call some one: {}&#34;</span>,<span style="color:#bbb"> </span>err),<span style="color:#bbb"> </span><span style="color:#09f;font-style:italic">// 只打最外层错误文本
+</span><span style="color:#09f;font-style:italic"></span>format<span style="color:#555">!</span>(<span style="color:#c30">&#34;Failed to call some one: {:?}&#34;</span>,<span style="color:#bbb"> </span>err),<span style="color:#bbb"> </span><span style="color:#09f;font-style:italic">// 打完整错误文本和回溯代码
+</span><span style="color:#09f;font-style:italic"></span>format<span style="color:#555">!</span>(<span style="color:#c30">&#34;Failed to call some one: {:#}&#34;</span>,<span style="color:#bbb"> </span>err),<span style="color:#bbb"> </span><span style="color:#09f;font-style:italic">// 只打完整错误文本，层层串联，冒号分隔
+</span><span style="color:#09f;font-style:italic"></span>format<span style="color:#555">!</span>(<span style="color:#c30">&#34;Failed to call some one: {:#?}&#34;</span>,<span style="color:#bbb"> </span>err),<span style="color:#bbb"> </span><span style="color:#09f;font-style:italic">// 把错误用结构体显示
+</span></code></pre></div><p>也可以具体去参考这个文档 <a href="https://docs.rs/anyhow/latest/anyhow/struct.Error.html#display-representations">Display representations</a> , 这个文档我曾经有意或无意间看过很多次，但是一直都没有过多留意，直到最近在尝试解决一个棘手的线上问题后，才有了切身的体会。</p>
+<p>而大多数时候可能你接收的系统，在最终处理错误时，很多默认使用了 {} 进行错误打印，这时候你是不会拿到更下层调用的错误提示信息的，即便每一层都使用 with_context 携带了上下文信息，就很可惜。</p>
+<p>如果你不知道，那就陷入了“到底是谁把错误给吞了”的困境之中。</p>
+<p>最后，做下总结。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">上面四个模式，sentry 要最详细的上报，log 要最详细的记录，都选 {:?}
+返回给客户的，要相对比较详细地返回，选 {:#}
+要配置 RUST_BACKTRACE=1 日常运行
+</code></pre></div><p>使用 with_context 和在代码里面插 log，适用场景还是有所区别，with_context 仅在你报错了才携带上下文，log 则是无论如何只要程序跑到某处就会记录，要看具体目的需求进行结合使用，帮助你写出稳定又放心的业务系统。</p>
+<p>通过这样接入 Sentry 后，如果程序有意外的问题，就不会像无头苍蝇似的不知所措了。</p>
+<p>不过这个 Sentry 的上报目前还有一个问题是可能显示不是很友好，期望后续它进一步升级迭代能更好。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<h5><a href="/about">Jeremy Yin</a></h5>
+<p>Python Engineer, Business System Architect</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+<script src="/jeremy/js/icp.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>

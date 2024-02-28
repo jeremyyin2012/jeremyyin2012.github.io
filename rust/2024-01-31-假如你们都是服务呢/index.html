@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+        <title>假如你们都是服务呢 | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/rust/">Rust</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>假如你们都是服务呢</h1>
+        <hr>
+        <p>我曾经，写出过类似这样形式的业务代码。</p>
+<p>API 层</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">business</span> <span style="color:#069;font-weight:bold">import</span> biz
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">XXXAPI</span>(APIView):
+    <span style="color:#555">...</span>
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self, request):
+        <span style="color:#555">...</span>
+        data <span style="color:#555">=</span> biz<span style="color:#555">.</span>cu<span style="color:#555">.</span>list(request<span style="color:#555">.</span>company<span style="color:#555">.</span>id, keyword, user_type, status, permission_ids, sort_by, from_feishu)
+        <span style="color:#069;font-weight:bold">return</span> Response(data)
+</code></pre></div><p>业务层</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">services</span> <span style="color:#069;font-weight:bold">import</span> svc
+
+<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">XXXBusiness</span>(<span style="color:#366">object</span>):
+    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">do_sth</span>(self):
+        <span style="color:#555">...</span>
+        operator <span style="color:#555">=</span> svc<span style="color:#555">.</span>user<span style="color:#555">.</span>get_user_by_id(user_id)
+        company <span style="color:#555">=</span> svc<span style="color:#555">.</span>company<span style="color:#555">.</span>get_company_by_id(company_id<span style="color:#555">=</span>company_id)
+        <span style="color:#555">...</span>
+        svc<span style="color:#555">.</span>app_push<span style="color:#555">.</span>notify_account_removed(company<span style="color:#555">=</span>company, user<span style="color:#555">=</span>user, operator<span style="color:#555">=</span>operator)
+        svc<span style="color:#555">.</span>event<span style="color:#555">.</span>user_quit_company(cu<span style="color:#555">.</span>user_id, company<span style="color:#555">.</span>id)
+        svc<span style="color:#555">.</span>activity<span style="color:#555">.</span>log_company_user_removed(ip<span style="color:#555">=</span>ip, operator<span style="color:#555">=</span>operator, company_user<span style="color:#555">=</span>cu, company<span style="color:#555">=</span>company)
+        <span style="color:#555">...</span>
+</code></pre></div><p>这里面，由于它是业务层逻辑，所以它由前端提交的一个请求过来后，后端需要执行非常多的操作，这里的操作，有些是必要的，有些是可有可无的，但是如果有则更好。</p>
+<p>当然，也有人看到这里会非常快速地想到，是不是用订阅者模式或者是事件驱动模式会更好？</p>
+<p>这个就不去细究了，承认有时候高级的设计模式可能更好，但是，得知道这是业务系统，它从 0-1 再从 1-10 逐渐迭代，时间跨度好几年，期间不断增加新的需求和逻辑，不断有需求的变化，经过好几任开发者的手，它的实际演化过程，远比某个设计良好的第三方库要复杂和困难得多。</p>
+<p>更何况，你要知道这是 Python ，还有什么状况是不可能出现的呢？</p>
+<p>这里就不去贴上面这份样例代码它在我接手之前的样子了，太占屏幕空间同时也太费眼睛了。</p>
+<p>最近，稍稍地看到了 Python <a href="https://github.com/openai/openai-python">openai-python</a> 和 Rust <a href="https://github.com/64bit/async-openai">async-openai</a> 这样的库设计，但是首先你也需要明白，<a href="https://platform.openai.com/docs/api-reference">openai api reference</a> 里面所包含的服务，不算太多，但是也算已经非常多了。</p>
+<p>但是，对外设计的库的使用，无论里面的服务有多少，业务调用时始终需要关心的，核心就是实例化的 client 而已，它就是所有服务的统一调用入口。</p>
+<p>Python</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">from</span> <span style="color:#0cf;font-weight:bold">openai</span> <span style="color:#069;font-weight:bold">import</span> OpenAI
+
+client <span style="color:#555">=</span> OpenAI()
+
+stream <span style="color:#555">=</span> client<span style="color:#555">.</span>chat<span style="color:#555">.</span>completions<span style="color:#555">.</span>create(
+    model<span style="color:#555">=</span><span style="color:#c30">&#34;gpt-4&#34;</span>,
+    messages<span style="color:#555">=</span>[{<span style="color:#c30">&#34;role&#34;</span>: <span style="color:#c30">&#34;user&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>: <span style="color:#c30">&#34;Say this is a test&#34;</span>}],
+    stream<span style="color:#555">=</span><span style="color:#069;font-weight:bold">True</span>,
+)
+<span style="color:#069;font-weight:bold">for</span> chunk <span style="color:#000;font-weight:bold">in</span> stream:
+    <span style="color:#069;font-weight:bold">if</span> chunk<span style="color:#555">.</span>choices[<span style="color:#f60">0</span>]<span style="color:#555">.</span>delta<span style="color:#555">.</span>content <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> <span style="color:#069;font-weight:bold">None</span>:
+        <span style="color:#366">print</span>(chunk<span style="color:#555">.</span>choices[<span style="color:#f60">0</span>]<span style="color:#555">.</span>delta<span style="color:#555">.</span>content, end<span style="color:#555">=</span><span style="color:#c30">&#34;&#34;</span>)
+</code></pre></div><p>Rust</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span>async_openai::{types::CreateCompletionRequestArgs,<span style="color:#bbb"> </span>Client};<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span>futures::StreamExt;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[tokio::main]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">async</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">main</span>()<span style="color:#bbb"> </span>-&gt; <span style="color:#366">Result</span><span style="color:#555">&lt;</span>(),<span style="color:#bbb"> </span><span style="color:#366">Box</span><span style="color:#555">&lt;</span>dyn<span style="color:#bbb"> </span>std::error::Error<span style="color:#555">&gt;&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>client<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>Client::new();<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>request<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>CreateCompletionRequestArgs::default()<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>.model(<span style="color:#c30">&#34;text-davinci-003&#34;</span>)<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>.n(<span style="color:#f60">1</span>)<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>.prompt(<span style="color:#c30">&#34;Tell me a bedtime story about Optimus Prime and Bumblebee&#34;</span>)<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>.stream(<span style="color:#069;font-weight:bold">true</span>)<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>.max_tokens(<span style="color:#f60">1024_</span><span style="color:#069;font-weight:bold">u16</span>)<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>.build()<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>stream<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>client.completions().create_stream(request).<span style="color:#069;font-weight:bold">await</span><span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">while</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#366">Some</span>(response)<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>stream.next().<span style="color:#069;font-weight:bold">await</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>response<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span><span style="color:#366">Ok</span>(ccr)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>ccr.choices.iter().for_each(<span style="color:#555">|</span>c<span style="color:#555">|</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">                </span>print<span style="color:#555">!</span>(<span style="color:#c30">&#34;{}&#34;</span>,<span style="color:#bbb"> </span>c.text);<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>}),<span style="color:#bbb">
+</span><span style="color:#bbb">            </span><span style="color:#366">Err</span>(e)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>eprintln<span style="color:#555">!</span>(<span style="color:#c30">&#34;{}&#34;</span>,<span style="color:#bbb"> </span>e),<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#366">Ok</span>(())<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>这其实就又让我想起了曾经写过的 biz.xxx.yyy 和 svc.aaa.bbb 调用形式。</p>
+<p>以及，它们在后续也影响了 Go 出现类似这种调用形式的写法，只不过，命名有所区别。</p>
+<p>API 层</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#069;font-weight:bold">func</span> (c <span style="color:#555">*</span>Controller) <span style="color:#c0f">GetArchiveList</span>(ctx <span style="color:#555">*</span>context.Context) {
+	<span style="color:#555">...</span>
+	resp, err <span style="color:#555">:=</span> c.services.ArchService.<span style="color:#c0f">GetArchiveList</span>(ctx.<span style="color:#c0f">Request</span>().<span style="color:#c0f">Context</span>(), companyId, userId, param)
+	<span style="color:#069;font-weight:bold">if</span> err.<span style="color:#c0f">NotOK</span>() {
+		apis.<span style="color:#c0f">WriteResp</span>(ctx, <span style="color:#069;font-weight:bold">nil</span>, errno.SrvErr.<span style="color:#c0f">WithErr</span>(err))
+		<span style="color:#069;font-weight:bold">return</span>
+	}
+
+	apis.<span style="color:#c0f">WriteResp</span>(ctx, resp, errno.OK)
+}
+</code></pre></div><p>业务层</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#069;font-weight:bold">func</span> (s <span style="color:#555">*</span>Service) <span style="color:#c0f">FindEmployee</span>(ctx context.Context, matchEmpReq calc_entity.DtoMatchEmpReq) ([]<span style="color:#078;font-weight:bold">string</span>, <span style="color:#078;font-weight:bold">error</span>) {
+	empIds, err <span style="color:#555">:=</span> s.adaptors.BizAdaptor.<span style="color:#c0f">FindEmployee</span>(ctx, <span style="color:#555">&amp;</span>matchEmpReq)
+	<span style="color:#069;font-weight:bold">if</span> err <span style="color:#555">!=</span> <span style="color:#069;font-weight:bold">nil</span> {
+		<span style="color:#069;font-weight:bold">return</span> <span style="color:#069;font-weight:bold">nil</span>, err
+	}
+	<span style="color:#069;font-weight:bold">return</span> empIds, <span style="color:#069;font-weight:bold">nil</span>
+}
+</code></pre></div><p>只不过由于语言差异，前面又多了一层挂载对象，变成了 4 层写法，但思路基本还是非常一致的。</p>
+<p>这种 biz-svc 的写法，我曾经叫它：分层架构。</p>
+<p>为了解决 import 内容极为混杂，业务代码冗长又难读的问题，通过不断地对原来的业务代码进行“抽离”，把细节“下放”服务层 services 里面的各个模块中去，对外仅有暴露出来的函数和参数声明供调用，形成了我所谓的这种“分层架构”，使我们当时的业务代码编写，有了一个非常清晰的设计方向，从最终的代码所呈现的形式结构来看，质量还算是非常不错的。</p>
+<p>当然，仔细看看，这不就是面向过程么？确实是，但是它是业务代码。业务过程，它描述了它对所有领域对象的各自的业务能力的组合过程。</p>
+<p>为什么它走向了这个方向，跟当时的主要考虑有关：代码要能随意挪动模块，方便理解和重构，不能有内部隐藏逻辑依赖和数据依赖，它会影响逻辑拆解，增加复杂性，而重构最怕的就是无谓的复杂性。</p>
+<p>总之就是：要足够简单。</p>
+<p>只要足够简单，易学易理解，模块分的清晰，又同时遵循统一的模式，意外出错的可能性就最低。</p>
+<p>出错的概率低，理解又清晰，跑的也就更快，这个跑得快指的是业务编码，即产品迭代过程。</p>
+<p>现在回过头来看，即便是后来我又尝试用 Rust 跟着去实现了下什么 Clean 架构、六边形架构，其实最终理解下来，发现它们与这个 biz-svc 结构是有着非常类似的形式。</p>
+<p>然后又看到第三方库的这种 client 的调用方式，我在想：其实，假如你们都是服务呢？</p>
+<p>服务 A 服务 B 服务 C 服务 D 服务 E &hellip;</p>
+<p>按业务能力分模块，内部实现能力暴露函数供调用，至于内部是用了什么，不必关心细节。里面什么 sql 什么 redis 什么 mq 什么第三方 API 都无所谓。</p>
+<p>然后都有一个顶级入口 svc，就成了类似这种 svc.a.xx, svc.b.yy 调用形式，非常能描述业务逻辑过程。</p>
+<p>殊途同归。</p>
+<p>叫啥其实不重要，重要的，是结构内在。</p>
+<p>这种分层架构，很多时候，体现的是内部的思想，体现你如何看待它们，最终也决定了服务本身的复杂度和心智负担有多少。</p>
+<p>好的代码结构，能让人少很多烦恼。</p>
+<p>跟优秀的设计学习，共勉。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<h5><a href="/about">Jeremy Yin</a></h5>
+<p>Python Engineer, Business System Architect</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+<script src="/jeremy/js/icp.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>

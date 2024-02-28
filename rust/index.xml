@@ -6,10 +6,53 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
-    <lastBuildDate>Mon, 05 Jun 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Feb 2024 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/rust/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>为什么一定要定义自己的 Error</title>
+      <link>/rust/2024-02-05-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E5%AE%9A%E8%A6%81%E5%AE%9A%E4%B9%89%E8%87%AA%E5%B7%B1%E7%9A%84-error/</link>
+      <pubDate>Mon, 05 Feb 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/2024-02-05-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E5%AE%9A%E8%A6%81%E5%AE%9A%E4%B9%89%E8%87%AA%E5%B7%B1%E7%9A%84-error/</guid>
+      <description>先把错误放在前面
+error[E0277]: the trait bound `anyhow::Error: Responder&amp;lt;&amp;#39;_, &amp;#39;_&amp;gt;` is not satisfied --&amp;gt; src/main.rs:41:15 | 40 | #[get(&amp;#34;/&amp;#34;)] | ----------- in this procedural macro expansion 41 | fn index() -&amp;gt; ApiResult&amp;lt;&amp;amp;&amp;#39;static str&amp;gt; { | ^^^^^^^^^ the trait `Responder&amp;lt;&amp;#39;_, &amp;#39;_&amp;gt;` is not implemented for `anyhow::Error` | = help: the following other types implement trait `Responder&amp;lt;&amp;#39;r, &amp;#39;o&amp;gt;`: &amp;lt;rocket_ws::websocket::Channel&amp;lt;&amp;#39;o&amp;gt; as Responder&amp;lt;&amp;#39;r, &amp;#39;o&amp;gt;&amp;gt; &amp;lt;rocket_ws::websocket::MessageStream&amp;lt;&amp;#39;o, S&amp;gt; as Responder&amp;lt;&amp;#39;r, &amp;#39;o&amp;gt;&amp;gt; &amp;lt;error::Error as Responder&amp;lt;&amp;#39;r, &amp;#39;static&amp;gt;&amp;gt; &amp;lt;rocket::Either&amp;lt;T, E&amp;gt; as Responder&amp;lt;&amp;#39;r, &amp;#39;o&amp;gt;&amp;gt; &amp;lt;Box&amp;lt;str&amp;gt; as Responder&amp;lt;&amp;#39;r, &amp;#39;static&amp;gt;&amp;gt; &amp;lt;Box&amp;lt;[u8]&amp;gt; as Responder&amp;lt;&amp;#39;r, &amp;#39;static&amp;gt;&amp;gt; &amp;lt;Box&amp;lt;T&amp;gt; as Responder&amp;lt;&amp;#39;r, &amp;#39;o&amp;gt;&amp;gt; &amp;lt;Cow&amp;lt;&amp;#39;o, R&amp;gt; as Responder&amp;lt;&amp;#39;r, &amp;#39;o&amp;gt;&amp;gt; and 42 others = note: required for `Result&amp;lt;rocket::serde::json::Json&amp;lt;Res&amp;lt;&amp;amp;str&amp;gt;&amp;gt;, anyhow::Error&amp;gt;` to implement `Responder&amp;lt;&amp;#39;_, &amp;#39;_&amp;gt;` note: required by a bound in `route::handler::&amp;lt;impl Outcome&amp;lt;rocket::Response&amp;lt;&amp;#39;o&amp;gt;, Status, (rocket::Data&amp;lt;&amp;#39;o&amp;gt;, Status)&amp;gt;&amp;gt;::from` --&amp;gt; /Users/jeremy/.</description>
+    </item>
+    
+    <item>
+      <title>假如你们都是服务呢</title>
+      <link>/rust/2024-01-31-%E5%81%87%E5%A6%82%E4%BD%A0%E4%BB%AC%E9%83%BD%E6%98%AF%E6%9C%8D%E5%8A%A1%E5%91%A2/</link>
+      <pubDate>Wed, 31 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/2024-01-31-%E5%81%87%E5%A6%82%E4%BD%A0%E4%BB%AC%E9%83%BD%E6%98%AF%E6%9C%8D%E5%8A%A1%E5%91%A2/</guid>
+      <description>我曾经，写出过类似这样形式的业务代码。
+API 层
+from business import biz class XXXAPI(APIView): ... def get(self, request): ... data = biz.cu.list(request.company.id, keyword, user_type, status, permission_ids, sort_by, from_feishu) return Response(data) 业务层
+from services import svc class XXXBusiness(object): def do_sth(self): ... operator = svc.user.get_user_by_id(user_id) company = svc.company.get_company_by_id(company_id=company_id) ... svc.app_push.notify_account_removed(company=company, user=user, operator=operator) svc.event.user_quit_company(cu.user_id, company.id) svc.activity.log_company_user_removed(ip=ip, operator=operator, company_user=cu, company=company) ... 这里面，由于它是业务层逻辑，所以它由前端提交的一个请求过来后，后端需要执行非常多的操作，这里的操作，有些是必要的，有些是可有可无的，但是如果有则更好。
+当然，也有人看到这里会非常快速地想到，是不是用订阅者模式或者是事件驱动模式会更好？
+这个就不去细究了，承认有时候高级的设计模式可能更好，但是，得知道这是业务系统，它从 0-1 再从 1-10 逐渐迭代，时间跨度好几年，期间不断增加新的需求和逻辑，不断有需求的变化，经过好几任开发者的手，它的实际演化过程，远比某个设计良好的第三方库要复杂和困难得多。
+更何况，你要知道这是 Python ，还有什么状况是不可能出现的呢？
+这里就不去贴上面这份样例代码它在我接手之前的样子了，太占屏幕空间同时也太费眼睛了。
+最近，稍稍地看到了 Python openai-python 和 Rust async-openai 这样的库设计，但是首先你也需要明白，openai api reference 里面所包含的服务，不算太多，但是也算已经非常多了。</description>
+    </item>
+    
+    <item>
+      <title>Rust&#43;Rocket&#43;Sentry&#43;Anyhow 的错误处理和上报</title>
+      <link>/rust/2024-01-29-rust&#43;rocket&#43;sentry&#43;anyhow-%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E5%92%8C%E4%B8%8A%E6%8A%A5/</link>
+      <pubDate>Mon, 29 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/2024-01-29-rust&#43;rocket&#43;sentry&#43;anyhow-%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E5%92%8C%E4%B8%8A%E6%8A%A5/</guid>
+      <description>其实，Go 和 Rust 它们两者对错误的设计非常相似，这种相似，却因为后续更进一步的设计决策方向的差异，导致有了非常不同的体验。
+... if err != nil { trace.GlobalLogger.For(ctx).Error(&amp;#34;WantDoSomeThing CallSomeOne Failed&amp;#34;, zap.Any(&amp;#34;param&amp;#34;, param), zap.Error(err)) return nil, errno.IntranetAccessErr.WithErr(err) } ... 这是曾经一个使用 Go 编写的业务系统中其中一处对于调用错误的处理，WantDoSomeThing 是这个代码块所在函数体的函数名称，CallSomeOne 是这个 err 所来源的调用函数名称。
+这个业务系统中，有无数个地方有这样的 if err != nil 并配合 withErr 返回的处理，这样你在遇到业务问题需要进行排查的时候，你有办法通过 trace 服务或者是日志服务来大致快速地看到它出问题时候的整个调用链。
+虽然做不到类似 Python 的 Sentry 集成能有非常高级又详细的错误堆栈信息，但是也是一个非常有力的业务问题排查辅助工具。
+后来来到了 Rust 这边，如果设计的好，能看到类似这样带上 with_context 的业务代码。
+fn get_res()-&amp;gt; anyhow::Result&amp;lt;Person&amp;gt;{lets=&amp;#34;09900&amp;#34;;letres: Person=serde_json::from_str(s).with_context(||format!(&amp;#34;parse person error: {}&amp;#34;,s))?;Ok(res)}最早的时候，我没留意，很多时候可能就是类似这样，不会带上 with_context 去添加附加信息。
+letres: Person=serde_json::from_str(s)?;那么其实这种不带 with_context 呢，到后面生产环境服务出现问题的时候，就可能会比较棘手，你可能大概率无法通过报错提示来快速定位大致是哪个位置出现了问题，哪怕是定位到了一个函数体内，但是如果这个函数调用了许多方法，然后又都不带 with_context 的话，就真的比较难一眼看出谁可能出问题了。虽然 Rust 是目前最严格的语言，但是在面对业务问题，有时候可能是返回数据问题或者是第三方函数返回值的问题，这些都依然还是需要我们自己去控制的。
+虽然说 Rust 与 Go 它们两个在设计上存在某种相似性，即每一个函数层层调用的返回结果，把它们都串起来之后，你会发现都存在一个数据流 + 一个错误流的设计模式。</description>
+    </item>
     
     <item>
       <title>Rust 和 Python 有些相通的地方</title>

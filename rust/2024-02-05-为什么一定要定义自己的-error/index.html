@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-cn">
+
+
+    <head>
+
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.85.0" />
+
+        <title>为什么一定要定义自己的 Error | Jeremy&#39;s blog</title>
+
+        
+
+        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/mdb/css/mdb.min.css">
+<link rel="stylesheet" href="/assets/evil-icons.min.css">
+
+
+
+
+<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+
+
+
+<link rel="icon" href="/static/jeremy/ico/favicon.ico">
+
+
+
+<link rel="stylesheet" href="/jeremy/css/main.css">
+
+    </head>
+
+
+    
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/post/">Post</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/note/">Note</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/python/">Python</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/rust/">Rust</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/tornado/">Tornado</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/saleor/">Saleor</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/advertisement/">Advertisement</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/index.xml">RSS</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+        <div class="container" style="padding-top: 2rem">
+                <div class="row">
+                    <div class="col-sm-12">
+                            
+
+    <article>
+        <h1>为什么一定要定义自己的 Error</h1>
+        <hr>
+        <p>先把错误放在前面</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">error<span style="color:#555">[</span>E0277<span style="color:#555">]</span>: the trait bound <span style="color:#c30">`</span>anyhow::Error: Responder&lt;<span style="color:#c30">&#39;_, &#39;</span>_&gt;<span style="color:#c30">`</span> is not satisfied
+   --&gt; src/main.rs:41:15
+    |
+<span style="color:#f60">40</span>  | <span style="color:#09f;font-style:italic">#[get(&#34;/&#34;)]</span>
+    | ----------- in this procedural macro expansion
+<span style="color:#f60">41</span>  | fn index<span style="color:#555">()</span> -&gt; ApiResult&lt;&amp;<span style="color:#c30">&#39;static str&gt; {
+</span><span style="color:#c30">    |               ^^^^^^^^^ the trait `Responder&lt;&#39;</span>_, <span style="color:#c30">&#39;_&gt;` is not implemented for `anyhow::Error`
+</span><span style="color:#c30">    |
+</span><span style="color:#c30">    = help: the following other types implement trait `Responder&lt;&#39;</span>r, <span style="color:#c30">&#39;o&gt;`:
+</span><span style="color:#c30">              &lt;rocket_ws::websocket::Channel&lt;&#39;</span>o&gt; as Responder&lt;<span style="color:#c30">&#39;r, &#39;</span>o&gt;&gt;
+              &lt;rocket_ws::websocket::MessageStream&lt;<span style="color:#c30">&#39;o, S&gt; as Responder&lt;&#39;</span>r, <span style="color:#c30">&#39;o&gt;&gt;
+</span><span style="color:#c30">              &lt;error::Error as Responder&lt;&#39;</span>r, <span style="color:#c30">&#39;static&gt;&gt;
+</span><span style="color:#c30">              &lt;rocket::Either&lt;T, E&gt; as Responder&lt;&#39;</span>r, <span style="color:#c30">&#39;o&gt;&gt;
+</span><span style="color:#c30">              &lt;Box&lt;str&gt; as Responder&lt;&#39;</span>r, <span style="color:#c30">&#39;static&gt;&gt;
+</span><span style="color:#c30">              &lt;Box&lt;[u8]&gt; as Responder&lt;&#39;</span>r, <span style="color:#c30">&#39;static&gt;&gt;
+</span><span style="color:#c30">              &lt;Box&lt;T&gt; as Responder&lt;&#39;</span>r, <span style="color:#c30">&#39;o&gt;&gt;
+</span><span style="color:#c30">              &lt;Cow&lt;&#39;</span>o, R&gt; as Responder&lt;<span style="color:#c30">&#39;r, &#39;</span>o&gt;&gt;
+            and <span style="color:#f60">42</span> <span style="color:#033">others</span>
+    <span style="color:#555">=</span> note: required <span style="color:#069;font-weight:bold">for</span> <span style="color:#c30">`</span>Result&lt;rocket::serde::json::Json&lt;Res&lt;&amp;str&gt;&gt;, anyhow::Error&gt;<span style="color:#c30">`</span> to implement <span style="color:#c30">`</span>Responder&lt;<span style="color:#c30">&#39;_, &#39;</span>_&gt;<span style="color:#c30">`</span>
+note: required by a bound in <span style="color:#c30">`</span>route::handler::&lt;impl Outcome&lt;rocket::Response&lt;<span style="color:#c30">&#39;o&gt;, Status, (rocket::Data&lt;&#39;</span>o&gt;, Status<span style="color:#555">)</span>&gt;&gt;::from<span style="color:#c30">`</span>
+   --&gt; /Users/jeremy/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rocket-0.5.0/src/route/handler.rs:188:20
+    |
+<span style="color:#f60">188</span> |     pub fn from&lt;R: Responder&lt;<span style="color:#c30">&#39;r, &#39;</span>o&gt;&gt;<span style="color:#555">(</span>req: &amp;<span style="color:#c30">&#39;r Request&lt;&#39;</span>_&gt;, responder: R<span style="color:#555">)</span> -&gt; Outcome&lt;<span style="color:#c30">&#39;r&gt; {
+</span><span style="color:#c30">    |                    ^^^^^^^^^^^^^^^^^ required by this bound in `route::handler::&lt;impl Outcome&lt;Response&lt;&#39;</span>o&gt;, Status, <span style="color:#555">(</span>Data&lt;<span style="color:#a00;background-color:#faa">&#39;</span>o&gt;, Status<span style="color:#555">)</span>&gt;&gt;::from<span style="color:#c30">`</span>
+    <span style="color:#555">=</span> note: this error originates in the attribute macro <span style="color:#c30">`</span>get<span style="color:#c30">`</span> <span style="color:#555">(</span>in Nightly builds, run with -Z macro-backtrace <span style="color:#069;font-weight:bold">for</span> more info<span style="color:#555">)</span>
+</code></pre></div><p>至于这个 ApiResult 嘛，就是这样的，直接就是一个 anyhow::Result 的别名。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span>rocket::serde::json::Json;<span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">crate</span>::entity::Res;<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">type</span> <span style="color:#0a8;font-weight:bold">ApiResult</span><span style="color:#555">&lt;</span>T<span style="color:#555">&gt;</span><span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>anyhow::<span style="color:#366">Result</span><span style="color:#555">&lt;</span>Json<span style="color:#555">&lt;</span>Res<span style="color:#555">&lt;</span>T<span style="color:#555">&gt;&gt;&gt;</span>;<span style="color:#bbb">
+</span></code></pre></div><p>先说结论：这么做是行不通的，这是不可行的做法。</p>
+<p>从一开始就迷迷糊糊地从 Python 改写出了几个项目后，我总是在想 rust 这边的 Error 有没有类似 Python 那边那样方便的业务 Error + Code 写法，就总在看这个业务系统的 Error 如何设计。</p>
+<p>跟第三方库的 Error 的设计不一样，业务系统里面的错误总感觉是要复杂些的，不然就像第三方库那样直接声明一个或者几个 XXXError 枚举就可以了。</p>
+<p>上面最开始这个报错就是提示了一个结论：anyhow::Error 不能直接用于最外层返回，因为没法为它实现 Responder，为啥，就是不能，Rust 的限制。</p>
+<p>参考文档：<a href="https://rust-lang.github.io/chalk/book/clauses/coherence.html#:~:text=The%20orphan%20rules%20make%20it,worry%20about%20breaking%20downstream%20code.">Coherence</a></p>
+<p>Responder 是 Rocket 提供的，anyhow::Error 是 anyhow 提供的，那还怎么玩呢，没法玩了呀。</p>
+<p>所以，我之前那种迷迷糊糊走出来的路，竟然一条合理的路。</p>
+<p>反而现在想的什么用 anyhow::Result 直接做返回这种想法直接就被干趴下了。</p>
+<p>好了，结论就是：还是要一定要定义自己的 Error，用 thiserror 来实现。</p>
+<p>接口返回那就还是用自己的 Error，业务逻辑层呢，有两个选择，一个是用 Result 加自己的 Error，这个也是之前一直迷迷糊糊得到的结果，有个不好的地方就是，要主动声明外部库的 Error 到自己这个 Error 的转换，也就是在自己的 Error 里面加个枚举声明一下就行了，其实也还好。</p>
+<p>第二个选择是，用 anyhow::Result 做业务层的返回，好处是不用去声明了，不过，有一个比较大的不好的地方，就是返回 Error 用 .into() 转换成了 anyhow::Error 之后，在最终 Responder 的地方去做一些自定义处理的逻辑的时候，不是很方便了，信息丢了，比如在想根据不同的 Error 在消息体字段 code 里面返回不同的 Code 值，就不大行了。</p>
+<p>嗯，这样看起来，竟然还是原来的路走对了。</p>
+<p>API 层返回用自己的 Error，业务层也用自己的 Error，每多一个 Error 提示说无法自动转换，就去 Error 里面加一个声明。</p>
+<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Error, Debug)]</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">Error</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[error(transparent)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Anyhow(<span style="color:#099">#[from]</span><span style="color:#bbb"> </span>anyhow::Error),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[error(</span><span style="color:#c30">&#34;{0:?}&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>Feedback(Code),<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#099">#[error(</span><span style="color:#c30">&#34;{0:?}&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>OpenAIError(<span style="color:#099">#[from]</span><span style="color:#bbb"> </span>OpenAIError)<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#bbb"> </span>Error<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">get_code</span>(<span style="color:#555">&amp;</span>self)<span style="color:#bbb"> </span>-&gt; <span style="color:#0a8;font-weight:bold">Code</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>self<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>Error::Feedback(code)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>code.clone(),<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>Error::Anyhow(_)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>Code::Error,<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>Error::OpenAIError(_)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>Code::Error,<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#555">&lt;</span><span style="color:#309">&#39;r</span><span style="color:#555">&gt;</span><span style="color:#bbb"> </span>Responder<span style="color:#555">&lt;</span><span style="color:#309">&#39;r</span>,<span style="color:#bbb"> </span><span style="color:#366">&#39;static</span><span style="color:#555">&gt;</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">for</span><span style="color:#bbb"> </span>Error<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">respond_to</span>(self,<span style="color:#bbb"> </span>req: <span style="color:#069">&amp;</span><span style="color:#309">&#39;r</span><span style="color:#bbb"> </span>Request<span style="color:#555">&lt;</span><span style="color:#309">&#39;_</span><span style="color:#555">&gt;</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#0a8;font-weight:bold">response</span>::<span style="color:#366">Result</span><span style="color:#555">&lt;</span><span style="color:#366">&#39;static</span><span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>res: <span style="color:#0a8;font-weight:bold">Res</span><span style="color:#555">&lt;</span><span style="color:#366">String</span><span style="color:#555">&gt;</span><span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>Res::err(<span style="color:#555">&amp;</span>self);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>string<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>serde_json::to_string(<span style="color:#555">&amp;</span>res).map_err(<span style="color:#555">|</span>e<span style="color:#555">|</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>error_<span style="color:#555">!</span>(<span style="color:#c30">&#34;JSON failed to serialize: {:?}&#34;</span>,<span style="color:#bbb"> </span>e);<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>Status::InternalServerError<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>})<span style="color:#555">?</span>;<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>capture_anyhow(<span style="color:#555">&amp;</span>format_err<span style="color:#555">!</span>(<span style="color:#c30">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>self));<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>tracing::error<span style="color:#555">!</span>(<span style="color:#c30">&#34;{:?}&#34;</span>,<span style="color:#bbb"> </span>self);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>content::RawJson(string).respond_to(req)<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">impl</span><span style="color:#bbb"> </span>OpenApiResponderInner<span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">for</span><span style="color:#bbb"> </span>Error<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">fn</span> <span style="color:#c0f">responses</span>(gen: <span style="color:#069">&amp;</span><span style="color:#0a8;font-weight:bold">mut</span><span style="color:#bbb"> </span>OpenApiGenerator)<span style="color:#bbb"> </span>-&gt; <span style="color:#0a8;font-weight:bold">rocket_okapi</span>::<span style="color:#366">Result</span><span style="color:#555">&lt;</span>Responses<span style="color:#555">&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">mut</span><span style="color:#bbb"> </span>responses<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span><span style="color:#555">&lt;</span>Responses<span style="color:#555">&gt;</span>::default();<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>responses.responses.insert(<span style="color:#c30">&#34;400&#34;</span>.to_string(),<span style="color:#bbb"> </span>RefOr::Object(Response<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>description: <span style="color:#a00;background-color:#faa">&#34;\</span><span style="color:#bbb">
+</span><span style="color:#bbb">                </span><span style="color:#a00;background-color:#faa">#</span><span style="color:#bbb"> </span>[<span style="color:#f60">400</span><span style="color:#bbb"> </span>Bad<span style="color:#bbb"> </span>Request](https:<span style="color:#09f;font-style:italic">//developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\n\
+</span><span style="color:#09f;font-style:italic"></span><span style="color:#bbb">                </span>The<span style="color:#bbb"> </span>request<span style="color:#bbb"> </span>given<span style="color:#bbb"> </span>is<span style="color:#bbb"> </span>wrongly<span style="color:#bbb"> </span>formatted<span style="color:#bbb"> </span>or<span style="color:#bbb"> </span>data<span style="color:#bbb"> </span>asked<span style="color:#bbb"> </span>could<span style="color:#bbb"> </span>not<span style="color:#bbb"> </span>be<span style="color:#bbb"> </span>fulfilled.<span style="color:#bbb"> </span><span style="color:#a00;background-color:#faa">\</span><span style="color:#bbb">
+</span><span style="color:#bbb">                </span><span style="color:#a00;background-color:#faa">&#34;</span><span style="color:#bbb">
+</span><span style="color:#bbb">                </span>.to_string(),<span style="color:#bbb">
+</span><span style="color:#bbb">            </span>..<span style="color:#366">Default</span>::default()<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>}),<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>);<span style="color:#bbb">
+</span><span style="color:#bbb">        </span><span style="color:#366">Ok</span>(responses)<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>那，差不多就类似这样。</p>
+<p>哦对了，如果用这种方案，业务层里面的 Result 都得带上 Error 声明，你可以选择再定义一个自己的 Result 别名，也可以不定义，我倾向于不定义，直接用 Result&lt;T, Error&gt; 声明返回值这样代码还清晰些，只是需要多敲几下，有时候我感觉还是不懒一点比较好。</p>
+
+    </article>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+        <footer class="site-footer">
+    
+
+        <div class="container">
+            <hr>
+            
+
+<div class="row" style="margin-top:2rem;margin-bottom:2rem">
+
+
+<div class="col-sm-2">
+<div class="card border-light bg-light">
+<div class="view overlay hm-white-slight">
+<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
+</div>
+</div>
+</div>
+
+
+
+<div class="col-sm-10">
+<h5><a href="/about">Jeremy Yin</a></h5>
+<p>Python Engineer, Business System Architect</p>
+<ul class="list-unstyled">
+<li><a href="https://github.com/jeremyyin2012" target="_blank">
+    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span>
+</a>
+</li>
+</ul>
+<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
+</div>
+
+
+
+</div>
+
+
+      
+          <div class="footer left column one-half">
+            <section class="small-font">
+                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
+                    <a id="icp_link" target="_blank"
+                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
+            </section>
+          </div>
+        </div>
+
+      </footer>
+
+        
+<script src="/mdb/js/jquery-3.2.1.min.js"></script>
+<script src="/mdb/js/popper.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/mdb/js/mdb.min.js"></script>
+<script src="/assets/evil-icons.min.js"></script>
+<script src="/jeremy/js/main.js"></script>
+<script src="/jeremy/js/icp.js"></script>
+
+        
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-92987034-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    </body>
+
+</html>
