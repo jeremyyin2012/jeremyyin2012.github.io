@@ -1,76 +1,59 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Jeremy&#39;s blog</title>
-    <link>/</link>
-    <description>Recent content on Jeremy&#39;s blog</description>
+    <title>Jeremy Notes</title>
+    <link>https://jeremyyin.com/</link>
+    <description>Recent content on Jeremy Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
     <lastBuildDate>Thu, 29 Feb 2024 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Rusts</title>
-      <link>/rust/</link>
-      <pubDate>Thu, 29 Feb 2024 00:00:00 +0000</pubDate>
-      
-      <guid>/rust/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Posts</title>
-      <link>/post/</link>
-      <pubDate>Fri, 05 Aug 2022 00:00:00 +0000</pubDate>
-      
-      <guid>/post/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Notes</title>
-      <link>/note/</link>
-      <pubDate>Thu, 25 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/note/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pythons</title>
-      <link>/python/</link>
-      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tornadoes</title>
-      <link>/tornado/</link>
-      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tornado/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Advertisements</title>
-      <link>/advertisement/</link>
-      <pubDate>Thu, 26 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/advertisement/</guid>
-      <description></description>
-    </item>
+        <atom:link href="https://jeremyyin.com/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Saleors</title>
-      <link>/saleor/</link>
+      <link>https://jeremyyin.com/saleor/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/saleor/</guid>
+      <guid>https://jeremyyin.com/saleor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://jeremyyin.com/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/about/</guid>
+      <description>&lt;p&gt;这里是 Jeremy Notes。&lt;/p&gt;
+&lt;p&gt;主要记录产品、架构与写作相关的长期思考，也包括工程实践中的经验、复盘与方法。&lt;/p&gt;
+&lt;p&gt;有些内容是系统化文章，有些是想先记录下来的短笔记；它们都服务于同一件事：让复杂问题表达得更清楚，让真实交付更可靠。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Archive</title>
+      <link>https://jeremyyin.com/archive/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/archive/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Articles</title>
+      <link>https://jeremyyin.com/articles/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/articles/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Topics</title>
+      <link>https://jeremyyin.com/topics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://jeremyyin.com/topics/</guid>
       <description></description>
     </item>
     

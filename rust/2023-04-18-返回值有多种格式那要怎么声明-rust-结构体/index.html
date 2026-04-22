@@ -1,28 +1,19 @@
 <!doctype html>
 <html lang="zh-cn">
-
-
-    <head>
-
-        <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.85.0" />
-
-        <title>返回值有多种格式那要怎么声明 Rust 结构体 | Jeremy&#39;s blog</title>
-
-        
-
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="/assets/evil-icons.min.css">
+<meta name="generator" content="Hugo 0.160.1">
 
 
+    <title>返回值有多种格式那要怎么声明 Rust 结构体 | Jeremy Notes</title>
 
+    
 
-<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
@@ -38,92 +29,367 @@
 <link rel="manifest" href="/jeremy/ico/manifest.json">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#25183f">
 
+<link rel="icon" href="/jeremy/ico/favicon.ico">
 
-
-<link rel="icon" href="/static/jeremy/ico/favicon.ico">
-
-
-
+<link rel="stylesheet" href="/jeremy/css/chroma.css">
 <link rel="stylesheet" href="/jeremy/css/main.css">
+<link rel="stylesheet" href="/jeremy/css/tailwind.css">
 
-    </head>
+  </head>
 
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    
+
+
+
+
+<header class="site-header">
+  <div class="site-header-shell">
+    <div class="site-brand-wrap">
+      <a class="site-brand-link" href="/">
+        <span class="site-brand-mark" aria-hidden="true">JN</span>
+        <span class="site-brand-copy">
+          <strong>Jeremy Notes</strong>
+        </span>
+      </a>
+    </div>
 
     
-    <body>
+    <button
+      class="site-nav-button site-nav-search site-nav-search-mobile"
+      type="button"
+      data-search-toggle
+      aria-label="打开搜索"
+    >
+      <span class="site-nav-search-icon" aria-hidden="true"></span>
+      <span>Search</span>
+    </button>
+    
 
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <div class="site-nav-wrap">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="site-nav-link" href="/">Home</a>
+        <a class="site-nav-link" href="/articles/" aria-current="page">Articles</a>
+        <a class="site-nav-link" href="/topics/">Topics</a>
+        <a class="site-nav-link" href="/about/">About</a>
+        
+        <button
+          class="site-nav-button site-nav-search site-nav-search-desktop"
+          type="button"
+          data-search-toggle
+          aria-label="打开搜索"
+        >
+          <span class="site-nav-search-icon" aria-hidden="true"></span>
+          <span>Search</span>
+          <kbd>⌘ K</kbd>
         </button>
-        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
-
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/post/">Post</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/note/">Note</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/python/">Python</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/rust/">Rust</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/tornado/">Tornado</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/saleor/">Saleor</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/advertisement/">Advertisement</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/about/">About</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/index.xml">RSS</a>
-                </li>
-
-
-            </ul>
-        </div>
+        
+      </nav>
     </div>
-</nav>
+  </div>
+</header>
 
 
+    <main class="site-shell" id="main-content" tabindex="-1">
+      
+  
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
 
-        <div class="container" style="padding-top: 2rem">
-                <div class="row">
-                    <div class="col-sm-12">
-                            
+  <section class="page-banner page-banner-article">
+    <div class="page-banner-shell">
+      <div class="article-kicker">
+        
+        <a href="/rust/">Rust</a>
+        
+        <span>2023-04-18</span>
+      </div>
+      <h1>返回值有多种格式那要怎么声明 Rust 结构体</h1>
+      
+    </div>
+  </section>
 
-    <article>
-        <h1>返回值有多种格式那要怎么声明 Rust 结构体</h1>
-        <hr>
+  <section class="page-content-shell">
+    <article class="content-panel article-layout">
+      <div class="article-body prose">
         <p>这算是 Rust 的第一篇内容，虽然有点水，但总算开动了。</p>
 <p>最难跨越的就是真正开始去行动的那一刻。</p>
 <p>Rust 的结构体和枚举非常厉害，它在形式上，也非常接近人的常规理解：层层分解。</p>
@@ -131,100 +397,100 @@
 <p>今天看下这种情况，比如你要请求一个接口，然后这个接口的返回值吧，并不总是保持一致的结构，而是根据不同情况有所不同的。</p>
 <p>就比如拿 <a href="https://support.huaweicloud.com/api-ecs/ecs_02_0101.html#section7">https://support.huaweicloud.com/api-ecs/ecs_02_0101.html#section7</a> 这个页面的接口进行举例。</p>
 <p>它的接口，除请求失败以外，请求成功的响应中，还分为正常响应和错误响应，而且错误响应可能也还有些字段内容是不一定返回的。</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">响应示例</span>
-{
-    <span style="color:#309;font-weight:bold">&#34;job_id&#34;</span>: <span style="color:#c30">&#34;ff808082739334d80173943ec9b42130&#34;</span>,
-    <span style="color:#309;font-weight:bold">&#34;order_id&#34;</span>: <span style="color:#c30">&#34;CS2007281506xxxxx&#34;</span>,
-    <span style="color:#309;font-weight:bold">&#34;serverIds&#34;</span>: [
-        <span style="color:#c30">&#34;fe0528f0-5b1c-4c8c-9adf-e5d5047b8c17&#34;</span>,
-        <span style="color:#c30">&#34;679854ae-a50d-40c9-8132-b19bf3a306a1&#34;</span>
-    ] 
-}
-
-<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">或</span>
-{
-    <span style="color:#309;font-weight:bold">&#34;error&#34;</span>: {
-        <span style="color:#309;font-weight:bold">&#34;code&#34;</span>: <span style="color:#c30">&#34;Ecs.0005&#34;</span>, 
-        <span style="color:#309;font-weight:bold">&#34;message&#34;</span>: <span style="color:#c30">&#34;request body is illegal.&#34;</span>
-    }
-}
-
-<span style="color:#a00;background-color:#faa">//</span> <span style="color:#a00;background-color:#faa">或</span>
-{
-    <span style="color:#309;font-weight:bold">&#34;error&#34;</span>: {
-        <span style="color:#309;font-weight:bold">&#34;message&#34;</span>: <span style="color:#c30">&#34;privateIp [%s] is not in this subnet [%s]&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;code&#34;</span>: <span style="color:#c30">&#34;Ecs.0005&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;details&#34;</span>: [
-            {
-                <span style="color:#309;font-weight:bold">&#34;code&#34;</span>: <span style="color:#c30">&#34;Ecs.0039&#34;</span>
-            }
-        ]
-    }
-}
-</code></pre></div><p>如果是在 Python 里面，上来粗暴点对待可能就是直接解析为字典 <code>dict</code> 然后结合状态码与字典 <code>key</code> 值进行判断处理了，而如果用到了高版本的 Python 然后又想要认真点对待，可能会去声明两个 <code>dataclass</code> 然后也根据状态码来使用 <code>if else</code> 进行分别处理。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="c1">// 响应示例
+</span></span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;job_id&#34;</span><span class="p">:</span> <span class="s2">&#34;ff808082739334d80173943ec9b42130&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;order_id&#34;</span><span class="p">:</span> <span class="s2">&#34;CS2007281506xxxxx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;serverIds&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;fe0528f0-5b1c-4c8c-9adf-e5d5047b8c17&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;679854ae-a50d-40c9-8132-b19bf3a306a1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span> 
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 或
+</span></span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;error&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="s2">&#34;Ecs.0005&#34;</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="s2">&#34;request body is illegal.&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 或
+</span></span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;error&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;message&#34;</span><span class="p">:</span> <span class="s2">&#34;privateIp [%s] is not in this subnet [%s]&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="s2">&#34;Ecs.0005&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;details&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="s2">&#34;Ecs.0039&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>如果是在 Python 里面，上来粗暴点对待可能就是直接解析为字典 <code>dict</code> 然后结合状态码与字典 <code>key</code> 值进行判断处理了，而如果用到了高版本的 Python 然后又想要认真点对待，可能会去声明两个 <code>dataclass</code> 然后也根据状态码来使用 <code>if else</code> 进行分别处理。</p>
 <p>那么这种场景在 Rust 中怎么声明结构体呢？都说 Rust 是强类型，然后就一脸懵了，可能还有人跑去说泛型什么的，但是其实真没那么复杂。</p>
 <p>看代码。</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span>serde::{Deserializer,<span style="color:#bbb"> </span>Serializer};<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">use</span><span style="color:#bbb"> </span>schemars::JsonSchema;<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#099">#[serde(untagged)]</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">enum</span> <span style="color:#0a8;font-weight:bold">CreateCloudServersRes</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>HwcApiError(HwcApiError),<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>CreateCloudServers(CreateCloudServers),<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">HwcApiError</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>error: <span style="color:#0a8;font-weight:bold">HwcApiErrorBody</span>,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">HwcApiErrorBody</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>code: <span style="color:#366">String</span>,<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>message: <span style="color:#366">String</span>,<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>details: <span style="color:#366">Option</span><span style="color:#555">&lt;</span><span style="color:#366">Vec</span><span style="color:#555">&lt;</span>HwcApiErrorBodyDetail<span style="color:#555">&gt;&gt;</span>,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">HwcApiErrorBodyDetail</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>code: <span style="color:#366">String</span>,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#099">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#069;font-weight:bold">struct</span> <span style="color:#0a8;font-weight:bold">CreateCloudServers</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>job_id: <span style="color:#0a8;font-weight:bold">Uuid</span>,<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>order_id: <span style="color:#366">String</span>,<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#099">#[serde(rename = </span><span style="color:#c30">&#34;serverIds&#34;</span><span style="color:#099">)]</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#069;font-weight:bold">pub</span><span style="color:#bbb"> </span>server_ids: <span style="color:#366">Vec</span><span style="color:#555">&lt;</span>Uuid<span style="color:#555">&gt;</span>,<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span></code></pre></div><p>这样就实现了对这个接口响应的结构体声明，在使用的时候，就如下这样：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>client<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>reqwest::Client::new();<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>resp<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>client.post(url).headers(headers).json(<span style="color:#555">&amp;</span>req).send().<span style="color:#069;font-weight:bold">await</span><span style="color:#555">?</span>;<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>resp.json::<span style="color:#555">&lt;</span>CreateCloudServersRes<span style="color:#555">&gt;</span>().<span style="color:#069;font-weight:bold">await</span><span style="color:#555">?</span>;<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span>{<span style="color:#bbb"> 
-</span><span style="color:#bbb">    </span>CreateCloudServersRes::CreateCloudServers(data)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{},<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>CreateCloudServersRes::HwcApiError(err)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{},<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span></code></pre></div><p>然后就再对这个返回值枚举进行处理即可，当然同样也还可以再结合状态码进行一些处理逻辑，在业务逻辑处理上，语言上的差异就没那么大了，看你的具体需求。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">serde</span>::<span class="p">{</span><span class="n">Deserializer</span><span class="p">,</span><span class="w"> </span><span class="n">Serializer</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">schemars</span>::<span class="n">JsonSchema</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#[serde(untagged)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">CreateCloudServersRes</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">HwcApiError</span><span class="p">(</span><span class="n">HwcApiError</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">CreateCloudServers</span><span class="p">(</span><span class="n">CreateCloudServers</span><span class="p">),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">HwcApiError</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">error</span>: <span class="nc">HwcApiErrorBody</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">HwcApiErrorBody</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">code</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">message</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">details</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">HwcApiErrorBodyDetail</span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">HwcApiErrorBodyDetail</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">code</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">CreateCloudServers</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">job_id</span>: <span class="nc">Uuid</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">order_id</span>: <span class="nb">String</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="cp">#[serde(rename = </span><span class="s">&#34;serverIds&#34;</span><span class="cp">)]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">server_ids</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Uuid</span><span class="o">&gt;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>这样就实现了对这个接口响应的结构体声明，在使用的时候，就如下这样：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reqwest</span>::<span class="n">Client</span>::<span class="n">new</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">resp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">).</span><span class="n">headers</span><span class="p">(</span><span class="n">headers</span><span class="p">).</span><span class="n">json</span><span class="p">(</span><span class="o">&amp;</span><span class="n">req</span><span class="p">).</span><span class="n">send</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resp</span><span class="p">.</span><span class="n">json</span>::<span class="o">&lt;</span><span class="n">CreateCloudServersRes</span><span class="o">&gt;</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">match</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="p">{</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">CreateCloudServersRes</span>::<span class="n">CreateCloudServers</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{},</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">CreateCloudServersRes</span>::<span class="n">HwcApiError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{},</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>然后就再对这个返回值枚举进行处理即可，当然同样也还可以再结合状态码进行一些处理逻辑，在业务逻辑处理上，语言上的差异就没那么大了，看你的具体需求。</p>
 <p>如果在拿 res 的时候并不想让错误直接向上层抛出，那么可以去除 <code>.await?;</code> 这里的问号成为 <code>.await;</code> 这样就可以自己来针对性地做一些事情，而我们在 Python 里面经常会用  <code>try: ... except Exception as e: ...</code> 来处理一些特别任务，例如记录点特别的日志什么的：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#069;font-weight:bold">let</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span><span style="color:#555">=</span><span style="color:#bbb"> </span>resp.json::<span style="color:#555">&lt;</span>CreateCloudServersRes<span style="color:#555">&gt;</span>().<span style="color:#069;font-weight:bold">await</span>;<span style="color:#bbb">
-</span><span style="color:#bbb"></span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#366">Ok</span>(res)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>info<span style="color:#555">!</span>(<span style="color:#c30">&#34;do something success: req: {:?} res: {:?}&#34;</span>,<span style="color:#bbb"> </span><span style="color:#555">&amp;</span>req,<span style="color:#bbb"> </span><span style="color:#555">&amp;</span>res);<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">match</span><span style="color:#bbb"> </span>res<span style="color:#bbb"> </span>{<span style="color:#bbb"> 
-</span><span style="color:#bbb">            </span>CreateCloudServersRes::CreateCloudServers(data)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{},<span style="color:#bbb">
-</span><span style="color:#bbb">            </span>CreateCloudServersRes::HwcApiError(err)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{},<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>}<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#366">Err</span>(err)<span style="color:#bbb"> </span><span style="color:#555">=&gt;</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>capture_error(<span style="color:#555">&amp;</span>err);<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>error<span style="color:#555">!</span>(<span style="color:#c30">&#34;do something failed: req: {:?} error: {:?}&#34;</span>,<span style="color:#bbb"> </span><span style="color:#555">&amp;</span>req,<span style="color:#bbb"> </span><span style="color:#555">&amp;</span>err);<span style="color:#bbb">
-</span><span style="color:#bbb">        </span><span style="color:#069;font-weight:bold">return</span><span style="color:#bbb"> </span><span style="color:#366">Err</span>(err.into());<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span></code></pre></div><p>当然这里这个 match 也可以用 let else 等写法进行替代，看你自己的需求。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resp</span><span class="p">.</span><span class="n">json</span>::<span class="o">&lt;</span><span class="n">CreateCloudServersRes</span><span class="o">&gt;</span><span class="p">().</span><span class="k">await</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="k">match</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="fm">info!</span><span class="p">(</span><span class="s">&#34;do something success: req: {:?} res: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">res</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="p">{</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">CreateCloudServersRes</span>::<span class="n">CreateCloudServers</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{},</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">CreateCloudServersRes</span>::<span class="n">HwcApiError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{},</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">Err</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">capture_error</span><span class="p">(</span><span class="o">&amp;</span><span class="n">err</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="fm">error!</span><span class="p">(</span><span class="s">&#34;do something failed: req: {:?} error: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">err</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">err</span><span class="p">.</span><span class="n">into</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div><p>当然这里这个 match 也可以用 let else 等写法进行替代，看你自己的需求。</p>
 <p>整体上来说，面对接口在不同情况返回不同格式的结构的时候，在 Rust 中就可以以这样的形式去实现即可。</p>
 <p>总结下知识点：</p>
 <ul>
@@ -235,86 +501,333 @@
 <li>如果不想向上层直接抛出错误，可以不加 <code>?</code> 然后自己对 <code>Result&lt;T, E&gt;</code> 进行处理，这其实非常相当于 Python 里面的 <code>try: ... except Exception as e: ...</code> 但是却又比它感觉上更直观更可靠。</li>
 </ul>
 
-    </article>
+      </div>
 
-
-                  </div>
-                </div>
-              </div>
-
-
-        <footer class="site-footer">
-    
-
-        <div class="container">
-            <hr>
-            
-
-<div class="row" style="margin-top:2rem;margin-bottom:2rem">
-
-
-<div class="col-sm-2">
-<div class="card border-light bg-light">
-<div class="view overlay hm-white-slight">
-<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
-</div>
-</div>
-</div>
-
-
-
-<div class="col-sm-10">
-<h5><a href="/about">Jeremy Yin</a></h5>
-<p>Python Engineer, Business System Architect</p>
-<ul class="list-unstyled">
-<li><a href="https://github.com/jeremyyin2012" target="_blank">
-    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
-</span>
-</a>
-</li>
-</ul>
-<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
-</div>
-
-
-
-</div>
-
-
-      
-          <div class="footer left column one-half">
-            <section class="small-font">
-                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
-                    <a id="icp_link" target="_blank"
-                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
-            </section>
-          </div>
-        </div>
-
+      <footer class="article-footer">
+        <a class="text-link" href="/">返回首页</a>
+        
+        
+        
+          
+        
+        <a class="text-link" href="/rust/">浏览 Rust</a>
+        
+        
+        <button class="text-button" type="button" data-search-toggle>Search</button>
+        
       </footer>
-
+      
+      
+      
+      <nav class="article-pager" aria-label="文章分页">
         
-<script src="/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="/mdb/js/popper.min.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
-<script src="/mdb/js/mdb.min.js"></script>
-<script src="/assets/evil-icons.min.js"></script>
-<script src="/jeremy/js/main.js"></script>
-<script src="/jeremy/js/icp.js"></script>
-
         
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-92987034-1', 'auto');
-	
-	ga('send', 'pageview');
-}
+        <a class="article-pager-link is-prev" href="/rust/2023-04-19-%E9%92%89%E9%92%89%E6%B6%88%E6%81%AF%E9%80%9A%E7%9F%A5%E8%A6%81%E6%80%8E%E4%B9%88%E5%A3%B0%E6%98%8E-rust-%E7%BB%93%E6%9E%84%E4%BD%93/">
+          <span class="article-pager-label">上一篇</span>
+          <span class="article-pager-title">钉钉消息通知要怎么声明 Rust 结构体</span>
+        </a>
+        
+        
+        
+        <a class="article-pager-link is-next" href="/post/2022-08-05-%E6%9C%89%E9%99%90%E9%9B%86%E4%B8%8E%E6%97%A0%E9%99%90%E9%9B%86/">
+          <span class="article-pager-label">下一篇</span>
+          <span class="article-pager-title">有限集与无限集</span>
+        </a>
+        
+      </nav>
+      
+    </article>
+  </section>
+
+    </main>
+
+    
+<section class="search-layer" id="site-search" hidden aria-hidden="true">
+  <div class="search-backdrop" data-search-close></div>
+
+  <div
+    class="search-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="site-search-title"
+    aria-describedby="site-search-desc"
+    tabindex="-1"
+    data-search-panel
+  >
+    <div class="search-panel-header">
+      <div>
+        <h2 id="site-search-title">站内搜索</h2>
+        <p id="site-search-desc">按标题和正文检索，直接跳转到原文。</p>
+        <p class="search-shortcut"><kbd>⌘</kbd><kbd>K</kbd><span>/</span><kbd>Ctrl</kbd><kbd>K</kbd></p>
+      </div>
+
+      <button class="search-close" type="button" data-search-close aria-label="关闭搜索">
+        关闭
+      </button>
+    </div>
+
+    <div class="search-panel-body">
+      <div class="search-input-wrap">
+        <input
+          class="search-input"
+          id="search-input"
+          name="q"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="搜索文章标题或正文…"
+          aria-label="搜索文章标题或正文"
+        >
+      </div>
+      <div class="search-stats" id="search-stats" aria-live="polite"></div>
+      <p class="search-empty" id="search-empty">输入关键词开始检索。</p>
+      <div id="search-hits" class="search-hits"></div>
+    </div>
+  </div>
+</section>
+
+
+
+    <footer class="site-footer">
+  
+  
+  
+  
+  
+    
+  
+  
+  
+    
+  
+
+  <div class="site-footer-shell">
+    <nav class="site-footer-nav" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/index.xml">RSS</a>
+      
+      <a href="https://github.com/jeremyyin2012" target="_blank" rel="noreferrer">GitHub</a>
+      
+    </nav>
+
+    <p class="site-footer-line">
+      <span>Writing on engineering, systems, and tools.</span>
+    </p>
+    <p class="site-footer-line">
+      <span>Copyright © Since 2016 Jeremy Notes. All Rights Reserved.</span>
+    </p>
+    
+  </div>
+</footer>
+
+
+    <script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const layer = document.getElementById("site-search");
+    const input = document.getElementById("search-input");
+    const emptyState = document.getElementById("search-empty");
+    const stats = document.getElementById("search-stats");
+    const hitsContainer = document.getElementById("search-hits");
+
+    if (!layer || !input || !emptyState || !stats || !hitsContainer) {
+      return;
+    }
+
+    const sectionLabels = {
+      post: "文章",
+      note: "笔记",
+      python: "Python",
+      rust: "Rust",
+      tornado: "翻译",
+      saleor: "翻译"
+    };
+
+    const endpoint = "https://5AK65RDSWI-dsn.algolia.net/1/indexes/" + encodeURIComponent("jeremyyin.com") + "/query";
+    const headers = {
+      "X-Algolia-Application-Id": "5AK65RDSWI",
+      "X-Algolia-API-Key": "5cb2e03f3d9cc9b8f4ecac0245ec0a8d",
+      "Content-Type": "application/json"
+    };
+
+    let debounceTimer = null;
+    let activeController = null;
+    let searchVersion = 0;
+
+    const formatDate = function (unixTimestamp) {
+      if (!unixTimestamp) {
+        return "";
+      }
+
+      const date = new Date(unixTimestamp * 1000);
+      return new Intl.DateTimeFormat("zh-CN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    };
+
+    const escapeHtml = function (value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    };
+
+    const renderHighlight = function (value) {
+      const openToken = "__ALGOLIA_EM_OPEN__";
+      const closeToken = "__ALGOLIA_EM_CLOSE__";
+      const text = String(value || "")
+        .replace(/\\\"/g, "\"")
+        .replace(/<em\b[^>]*>/gi, openToken)
+        .replace(/<\/em>/gi, closeToken);
+
+      return escapeHtml(text)
+        .replace(new RegExp(openToken, "g"), "<mark>")
+        .replace(new RegExp(closeToken, "g"), "</mark>");
+    };
+
+    const clearSearchResult = function () {
+      searchVersion += 1;
+      if (activeController) {
+        activeController.abort();
+        activeController = null;
+      }
+
+      hitsContainer.innerHTML = "";
+      stats.textContent = "";
+      emptyState.hidden = false;
+      layer.dataset.hasQuery = "false";
+    };
+
+    const renderResults = function (response) {
+      const nbHits = typeof response.nbHits === "number" ? response.nbHits : 0;
+      const processingTimeMS = typeof response.processingTimeMS === "number" ? response.processingTimeMS : 0;
+
+      stats.textContent = nbHits + " 条结果 · " + processingTimeMS + " ms";
+      emptyState.hidden = true;
+
+      if (!response.hits || response.hits.length === 0) {
+        hitsContainer.innerHTML = '<p class="search-no-result">没有找到结果，试试更短的关键词。</p>';
+        return;
+      }
+
+      const html = response.hits.map(function (hit) {
+        const titleValue = hit._highlightResult && hit._highlightResult.title
+          ? hit._highlightResult.title.value
+          : hit.title;
+        const contentValue = hit._snippetResult && hit._snippetResult.content
+          ? hit._snippetResult.content.value
+          : (hit.content || "").slice(0, 140);
+        const relpermalink = escapeHtml(hit.relpermalink || "#");
+        const date = formatDate(hit.date);
+        const section = sectionLabels[hit.section] || hit.section || "";
+
+        return (
+          '<article class="post-item">' +
+            '<p class="post-item-meta">' + [date, section].filter(Boolean).join(" · ") + "</p>" +
+            '<h3><a class="post-link" href="' + relpermalink + '">' + renderHighlight(titleValue) + "</a></h3>" +
+            '<div class="post-snippet">' + renderHighlight(contentValue) + "</div>" +
+          "</article>"
+        );
+      }).join("");
+
+      hitsContainer.innerHTML = html;
+    };
+
+    const renderError = function () {
+      stats.textContent = "";
+      emptyState.hidden = true;
+      hitsContainer.innerHTML = '<p class="search-no-result">搜索服务暂时不可用，请稍后再试。</p>';
+    };
+
+    const performSearch = async function (query) {
+      const trimmedQuery = query.trim();
+      if (!trimmedQuery) {
+        clearSearchResult();
+        return;
+      }
+
+      const requestVersion = ++searchVersion;
+      if (activeController) {
+        activeController.abort();
+      }
+
+      activeController = new AbortController();
+      layer.dataset.hasQuery = "true";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({
+            query: trimmedQuery,
+            hitsPerPage: 12,
+            attributesToRetrieve: ["title", "content", "relpermalink", "date", "section"],
+            attributesToHighlight: ["title", "content"],
+            attributesToSnippet: ["content:128"],
+            snippetEllipsisText: "…",
+            restrictSearchableAttributes: ["title", "content"]
+          }),
+          signal: activeController.signal
+        });
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const payload = await response.json();
+        if (requestVersion !== searchVersion) {
+          return;
+        }
+
+        renderResults(payload);
+      } catch (error) {
+        if (error && error.name === "AbortError") {
+          return;
+        }
+        renderError();
+      }
+    };
+
+    input.addEventListener("input", function () {
+      const query = input.value.trim();
+      if (debounceTimer) {
+        window.clearTimeout(debounceTimer);
+      }
+
+      if (!query) {
+        clearSearchResult();
+        return;
+      }
+
+      emptyState.hidden = true;
+      debounceTimer = window.setTimeout(function () {
+        performSearch(query);
+      }, 180);
+    });
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter") {
+        return;
+      }
+
+      const firstResult = hitsContainer.querySelector(".post-link");
+      if (firstResult) {
+        window.location.href = firstResult.getAttribute("href");
+      }
+    });
+
+    layer.addEventListener("search:clear", clearSearchResult);
+  });
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
-    </body>
 
+    
+  </body>
 </html>

@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<meta name="generator" content="Hugo 0.160.1">
+
+
+    <title>如何自然地写出让人不想维护的代码 - 代码糟糕指南系列 | Jeremy Notes</title>
+
+    
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/jeremy/ico/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/jeremy/ico/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/jeremy/ico/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/jeremy/ico/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/jeremy/ico/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="/jeremy/ico/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/jeremy/ico/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="/jeremy/ico/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/jeremy/ico/favicon-16x16.png">
+<link rel="manifest" href="/jeremy/ico/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
+<meta name="theme-color" content="#25183f">
+
+<link rel="icon" href="/jeremy/ico/favicon.ico">
+
+<link rel="stylesheet" href="/jeremy/css/chroma.css">
+<link rel="stylesheet" href="/jeremy/css/main.css">
+<link rel="stylesheet" href="/jeremy/css/tailwind.css">
+
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    
+
+
+
+
+<header class="site-header">
+  <div class="site-header-shell">
+    <div class="site-brand-wrap">
+      <a class="site-brand-link" href="/">
+        <span class="site-brand-mark" aria-hidden="true">JN</span>
+        <span class="site-brand-copy">
+          <strong>Jeremy Notes</strong>
+        </span>
+      </a>
+    </div>
+
+    
+    <button
+      class="site-nav-button site-nav-search site-nav-search-mobile"
+      type="button"
+      data-search-toggle
+      aria-label="打开搜索"
+    >
+      <span class="site-nav-search-icon" aria-hidden="true"></span>
+      <span>Search</span>
+    </button>
+    
+
+    <div class="site-nav-wrap">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="site-nav-link" href="/">Home</a>
+        <a class="site-nav-link" href="/articles/" aria-current="page">Articles</a>
+        <a class="site-nav-link" href="/topics/">Topics</a>
+        <a class="site-nav-link" href="/about/">About</a>
+        
+        <button
+          class="site-nav-button site-nav-search site-nav-search-desktop"
+          type="button"
+          data-search-toggle
+          aria-label="打开搜索"
+        >
+          <span class="site-nav-search-icon" aria-hidden="true"></span>
+          <span>Search</span>
+          <kbd>⌘ K</kbd>
+        </button>
+        
+      </nav>
+    </div>
+  </div>
+</header>
+
+
+    <main class="site-shell" id="main-content" tabindex="-1">
+      
+  
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+
+  <section class="page-banner page-banner-article">
+    <div class="page-banner-shell">
+      <div class="article-kicker">
+        
+        <a href="/post/">文章</a>
+        
+        <span>2019-07-24</span>
+      </div>
+      <h1>如何自然地写出让人不想维护的代码 - 代码糟糕指南系列</h1>
+      
+    </div>
+  </section>
+
+  <section class="page-content-shell">
+    <article class="content-panel article-layout">
+      <div class="article-body prose">
+        <p>洗澡时候，脑袋里想到了这个标题，读题要读准哟。</p>
+<p>关于非编译型语言的代码如何防止被抄袭或盗取，行业里面是有一些做法的，那是另外一门活了，不在本文倜傥范围之内。</p>
+<p>所以说，自然地，意思我说的是源码，从你手下一个字符一个字符打出来的那些东西，根据目标需求的不同，可能代码所产生的价值也不同。我也会在侃大山时候说我一行代码一万块，当然玩笑归玩笑。</p>
+<p>至于为什么要写这么一个题目，也会最近稍稍有些体会，想叨叨几句，毕竟现在不叨叨，未来就过去了。</p>
+<p>人在某一个行业，能做到什么程度，有时候也看有哪些机会让你来做，所以我比较不在乎事情多少，只是看我想不想做的问题，如果我做到一个人可以顶十个或更多的话，成就感就是驱使我进一步深入的动力之一。</p>
+<p>我并非某种完全意义上的处女座或完美主义者，或者是在以前会有些自以为是，而如今已经明白了许多。平常生活中在我眼里的及格值，或换个说法说事情就应该是这样的，很多时候放到外界去看的话，可能就让人大失所望。而实际看来，人类社会的千差万别，比自己的所谓标准要丰富多彩得多。经常说不改变世界就让世界改变的人们，曾经我也是这么说，但是后来真的想明白吧，其实不用这么跟世界过不去。当你不去改变世界，但是仍然可以选择独善其身，所谓修身养性齐家，至于后面哪些也可以做到不用那么在意。</p>
+<p>简单来说，与我有关我的垃圾我做到收拾干净，而别人的垃圾，我根本不会 Care 一星半点，只要它没有可能造成严重伤害以及对我造成影响，随便怎样都可以的。</p>
+<p>看来又冒出来了一堆废话，总是跑题，这习惯真的是……</p>
+<p>说正事，最近接手了一点代码，之前那段蛮长的时间里，根据那些若有若无的线条稿想象产品的模样，然后自己吭哧吭哧写了一堆 API 接口丢给前端进行具体产品实现。而如今，这些产品终于又跑回我自己手中了，所谓前后全包，全栈打包。</p>
+<p>中间也接手过一些后台代码，但是都还算过得去，反正又不是不能用，对吧。而如今前台代码也在自己手中，需要更新功能，加这个改那个的，这个不会那个不会，不会也得上，是吧。</p>
+<p>不会归不会，要全都会，可能倒不会有这些叨叨的文字来了，如果全都会，可能如今忍受力分值已经是加了三次方。</p>
+<p>前端由于环境发展的原因（前端这里单指在浏览器中写 html js css 网站程序界面），之前各种特性的缺失和不友好，导致瘸腿走路是走越远越难受，不排除有很多有能力的人写出了很好理解的代码，但是绝大多数前端从业者们是在最近这几年冒出来的，然后大家就都去干这活。</p>
+<p>而又由于中文互联网的一些原因，大多数人可能都是一直走得过于艰苦，苦于奔命却不知道何为方向，总之随便抄一抄就好。</p>
+<p>啰嗦这么多，其实就是想说，种种原因代码写好比较难，而写得让人愿意看愿意维护，更是难上加难。</p>
+<p>反倒是随便写写做到让人无法继续维护倒是一件看起来非常容易的事情，如果秉承一点：「Copy 只需一时爽，管谁更新火葬场」，如果能做到这一点的话，基本就离「自然地写出让人不想维护的代码」这个目标已经近很多了。</p>
+<p>突然说到这里，反倒我就不想细细展开了，那么，叨叨完就先收一收吧。</p>
+<p>你开心就好😄</p>
+
+      </div>
+
+      <footer class="article-footer">
+        <a class="text-link" href="/">返回首页</a>
+        
+        
+        
+        <a class="text-link" href="/post/">浏览文章</a>
+        
+        
+        <button class="text-button" type="button" data-search-toggle>Search</button>
+        
+      </footer>
+      
+      
+      
+      <nav class="article-pager" aria-label="文章分页">
+        
+        
+        <a class="article-pager-link is-prev" href="/note/2019-07-25-2048/">
+          <span class="article-pager-label">上一篇</span>
+          <span class="article-pager-title">如何在 jQuery 项目中嵌入 Vue</span>
+        </a>
+        
+        
+        
+        <a class="article-pager-link is-next" href="/post/2019-05-18-%E6%8E%92%E5%BA%8F%E6%80%9D%E6%83%B3%E4%B9%8B%E8%BE%85%E5%8A%A9%E5%88%97/">
+          <span class="article-pager-label">下一篇</span>
+          <span class="article-pager-title">排序思想之辅助列</span>
+        </a>
+        
+      </nav>
+      
+    </article>
+  </section>
+
+    </main>
+
+    
+<section class="search-layer" id="site-search" hidden aria-hidden="true">
+  <div class="search-backdrop" data-search-close></div>
+
+  <div
+    class="search-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="site-search-title"
+    aria-describedby="site-search-desc"
+    tabindex="-1"
+    data-search-panel
+  >
+    <div class="search-panel-header">
+      <div>
+        <h2 id="site-search-title">站内搜索</h2>
+        <p id="site-search-desc">按标题和正文检索，直接跳转到原文。</p>
+        <p class="search-shortcut"><kbd>⌘</kbd><kbd>K</kbd><span>/</span><kbd>Ctrl</kbd><kbd>K</kbd></p>
+      </div>
+
+      <button class="search-close" type="button" data-search-close aria-label="关闭搜索">
+        关闭
+      </button>
+    </div>
+
+    <div class="search-panel-body">
+      <div class="search-input-wrap">
+        <input
+          class="search-input"
+          id="search-input"
+          name="q"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="搜索文章标题或正文…"
+          aria-label="搜索文章标题或正文"
+        >
+      </div>
+      <div class="search-stats" id="search-stats" aria-live="polite"></div>
+      <p class="search-empty" id="search-empty">输入关键词开始检索。</p>
+      <div id="search-hits" class="search-hits"></div>
+    </div>
+  </div>
+</section>
+
+
+
+    <footer class="site-footer">
+  
+  
+  
+  
+  
+    
+  
+  
+  
+    
+  
+
+  <div class="site-footer-shell">
+    <nav class="site-footer-nav" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/index.xml">RSS</a>
+      
+      <a href="https://github.com/jeremyyin2012" target="_blank" rel="noreferrer">GitHub</a>
+      
+    </nav>
+
+    <p class="site-footer-line">
+      <span>Writing on engineering, systems, and tools.</span>
+    </p>
+    <p class="site-footer-line">
+      <span>Copyright © Since 2016 Jeremy Notes. All Rights Reserved.</span>
+    </p>
+    
+  </div>
+</footer>
+
+
+    <script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const layer = document.getElementById("site-search");
+    const input = document.getElementById("search-input");
+    const emptyState = document.getElementById("search-empty");
+    const stats = document.getElementById("search-stats");
+    const hitsContainer = document.getElementById("search-hits");
+
+    if (!layer || !input || !emptyState || !stats || !hitsContainer) {
+      return;
+    }
+
+    const sectionLabels = {
+      post: "文章",
+      note: "笔记",
+      python: "Python",
+      rust: "Rust",
+      tornado: "翻译",
+      saleor: "翻译"
+    };
+
+    const endpoint = "https://5AK65RDSWI-dsn.algolia.net/1/indexes/" + encodeURIComponent("jeremyyin.com") + "/query";
+    const headers = {
+      "X-Algolia-Application-Id": "5AK65RDSWI",
+      "X-Algolia-API-Key": "5cb2e03f3d9cc9b8f4ecac0245ec0a8d",
+      "Content-Type": "application/json"
+    };
+
+    let debounceTimer = null;
+    let activeController = null;
+    let searchVersion = 0;
+
+    const formatDate = function (unixTimestamp) {
+      if (!unixTimestamp) {
+        return "";
+      }
+
+      const date = new Date(unixTimestamp * 1000);
+      return new Intl.DateTimeFormat("zh-CN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    };
+
+    const escapeHtml = function (value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    };
+
+    const renderHighlight = function (value) {
+      const openToken = "__ALGOLIA_EM_OPEN__";
+      const closeToken = "__ALGOLIA_EM_CLOSE__";
+      const text = String(value || "")
+        .replace(/\\\"/g, "\"")
+        .replace(/<em\b[^>]*>/gi, openToken)
+        .replace(/<\/em>/gi, closeToken);
+
+      return escapeHtml(text)
+        .replace(new RegExp(openToken, "g"), "<mark>")
+        .replace(new RegExp(closeToken, "g"), "</mark>");
+    };
+
+    const clearSearchResult = function () {
+      searchVersion += 1;
+      if (activeController) {
+        activeController.abort();
+        activeController = null;
+      }
+
+      hitsContainer.innerHTML = "";
+      stats.textContent = "";
+      emptyState.hidden = false;
+      layer.dataset.hasQuery = "false";
+    };
+
+    const renderResults = function (response) {
+      const nbHits = typeof response.nbHits === "number" ? response.nbHits : 0;
+      const processingTimeMS = typeof response.processingTimeMS === "number" ? response.processingTimeMS : 0;
+
+      stats.textContent = nbHits + " 条结果 · " + processingTimeMS + " ms";
+      emptyState.hidden = true;
+
+      if (!response.hits || response.hits.length === 0) {
+        hitsContainer.innerHTML = '<p class="search-no-result">没有找到结果，试试更短的关键词。</p>';
+        return;
+      }
+
+      const html = response.hits.map(function (hit) {
+        const titleValue = hit._highlightResult && hit._highlightResult.title
+          ? hit._highlightResult.title.value
+          : hit.title;
+        const contentValue = hit._snippetResult && hit._snippetResult.content
+          ? hit._snippetResult.content.value
+          : (hit.content || "").slice(0, 140);
+        const relpermalink = escapeHtml(hit.relpermalink || "#");
+        const date = formatDate(hit.date);
+        const section = sectionLabels[hit.section] || hit.section || "";
+
+        return (
+          '<article class="post-item">' +
+            '<p class="post-item-meta">' + [date, section].filter(Boolean).join(" · ") + "</p>" +
+            '<h3><a class="post-link" href="' + relpermalink + '">' + renderHighlight(titleValue) + "</a></h3>" +
+            '<div class="post-snippet">' + renderHighlight(contentValue) + "</div>" +
+          "</article>"
+        );
+      }).join("");
+
+      hitsContainer.innerHTML = html;
+    };
+
+    const renderError = function () {
+      stats.textContent = "";
+      emptyState.hidden = true;
+      hitsContainer.innerHTML = '<p class="search-no-result">搜索服务暂时不可用，请稍后再试。</p>';
+    };
+
+    const performSearch = async function (query) {
+      const trimmedQuery = query.trim();
+      if (!trimmedQuery) {
+        clearSearchResult();
+        return;
+      }
+
+      const requestVersion = ++searchVersion;
+      if (activeController) {
+        activeController.abort();
+      }
+
+      activeController = new AbortController();
+      layer.dataset.hasQuery = "true";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({
+            query: trimmedQuery,
+            hitsPerPage: 12,
+            attributesToRetrieve: ["title", "content", "relpermalink", "date", "section"],
+            attributesToHighlight: ["title", "content"],
+            attributesToSnippet: ["content:128"],
+            snippetEllipsisText: "…",
+            restrictSearchableAttributes: ["title", "content"]
+          }),
+          signal: activeController.signal
+        });
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const payload = await response.json();
+        if (requestVersion !== searchVersion) {
+          return;
+        }
+
+        renderResults(payload);
+      } catch (error) {
+        if (error && error.name === "AbortError") {
+          return;
+        }
+        renderError();
+      }
+    };
+
+    input.addEventListener("input", function () {
+      const query = input.value.trim();
+      if (debounceTimer) {
+        window.clearTimeout(debounceTimer);
+      }
+
+      if (!query) {
+        clearSearchResult();
+        return;
+      }
+
+      emptyState.hidden = true;
+      debounceTimer = window.setTimeout(function () {
+        performSearch(query);
+      }, 180);
+    });
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter") {
+        return;
+      }
+
+      const firstResult = hitsContainer.querySelector(".post-link");
+      if (firstResult) {
+        window.location.href = firstResult.getAttribute("href");
+      }
+    });
+
+    layer.addEventListener("search:clear", clearSearchResult);
+  });
+</script>
+
+
+
+    
+  </body>
+</html>

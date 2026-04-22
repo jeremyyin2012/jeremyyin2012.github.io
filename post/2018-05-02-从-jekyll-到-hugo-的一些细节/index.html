@@ -1,28 +1,19 @@
 <!doctype html>
 <html lang="zh-cn">
-
-
-    <head>
-
-        <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.85.0" />
-
-        <title>从 Jekyll 到 Hugo 的一些细节 | Jeremy&#39;s blog</title>
-
-        
-
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="/assets/evil-icons.min.css">
+<meta name="generator" content="Hugo 0.160.1">
 
 
+    <title>从 Jekyll 到 Hugo 的一些细节 | Jeremy Notes</title>
 
+    
 
-<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
@@ -38,92 +29,367 @@
 <link rel="manifest" href="/jeremy/ico/manifest.json">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#25183f">
 
+<link rel="icon" href="/jeremy/ico/favicon.ico">
 
-
-<link rel="icon" href="/static/jeremy/ico/favicon.ico">
-
-
-
+<link rel="stylesheet" href="/jeremy/css/chroma.css">
 <link rel="stylesheet" href="/jeremy/css/main.css">
+<link rel="stylesheet" href="/jeremy/css/tailwind.css">
 
-    </head>
+  </head>
 
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    
+
+
+
+
+<header class="site-header">
+  <div class="site-header-shell">
+    <div class="site-brand-wrap">
+      <a class="site-brand-link" href="/">
+        <span class="site-brand-mark" aria-hidden="true">JN</span>
+        <span class="site-brand-copy">
+          <strong>Jeremy Notes</strong>
+        </span>
+      </a>
+    </div>
 
     
-    <body>
+    <button
+      class="site-nav-button site-nav-search site-nav-search-mobile"
+      type="button"
+      data-search-toggle
+      aria-label="打开搜索"
+    >
+      <span class="site-nav-search-icon" aria-hidden="true"></span>
+      <span>Search</span>
+    </button>
+    
 
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <div class="site-nav-wrap">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="site-nav-link" href="/">Home</a>
+        <a class="site-nav-link" href="/articles/" aria-current="page">Articles</a>
+        <a class="site-nav-link" href="/topics/">Topics</a>
+        <a class="site-nav-link" href="/about/">About</a>
+        
+        <button
+          class="site-nav-button site-nav-search site-nav-search-desktop"
+          type="button"
+          data-search-toggle
+          aria-label="打开搜索"
+        >
+          <span class="site-nav-search-icon" aria-hidden="true"></span>
+          <span>Search</span>
+          <kbd>⌘ K</kbd>
         </button>
-        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
-
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/post/">Post</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/note/">Note</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/python/">Python</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/rust/">Rust</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/tornado/">Tornado</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/saleor/">Saleor</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/advertisement/">Advertisement</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/about/">About</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/index.xml">RSS</a>
-                </li>
-
-
-            </ul>
-        </div>
+        
+      </nav>
     </div>
-</nav>
+  </div>
+</header>
 
 
+    <main class="site-shell" id="main-content" tabindex="-1">
+      
+  
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
 
-        <div class="container" style="padding-top: 2rem">
-                <div class="row">
-                    <div class="col-sm-12">
-                            
+  <section class="page-banner page-banner-article">
+    <div class="page-banner-shell">
+      <div class="article-kicker">
+        
+        <a href="/post/">文章</a>
+        
+        <span>2018-05-02</span>
+      </div>
+      <h1>从 Jekyll 到 Hugo 的一些细节</h1>
+      
+    </div>
+  </section>
 
-    <article>
-        <h1>从 Jekyll 到 Hugo 的一些细节</h1>
-        <hr>
+  <section class="page-content-shell">
+    <article class="content-panel article-layout">
+      <div class="article-body prose">
         <p>这篇是早些时候弄完 Hugo 就可以写了的，不过事事匆忙，就给搁置了。</p>
 <p>第一个细节是，类别，也叫目录或分类，无论是 Jekyll 还是 Hugo 它们使用的都是 categories 这个单词来处理类别。</p>
 <p>Jekyll 直接在每一篇文章里面的 Front Matter 里面标记这篇文章属于哪个类别，当然，你也可以标记多个，这点从程序的角度来看，蛮合理的，类似于数据库的设计逻辑。但是，对于内容维护者来说，用一个很有意思的词来说，就是它不够 for Humans，意思就是这样的设计，不是为人类而设计的，不是站在人类的角度去思考问题的。不太确定 Jekyll 现在是否支持以文件夹来分类文件了，不过已经成功切换到 Hugo 了。</p>
@@ -134,46 +400,46 @@
 <p>切换到 Hugo 后，原使用的 jekyll-algolia 工具就废弃了，而 Algolia 方面则并未针对 Hugo 给出指导性的文档可供参考。</p>
 <p>虽然有些麻烦，不过了解了一番 Algolia 的 API 文档，以及参考了一篇来自于 <a href="https://forestry.io/blog/search-with-algolia-in-hugo/">Forestry</a> 的它们是如何接入 Algolia 搜索的文章之后，解决了如何生成索引数据，然后上传更新的部分没有使用文章里面的东西，而是使用了 Algolia 的 Python API 进行接入，简单的不像样子。</p>
 <p>我取代码里面核心的部分出来：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">filename <span style="color:#555">=</span> <span style="color:#c30">&#39;public/algolia.json&#39;</span>
-rows <span style="color:#555">=</span> json<span style="color:#555">.</span>load(<span style="color:#366">open</span>(filename))
-<span style="color:#366">print</span>(<span style="color:#c30">&#39;update algolia index&#39;</span>)
-
-client <span style="color:#555">=</span> client_for_admin()
-index <span style="color:#555">=</span> client<span style="color:#555">.</span>init_index(INDEX_NAME)
-
-rows_ids <span style="color:#555">=</span> [row[<span style="color:#c30">&#39;objectID&#39;</span>] <span style="color:#069;font-weight:bold">for</span> row <span style="color:#000;font-weight:bold">in</span> rows]
-all_ids <span style="color:#555">=</span> get_all_objectID(INDEX_NAME)
-
-ids_to_delete <span style="color:#555">=</span> <span style="color:#366">list</span>(<span style="color:#366">set</span>(all_ids) <span style="color:#555">-</span> <span style="color:#366">set</span>(rows_ids))
-index<span style="color:#555">.</span>delete_objects(ids_to_delete)
-index<span style="color:#555">.</span>save_objects(rows)
-
-<span style="color:#09f;font-style:italic"># index.set_settings({&#34;customRanking&#34;: [&#34;desc(date)&#34;]})</span>
-index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#34;searchableAttributes&#34;</span>: [<span style="color:#c30">&#34;title&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>]})
-index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;attributesToHighlight&#39;</span>: [<span style="color:#c30">&#34;title&#34;</span>, <span style="color:#c30">&#34;content&#34;</span>]})
-index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;attributesToSnippet&#39;</span>: [<span style="color:#c30">&#39;title&#39;</span>, <span style="color:#c30">&#39;content:120&#39;</span>]})
-index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#39;highlightPreTag&#39;</span>: <span style="color:#c30">&#39;&lt;em class=&#34;ais-Highlight&#34;&gt;&#39;</span>, <span style="color:#c30">&#39;highlightPostTag&#39;</span>: <span style="color:#c30">&#39;&lt;/em&gt;&#39;</span>})
-<span style="color:#366">print</span>({<span style="color:#c30">&#39;delete&#39;</span>: <span style="color:#366">len</span>(ids_to_delete), <span style="color:#c30">&#39;save&#39;</span>: <span style="color:#366">len</span>(rows)})
-</code></pre></div><p>而 algolia.json 则是这样的格式（内容太多就用 <code>…</code> 替代了）：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">[
-    {
-        <span style="color:#309;font-weight:bold">&#34;content&#34;</span>: <span style="color:#c30">&#34;啥也不说，先看代码\nitems = ...&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;date&#34;</span>: <span style="color:#f60">1524787200</span>,
-        <span style="color:#309;font-weight:bold">&#34;objectID&#34;</span>: <span style="color:#c30">&#34;e79a32cd1ebfc917af419cc006e390e8&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;relpermalink&#34;</span>: <span style="color:#c30">&#34;/python/2018-04-27...&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;section&#34;</span>: <span style="color:#c30">&#34;python&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;给一个列表去除重复数据的最原始方法&#34;</span>
-    },
-    {
-        <span style="color:#309;font-weight:bold">&#34;content&#34;</span>: <span style="color:#c30">&#34;公司一个产品正式...&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;date&#34;</span>: <span style="color:#f60">1524700800</span>,
-        <span style="color:#309;font-weight:bold">&#34;objectID&#34;</span>: <span style="color:#c30">&#34;eddc4a4cfeda246ccc3b2334a0df1c75&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;relpermalink&#34;</span>: <span style="color:#c30">&#34;/post/2018-04-26...&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;section&#34;</span>: <span style="color:#c30">&#34;post&#34;</span>,
-        <span style="color:#309;font-weight:bold">&#34;title&#34;</span>: <span style="color:#c30">&#34;今天全是干货&#34;</span>
-    }
-]
-</code></pre></div><p>而关于 Algolia 的细节，有几个设置参数是值得提及的：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;public/algolia.json&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="n">rows</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;update algolia index&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">client</span> <span class="o">=</span> <span class="n">client_for_admin</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">index</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">init_index</span><span class="p">(</span><span class="n">INDEX_NAME</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">rows_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;objectID&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">all_ids</span> <span class="o">=</span> <span class="n">get_all_objectID</span><span class="p">(</span><span class="n">INDEX_NAME</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ids_to_delete</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">all_ids</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">rows_ids</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">index</span><span class="o">.</span><span class="n">delete_objects</span><span class="p">(</span><span class="n">ids_to_delete</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">index</span><span class="o">.</span><span class="n">save_objects</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># index.set_settings({&#34;customRanking&#34;: [&#34;desc(date)&#34;]})</span>
+</span></span><span class="line"><span class="cl"><span class="n">index</span><span class="o">.</span><span class="n">set_settings</span><span class="p">({</span><span class="s2">&#34;searchableAttributes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;title&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">]})</span>
+</span></span><span class="line"><span class="cl"><span class="n">index</span><span class="o">.</span><span class="n">set_settings</span><span class="p">({</span><span class="s1">&#39;attributesToHighlight&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;title&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">]})</span>
+</span></span><span class="line"><span class="cl"><span class="n">index</span><span class="o">.</span><span class="n">set_settings</span><span class="p">({</span><span class="s1">&#39;attributesToSnippet&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;content:120&#39;</span><span class="p">]})</span>
+</span></span><span class="line"><span class="cl"><span class="n">index</span><span class="o">.</span><span class="n">set_settings</span><span class="p">({</span><span class="s1">&#39;highlightPreTag&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;em class=&#34;ais-Highlight&#34;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;highlightPostTag&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;/em&gt;&#39;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">({</span><span class="s1">&#39;delete&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids_to_delete</span><span class="p">),</span> <span class="s1">&#39;save&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">)})</span>
+</span></span></code></pre></div><p>而 algolia.json 则是这样的格式（内容太多就用 <code>…</code> 替代了）：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;啥也不说，先看代码\nitems = ...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;date&#34;</span><span class="p">:</span> <span class="mi">1524787200</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;objectID&#34;</span><span class="p">:</span> <span class="s2">&#34;e79a32cd1ebfc917af419cc006e390e8&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;relpermalink&#34;</span><span class="p">:</span> <span class="s2">&#34;/python/2018-04-27...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;section&#34;</span><span class="p">:</span> <span class="s2">&#34;python&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;title&#34;</span><span class="p">:</span> <span class="s2">&#34;给一个列表去除重复数据的最原始方法&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;公司一个产品正式...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;date&#34;</span><span class="p">:</span> <span class="mi">1524700800</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;objectID&#34;</span><span class="p">:</span> <span class="s2">&#34;eddc4a4cfeda246ccc3b2334a0df1c75&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;relpermalink&#34;</span><span class="p">:</span> <span class="s2">&#34;/post/2018-04-26...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;section&#34;</span><span class="p">:</span> <span class="s2">&#34;post&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;title&#34;</span><span class="p">:</span> <span class="s2">&#34;今天全是干货&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></div><p>而关于 Algolia 的细节，有几个设置参数是值得提及的：</p>
 <ul>
 <li>searchableAttributes 与 attributesToHighlight，这两个无需多说，照着设置就好了。</li>
 <li>attributesToSnippet，这个是值得重点说道的，为啥呢，因为它直接解决了一个关键问题：当搜索关键词时，只返回关键词所在的部分上下文，而不是返回整个文章，这样，在搜索结果列表就显示的是搜索出来的上下文，而你则可以自定义你想要的上下文长度是多少。曾经在 jekyll-aloglia 的逻辑中，它将文章切分为好多个碎片的这个极其不合理的操作模式也就不需要了（30 篇切出了近 500 条数据，那一千篇要切多少份&hellip;）。</li>
@@ -182,86 +448,331 @@ index<span style="color:#555">.</span>set_settings({<span style="color:#c30">&#3
 <p>所以除了无法知晓 jekyll-algolia 的作者为什么要将文章进行切分存储之外，还有一些更深入的细节，可能需要自己去探索了。</p>
 <p>Hugo 是个很好的 Markdown 网页生成工具，Algolia 也是个非常好的站内搜索服务提供商，GitHub 是个很好的静态网页托管服务提供商，需要感谢这么多人和公司开发并提供了这么多的免费又好用的服务和工具。</p>
 
-    </article>
+      </div>
 
-
-                  </div>
-                </div>
-              </div>
-
-
-        <footer class="site-footer">
-    
-
-        <div class="container">
-            <hr>
-            
-
-<div class="row" style="margin-top:2rem;margin-bottom:2rem">
-
-
-<div class="col-sm-2">
-<div class="card border-light bg-light">
-<div class="view overlay hm-white-slight">
-<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
-</div>
-</div>
-</div>
-
-
-
-<div class="col-sm-10">
-<h5><a href="/about">Jeremy Yin</a></h5>
-<p>Python Engineer, Business System Architect</p>
-<ul class="list-unstyled">
-<li><a href="https://github.com/jeremyyin2012" target="_blank">
-    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
-</span>
-</a>
-</li>
-</ul>
-<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
-</div>
-
-
-
-</div>
-
-
-      
-          <div class="footer left column one-half">
-            <section class="small-font">
-                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
-                    <a id="icp_link" target="_blank"
-                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
-            </section>
-          </div>
-        </div>
-
+      <footer class="article-footer">
+        <a class="text-link" href="/">返回首页</a>
+        
+        
+        
+        <a class="text-link" href="/post/">浏览文章</a>
+        
+        
+        <button class="text-button" type="button" data-search-toggle>Search</button>
+        
       </footer>
-
+      
+      
+      
+      <nav class="article-pager" aria-label="文章分页">
         
-<script src="/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="/mdb/js/popper.min.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
-<script src="/mdb/js/mdb.min.js"></script>
-<script src="/assets/evil-icons.min.js"></script>
-<script src="/jeremy/js/main.js"></script>
-<script src="/jeremy/js/icp.js"></script>
-
         
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-92987034-1', 'auto');
-	
-	ga('send', 'pageview');
-}
+        <a class="article-pager-link is-prev" href="/post/2018-05-03-hugo-%E7%9A%84%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88/">
+          <span class="article-pager-label">上一篇</span>
+          <span class="article-pager-title">Hugo 的文件管理方案</span>
+        </a>
+        
+        
+        
+        <a class="article-pager-link is-next" href="/python/2018-04-27-%E7%BB%99%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9C%80%E5%8E%9F%E5%A7%8B%E6%96%B9%E6%B3%95/">
+          <span class="article-pager-label">下一篇</span>
+          <span class="article-pager-title">给一个列表去除重复数据的最原始方法</span>
+        </a>
+        
+      </nav>
+      
+    </article>
+  </section>
+
+    </main>
+
+    
+<section class="search-layer" id="site-search" hidden aria-hidden="true">
+  <div class="search-backdrop" data-search-close></div>
+
+  <div
+    class="search-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="site-search-title"
+    aria-describedby="site-search-desc"
+    tabindex="-1"
+    data-search-panel
+  >
+    <div class="search-panel-header">
+      <div>
+        <h2 id="site-search-title">站内搜索</h2>
+        <p id="site-search-desc">按标题和正文检索，直接跳转到原文。</p>
+        <p class="search-shortcut"><kbd>⌘</kbd><kbd>K</kbd><span>/</span><kbd>Ctrl</kbd><kbd>K</kbd></p>
+      </div>
+
+      <button class="search-close" type="button" data-search-close aria-label="关闭搜索">
+        关闭
+      </button>
+    </div>
+
+    <div class="search-panel-body">
+      <div class="search-input-wrap">
+        <input
+          class="search-input"
+          id="search-input"
+          name="q"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="搜索文章标题或正文…"
+          aria-label="搜索文章标题或正文"
+        >
+      </div>
+      <div class="search-stats" id="search-stats" aria-live="polite"></div>
+      <p class="search-empty" id="search-empty">输入关键词开始检索。</p>
+      <div id="search-hits" class="search-hits"></div>
+    </div>
+  </div>
+</section>
+
+
+
+    <footer class="site-footer">
+  
+  
+  
+  
+  
+    
+  
+  
+  
+    
+  
+
+  <div class="site-footer-shell">
+    <nav class="site-footer-nav" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/index.xml">RSS</a>
+      
+      <a href="https://github.com/jeremyyin2012" target="_blank" rel="noreferrer">GitHub</a>
+      
+    </nav>
+
+    <p class="site-footer-line">
+      <span>Writing on engineering, systems, and tools.</span>
+    </p>
+    <p class="site-footer-line">
+      <span>Copyright © Since 2016 Jeremy Notes. All Rights Reserved.</span>
+    </p>
+    
+  </div>
+</footer>
+
+
+    <script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const layer = document.getElementById("site-search");
+    const input = document.getElementById("search-input");
+    const emptyState = document.getElementById("search-empty");
+    const stats = document.getElementById("search-stats");
+    const hitsContainer = document.getElementById("search-hits");
+
+    if (!layer || !input || !emptyState || !stats || !hitsContainer) {
+      return;
+    }
+
+    const sectionLabels = {
+      post: "文章",
+      note: "笔记",
+      python: "Python",
+      rust: "Rust",
+      tornado: "翻译",
+      saleor: "翻译"
+    };
+
+    const endpoint = "https://5AK65RDSWI-dsn.algolia.net/1/indexes/" + encodeURIComponent("jeremyyin.com") + "/query";
+    const headers = {
+      "X-Algolia-Application-Id": "5AK65RDSWI",
+      "X-Algolia-API-Key": "5cb2e03f3d9cc9b8f4ecac0245ec0a8d",
+      "Content-Type": "application/json"
+    };
+
+    let debounceTimer = null;
+    let activeController = null;
+    let searchVersion = 0;
+
+    const formatDate = function (unixTimestamp) {
+      if (!unixTimestamp) {
+        return "";
+      }
+
+      const date = new Date(unixTimestamp * 1000);
+      return new Intl.DateTimeFormat("zh-CN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    };
+
+    const escapeHtml = function (value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    };
+
+    const renderHighlight = function (value) {
+      const openToken = "__ALGOLIA_EM_OPEN__";
+      const closeToken = "__ALGOLIA_EM_CLOSE__";
+      const text = String(value || "")
+        .replace(/\\\"/g, "\"")
+        .replace(/<em\b[^>]*>/gi, openToken)
+        .replace(/<\/em>/gi, closeToken);
+
+      return escapeHtml(text)
+        .replace(new RegExp(openToken, "g"), "<mark>")
+        .replace(new RegExp(closeToken, "g"), "</mark>");
+    };
+
+    const clearSearchResult = function () {
+      searchVersion += 1;
+      if (activeController) {
+        activeController.abort();
+        activeController = null;
+      }
+
+      hitsContainer.innerHTML = "";
+      stats.textContent = "";
+      emptyState.hidden = false;
+      layer.dataset.hasQuery = "false";
+    };
+
+    const renderResults = function (response) {
+      const nbHits = typeof response.nbHits === "number" ? response.nbHits : 0;
+      const processingTimeMS = typeof response.processingTimeMS === "number" ? response.processingTimeMS : 0;
+
+      stats.textContent = nbHits + " 条结果 · " + processingTimeMS + " ms";
+      emptyState.hidden = true;
+
+      if (!response.hits || response.hits.length === 0) {
+        hitsContainer.innerHTML = '<p class="search-no-result">没有找到结果，试试更短的关键词。</p>';
+        return;
+      }
+
+      const html = response.hits.map(function (hit) {
+        const titleValue = hit._highlightResult && hit._highlightResult.title
+          ? hit._highlightResult.title.value
+          : hit.title;
+        const contentValue = hit._snippetResult && hit._snippetResult.content
+          ? hit._snippetResult.content.value
+          : (hit.content || "").slice(0, 140);
+        const relpermalink = escapeHtml(hit.relpermalink || "#");
+        const date = formatDate(hit.date);
+        const section = sectionLabels[hit.section] || hit.section || "";
+
+        return (
+          '<article class="post-item">' +
+            '<p class="post-item-meta">' + [date, section].filter(Boolean).join(" · ") + "</p>" +
+            '<h3><a class="post-link" href="' + relpermalink + '">' + renderHighlight(titleValue) + "</a></h3>" +
+            '<div class="post-snippet">' + renderHighlight(contentValue) + "</div>" +
+          "</article>"
+        );
+      }).join("");
+
+      hitsContainer.innerHTML = html;
+    };
+
+    const renderError = function () {
+      stats.textContent = "";
+      emptyState.hidden = true;
+      hitsContainer.innerHTML = '<p class="search-no-result">搜索服务暂时不可用，请稍后再试。</p>';
+    };
+
+    const performSearch = async function (query) {
+      const trimmedQuery = query.trim();
+      if (!trimmedQuery) {
+        clearSearchResult();
+        return;
+      }
+
+      const requestVersion = ++searchVersion;
+      if (activeController) {
+        activeController.abort();
+      }
+
+      activeController = new AbortController();
+      layer.dataset.hasQuery = "true";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({
+            query: trimmedQuery,
+            hitsPerPage: 12,
+            attributesToRetrieve: ["title", "content", "relpermalink", "date", "section"],
+            attributesToHighlight: ["title", "content"],
+            attributesToSnippet: ["content:128"],
+            snippetEllipsisText: "…",
+            restrictSearchableAttributes: ["title", "content"]
+          }),
+          signal: activeController.signal
+        });
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const payload = await response.json();
+        if (requestVersion !== searchVersion) {
+          return;
+        }
+
+        renderResults(payload);
+      } catch (error) {
+        if (error && error.name === "AbortError") {
+          return;
+        }
+        renderError();
+      }
+    };
+
+    input.addEventListener("input", function () {
+      const query = input.value.trim();
+      if (debounceTimer) {
+        window.clearTimeout(debounceTimer);
+      }
+
+      if (!query) {
+        clearSearchResult();
+        return;
+      }
+
+      emptyState.hidden = true;
+      debounceTimer = window.setTimeout(function () {
+        performSearch(query);
+      }, 180);
+    });
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter") {
+        return;
+      }
+
+      const firstResult = hitsContainer.querySelector(".post-link");
+      if (firstResult) {
+        window.location.href = firstResult.getAttribute("href");
+      }
+    });
+
+    layer.addEventListener("search:clear", clearSearchResult);
+  });
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
-    </body>
 
+    
+  </body>
 </html>

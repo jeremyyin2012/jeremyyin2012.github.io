@@ -1,275 +1,581 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Notes on Jeremy&#39;s blog</title>
-    <link>/note/</link>
-    <description>Recent content in Notes on Jeremy&#39;s blog</description>
+    <title>Notes on Jeremy Notes</title>
+    <link>https://jeremyyin.com/note/</link>
+    <description>Recent content in Notes on Jeremy Notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.</copyright>
     <lastBuildDate>Thu, 25 Jul 2019 00:00:00 +0000</lastBuildDate>
     
-        <atom:link href="/note/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="https://jeremyyin.com/note/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>如何在 jQuery 项目中嵌入 Vue</title>
-      <link>/note/2019-07-25-2048/</link>
+      <link>https://jeremyyin.com/note/2019-07-25-2048/</link>
       <pubDate>Thu, 25 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/note/2019-07-25-2048/</guid>
-      <description>在 2019 年的今天，目前 React, Angular, Vue 主流三大以数据驱动的 JavaScript 前端框架，大致上能说是三分天下了。
-而之前基于 jQuery 的开发，甚至基于 jQuery 进行二次开发以实现某种意义上的数据驱动的一些框架，基本上就剩下能维护就维护，不能维护就抛弃之的状态了。
-而维护旧的 jQuery 代码，恐怕，也不是那么容易的一件事情。
-如果在以前没有这些新玩意，不知道有如今这些更好的解决方案，那还勉强能接受，如今要是写过新东西，再让你回去，恐怕无论谁都是一万个不愿意。无论是从何种角度或者基于何种考虑，尽早用上新东西，才是解放生产力和减少无谓的 Bug 的唯一正道。
-而面对旧 jQuery 代码（恐怕很少机会能遇到曾经不用 jQuery 的），一口吃，肯定是吃不下去，就连我这段时间优化三个 80% 相似度的页面代码，我都在完成一个之后就极其地不愿意再继续改剩下两个，虽然剩下的两个页面结构类似，代码也基本上仔细确认一下应该可以利用上已经改好的，但是同一条山路如果没有必要你也不会再去走第二遍，更何况是面对这些几乎没有什么整洁度可言的代码呢。
-那么怎么办呢？需求又在不断增加和更新，你要怎么办？
-不去改旧的，就放那里吧。要更新，就用新的来替代，要加需求，就用新的来做。
-jQuery 的代码无论多么糟糕，就都不要再去动它了，让我们再起个新炉灶吧。
-可是起了新炉灶，新旧代码之间还是避免不了要有交互，比如增加一个点击触发一个新的 Dialog。
-术语解释下呢，那就是 jQuery 代码如何调用 Vue ？或者说就是 Vue 如何嵌入 jQuery 项目中？
-说是 Vue 嵌入 jQuery，其实是基于先来后到，代码量多少来说的，为的是方便理解这种渐进式开发的空间感。
-怎么在 Vue 代码中调用 jQuery 方法，这其实有很多人都给出来样板代码，但是更重要一点其实是如果已经用上了 Vue，就真的不要再在里面写 jQuery 了，无论怎么讲都是不合适的。
-所以我觉得，问这个问题的大部分人，可能遇到的问题就是原先以 jQuery 为主，然后现在想换到 Vue 来，而旧代码则是设法利用起来，而不是又要再写一波。
-如果原先的项目代码整洁度高，我想切换过来应该问题不是很大，数据部分，函数和对象什么的都能迁移过来，而渲染部分，现在已经交给 Vue 就不用自己写了，这可能应该是理想状态，然而……
-然而绝大多数我想你需要面对的应该都是&amp;quot;一切万物皆基于选择器与事件的漫长的面条式&amp;quot;代码，而这几乎是不可能有多少可以重复利用的。
-这样导致如果想以 Vue 作为基本盘，复用已有的 jQuery 代码成为不可能。
-那么这样该怎么办呢？
-所以你应该大致能理解了，为啥叫把 Vue 嵌入 jQuery，就是 jQuery 的基本盘不动，而一些小东小西的，开始用 Vue 来写，这样逐渐逐渐地把整个项目吃下来。因为基本盘如果要做一些改动的话，改动也不会太大，加个字段改个颜色，不会有太大问题，而一些周边小组件啥的，可以从主页面抽离的，比如点击一个按钮触发一个 Dialog，就完全可以用 Vue 来重写了，而且由于结构设计相对更为合理，需要对旧代码的兼容性修改，也相对会少很多，在这同时，还能顺便将原旧代码做一些隔离性优化，比如某行旧的 CSS 影响了新写的 Vue 组件，那么就可以去优化那些原先写的不那么合理的 CSS 代码。</description>
+      <guid>https://jeremyyin.com/note/2019-07-25-2048/</guid>
+      <description>&lt;p&gt;在 2019 年的今天，目前 React, Angular, Vue 主流三大以数据驱动的 JavaScript 前端框架，大致上能说是三分天下了。&lt;/p&gt;
+&lt;p&gt;而之前基于 jQuery 的开发，甚至基于 jQuery 进行二次开发以实现某种意义上的数据驱动的一些框架，基本上就剩下能维护就维护，不能维护就抛弃之的状态了。&lt;/p&gt;
+&lt;p&gt;而维护旧的 jQuery 代码，恐怕，也不是那么容易的一件事情。&lt;/p&gt;
+&lt;p&gt;如果在以前没有这些新玩意，不知道有如今这些更好的解决方案，那还勉强能接受，如今要是写过新东西，再让你回去，恐怕无论谁都是一万个不愿意。无论是从何种角度或者基于何种考虑，尽早用上新东西，才是解放生产力和减少无谓的 Bug 的唯一正道。&lt;/p&gt;
+&lt;p&gt;而面对旧 jQuery 代码（恐怕很少机会能遇到曾经不用 jQuery 的），一口吃，肯定是吃不下去，就连我这段时间优化三个 80% 相似度的页面代码，我都在完成一个之后就极其地不愿意再继续改剩下两个，虽然剩下的两个页面结构类似，代码也基本上仔细确认一下应该可以利用上已经改好的，但是同一条山路如果没有必要你也不会再去走第二遍，更何况是面对这些几乎没有什么整洁度可言的代码呢。&lt;/p&gt;
+&lt;p&gt;那么怎么办呢？需求又在不断增加和更新，你要怎么办？&lt;/p&gt;
+&lt;p&gt;不去改旧的，就放那里吧。要更新，就用新的来替代，要加需求，就用新的来做。&lt;/p&gt;
+&lt;p&gt;jQuery 的代码无论多么糟糕，就都不要再去动它了，让我们再起个新炉灶吧。&lt;/p&gt;
+&lt;p&gt;可是起了新炉灶，新旧代码之间还是避免不了要有交互，比如增加一个点击触发一个新的 Dialog。&lt;/p&gt;
+&lt;p&gt;术语解释下呢，那就是 jQuery 代码如何调用 Vue ？或者说就是 Vue 如何嵌入 jQuery 项目中？&lt;/p&gt;
+&lt;p&gt;说是 Vue 嵌入 jQuery，其实是基于先来后到，代码量多少来说的，为的是方便理解这种渐进式开发的空间感。&lt;/p&gt;
+&lt;p&gt;怎么在 Vue 代码中调用 jQuery 方法，这其实有很多人都给出来样板代码，但是更重要一点其实是如果已经用上了 Vue，就真的不要再在里面写 jQuery 了，无论怎么讲都是不合适的。&lt;/p&gt;
+&lt;p&gt;所以我觉得，问这个问题的大部分人，可能遇到的问题就是原先以 jQuery 为主，然后现在想换到 Vue 来，而旧代码则是设法利用起来，而不是又要再写一波。&lt;/p&gt;
+&lt;p&gt;如果原先的项目代码整洁度高，我想切换过来应该问题不是很大，数据部分，函数和对象什么的都能迁移过来，而渲染部分，现在已经交给 Vue 就不用自己写了，这可能应该是理想状态，然而……&lt;/p&gt;
+&lt;p&gt;然而绝大多数我想你需要面对的应该都是&amp;quot;一切万物皆基于选择器与事件的漫长的面条式&amp;quot;代码，而这几乎是不可能有多少可以重复利用的。&lt;/p&gt;
+&lt;p&gt;这样导致如果想以 Vue 作为基本盘，复用已有的 jQuery 代码成为不可能。&lt;/p&gt;
+&lt;p&gt;那么这样该怎么办呢？&lt;/p&gt;
+&lt;p&gt;所以你应该大致能理解了，为啥叫把 Vue 嵌入 jQuery，就是 jQuery 的基本盘不动，而一些小东小西的，开始用 Vue 来写，这样逐渐逐渐地把整个项目吃下来。因为基本盘如果要做一些改动的话，改动也不会太大，加个字段改个颜色，不会有太大问题，而一些周边小组件啥的，可以从主页面抽离的，比如点击一个按钮触发一个 Dialog，就完全可以用 Vue 来重写了，而且由于结构设计相对更为合理，需要对旧代码的兼容性修改，也相对会少很多，在这同时，还能顺便将原旧代码做一些隔离性优化，比如某行旧的 CSS 影响了新写的 Vue 组件，那么就可以去优化那些原先写的不那么合理的 CSS 代码。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Tornado and Vue SPA</title>
-      <link>/note/2019-04-28-2211/</link>
+      <link>https://jeremyyin.com/note/2019-04-28-2211/</link>
       <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/note/2019-04-28-2211/</guid>
-      <description>使用 x-template 写 Vue 已经算很好的体验了，不过，总是想要更好点。
-如果使用 SPA 的模式写，开发的时候有很多好处，无法不想去使用它。
-虽然 SPA 模式其实与后端是什么关系并不大，不过既然使用上了 Tornado，就说说它们如何一起工作。
-如果有部分功能页面已经用 jquery 或者 Vue x-template 模式写了，那么可能会考虑从此以后新上的页面都用 SPA 模式。
-由于项目文件夹已经有很多东西了，创建一个新的 SPA 项目，就新建个文件夹，创建完之后再把一些文件拿过来放到现有项目里面混合到一起，如果不存在名字冲突的文件夹，那最好不过了。
-构建好的文件，dist，静态文件而已，其实来说随便放哪里都可以，只要能被 web 服务器找到。考虑到 static 文件夹其实默认就被 Tornado 作为静态文件所在，所以放这个文件夹下面可能就简单些吧，以及如果 nginx 配置了对 static 文件夹的处理，就会也是一并自动处理了，那么，修改下 Vue 的构建目标地址就好。
-例如类似下面这个 VueHandler 一样，我把项目构建放到了 static/dist 这里，给个路由到这里。这样一个旧项目，既用上了 SPA，也不影响原有项目。
-class VueHandler(web.RequestHandler): @gen.coroutine def get(self, *ags, **kwargs): self.render(&amp;#39;../static/dist/index.html&amp;#39;) class UsersHandler(web.RequestHandler): @gen.coroutine def get(self, *ags, **kwargs): self.redirect(&amp;#39;users/index.html&amp;#39;) def make_app(): handlers = [ (r&amp;#39;/&amp;#39;, HomeHandler), (r&amp;#39;/vue&amp;#39;, VueHandler), (r&amp;#39;/users&amp;#39;, UsersHandler), (r&amp;#39;/users/(.*)&amp;#39;, web.</description>
+      <guid>https://jeremyyin.com/note/2019-04-28-2211/</guid>
+      <description>&lt;p&gt;使用 x-template 写 Vue 已经算很好的体验了，不过，总是想要更好点。&lt;/p&gt;
+&lt;p&gt;如果使用 SPA 的模式写，开发的时候有很多好处，无法不想去使用它。&lt;/p&gt;
+&lt;p&gt;虽然 SPA 模式其实与后端是什么关系并不大，不过既然使用上了 Tornado，就说说它们如何一起工作。&lt;/p&gt;
+&lt;p&gt;如果有部分功能页面已经用 jquery 或者 Vue x-template 模式写了，那么可能会考虑从此以后新上的页面都用 SPA 模式。&lt;/p&gt;
+&lt;p&gt;由于项目文件夹已经有很多东西了，创建一个新的 SPA 项目，就新建个文件夹，创建完之后再把一些文件拿过来放到现有项目里面混合到一起，如果不存在名字冲突的文件夹，那最好不过了。&lt;/p&gt;
+&lt;p&gt;构建好的文件，dist，静态文件而已，其实来说随便放哪里都可以，只要能被 web 服务器找到。考虑到 static 文件夹其实默认就被 Tornado 作为静态文件所在，所以放这个文件夹下面可能就简单些吧，以及如果 nginx 配置了对 static 文件夹的处理，就会也是一并自动处理了，那么，修改下 Vue 的构建目标地址就好。&lt;/p&gt;
+&lt;p&gt;例如类似下面这个 VueHandler 一样，我把项目构建放到了 static/dist 这里，给个路由到这里。这样一个旧项目，既用上了 SPA，也不影响原有项目。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;VueHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequestHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@gen.coroutine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ags&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;kwargs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;render&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;../static/dist/index.html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;UsersHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequestHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@gen.coroutine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ags&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;kwargs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;redirect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;users/index.html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;make_app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;handlers&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;HomeHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/vue&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;VueHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/users&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;UsersHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;r&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/users/(.*)&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;StaticFileHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;path&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;templates/users/dist&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;settings&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;template_path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;templates&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;static_path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;static&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;cookie_secret&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;handlers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;settings&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果，是只是想某个页面使用 SPA 来改写，那么其实也差不多的，只不过 Vue 项目的地址是在某一个页面下，比如上面的 users，以兼容现有项目结构，仅仅是路由指向方式改一下也就可以了。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Tornado and Vue x-template</title>
-      <link>/note/2019-04-22-2301/</link>
+      <link>https://jeremyyin.com/note/2019-04-22-2301/</link>
       <pubDate>Mon, 22 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/note/2019-04-22-2301/</guid>
-      <description>当然，如果能用 webpack 系列工具进行开发构建当然是好，但是依然有一些项目的一些页面已经有了一些选型，你也不好从头再来对吧。
-但是 Vue 这套设计思想真的很喜欢怎么办？
-虽然网络上说有多达 7 种编写 Vue template 代码的方式，但是，综合考虑下来，其实除了 webpack 这种方式之外，你还能选择的还算优雅的，真的就只剩下 Vue x-template 了。
-别的框架怎么支持以及兼容我不知道，我倒是只知道 Tornado 与 Vue x-template 的融合开发是怎么样的。
-说多了也是废话，下面看核心部分代码：
-// base.html &amp;lt;!DOCTYPE html&amp;gt; &amp;lt;html lang=&amp;#34;en&amp;#34;&amp;gt; &amp;lt;head&amp;gt; &amp;lt;meta charset=&amp;#34;UTF-8&amp;#34;&amp;gt; &amp;lt;meta name=&amp;#34;viewport&amp;#34; content=&amp;#34;width=device-width, initial-scale=1.0&amp;#34;&amp;gt; &amp;lt;meta http-equiv=&amp;#34;X-UA-Compatible&amp;#34; content=&amp;#34;ie=edge&amp;#34;&amp;gt; {% set DEBUG = handler.application.settings.get(&amp;#39;debug&amp;#39;, False) %} {% if DEBUG %} &amp;lt;script src=&amp;#34;https://unpkg.com/vue@2.6.10/dist/vue.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/vuex@3.1.0/dist/vuex.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/axios@0.18.0/dist/axios.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; {% else %} &amp;lt;script src=&amp;#34;https://unpkg.com/vue@2.6.10/dist/vue.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/vuex@3.1.0/dist/vuex.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;script src=&amp;#34;https://unpkg.com/axios@0.18.0/dist/axios.min.js&amp;#34;&amp;gt;&amp;lt;/script&amp;gt; {% end %} {% block head %}{% end %} &amp;lt;title&amp;gt;{% block title %}{% end %} - Document&amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; {% block nav %}{% end %} {% block main %}{% end %} {% block bottom %}{% end %} &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; // count.</description>
+      <guid>https://jeremyyin.com/note/2019-04-22-2301/</guid>
+      <description>&lt;p&gt;当然，如果能用 webpack 系列工具进行开发构建当然是好，但是依然有一些项目的一些页面已经有了一些选型，你也不好从头再来对吧。&lt;/p&gt;
+&lt;p&gt;但是 Vue 这套设计思想真的很喜欢怎么办？&lt;/p&gt;
+&lt;p&gt;虽然网络上说有多达 7 种编写 Vue template 代码的方式，但是，综合考虑下来，其实除了 webpack 这种方式之外，你还能选择的还算优雅的，真的就只剩下 Vue x-template 了。&lt;/p&gt;
+&lt;p&gt;别的框架怎么支持以及兼容我不知道，我倒是只知道 Tornado 与 Vue x-template 的融合开发是怎么样的。&lt;/p&gt;
+&lt;p&gt;说多了也是废话，下面看核心部分代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;// base.html
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;html&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;lang&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;en&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;charset&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;UTF-8&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;viewport&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;width=device-width, initial-scale=1.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;http-equiv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;X-UA-Compatible&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;ie=edge&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    {% set DEBUG = handler.application.settings.get(&amp;#39;debug&amp;#39;, False) %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    {% if DEBUG %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/vue@2.6.10/dist/vue.js&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/vuex@3.1.0/dist/vuex.js&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/axios@0.18.0/dist/axios.js&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    {% else %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/vue@2.6.10/dist/vue.min.js&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/vuex@3.1.0/dist/vuex.min.js&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;src&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;https://unpkg.com/axios@0.18.0/dist/axios.min.js&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    {% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    {% block head %}{% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;{% block title %}{% end %} - Document&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    {% block nav %}{% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    {% block main %}{% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    {% block bottom %}{% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;// count.html
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;text/x-template&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;count&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;button&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;click&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;count += inc&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;You&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;clicked&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;me&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;count&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}}&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;times&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;/button&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;application/javascript&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nx&#34;&gt;Vue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;component&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;count&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;template&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;#count&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;nx&#34;&gt;count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;props&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;inc&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;// index.html
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% extends &amp;#34;base.html&amp;#34; %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% block head %}{% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% block title %}{% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% block main %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{# x-template 需要定义在 Vue 所属的 DOM 元素外。 #}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% include &amp;#39;components/hello-world.html&amp;#39; %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% include &amp;#39;components/count.html&amp;#39; %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;div&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;app&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;hello-world&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;:msg&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;msg&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;hello-world&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;count&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;:inc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;count&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;count&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;:inc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;count&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;count&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;:inc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;count&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;div&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% block bottom %}
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;application/javascript&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Vue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;el&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;#app&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;nx&#34;&gt;msg&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;test&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;{% end %}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;它的组织结构极其类似于 .vue 的那种单文件组件，只不过这里则是 .html，以及 style 不是局部的，其它几乎就差异非常小了，非常值得使用。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>当 Tornado 连接 MySQL 报错：Too many connections</title>
-      <link>/note/2019-01-11-2109/</link>
+      <link>https://jeremyyin.com/note/2019-01-11-2109/</link>
       <pubDate>Fri, 11 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/note/2019-01-11-2109/</guid>
-      <description>事情的经过是这样的：
-我们对 .NET 程序进行移植，它在 MySQL 中所使用的数据库是很多个，所以请求来了之后其实是动态连接不同的数据库，而不是常见的只有一个库。
-我们使用的数据库连接工具是 SQLAlchemy ，它连接数据库是使用 Engine，事务处理使用的是 Session，每一个请求进来，都会先获取到对应数据库的 engine，然后向 engine 申请一个 session 来实现数据库操作。
-由于之前的错误理解，把获取 engine 这步写在了 BaseHandler 下面，在编码阶段其实是看不到问题的，毕竟一个人手动又能开几个数据库连接呢。
-但是无意间在一个 k8s 的群里留意到有人提及压测工具，ab 是基于命令的，JMeter 则是使用 Java 开发的有界面工具，Windows 和 Mac 都可以运行，想着可以试试看，刚好可以看看咱自己的这套代码的运行能力如何。
-从 10 到 100，然后增加到 1000 就发现了错误出现：Too many connections，这不是该有的结果。
-这个问题曾经尝试压测的时候也遇到过，但是没彻底弄明白。
-再次通过 Google 进行寻找，让人很失望：清一色的修改 MySQL 的 max_connections。
-为啥说很失望呢，你想想，连接超了你就修改最大连接数限制，可是总不能无限增加吧？
-但是用户的 Request 是无限增加的呀，直觉上我就认为这并不是解决这个问题的正确方向。
-同时也思考是不是可以设置 pool_size=0，这样就是不限连接数，但是一想，肯定也不对。
-再次寻找一番，其实并没有明确答案，但是思考一番，engine 其实就是连接代理，按目前获取 engine 的方法，如果每来一个请求就开一个新的 engine，每增加一个 engine 就是增加了一个连接，自然就是无限增加了数据库连接。
-如果，engine 不是新开的呢？而是全局使用呢？如何做到全局使用，那就是在 app 启动时候就有了所有的 engine，然后再在 Request 处动态获取到已经事先准备好的 engine，这样不就实现了 engine 的复用了？
-上代码：</description>
+      <guid>https://jeremyyin.com/note/2019-01-11-2109/</guid>
+      <description>&lt;p&gt;事情的经过是这样的：&lt;/p&gt;
+&lt;p&gt;我们对 .NET 程序进行移植，它在 MySQL 中所使用的数据库是很多个，所以请求来了之后其实是动态连接不同的数据库，而不是常见的只有一个库。&lt;/p&gt;
+&lt;p&gt;我们使用的数据库连接工具是 &lt;a href=&#34;https://www.sqlalchemy.org/&#34;&gt;SQLAlchemy&lt;/a&gt; ，它连接数据库是使用 Engine，事务处理使用的是 Session，每一个请求进来，都会先获取到对应数据库的 engine，然后向 engine 申请一个 session 来实现数据库操作。&lt;/p&gt;
+&lt;p&gt;由于之前的错误理解，把获取 engine 这步写在了 BaseHandler 下面，在编码阶段其实是看不到问题的，毕竟一个人手动又能开几个数据库连接呢。&lt;/p&gt;
+&lt;p&gt;但是无意间在一个 k8s 的群里留意到有人提及压测工具，ab 是基于命令的，JMeter 则是使用 Java 开发的有界面工具，Windows 和 Mac 都可以运行，想着可以试试看，刚好可以看看咱自己的这套代码的运行能力如何。&lt;/p&gt;
+&lt;p&gt;从 10 到 100，然后增加到 1000 就发现了错误出现：Too many connections，这不是该有的结果。&lt;/p&gt;
+&lt;p&gt;这个问题曾经尝试压测的时候也遇到过，但是没彻底弄明白。&lt;/p&gt;
+&lt;p&gt;再次通过 Google 进行寻找，让人很失望：清一色的修改 MySQL 的 max_connections。&lt;/p&gt;
+&lt;p&gt;为啥说很失望呢，你想想，连接超了你就修改最大连接数限制，可是总不能无限增加吧？&lt;/p&gt;
+&lt;p&gt;但是用户的 Request 是无限增加的呀，直觉上我就认为这并不是解决这个问题的正确方向。&lt;/p&gt;
+&lt;p&gt;同时也思考是不是可以设置 pool_size=0，这样就是不限连接数，但是一想，肯定也不对。&lt;/p&gt;
+&lt;p&gt;再次寻找一番，其实并没有明确答案，但是思考一番，engine 其实就是连接代理，按目前获取 engine 的方法，如果每来一个请求就开一个新的 engine，每增加一个 engine 就是增加了一个连接，自然就是无限增加了数据库连接。&lt;/p&gt;
+&lt;p&gt;如果，engine 不是新开的呢？而是全局使用呢？如何做到全局使用，那就是在 app 启动时候就有了所有的 engine，然后再在 Request 处动态获取到已经事先准备好的 engine，这样不就实现了 engine 的复用了？&lt;/p&gt;
+&lt;p&gt;上代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# app.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tornado&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;fm&#34;&gt;__init__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sessionmaker&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# engine不能在request上创建，而是应该在app全局创建提供给request使用&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# 否则在面对高并发时mysql会出现&amp;#34;Too many connections&amp;#34;错误，而简单修改max_connections并不是正确的做法&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;engines&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_engine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DBNAMES&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;super&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;fm&#34;&gt;__init__&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;handlers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;settings&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;Application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;define&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;port&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;default&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;80&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;parse_command_line&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listen&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;port&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;ioloop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;IOLoop&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;instance&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# base.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;BaseHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tornado&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;web&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequestHandler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get_engine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;dbname&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_dbname&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;engines&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;dbname&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get_session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_engine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;configure&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bind&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nd&#34;&gt;@property&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;JMeter 线程开到 10000，压测通过，未再报错。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>使用 Pandas 实现动态查询及处理数据并导出 Excel 文件</title>
-      <link>/note/2018-10-30-2042/</link>
+      <link>https://jeremyyin.com/note/2018-10-30-2042/</link>
       <pubDate>Tue, 30 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-30-2042/</guid>
-      <description>需求是这么来的：根据参数执行查询，然后生成 Excel 表供下载，简单说就是查询并导出。
-一种思路是根据参数动态生成 select 查询对象，然后执行拿到结果，大概是这样：
-... sql_select = select(columns).select_from(join_obj).where(whereclause).offset(offset).limit(limit).order_by(order_by) result = session.execute(sql_select) count = result.rowcount rows = [dict(row) for row in result.fetchall()] 然后拿到 rows 就可以去该做什么处理就做什么处理了，如果要生存 Excel 表，就可以使用 XlsxWriter 这个工具去写表文件，反正就是对 rows 开个 for 循环就是了。
-不过呢，还有没有更好的办法？
-假设如果我要对 rows 的数据要做些高级处理，而不是开个 for 循环。毕竟如果是处理数据的话，Pandas 这个工具在思维方式和代码组织上比 for 循环要更利于思考和维护，而同时我们也知道 Pandas 也能直接输出 Excel 文件，那么是否可以用上它？
-按常规，查询得到 rows，然后再生成一个 df，对 df 进行一些处理后再去输出 Excel，甚至同时还要把修改后的数据输出为新的 rows，那么这里：查询得到结果、把结果生成 df 这两个步骤涉及到两步数据转化，理论上来说肯定是有一些消耗的，如果是在 API 服务上使用，则需要考虑性能问题，能少一步就少一步。
-那么，是否可以一步到位呢？直接查询结果就得到 df，而不是自行再多做一步中转处理。
-Pandas 是可以直接 read_sql 的，具体说明如下：
-def read_sql(sql, con, index_col=None, coerce_float=True, params=None, parse_dates=None, columns=None, chunksize=None): &amp;#34;&amp;#34;&amp;#34; Read SQL query or database table into a DataFrame.</description>
+      <guid>https://jeremyyin.com/note/2018-10-30-2042/</guid>
+      <description>&lt;p&gt;需求是这么来的：根据参数执行查询，然后生成 Excel 表供下载，简单说就是查询并导出。&lt;/p&gt;
+&lt;p&gt;一种思路是根据参数动态生成 select 查询对象，然后执行拿到结果，大概是这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;sql_select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;select_from&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;join_obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;where&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;whereclause&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;offset&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;offset&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;limit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;limit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;order_by&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;order_by&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;session&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sql_select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;count&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;rowcount&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;rows&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;dict&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;row&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;row&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fetchall&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后拿到 rows 就可以去该做什么处理就做什么处理了，如果要生存 Excel 表，就可以使用 XlsxWriter 这个工具去写表文件，反正就是对 rows 开个 for 循环就是了。&lt;/p&gt;
+&lt;p&gt;不过呢，还有没有更好的办法？&lt;/p&gt;
+&lt;p&gt;假设如果我要对 rows 的数据要做些高级处理，而不是开个 for 循环。毕竟如果是处理数据的话，Pandas 这个工具在思维方式和代码组织上比 for 循环要更利于思考和维护，而同时我们也知道 Pandas 也能直接输出 Excel 文件，那么是否可以用上它？&lt;/p&gt;
+&lt;p&gt;按常规，查询得到 rows，然后再生成一个 df，对 df 进行一些处理后再去输出 Excel，甚至同时还要把修改后的数据输出为新的 rows，那么这里：查询得到结果、把结果生成 df 这两个步骤涉及到两步数据转化，理论上来说肯定是有一些消耗的，如果是在 API 服务上使用，则需要考虑性能问题，能少一步就少一步。&lt;/p&gt;
+&lt;p&gt;那么，是否可以一步到位呢？直接查询结果就得到 df，而不是自行再多做一步中转处理。&lt;/p&gt;
+&lt;p&gt;Pandas 是可以直接 read_sql 的，具体说明如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;read_sql&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sql&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;con&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;index_col&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;coerce_float&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             &lt;span class=&#34;n&#34;&gt;parse_dates&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;chunksize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    Read SQL query or database table into a DataFrame.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    Parameters
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    ----------
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    sql : string SQL query or SQLAlchemy Selectable (select or text object) to be executed, or database table name.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    con : SQLAlchemy connectable(engine/connection) or database string URI or DBAPI2 connection (fallback mode) Using SQLAlchemy makes it possible to use any DB supported by that library.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    If a DBAPI2 object, only sqlite3 is supported.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;所以 Pandas 可以接受 raw sql 也可以接受 SQLAlchemy Selectable 对象。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>dynamically parameter passing in sql where query best practices</title>
-      <link>/note/2018-10-28-2102/</link>
+      <link>https://jeremyyin.com/note/2018-10-28-2102/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-28-2102/</guid>
-      <description>搞定了 select columns 的动态列查询，接着就该来搞定 where and or 的动态参数化查询了。
-猛一想，where 这部分的参数化查询，如果我用 pymysql 的 cursor，或者用 SQLAlchemy 的 engine 或者 session 直接调用 execute 执行文本语句，也是可以给语句的 where 参数动态传参的呀？
-不，我说的更进一步的：除了参数可以动态传入，我想要 where 语句也要动态改变，即动态条件查询。
-可能要是没辙的话 大多数都跑去冒着 sql 注入的危险，启用文本格式化工具来写一堆条件来动态拼接语句了。
-不说最后拼出来的对不对，开发效率、调试速度，总要顾及一下吧？
-之前的动态列查询使用了 SQLAlchemy Core 里面 select 工具，通过可以定义单个 column 的办法动态处理得到供 select 使用的 columns，实现无论你要多少列，要什么不要什么，都可以通过列名称参数进行动态地处理得到，具体再多去写一些实际需求，应该就会熟练上手了。
-而 where 的动态化，你基本也想到了，还是会在 select 这个工具下面来进行。
-看官方的写法：
-s = select([users, addresses]).where(users.c.id == addresses.c.user_id) 不过目前写后台 API 程序的话，基本上可能会这么写：
-s = select([users, addresses]).where(users.c[&amp;#39;id&amp;#39;] == addresses.c[&amp;#39;user_id&amp;#39;]) 然后再把这里的字符根据情况使用变量名替换掉。
-上面的 where 只有一个条件，如果有多个条件，要用到连接符了，同时也有提供专门的连接词来处理：
-from sqlalchemy.sql import and_, or_, not_ and_( users.</description>
+      <guid>https://jeremyyin.com/note/2018-10-28-2102/</guid>
+      <description>&lt;p&gt;搞定了 select columns 的动态列查询，接着就该来搞定 where and or 的动态参数化查询了。&lt;/p&gt;
+&lt;p&gt;猛一想，where 这部分的参数化查询，如果我用 pymysql 的 cursor，或者用 SQLAlchemy 的 engine 或者 session 直接调用 execute 执行文本语句，也是可以给语句的 where 参数动态传参的呀？&lt;/p&gt;
+&lt;p&gt;不，我说的更进一步的：除了参数可以动态传入，我想要 where 语句也要动态改变，即动态条件查询。&lt;/p&gt;
+&lt;p&gt;可能要是没辙的话 大多数都跑去冒着 sql 注入的危险，启用文本格式化工具来写一堆条件来动态拼接语句了。&lt;/p&gt;
+&lt;p&gt;不说最后拼出来的对不对，开发效率、调试速度，总要顾及一下吧？&lt;/p&gt;
+&lt;p&gt;之前的动态列查询使用了 SQLAlchemy Core 里面 select 工具，通过可以定义单个 column 的办法动态处理得到供 select 使用的 columns，实现无论你要多少列，要什么不要什么，都可以通过列名称参数进行动态地处理得到，具体再多去写一些实际需求，应该就会熟练上手了。&lt;/p&gt;
+&lt;p&gt;而 where 的动态化，你基本也想到了，还是会在 select 这个工具下面来进行。&lt;/p&gt;
+&lt;p&gt;看官方的写法：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;where&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;id&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;user_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;不过目前写后台 API 程序的话，基本上可能会这么写：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;where&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;user_id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后再把这里的字符根据情况使用变量名替换掉。&lt;/p&gt;
+&lt;p&gt;上面的 where 只有一个条件，如果有多个条件，要用到连接符了，同时也有提供专门的连接词来处理：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sqlalchemy.sql&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;and_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;or_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;not_&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;and_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;like&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;j%&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;user_id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;or_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;email_address&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;wendy@aol.com&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;email_address&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;jack@yahoo.com&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;not_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;相对应的三个连接符就是：&amp;amp;、|、~&lt;/p&gt;
+&lt;p&gt;不过目前来看，我会更喜欢连接词方式，为啥，因为要动态化呀，嗯？没看出来咋搞？这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;clauses&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;clauses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;like&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;j%&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;clauses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;append&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;user_id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;users&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;addresses&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;where&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;and_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;clauses&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;重点就在这个星号 *，标准的 *args 赋值模式，对吧。这样你就可以自由地去操作 clauses 这个列表了，根据不同的情况，动态地往里面加任何可以加的查询条件，甚至嵌套几层 and_ , or_ , not_ 进去都是可以的。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>SQLAlchemy select 中的表别名、列别名</title>
-      <link>/note/2018-10-28-2249/</link>
+      <link>https://jeremyyin.com/note/2018-10-28-2249/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-28-2249/</guid>
-      <description>难免要用到连表查询，这时候如果一个表不止用一次，或一个列名可能产生冲突，就需要用到别名，同时表别名还能优化查询语句的长度和可读性，SQL 里面的 SELECT，则会用到 AS 或者不用 as 就直接跟在项目后面即可。
-那在 SQLAlchemy select 中要怎么实现呢：
-不多说，上例子：
-# 表别名：select * from my_customer_table as customer customer = my_customer_table.alias(&amp;#39;customer&amp;#39;) # 列别名 select user.name as username from user columns = [ customer, user.c[&amp;#39;name&amp;#39;].label(&amp;#39;username&amp;#39;) ] 这样就可以了。</description>
+      <guid>https://jeremyyin.com/note/2018-10-28-2249/</guid>
+      <description>&lt;p&gt;难免要用到连表查询，这时候如果一个表不止用一次，或一个列名可能产生冲突，就需要用到别名，同时表别名还能优化查询语句的长度和可读性，SQL 里面的 SELECT，则会用到 AS 或者不用 as 就直接跟在项目后面即可。&lt;/p&gt;
+&lt;p&gt;那在 SQLAlchemy select 中要怎么实现呢：&lt;/p&gt;
+&lt;p&gt;不多说，上例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 表别名：select * from my_customer_table as customer&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;customer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;my_customer_table&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;alias&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;customer&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 列别名 select user.name as username from user&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;customer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;label&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样就可以了。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>使用 SQLAlchemy Core 的 select，可是没有定义表对象怎么办</title>
-      <link>/note/2018-10-28-2216/</link>
+      <link>https://jeremyyin.com/note/2018-10-28-2216/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-28-2216/</guid>
-      <description>你看到了，动态列查询、动态条件查询，两大动态查询都使用 使用 SQLAlchemy Core 的 select 工具来进行实现，发现没有，要想使用 select，那就必须要有表对象，有了表对象，它才能帮你实现各种动态查询条件语句的生成，没有这些表对象为基础，那可就巧妇难为无米之炊了。
-那么，是否就一定要把这些表对象一个一个，一列一列，完完整整地重新敲出来呢？
-我一开始就是这么干的。
-等我干了几个表，发现太折磨人了。如果建表是自己来，那么一定会去写这些个 Table 的定义，但是如果是接手了一个现有的数据库呢？全部重新手打实现，真的就是要死要活了。
-作为程序员思维者，Python 生态已经很成熟了吧，SQLAlchemy 如此强大，是否可以帮忙从数据库里面读取这些 Table 信息出来？
-结果真的是可以的：
-from sqlalchemy import create_engine from sqlalchemy import MetaData db_uri = &amp;#39;mysql+pymysql://username:password@localhost:3306/test&amp;#39; engine = create_engine(db_uri) metadata = MetaData() metadata.reflect(bind=engine) print(metadata.tables) # immutabledict({&amp;#39;address&amp;#39;: Table(&amp;#39;address&amp;#39;, MetaData(bind=None), Column(&amp;#39;ID&amp;#39;, ... 看到输出这么一串，简直想哭啊。
-好了，想要怎么用就不用我多说了，有了这个字典，想怎么用怎么用去。</description>
+      <guid>https://jeremyyin.com/note/2018-10-28-2216/</guid>
+      <description>&lt;p&gt;你看到了，动态列查询、动态条件查询，两大动态查询都使用 使用 SQLAlchemy Core 的 select 工具来进行实现，发现没有，要想使用 select，那就必须要有表对象，有了表对象，它才能帮你实现各种动态查询条件语句的生成，没有这些表对象为基础，那可就巧妇难为无米之炊了。&lt;/p&gt;
+&lt;p&gt;那么，是否就一定要把这些表对象一个一个，一列一列，完完整整地重新敲出来呢？&lt;/p&gt;
+&lt;p&gt;我一开始就是这么干的。&lt;/p&gt;
+&lt;p&gt;等我干了几个表，发现太折磨人了。如果建表是自己来，那么一定会去写这些个 Table 的定义，但是如果是接手了一个现有的数据库呢？全部重新手打实现，真的就是要死要活了。&lt;/p&gt;
+&lt;p&gt;作为程序员思维者，Python 生态已经很成熟了吧，&lt;a href=&#34;https://docs.sqlalchemy.org/en/latest/core/index.html&#34;&gt;SQLAlchemy&lt;/a&gt; 如此强大，是否可以帮忙从数据库里面读取这些 Table 信息出来？&lt;/p&gt;
+&lt;p&gt;结果真的是可以的：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sqlalchemy&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;create_engine&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sqlalchemy&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MetaData&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;db_uri&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;mysql+pymysql://username:password@localhost:3306/test&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;create_engine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db_uri&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;metadata&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;MetaData&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;metadata&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reflect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;bind&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;engine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;metadata&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tables&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# immutabledict({&amp;#39;address&amp;#39;: Table(&amp;#39;address&amp;#39;, MetaData(bind=None), Column(&amp;#39;ID&amp;#39;, ...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;看到输出这么一串，简直想哭啊。&lt;/p&gt;
+&lt;p&gt;好了，想要怎么用就不用我多说了，有了这个字典，想怎么用怎么用去。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>dynamically select columns in sql query best practices</title>
-      <link>/note/2018-10-26-2133/</link>
+      <link>https://jeremyyin.com/note/2018-10-26-2133/</link>
       <pubDate>Fri, 26 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-26-2133/</guid>
-      <description>使用 mysql 等类型的关系型数据库，最大的一个痛点之一就是写查询语句了，其中一个需求就是动态列查询，网络上的文章千百万，问题和回答也千百万，靠谱不靠谱，对于搜这个问题的人，应该都难分辨。
-对于做数据分析，可能不太会有这个需求，大多数情况下，是在构建 API 接口的时候。
-如果业务功能需求简单，不常变化，或是 API 接口功能设计上不用支持各种类型的动态列查询，那也罢了。
-但是，如果需求百般变化，一个接口要是不支持动态列查询，又如何应对呢？
-比如这个：具体要返回哪些数据列，前端要传参，后台要判断是否应该返回。
-跟在 select 语句后面、table 名称前面的这段内容：列名称，就是要动态控制的地方。
-然而，虽然 sql 语句是文本，初看貌似可以通过动态生成文本的方式来实现，这真的可行么？
-答案自然是不行的，为啥？sql 注入（SQL injection）希望你了解下。
-pymysql 支持参数化查询，%s 与 %(name)s，是否可以用参数化查询来控制呢？比如这样：
-params = {&amp;#39;limit&amp;#39;: 10, &amp;#39;columns&amp;#39;: &amp;#39;, &amp;#39;.join([&amp;#39;id&amp;#39;, &amp;#39;name&amp;#39;])} sql = &amp;#39;select %(columns)sfrom test limit %(limit)s&amp;#39; cursor.execute(sql, params) 测试过，也不行的，你也可以试试看。
-所以，动态列查询，到底要如何解决呢？
-有人说，这样可能你只能用 ORM 工具来解决了，其实这个方向倒是没错的，毕竟要是自己真的有能力处理，可能最终写出来的，已然跟 ORM 没差多少了。
-SQLAlchemy 我是知道一定可以做到的，但是，一定要用 ORM 么，一定要写 Model 么？更何况 SQLAlchemy 的 ORM 模式又要如何进行动态列查询目前也还没找到答案，以及数据序列化又是另外一个问题，文档可能太厚了，而教程又太精炼，且还分散在各处。
-终于，我想到了 Pandas，这个东西支持直接就从 sql 数据库读取数据，而且还支持选择想要列，或许可以看看它是如何实现的，从 pd.read_sql() 开始往里翻，让我找到了这个：
-def read(self, coerce_float=True, parse_dates=None, columns=None, chunksize=None): if columns is not None and len(columns) &amp;gt; 0: from sqlalchemy import select cols = [self.</description>
+      <guid>https://jeremyyin.com/note/2018-10-26-2133/</guid>
+      <description>&lt;p&gt;使用 mysql 等类型的关系型数据库，最大的一个痛点之一就是写查询语句了，其中一个需求就是&lt;strong&gt;动态列查询&lt;/strong&gt;，网络上的文章千百万，问题和回答也千百万，靠谱不靠谱，对于搜这个问题的人，应该都难分辨。&lt;/p&gt;
+&lt;p&gt;对于做数据分析，可能不太会有这个需求，大多数情况下，是在构建 API 接口的时候。&lt;/p&gt;
+&lt;p&gt;如果业务功能需求简单，不常变化，或是 API 接口功能设计上不用支持各种类型的动态列查询，那也罢了。&lt;/p&gt;
+&lt;p&gt;但是，如果需求百般变化，一个接口要是不支持动态列查询，又如何应对呢？&lt;/p&gt;
+&lt;p&gt;比如这个：具体要返回哪些数据列，前端要传参，后台要判断是否应该返回。&lt;/p&gt;
+&lt;p&gt;跟在 select 语句后面、table 名称前面的这段内容：列名称，就是要动态控制的地方。&lt;/p&gt;
+&lt;p&gt;然而，虽然 sql 语句是文本，初看貌似可以通过动态生成文本的方式来实现，这真的可行么？&lt;/p&gt;
+&lt;p&gt;答案自然是不行的，为啥？sql 注入（SQL injection）希望你了解下。&lt;/p&gt;
+&lt;p&gt;pymysql 支持参数化查询，%s 与 %(name)s，是否可以用参数化查询来控制呢？比如这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;params&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;limit&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;columns&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;join&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;sql&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;select &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;%(columns)s&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt; from test limit &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;%(limit)s&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;cursor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sql&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;测试过，也不行的，你也可以试试看。&lt;/p&gt;
+&lt;p&gt;所以，动态列查询，到底要如何解决呢？&lt;/p&gt;
+&lt;p&gt;有人说，这样可能你只能用 ORM 工具来解决了，其实这个方向倒是没错的，毕竟要是自己真的有能力处理，可能最终写出来的，已然跟 ORM 没差多少了。&lt;/p&gt;
+&lt;p&gt;SQLAlchemy 我是知道一定可以做到的，但是，一定要用 ORM 么，一定要写 Model 么？更何况 SQLAlchemy 的 ORM 模式又要如何进行动态列查询目前也还没找到答案，以及数据序列化又是另外一个问题，文档可能太厚了，而教程又太精炼，且还分散在各处。&lt;/p&gt;
+&lt;p&gt;终于，我想到了 Pandas，这个东西支持直接就从 sql 数据库读取数据，而且还支持选择想要列，或许可以看看它是如何实现的，从 pd.read_sql() 开始往里翻，让我找到了这个：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;coerce_float&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;parse_dates&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;             &lt;span class=&#34;n&#34;&gt;chunksize&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sqlalchemy&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;select&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;cols&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cols&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;insert&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;idx&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;idx&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[::&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;sql_select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cols&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;sql_select&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pd_sql&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sql_select&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;column_names&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;keys&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;chunksize&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;_query_iterator&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;chunksize&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;column_names&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                        &lt;span class=&#34;n&#34;&gt;coerce_float&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;coerce_float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                                        &lt;span class=&#34;n&#34;&gt;parse_dates&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;parse_dates&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fetchall&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;frame&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;DataFrame&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;from_records&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;columns&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;column_names&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;coerce_float&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;coerce_float&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;_harmonize_columns&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;parse_dates&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;parse_dates&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;None&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;frame&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;set_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;inplace&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;self&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;frame&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;今天的重点在这一部分：&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>pymysql: 给 sql 语句传递字典参数</title>
-      <link>/note/2018-10-25-2121/</link>
+      <link>https://jeremyyin.com/note/2018-10-25-2121/</link>
       <pubDate>Thu, 25 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-25-2121/</guid>
-      <description>pymysql 执行 sql 操作的最主要一个方法就是：cursor.execute(sql, *args)
-它给了个这样的例子：
-import pymysql.cursors # Connect to the database connection = pymysql.connect(host=&amp;#39;localhost&amp;#39;, user=&amp;#39;user&amp;#39;, password=&amp;#39;passwd&amp;#39;, db=&amp;#39;db&amp;#39;, charset=&amp;#39;utf8mb4&amp;#39;, cursorclass=pymysql.cursors.DictCursor) try: with connection.cursor() as cursor: # Create a new record sql = &amp;#34;INSERT INTO `users` (`email`, `password`) VALUES (%s, %s)&amp;#34; cursor.execute(sql, (&amp;#39;webmaster@python.org&amp;#39;, &amp;#39;very-secret&amp;#39;)) # connection is not autocommit by default. So you must commit to save # your changes. connection.commit() with connection.cursor() as cursor: # Read a single record sql = &amp;#34;SELECT `id`, `password` FROM `users` WHERE `email`=%s&amp;#34; cursor.</description>
+      <guid>https://jeremyyin.com/note/2018-10-25-2121/</guid>
+      <description>&lt;p&gt;pymysql 执行 sql 操作的最主要一个方法就是：cursor.execute(sql, *args)&lt;/p&gt;
+&lt;p&gt;它给了个这样的例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pymysql.cursors&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Connect to the database&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;pymysql&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;connect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;host&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                             &lt;span class=&#34;n&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;user&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                             &lt;span class=&#34;n&#34;&gt;password&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;passwd&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                             &lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;db&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                             &lt;span class=&#34;n&#34;&gt;charset&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;utf8mb4&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;                             &lt;span class=&#34;n&#34;&gt;cursorclass&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pymysql&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cursors&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DictCursor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cursor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cursor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# Create a new record&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;sql&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;INSERT INTO `users` (`email`, `password`) VALUES (&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;%s&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;, &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;%s&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;cursor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sql&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;webmaster@python.org&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;very-secret&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;# connection is not autocommit by default. So you must commit to save&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;# your changes.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;commit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cursor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cursor&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# Read a single record&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;sql&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;SELECT `id`, `password` FROM `users` WHERE `email`=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;%s&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;cursor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;execute&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sql&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;webmaster@python.org&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;result&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cursor&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;fetchone&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;result&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;finally&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;connection&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;close&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;语句写好了，里面可能有很多占位符 %s，但是数据参数，如果有很多，又要一个一个定好位置组成 tuple 再给它么？长期这么干最后总会心累的，能不能直接传 dict 给它呢？&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>nginx-proxy 与 Let&#39;s Encrypt</title>
-      <link>/note/2018-10-23-2226/</link>
+      <link>https://jeremyyin.com/note/2018-10-23-2226/</link>
       <pubDate>Tue, 23 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-23-2226/</guid>
-      <description>连续两期吐槽 Traefik，是确实有它可吐槽的点在，虽然将来我可能也还会用它，毕竟特性真的非常契合需求，但要说我自己能有信心上线，现在还不是时候，项目是好，可文档也要写好点吧，别说 Docs for Humans，逻辑结构和思路要清晰，别要找找不到，甚至不明不白和内容有陈旧感。
-目前最终并没有启用 Traefik 的方案，而是启用了 nginx-proxy 这个基于 docker-gen 的方案，并且同时还有人帮忙弄了配套的 Let&amp;rsquo;s Encrypt 工具，就成熟度来说，已经非常可以了。
-经过一段时间的熟悉、测试、修改，并最终建立自己喜欢的 docker-compose 编排文件，现在已经在我的一些生产级项目上开始正式运行了。
-到目前为止，用到的东西，几乎所有类别都已经 Docker 化了。
- Web 动态应用，比如基于 Tornado 的 Web 和 API，使用 Python 官方镜像进行 Docker 化，到底 2 和 3 怎么处理，甚至 2.7.14 和 2.7.15 或是 3.6 还是 3.7 这样严重困扰开发和运行的问题都不复存在。 定时任务脚本，原先跑在机器系统上的 cron 或者是 Windows 的计划任务，基于 Python 镜像使用 APScheduler 进行 Docker 化，利用 subprocess.run 完成无缝迁移，不需要修改任何原先已有代码，再也不用去敲 crontab -e 和 crontab -l 去修改和查看任务配置，数据都在代码里，配置也不会丢，重新换机器直接 docker-compose 起容器即可。关于 APScheduler，你也可以选其它的工具进行替代，因为我是 Python，而 Python 里面我一番测试下来又觉得它最好，虽然会稍微复杂点。 爬虫及自动化，简单脚本上面说了，复杂的爬虫服务，批量部署和灵活调用，以及数据监控和自定义任务，还有需要用到自动化工具的，比如浏览器渲染，都已经 Docker 化了。 静态文件服务，这个 nginx 直接拿来用，把文件做成服务供其它服务去使用，这又比把文件的绝对路径挂载到别的服务上要好很多，我也是这几天才猛然想通，要笑哭。毕竟很多时候这些文件并不是直接弄出来的，而是要利用其它工具生成的，比较适合独立项目，而不是跟其它混放一起，而挂载又会影响别的项目的一些配置。 数据库，这个真的要，数据库装到系统里面你还想升级？想都别想，但是到了 Docker 这就是改个标签的事情。不过有些大版本兼容性还是要自己看清楚，一般都是会有说明的，而且即使不行，退回去也极其简单啊，你说是不是。另外，性能不是问题。 HTTPS，迟迟有些东西不敢随便动手的一个原因就是它，当初设置 https 的时候，Let&amp;rsquo;s Encrypt，看了很久才配置完成，然后又多次等很久去确认配置 OK（确认确实有在更新），现在把它也 Docker 化了，真的就轻松极了。能理解对标 nginx 的那些，为啥要把这个作为主要卖点挂出来了。  暂时记录这么多，总之一点，能 Docker 化的一定想方设法 Docker 化，即使要曲线救国都行。</description>
+      <guid>https://jeremyyin.com/note/2018-10-23-2226/</guid>
+      <description>&lt;p&gt;连续两期吐槽 Traefik，是确实有它可吐槽的点在，虽然将来我可能也还会用它，毕竟特性真的非常契合需求，但要说我自己能有信心上线，现在还不是时候，项目是好，可文档也要写好点吧，别说 Docs for Humans，逻辑结构和思路要清晰，别要找找不到，甚至不明不白和内容有陈旧感。&lt;/p&gt;
+&lt;p&gt;目前最终并没有启用 Traefik 的方案，而是启用了 nginx-proxy 这个基于 docker-gen 的方案，并且同时还有人帮忙弄了配套的 Let&amp;rsquo;s Encrypt 工具，就成熟度来说，已经非常可以了。&lt;/p&gt;
+&lt;p&gt;经过一段时间的熟悉、测试、修改，并最终建立自己喜欢的 docker-compose 编排文件，现在已经在我的一些生产级项目上开始正式运行了。&lt;/p&gt;
+&lt;p&gt;到目前为止，用到的东西，几乎所有类别都已经 Docker 化了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Web 动态应用，比如基于 Tornado 的 Web 和 API，使用 Python 官方镜像进行 Docker 化，到底 2 和 3 怎么处理，甚至 2.7.14 和 2.7.15 或是 3.6 还是 3.7 这样严重困扰开发和运行的问题都不复存在。&lt;/li&gt;
+&lt;li&gt;定时任务脚本，原先跑在机器系统上的 cron 或者是 Windows 的计划任务，基于 Python 镜像使用 APScheduler 进行 Docker 化，利用 subprocess.run 完成无缝迁移，不需要修改任何原先已有代码，再也不用去敲 crontab -e 和 crontab -l 去修改和查看任务配置，数据都在代码里，配置也不会丢，重新换机器直接 docker-compose 起容器即可。关于 APScheduler，你也可以选其它的工具进行替代，因为我是 Python，而 Python 里面我一番测试下来又觉得它最好，虽然会稍微复杂点。&lt;/li&gt;
+&lt;li&gt;爬虫及自动化，简单脚本上面说了，复杂的爬虫服务，批量部署和灵活调用，以及数据监控和自定义任务，还有需要用到自动化工具的，比如浏览器渲染，都已经 Docker 化了。&lt;/li&gt;
+&lt;li&gt;静态文件服务，这个 nginx 直接拿来用，把文件做成服务供其它服务去使用，这又比把文件的绝对路径挂载到别的服务上要好很多，我也是这几天才猛然想通，要笑哭。毕竟很多时候这些文件并不是直接弄出来的，而是要利用其它工具生成的，比较适合独立项目，而不是跟其它混放一起，而挂载又会影响别的项目的一些配置。&lt;/li&gt;
+&lt;li&gt;数据库，这个真的要，数据库装到系统里面你还想升级？想都别想，但是到了 Docker 这就是改个标签的事情。不过有些大版本兼容性还是要自己看清楚，一般都是会有说明的，而且即使不行，退回去也极其简单啊，你说是不是。另外，性能不是问题。&lt;/li&gt;
+&lt;li&gt;HTTPS，迟迟有些东西不敢随便动手的一个原因就是它，当初设置 https 的时候，Let&amp;rsquo;s Encrypt，看了很久才配置完成，然后又多次等很久去确认配置 OK（确认确实有在更新），现在把它也 Docker 化了，真的就轻松极了。能理解对标 nginx 的那些，为啥要把这个作为主要卖点挂出来了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;暂时记录这么多，总之一点，能 Docker 化的一定想方设法 Docker 化，即使要曲线救国都行。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Traefik 与 nginx-proxy</title>
-      <link>/note/2018-10-18-2127/</link>
+      <link>https://jeremyyin.com/note/2018-10-18-2127/</link>
       <pubDate>Thu, 18 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-18-2127/</guid>
-      <description>尝试去测试 Envoy，甚至还去看了 Istio。
-Envoy 跑了个 front-proxy 的 demo，Istio 也尝试了下，起了一地容器，可惜想看看管理页面，失败。
-这两货，都是所谓云原生平台工具，想了想，k8s 都还没折腾好呢，这俩货确实有点太重了。
-又回去继续试试 Traefik，这次果然心平气和了很多。开台机器，设置域名，启动容器，打开页面，竟然，通了。
-但是，到此，并不表示对它的好感有增，原先吐槽的点依然还是存在。通是通了，但是还有很多东西没着落：https 在哪，配置文件到底要不要自定义，默认的配置文件在哪儿……即使进去容器里面，也没找到什么东西，命令行的说明也是云里雾里（根本没有）
-再想着瞅一眼 nginx-proxy，还是试试吧。
-下载，docker-compose up -d 走起，看到日志说正在干嘛了，心里放心了很多，不像 Traefik 默认啥信息都没有，空空白白的一片黑，遇到连接错误也不知道为啥。
-比较下，感觉 nginx-proxy 还是可以拿来仔细研究看看，实在不行，前面还可以继续套一层普通 nginx 完成其它事情，不是么。
-k8s 可能还要一段时间才能成熟到我等非资深用户也能放心使用，新东西，还是需要时间等待。
-基于 k8s 的相关东西，可能就更需要时间了。
-nginx，跑了可是很多年了，才成熟到我们非资深用户也可以简简单单就稳定地跑起来。
-基础工具选好搭好，我们放开手去写业务逻辑。</description>
+      <guid>https://jeremyyin.com/note/2018-10-18-2127/</guid>
+      <description>&lt;p&gt;尝试去测试 Envoy，甚至还去看了 Istio。&lt;/p&gt;
+&lt;p&gt;Envoy 跑了个 front-proxy 的 demo，Istio 也尝试了下，起了一地容器，可惜想看看管理页面，失败。&lt;/p&gt;
+&lt;p&gt;这两货，都是所谓云原生平台工具，想了想，k8s 都还没折腾好呢，这俩货确实有点太重了。&lt;/p&gt;
+&lt;p&gt;又回去继续试试 Traefik，这次果然心平气和了很多。开台机器，设置域名，启动容器，打开页面，竟然，通了。&lt;/p&gt;
+&lt;p&gt;但是，到此，并不表示对它的好感有增，原先吐槽的点依然还是存在。通是通了，但是还有很多东西没着落：https 在哪，配置文件到底要不要自定义，默认的配置文件在哪儿……即使进去容器里面，也没找到什么东西，命令行的说明也是云里雾里（根本没有）&lt;/p&gt;
+&lt;p&gt;再想着瞅一眼 nginx-proxy，还是试试吧。&lt;/p&gt;
+&lt;p&gt;下载，docker-compose up -d 走起，看到日志说正在干嘛了，心里放心了很多，不像 Traefik 默认啥信息都没有，空空白白的一片黑，遇到连接错误也不知道为啥。&lt;/p&gt;
+&lt;p&gt;比较下，感觉 nginx-proxy 还是可以拿来仔细研究看看，实在不行，前面还可以继续套一层普通 nginx 完成其它事情，不是么。&lt;/p&gt;
+&lt;p&gt;k8s 可能还要一段时间才能成熟到我等非资深用户也能放心使用，新东西，还是需要时间等待。&lt;/p&gt;
+&lt;p&gt;基于 k8s 的相关东西，可能就更需要时间了。&lt;/p&gt;
+&lt;p&gt;nginx，跑了可是很多年了，才成熟到我们非资深用户也可以简简单单就稳定地跑起来。&lt;/p&gt;
+&lt;p&gt;基础工具选好搭好，我们放开手去写业务逻辑。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>折腾与吐槽 Traefik</title>
-      <link>/note/2018-10-17-2125/</link>
+      <link>https://jeremyyin.com/note/2018-10-17-2125/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-10-17-2125/</guid>
-      <description>用上了 Docker，然后就有了一堆容器。Nginx 也是容器，一般拿它作为访问入口，其它容器在它的背后，这就是反向代理 Reverse Proxy。
-Nginx 够不够好，够好，而且非常好。但是，容器要 scale，或者容器出现变动，结果它也不得不去更新配置并重启，还要额外再费力气去维护它，痛。
-所以就去找新东西。
-要说特性，Traefik 蛮符合要求的，本机跑个小 demo，觉得还行，以为可以上手用。
-结果嘛，文档乱七八糟，在线开了机器，备好域名，跟着文档做这多次都做不出可用的配置来。
-疯了。
-我是对很多东西理解不到，但不至于这么蠢。
-耐心也不是这么被磨灭的。
-放弃好了。
-还以为，这是个非商业化的产品，所以文档及其难看，再一看，其实是个法国的商业公司。
-好吧，难为你了。
-下次吧，或者，继续再找新的更好的可替代品。
-还有 nginx-proxy，但是看到带 nginx 不太想折腾。
-还有 Envoy，这是个什么？</description>
+      <guid>https://jeremyyin.com/note/2018-10-17-2125/</guid>
+      <description>&lt;p&gt;用上了 Docker，然后就有了一堆容器。Nginx 也是容器，一般拿它作为访问入口，其它容器在它的背后，这就是反向代理 Reverse Proxy。&lt;/p&gt;
+&lt;p&gt;Nginx 够不够好，够好，而且非常好。但是，容器要 scale，或者容器出现变动，结果它也不得不去更新配置并重启，还要额外再费力气去维护它，痛。&lt;/p&gt;
+&lt;p&gt;所以就去找新东西。&lt;/p&gt;
+&lt;p&gt;要说特性，Traefik 蛮符合要求的，本机跑个小 demo，觉得还行，以为可以上手用。&lt;/p&gt;
+&lt;p&gt;结果嘛，文档乱七八糟，在线开了机器，备好域名，跟着文档做这多次都做不出可用的配置来。&lt;/p&gt;
+&lt;p&gt;疯了。&lt;/p&gt;
+&lt;p&gt;我是对很多东西理解不到，但不至于这么蠢。&lt;/p&gt;
+&lt;p&gt;耐心也不是这么被磨灭的。&lt;/p&gt;
+&lt;p&gt;放弃好了。&lt;/p&gt;
+&lt;p&gt;还以为，这是个非商业化的产品，所以文档及其难看，再一看，其实是个法国的商业公司。&lt;/p&gt;
+&lt;p&gt;好吧，难为你了。&lt;/p&gt;
+&lt;p&gt;下次吧，或者，继续再找新的更好的可替代品。&lt;/p&gt;
+&lt;p&gt;还有 nginx-proxy，但是看到带 nginx 不太想折腾。&lt;/p&gt;
+&lt;p&gt;还有 Envoy，这是个什么？&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>自己在用的一些 Python 库</title>
-      <link>/note/2018-09-27-2123/</link>
+      <link>https://jeremyyin.com/note/2018-09-27-2123/</link>
       <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-09-27-2123/</guid>
-      <description>Python 有许许多多的自带库和第三方库，如果遇到一个新需求点，分析到代码层实现的时候，除去自有的控制逻辑实现之外，对于单个通用功能点的实现，基本上第一件事是去寻找是否存在可用的库可以拿来直接用的，或者是可以学习其实现逻辑和一些理念。
-与 awesome python 不同的是，这里目前只列自己用的，不求大而全，只是稍微记录下自己的一些理解，暂时也不做什么分类了，写到哪里是哪里。
- APScheduler ，用来运行定时脚本任务。 tornado ，用来搭 API 和 网站的 Web 框架，异步非阻塞。 requests ，用来发 http(s) 请求的，目前是同步阻塞型的。 bleach ，用来过滤 html 里面的标签。 redis ，是 Redis 的连接工具。 pymongo ，是 MongoDB 的连接工具。 beautifulsoup4 ，解析 html/xml 内容的工具，记得选择 lxml 用。  </description>
+      <guid>https://jeremyyin.com/note/2018-09-27-2123/</guid>
+      <description>&lt;p&gt;Python 有许许多多的自带库和第三方库，如果遇到一个新需求点，分析到代码层实现的时候，除去自有的控制逻辑实现之外，对于单个通用功能点的实现，基本上第一件事是去寻找是否存在可用的库可以拿来直接用的，或者是可以学习其实现逻辑和一些理念。&lt;/p&gt;
+&lt;p&gt;与 &lt;a href=&#34;https://github.com/vinta/awesome-python&#34;&gt;awesome python&lt;/a&gt; 不同的是，这里目前只列自己用的，不求大而全，只是稍微记录下自己的一些理解，暂时也不做什么分类了，写到哪里是哪里。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://apscheduler.readthedocs.io/en/latest/&#34;&gt;APScheduler&lt;/a&gt; ，用来运行定时脚本任务。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.tornadoweb.org/&#34;&gt;tornado&lt;/a&gt; ，用来搭 API 和 网站的 Web 框架，异步非阻塞。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://docs.python-requests.org/en/master/&#34;&gt;requests&lt;/a&gt; ，用来发 http(s) 请求的，目前是同步阻塞型的。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://bleach.readthedocs.io/en/latest/&#34;&gt;bleach&lt;/a&gt; ，用来过滤 html 里面的标签。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/andymccurdy/redis-py&#34;&gt;redis&lt;/a&gt; ，是 Redis 的连接工具。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://api.mongodb.com/python/current/tutorial.html&#34;&gt;pymongo&lt;/a&gt; ，是 MongoDB 的连接工具。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.crummy.com/software/BeautifulSoup/&#34;&gt;beautifulsoup4&lt;/a&gt; ，解析 html/xml 内容的工具，记得选择 &lt;a href=&#34;https://lxml.de/&#34;&gt;lxml&lt;/a&gt; 用。&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
     
     <item>
       <title>做手艺活，必然需要一套趁手的工具</title>
-      <link>/note/2018-09-05-1522/</link>
+      <link>https://jeremyyin.com/note/2018-09-05-1522/</link>
       <pubDate>Wed, 05 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/note/2018-09-05-1522/</guid>
-      <description>编程是手艺活，有自己一套趁手的工具很重要，记录下，不定期更新。
-  MacBook Pro，Apple 公司出品，编程开发的最佳选择，强烈建议直接上顶配。
-  PyCharm，JetBrains 公司出品的 Python IDE，社区版免费，专业版付费。
-  Docker，Docker 公司出品的容器产品，Docker CE for Mac 是协助我本地开发的有力工具，同时在生产环境也基本能用 Docker 就用 Docker 进行部署运行。docker-compose 是我编排容器的方式，再搭配 Dockerfile 使用，快速自动构建并启动各种服务，几乎不用再去机器上敲什么命令了。目前我本机常规日常运行的容器（服务）数量已达 40 多个。
-  Sublime，Sublime HQ Pty Ltd 出品，万能文本编辑器，免费，偶尔会弹下购买提示。
-  Sourcetree，这是 Atlassian 公司出品的免费 git 图形界面客户端，这哪能不用呢。
-  Paw，Paw 公司出品的 API tool for Mac，付费，主要用于 API 接口测试。
-  MkDocs，MkDocs team 出品的静态页面站点生成工具，非常适合用于使用 Markdown 编写项目文档。
-  Typora，typora.io 出品的 Markdown 编辑器，目前依然免费，我认为最漂亮又好用的。
-  Studio 3T，3T Software Labs 出品的 MongoDB 数据库图形界面客户端，非商用版免费。</description>
+      <guid>https://jeremyyin.com/note/2018-09-05-1522/</guid>
+      <description>&lt;p&gt;编程是手艺活，有自己一套趁手的工具很重要，记录下，不定期更新。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;MacBook Pro，&lt;a href=&#34;https://www.apple.com/cn/macbook-pro/&#34;&gt;Apple&lt;/a&gt; 公司出品，编程开发的最佳选择，强烈建议直接上顶配。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;PyCharm，&lt;a href=&#34;https://www.jetbrains.com/pycharm/&#34;&gt;JetBrains&lt;/a&gt; 公司出品的 Python IDE，社区版免费，专业版付费。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Docker，&lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; 公司出品的容器产品，Docker CE for Mac 是协助我本地开发的有力工具，同时在生产环境也基本能用 Docker 就用 Docker 进行部署运行。docker-compose 是我编排容器的方式，再搭配 Dockerfile 使用，快速自动构建并启动各种服务，几乎不用再去机器上敲什么命令了。目前我本机常规日常运行的容器（服务）数量已达 40 多个。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Sublime，&lt;a href=&#34;https://www.sublimetext.com/&#34;&gt;Sublime HQ Pty Ltd&lt;/a&gt; 出品，万能文本编辑器，免费，偶尔会弹下购买提示。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://cn.atlassian.com/software/sourcetree&#34;&gt;Sourcetree&lt;/a&gt;，这是 &lt;a href=&#34;https://www.atlassian.com/&#34;&gt;Atlassian&lt;/a&gt; 公司出品的免费 git 图形界面客户端，这哪能不用呢。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Paw，&lt;a href=&#34;https://paw.cloud/&#34;&gt;Paw&lt;/a&gt; 公司出品的 API tool for Mac，付费，主要用于 API 接口测试。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MkDocs，&lt;a href=&#34;https://www.mkdocs.org/&#34;&gt;MkDocs team&lt;/a&gt; 出品的静态页面站点生成工具，非常适合用于使用 Markdown 编写项目文档。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Typora，&lt;a href=&#34;http://typora.io/&#34;&gt;typora.io&lt;/a&gt; 出品的 Markdown 编辑器，目前依然免费，我认为最漂亮又好用的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Studio 3T，&lt;a href=&#34;https://studio3t.com/&#34;&gt;3T Software Labs&lt;/a&gt; 出品的 MongoDB 数据库图形界面客户端，非商用版免费。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Sequel Pro，&lt;a href=&#34;https://sequelpro.com/developers&#34;&gt;Sequel Pro Developers&lt;/a&gt; 出品的 MySQL 数据库图形界面客户端，免费。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;坚果云，&lt;a href=&#34;https://www.jianguoyun.com/&#34;&gt;上海亦存网络&lt;/a&gt; 出品的同步网盘服务，实现任意文件夹多端同步及版本历史，有免费方案可用，开着就好，啥也不管。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://trello.com/&#34;&gt;Trello&lt;/a&gt;，目前已经被 &lt;a href=&#34;https://www.atlassian.com/&#34;&gt;Atlassian&lt;/a&gt; 公司收编的项目看板管理服务，免费，看板管理最佳工具。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
     
   </channel>

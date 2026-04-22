@@ -1,28 +1,19 @@
 <!doctype html>
 <html lang="zh-cn">
-
-
-    <head>
-
-        <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<meta name="generator" content="Hugo 0.85.0" />
-
-        <title>Tornado 0108 - 用户指南: 运行与部署 | Jeremy&#39;s blog</title>
-
-        
-
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="/mdb/css/mdb.min.css">
-<link rel="stylesheet" href="/assets/evil-icons.min.css">
+<meta name="generator" content="Hugo 0.160.1">
 
 
+    <title>Tornado 0108 - 用户指南: 运行与部署 | Jeremy Notes</title>
 
+    
 
-<link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/jeremy/ico/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/jeremy/ico/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/jeremy/ico/apple-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="76x76" href="/jeremy/ico/apple-icon-76x76.png">
@@ -38,223 +29,498 @@
 <link rel="manifest" href="/jeremy/ico/manifest.json">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/jeremy/ico/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#25183f">
 
+<link rel="icon" href="/jeremy/ico/favicon.ico">
 
-
-<link rel="icon" href="/static/jeremy/ico/favicon.ico">
-
-
-
+<link rel="stylesheet" href="/jeremy/css/chroma.css">
 <link rel="stylesheet" href="/jeremy/css/main.css">
+<link rel="stylesheet" href="/jeremy/css/tailwind.css">
 
-    </head>
+  </head>
 
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    
+
+
+
+
+<header class="site-header">
+  <div class="site-header-shell">
+    <div class="site-brand-wrap">
+      <a class="site-brand-link" href="/">
+        <span class="site-brand-mark" aria-hidden="true">JN</span>
+        <span class="site-brand-copy">
+          <strong>Jeremy Notes</strong>
+        </span>
+      </a>
+    </div>
 
     
-    <body>
+    <button
+      class="site-nav-button site-nav-search site-nav-search-mobile"
+      type="button"
+      data-search-toggle
+      aria-label="打开搜索"
+    >
+      <span class="site-nav-search-icon" aria-hidden="true"></span>
+      <span>Search</span>
+    </button>
+    
 
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <div class="container">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+    <div class="site-nav-wrap">
+      <nav class="site-nav" aria-label="Primary">
+        <a class="site-nav-link" href="/">Home</a>
+        <a class="site-nav-link" href="/articles/" aria-current="page">Articles</a>
+        <a class="site-nav-link" href="/topics/">Topics</a>
+        <a class="site-nav-link" href="/about/">About</a>
+        
+        <button
+          class="site-nav-button site-nav-search site-nav-search-desktop"
+          type="button"
+          data-search-toggle
+          aria-label="打开搜索"
+        >
+          <span class="site-nav-search-icon" aria-hidden="true"></span>
+          <span>Search</span>
+          <kbd>⌘ K</kbd>
         </button>
-        <a class="navbar-brand" href="/">Jeremy&#39;s blog</a>
-
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/post/">Post</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/note/">Note</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/python/">Python</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/rust/">Rust</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/tornado/">Tornado</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/saleor/">Saleor</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/advertisement/">Advertisement</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/about/">About</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/index.xml">RSS</a>
-                </li>
-
-
-            </ul>
-        </div>
+        
+      </nav>
     </div>
-</nav>
+  </div>
+</header>
 
 
+    <main class="site-shell" id="main-content" tabindex="-1">
+      
+  
+  
+  
+  
+  
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
 
-        <div class="container" style="padding-top: 2rem">
-                <div class="row">
-                    <div class="col-sm-12">
-                            
+  <section class="page-banner page-banner-article">
+    <div class="page-banner-shell">
+      <div class="article-kicker">
+        
+        <a href="/tornado/">翻译</a>
+        
+        <span>2018-08-03</span>
+      </div>
+      <h1>Tornado 0108 - 用户指南: 运行与部署</h1>
+      
+    </div>
+  </section>
 
-    <article>
-        <h1>Tornado 0108 - 用户指南: 运行与部署</h1>
-        <hr>
+  <section class="page-content-shell">
+    <article class="content-panel article-layout">
+      <div class="article-body prose">
         <h1 id="运行和部署">运行和部署</h1>
 <p>由于 Tornado 提供自己的 HTTPServer，因此运行和部署它与其他 Python Web 框架略有不同。您可以编写一个启动服务器的 main() 函数，而不是配置 WSGI 容器来查找应用程序：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">main</span>():
-   app <span style="color:#555">=</span> make_app()
-   app<span style="color:#555">.</span>listen(<span style="color:#f60">8888</span>)
-   IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()
-
-<span style="color:#069;font-weight:bold">if</span> __name__ <span style="color:#555">==</span> <span style="color:#c30">&#39;__main__&#39;</span>:
-   main()
-</code></pre></div><p>配置操作系统或进程管理器以运行此程序以启动服务器。请注意，可能需要增加每个进程的打开文件数（以避免“打开太多文件”-Error）。要提高此限制（例如将其设置为50000），您可以使用 ulimit 命令，修改 /etc/security/limits.conf 或在 supervisord 配置中设置 minfds。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">   <span class="n">app</span> <span class="o">=</span> <span class="n">make_app</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">   <span class="n">app</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">8888</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="n">IOLoop</span><span class="o">.</span><span class="n">current</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">   <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></div><p>配置操作系统或进程管理器以运行此程序以启动服务器。请注意，可能需要增加每个进程的打开文件数（以避免“打开太多文件”-Error）。要提高此限制（例如将其设置为50000），您可以使用 ulimit 命令，修改 /etc/security/limits.conf 或在 supervisord 配置中设置 minfds。</p>
 <h2 id="进程和端口">进程和端口</h2>
 <p>由于Python GIL（全局解释器锁），有必要运行多个 Python 进程以充分利用多 CPU 机器。通常，每个 CPU 最好运行一个进程。</p>
 <p>Tornado 包含一个内置的多进程模式，可以同时启动多个进程。这需要对标准主要功能稍作改动：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">main</span>():
-    app <span style="color:#555">=</span> make_app()
-    server <span style="color:#555">=</span> tornado<span style="color:#555">.</span>httpserver<span style="color:#555">.</span>HTTPServer(app)
-    server<span style="color:#555">.</span>bind(<span style="color:#f60">8888</span>)
-    server<span style="color:#555">.</span>start(<span style="color:#f60">0</span>)  <span style="color:#09f;font-style:italic"># forks one process per cpu</span>
-    IOLoop<span style="color:#555">.</span>current()<span style="color:#555">.</span>start()
-</code></pre></div><p>这是启动多个进程并使它们共享同一端口的最简单方法，尽管它有一些限制。首先，每个子进程都有自己的 IOLoop，因此在 fork 之前没有任何东西触及全局 IOLoop 实例（甚至间接）是很重要的。 其次，在此模型中很难进行零停机更新。最后，由于所有进程共享同一个端口，因此单独监视它们更加困难。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">app</span> <span class="o">=</span> <span class="n">make_app</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">server</span> <span class="o">=</span> <span class="n">tornado</span><span class="o">.</span><span class="n">httpserver</span><span class="o">.</span><span class="n">HTTPServer</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">server</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="mi">8888</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># forks one process per cpu</span>
+</span></span><span class="line"><span class="cl">    <span class="n">IOLoop</span><span class="o">.</span><span class="n">current</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span></span></code></pre></div><p>这是启动多个进程并使它们共享同一端口的最简单方法，尽管它有一些限制。首先，每个子进程都有自己的 IOLoop，因此在 fork 之前没有任何东西触及全局 IOLoop 实例（甚至间接）是很重要的。 其次，在此模型中很难进行零停机更新。最后，由于所有进程共享同一个端口，因此单独监视它们更加困难。</p>
 <p>对于更复杂的部署，建议单独启动进程，并让每个进程侦听不同的端口。supervisord 的 “process groups” 功能是安排此功能的一种好方法。当每个进程使用不同的端口时，通常需要外部负载均衡器（如 HAProxy 或 nginx）向外部访问者提供单个地址。</p>
 <h2 id="在负载均衡器后面运行">在负载均衡器后面运行</h2>
 <p>在像 nginx 这样的负载均衡器后面运行时，建议将 xheaders = True 传递给 HTTPServer 构造函数。这将告诉 Tornado 使用像 X-Real-IP 这样的标头来获取用户的 IP 地址，而不是将所有流量归因于平衡器的 IP 地址。</p>
 <p>这是一个准系统 nginx 配置文件，其结构类似于我们在 FriendFeed 上使用的配置文件。它假定 nginx 和 Tornado 服务器在同一台机器上运行，并且四个 Tornado 服务器在端口 8000 - 8003 上运行：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#069;font-weight:bold">user</span> <span style="color:#c30">nginx</span>;
-<span style="color:#069;font-weight:bold">worker_processes</span> <span style="color:#f60">1</span>;
-
-<span style="color:#069;font-weight:bold">error_log</span> <span style="color:#c30">/var/log/nginx/error.log</span>;
-<span style="color:#069;font-weight:bold">pid</span> <span style="color:#c30">/var/run/nginx.pid</span>;
-
-<span style="color:#069;font-weight:bold">events</span> {
-    <span style="color:#069;font-weight:bold">worker_connections</span> <span style="color:#f60">1024</span>;
-    <span style="color:#069;font-weight:bold">use</span> <span style="color:#c30">epoll</span>;
-}
-
-<span style="color:#069;font-weight:bold">http</span> {
-    <span style="color:#09f;font-style:italic"># Enumerate all the Tornado servers here
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#069;font-weight:bold">upstream</span> <span style="color:#c30">frontends</span> {
-        <span style="color:#069;font-weight:bold">server</span> 127.0.0.1:<span style="color:#f60">8000</span>;
-        <span style="color:#069;font-weight:bold">server</span> 127.0.0.1:<span style="color:#f60">8001</span>;
-        <span style="color:#069;font-weight:bold">server</span> 127.0.0.1:<span style="color:#f60">8002</span>;
-        <span style="color:#069;font-weight:bold">server</span> 127.0.0.1:<span style="color:#f60">8003</span>;
-    }
-
-    <span style="color:#069;font-weight:bold">include</span> <span style="color:#c30">/etc/nginx/mime.types</span>;
-    <span style="color:#069;font-weight:bold">default_type</span> <span style="color:#c30">application/octet-stream</span>;
-
-    <span style="color:#069;font-weight:bold">access_log</span> <span style="color:#c30">/var/log/nginx/access.log</span>;
-
-    <span style="color:#069;font-weight:bold">keepalive_timeout</span> <span style="color:#f60">65</span>;
-    <span style="color:#069;font-weight:bold">proxy_read_timeout</span> <span style="color:#f60">200</span>;
-    <span style="color:#069;font-weight:bold">sendfile</span> <span style="color:#360">on</span>;
-    <span style="color:#069;font-weight:bold">tcp_nopush</span> <span style="color:#360">on</span>;
-    <span style="color:#069;font-weight:bold">tcp_nodelay</span> <span style="color:#360">on</span>;
-    <span style="color:#069;font-weight:bold">gzip</span> <span style="color:#360">on</span>;
-    <span style="color:#069;font-weight:bold">gzip_min_length</span> <span style="color:#f60">1000</span>;
-    <span style="color:#069;font-weight:bold">gzip_proxied</span> <span style="color:#c30">any</span>;
-    <span style="color:#069;font-weight:bold">gzip_types</span> <span style="color:#c30">text/plain</span> <span style="color:#c30">text/html</span> <span style="color:#c30">text/css</span> <span style="color:#c30">text/xml</span>
-               <span style="color:#c30">application/x-javascript</span> <span style="color:#c30">application/xml</span>
-               <span style="color:#c30">application/atom+xml</span> <span style="color:#c30">text/javascript</span>;
-
-    <span style="color:#09f;font-style:italic"># Only retry if there was a communication error, not a timeout
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic"># on the Tornado server (to avoid propagating &#34;queries of death&#34;
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#09f;font-style:italic"># to all frontends)
-</span><span style="color:#09f;font-style:italic"></span>    <span style="color:#069;font-weight:bold">proxy_next_upstream</span> <span style="color:#c30">error</span>;
-
-    <span style="color:#069;font-weight:bold">server</span> {
-        <span style="color:#069;font-weight:bold">listen</span> <span style="color:#f60">80</span>;
-
-        <span style="color:#09f;font-style:italic"># Allow file uploads
-</span><span style="color:#09f;font-style:italic"></span>        <span style="color:#069;font-weight:bold">client_max_body_size</span> <span style="color:#c30">50M</span>;
-
-        <span style="color:#069;font-weight:bold">location</span> <span style="color:#c30">^~</span> <span style="color:#c30">/static/</span> {
-            <span style="color:#069;font-weight:bold">root</span> <span style="color:#c30">/var/www</span>;
-            <span style="color:#069;font-weight:bold">if</span> <span style="color:#c30">(</span><span style="color:#033">$query_string</span><span style="color:#c30">)</span> {
-                <span style="color:#069;font-weight:bold">expires</span> <span style="color:#c30">max</span>;
-            }
-        }
-        <span style="color:#069;font-weight:bold">location</span> = <span style="color:#c30">/favicon.ico</span> {
-            <span style="color:#069;font-weight:bold">rewrite</span> <span style="color:#c30">(.*)</span> <span style="color:#c30">/static/favicon.ico</span>;
-        }
-        <span style="color:#069;font-weight:bold">location</span> = <span style="color:#c30">/robots.txt</span> {
-            <span style="color:#069;font-weight:bold">rewrite</span> <span style="color:#c30">(.*)</span> <span style="color:#c30">/static/robots.txt</span>;
-        }
-
-        <span style="color:#069;font-weight:bold">location</span> <span style="color:#c30">/</span> {
-            <span style="color:#069;font-weight:bold">proxy_pass_header</span> <span style="color:#c30">Server</span>;
-            <span style="color:#069;font-weight:bold">proxy_set_header</span> <span style="color:#c30">Host</span> <span style="color:#033">$http_host</span>;
-            <span style="color:#069;font-weight:bold">proxy_redirect</span> <span style="color:#360">off</span>;
-            <span style="color:#069;font-weight:bold">proxy_set_header</span> <span style="color:#c30">X-Real-IP</span> <span style="color:#033">$remote_addr</span>;
-            <span style="color:#069;font-weight:bold">proxy_set_header</span> <span style="color:#c30">X-Scheme</span> <span style="color:#033">$scheme</span>;
-            <span style="color:#069;font-weight:bold">proxy_pass</span> <span style="color:#c30">http://frontends</span>;
-        }
-    }
-}
-</code></pre></div><h2 id="静态文件和积极的文件缓存">静态文件和积极的文件缓存</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">user</span> <span class="s">nginx</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">worker_processes</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">error_log</span> <span class="s">/var/log/nginx/error.log</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">pid</span> <span class="s">/var/run/nginx.pid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">events</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">worker_connections</span> <span class="mi">1024</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">use</span> <span class="s">epoll</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">http</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Enumerate all the Tornado servers here
+</span></span></span><span class="line"><span class="cl">    <span class="kn">upstream</span> <span class="s">frontends</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">server</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">8000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">server</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">8001</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">server</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">8002</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">server</span> <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">8003</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">include</span> <span class="s">/etc/nginx/mime.types</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">default_type</span> <span class="s">application/octet-stream</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">access_log</span> <span class="s">/var/log/nginx/access.log</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">keepalive_timeout</span> <span class="mi">65</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_read_timeout</span> <span class="mi">200</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">sendfile</span> <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">tcp_nopush</span> <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">tcp_nodelay</span> <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">gzip</span> <span class="no">on</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">gzip_min_length</span> <span class="mi">1000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">gzip_proxied</span> <span class="s">any</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">gzip_types</span> <span class="s">text/plain</span> <span class="s">text/html</span> <span class="s">text/css</span> <span class="s">text/xml</span>
+</span></span><span class="line"><span class="cl">               <span class="s">application/x-javascript</span> <span class="s">application/xml</span>
+</span></span><span class="line"><span class="cl">               <span class="s">application/atom+xml</span> <span class="s">text/javascript</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Only retry if there was a communication error, not a timeout
+</span></span></span><span class="line"><span class="cl">    <span class="c1"># on the Tornado server (to avoid propagating &#34;queries of death&#34;
+</span></span></span><span class="line"><span class="cl">    <span class="c1"># to all frontends)
+</span></span></span><span class="line"><span class="cl">    <span class="kn">proxy_next_upstream</span> <span class="s">error</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kn">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Allow file uploads
+</span></span></span><span class="line"><span class="cl">        <span class="kn">client_max_body_size</span> <span class="s">50M</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kn">location</span> <span class="s">^~</span> <span class="s">/static/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">root</span> <span class="s">/var/www</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">if</span> <span class="s">(</span><span class="nv">$query_string</span><span class="s">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kn">expires</span> <span class="s">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">location</span> <span class="p">=</span> <span class="s">/favicon.ico</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">rewrite</span> <span class="s">(.*)</span> <span class="s">/static/favicon.ico</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">location</span> <span class="p">=</span> <span class="s">/robots.txt</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">rewrite</span> <span class="s">(.*)</span> <span class="s">/static/robots.txt</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">proxy_pass_header</span> <span class="s">Server</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$http_host</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">proxy_redirect</span> <span class="no">off</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">proxy_set_header</span> <span class="s">X-Real-IP</span> <span class="nv">$remote_addr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">proxy_set_header</span> <span class="s">X-Scheme</span> <span class="nv">$scheme</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kn">proxy_pass</span> <span class="s">http://frontends</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="静态文件和积极的文件缓存">静态文件和积极的文件缓存</h2>
 <p>您可以通过在应用程序中指定 static_path 设置来提供 Tornado 中的静态文件：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">settings <span style="color:#555">=</span> {
-    <span style="color:#c30">&#34;static_path&#34;</span>: os<span style="color:#555">.</span>path<span style="color:#555">.</span>join(os<span style="color:#555">.</span>path<span style="color:#555">.</span>dirname(__file__), <span style="color:#c30">&#34;static&#34;</span>),
-    <span style="color:#c30">&#34;cookie_secret&#34;</span>: <span style="color:#c30">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span>,
-    <span style="color:#c30">&#34;login_url&#34;</span>: <span style="color:#c30">&#34;/login&#34;</span>,
-    <span style="color:#c30">&#34;xsrf_cookies&#34;</span>: <span style="color:#069;font-weight:bold">True</span>,
-}
-application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
-    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
-    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/login&#34;</span>, LoginHandler),
-    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/(apple-touch-icon\.png)&#34;</span>, tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>StaticFileHandler,
-     <span style="color:#366">dict</span>(path<span style="color:#555">=</span>settings[<span style="color:#c30">&#39;static_path&#39;</span>])),
-], <span style="color:#555">**</span>settings)
-</code></pre></div><p>此设置将自动使来自该静态目录的所有以 /static/serve 开头的请求（例如，http:// localhost:8888/static/foo.png）从指定的静态目录提供文件 foo.png。我们还自动从静态目录中提供 /robots.txt 和 /favicon.ico（即使它们不以 /static/ 前缀开头）。</p>
-<p>在上面的设置中，我们已经明确地将 Tornado 配置为使用 StaticFileHandler 从 root 用户提供 apple-touch-icon.png，尽管它实际上位于静态文件目录中。（正则表达式中的捕获组必须告诉 StaticFileHandler 所请求的文件名；回想一下，捕获组作为方法参数传递给处理程序。）您可以执行相同的操作，例如来自站点根目录的 sitemap.xml。当然，您也可以通过在 HTML 中使用相应的 <!-- raw HTML omitted --> 标记来避免伪造 root apple-touch-icon.png</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;static_path&#34;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&#34;static&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;cookie_secret&#34;</span><span class="p">:</span> <span class="s2">&#34;__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;login_url&#34;</span><span class="p">:</span> <span class="s2">&#34;/login&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;xsrf_cookies&#34;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">application</span> <span class="o">=</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">Application</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="sa">r</span><span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="n">MainHandler</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="sa">r</span><span class="s2">&#34;/login&#34;</span><span class="p">,</span> <span class="n">LoginHandler</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="sa">r</span><span class="s2">&#34;/(apple-touch-icon\.png)&#34;</span><span class="p">,</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">StaticFileHandler</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">     <span class="nb">dict</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;static_path&#39;</span><span class="p">])),</span>
+</span></span><span class="line"><span class="cl"><span class="p">],</span> <span class="o">**</span><span class="n">settings</span><span class="p">)</span>
+</span></span></code></pre></div><p>此设置将自动使来自该静态目录的所有以 /static/serve 开头的请求（例如，http:// localhost:8888/static/foo.png）从指定的静态目录提供文件 foo.png。我们还自动从静态目录中提供 /robots.txt 和 /favicon.ico（即使它们不以 /static/ 前缀开头）。</p>
+<p>在上面的设置中，我们已经明确地将 Tornado 配置为使用 StaticFileHandler 从 root 用户提供 apple-touch-icon.png，尽管它实际上位于静态文件目录中。（正则表达式中的捕获组必须告诉 StaticFileHandler 所请求的文件名；回想一下，捕获组作为方法参数传递给处理程序。）您可以执行相同的操作，例如来自站点根目录的 sitemap.xml。当然，您也可以通过在 HTML 中使用相应的 <link /> 标记来避免伪造 root apple-touch-icon.png</p>
 <p>为了提高性能，浏览器通常会积极地缓存静态资源，因此浏览器不会发送可能阻止页面呈现的不必要的 If-Modified-Since 或 Etag 请求。Tornado 支持这种开箱即用的静态内容版本控制。</p>
 <p>要使用此功能，请在模板中使用 static_url 方法，而不是直接在 HTML 中键入静态文件的URL：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#309;font-weight:bold">html</span>&gt;
-   &lt;<span style="color:#309;font-weight:bold">head</span>&gt;
-      &lt;<span style="color:#309;font-weight:bold">title</span>&gt;FriendFeed - {{ _(&#34;Home&#34;) }}&lt;/<span style="color:#309;font-weight:bold">title</span>&gt;
-   &lt;/<span style="color:#309;font-weight:bold">head</span>&gt;
-   &lt;<span style="color:#309;font-weight:bold">body</span>&gt;
-     &lt;<span style="color:#309;font-weight:bold">div</span>&gt;&lt;<span style="color:#309;font-weight:bold">img</span> <span style="color:#309">src</span><span style="color:#555">=</span><span style="color:#c30">&#34;{{ static_url(&#34;</span><span style="color:#309">images</span><span style="color:#a00;background-color:#faa">/</span><span style="color:#309">logo</span><span style="color:#a00;background-color:#faa">.</span><span style="color:#309">png</span><span style="color:#a00;background-color:#faa">&#34;)</span> <span style="color:#a00;background-color:#faa">}}&#34;</span>/&gt;&lt;/<span style="color:#309;font-weight:bold">div</span>&gt;
-   &lt;/<span style="color:#309;font-weight:bold">body</span>&gt;
- &lt;/<span style="color:#309;font-weight:bold">html</span>&gt;
-</code></pre></div><p>static_url() 函数将该相对路径转换为看起来像 /static/images/logo.png?v=aae54 的URI。 v 参数是 logo.png 中内容的哈希值，它的存在使得 Tornado 服务器向用户的浏览器发送缓存头，这将使浏览器无限期地缓存内容。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>FriendFeed - {{ _(&#34;Home&#34;) }}<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">     <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;{{ static_url(&#34;</span><span class="na">images</span><span class="err">/</span><span class="na">logo</span><span class="err">.</span><span class="na">png</span><span class="err">&#34;)</span> <span class="err">}}&#34;</span><span class="p">/&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"> <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p>static_url() 函数将该相对路径转换为看起来像 /static/images/logo.png?v=aae54 的URI。 v 参数是 logo.png 中内容的哈希值，它的存在使得 Tornado 服务器向用户的浏览器发送缓存头，这将使浏览器无限期地缓存内容。</p>
 <p>由于 v 参数基于文件的内容，如果更新文件并重新启动服务器，它将开始发送新的 v 值，因此用户的浏览器将自动获取新文件。如果文件的内容没有改变，浏览器将继续使用本地缓存的副本，而无需检查服务器上的更新，从而显着提高了渲染性能。</p>
 <p>在生产中，您可能希望从更优化的静态文件服务器（如 nginx）提供静态文件。您几乎可以配置任何 Web 服务器以识别 static_url() 使用的版本标记，并相应地设置缓存标头。以下是我们在 FriendFeed 中使用的 nginx 配置的相关部分：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#069;font-weight:bold">location</span> <span style="color:#c30">/static/</span> {
-    <span style="color:#069;font-weight:bold">root</span> <span style="color:#c30">/var/friendfeed/static</span>;
-    <span style="color:#069;font-weight:bold">if</span> <span style="color:#c30">(</span><span style="color:#033">$query_string</span><span style="color:#c30">)</span> {
-        <span style="color:#069;font-weight:bold">expires</span> <span style="color:#c30">max</span>;
-    }
- }
-</code></pre></div><h2 id="调试模式和自动重新加载">调试模式和自动重新加载</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="s">/static/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">root</span> <span class="s">/var/friendfeed/static</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">if</span> <span class="s">(</span><span class="nv">$query_string</span><span class="s">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">expires</span> <span class="s">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span></code></pre></div><h2 id="调试模式和自动重新加载">调试模式和自动重新加载</h2>
 <p>如果将 debug = True 传递给 Application 构造函数，则应用程序将以调试/开发模式运行。在此模式下，将启用在开发时为方便起见的几个功能（每个功能也可作为单独的标志使用；如果两者都指定，则单个标志优先）：</p>
 <ul>
 <li>
@@ -277,100 +543,344 @@ application <span style="color:#555">=</span> tornado<span style="color:#555">.<
 <h2 id="wsgi-和-google-app-engine">WSGI 和 Google App Engine</h2>
 <p>Tornado 通常打算独立运行，没有 WSGI 容器。但是，在某些环境（例如 Google App Engine）中，只允许 WSGI，并且应用程序无法运行自己的服务器。在这种情况下，Tornado 支持有限的操作模式，该模式不支持异步操作，但允许在仅 WSGI 环境中使用 Tornado 功能的子集。WSGI 模式中不允许的功能包括协程，@asynchronous 装饰器，AsyncHTTPClient，auth 模块和 WebSockets。</p>
 <p>您可以使用 tornado.wsgi.WSGIAdapter 将 Tornado 应用程序转换为 WSGI 应用程序。在此示例中，配置 WSGI 容器以查找应用程序对象：</p>
-<div class="highlight"><pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">tornado.web</span>
-<span style="color:#069;font-weight:bold">import</span> <span style="color:#0cf;font-weight:bold">tornado.wsgi</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tornado.web</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tornado.wsgi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MainHandler</span><span class="p">(</span><span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">RequestHandler</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&#34;Hello, world&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">tornado_app</span> <span class="o">=</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">Application</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="p">(</span><span class="sa">r</span><span class="s2">&#34;/&#34;</span><span class="p">,</span> <span class="n">MainHandler</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">application</span> <span class="o">=</span> <span class="n">tornado</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">WSGIAdapter</span><span class="p">(</span><span class="n">tornado_app</span><span class="p">)</span>
+</span></span></code></pre></div><p>请参阅 <a href="https://github.com/tornadoweb/tornado/tree/stable/demos/appengine">appengine</a> 示例应用程序，了解基于 Tornado 构建的全功能 AppEngine 应用程序。</p>
 
-<span style="color:#069;font-weight:bold">class</span> <span style="color:#0a8;font-weight:bold">MainHandler</span>(tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>RequestHandler):
-    <span style="color:#069;font-weight:bold">def</span> <span style="color:#c0f">get</span>(self):
-        self<span style="color:#555">.</span>write(<span style="color:#c30">&#34;Hello, world&#34;</span>)
+      </div>
 
-tornado_app <span style="color:#555">=</span> tornado<span style="color:#555">.</span>web<span style="color:#555">.</span>Application([
-    (<span style="color:#c30">r</span><span style="color:#c30">&#34;/&#34;</span>, MainHandler),
-])
-application <span style="color:#555">=</span> tornado<span style="color:#555">.</span>wsgi<span style="color:#555">.</span>WSGIAdapter(tornado_app)
-
-</code></pre></div><p>请参阅 <a href="https://github.com/tornadoweb/tornado/tree/stable/demos/appengine">appengine</a> 示例应用程序，了解基于 Tornado 构建的全功能 AppEngine 应用程序。</p>
-
-    </article>
-
-
-                  </div>
-                </div>
-              </div>
-
-
-        <footer class="site-footer">
-    
-
-        <div class="container">
-            <hr>
-            
-
-<div class="row" style="margin-top:2rem;margin-bottom:2rem">
-
-
-<div class="col-sm-2">
-<div class="card border-light bg-light">
-<div class="view overlay hm-white-slight">
-<img src="/assets/img/Jeremy.jpg" class="card-img img-fluid float-left" alt="">
-</div>
-</div>
-</div>
-
-
-
-<div class="col-sm-10">
-<h5><a href="/about">Jeremy Yin</a></h5>
-<p>Python Engineer, Business System Architect</p>
-<ul class="list-unstyled">
-<li><a href="https://github.com/jeremyyin2012" target="_blank">
-    <span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
-</span>
-</a>
-</li>
-</ul>
-<p>友情链接：<a href="https://www.2haohr.com/" target="_blank">2号人事部</a></p>
-</div>
-
-
-
-</div>
-
-
-      
-          <div class="footer left column one-half">
-            <section class="small-font">
-                    Copyright © Since 2016 <a href="/">Jeremy's blog</a> All Rights Reserved.
-                    <a id="icp_link" target="_blank"
-                      href="http://beian.miit.gov.cn"><span>粤ICP备18138486号-1</span></a>
-            </section>
-          </div>
-        </div>
-
+      <footer class="article-footer">
+        <a class="text-link" href="/">返回首页</a>
+        
+        
+        
+        <a class="text-link" href="/tornado/">浏览翻译</a>
+        
+        
+        <button class="text-button" type="button" data-search-toggle>Search</button>
+        
       </footer>
-
+      
+      
+      
+      <nav class="article-pager" aria-label="文章分页">
         
-<script src="/mdb/js/jquery-3.2.1.min.js"></script>
-<script src="/mdb/js/popper.min.js"></script>
-<script src="/bootstrap/js/bootstrap.min.js"></script>
-<script src="/mdb/js/mdb.min.js"></script>
-<script src="/assets/evil-icons.min.js"></script>
-<script src="/jeremy/js/main.js"></script>
-<script src="/jeremy/js/icp.js"></script>
-
         
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-92987034-1', 'auto');
-	
-	ga('send', 'pageview');
-}
+        <a class="article-pager-link is-prev" href="/note/2018-09-05-1522/">
+          <span class="article-pager-label">上一篇</span>
+          <span class="article-pager-title">做手艺活，必然需要一套趁手的工具</span>
+        </a>
+        
+        
+        
+        <a class="article-pager-link is-next" href="/tornado/01-guide/0107-security/">
+          <span class="article-pager-label">下一篇</span>
+          <span class="article-pager-title">Tornado 0107 - 用户指南: 认证与安全</span>
+        </a>
+        
+      </nav>
+      
+    </article>
+  </section>
+
+    </main>
+
+    
+<section class="search-layer" id="site-search" hidden aria-hidden="true">
+  <div class="search-backdrop" data-search-close></div>
+
+  <div
+    class="search-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="site-search-title"
+    aria-describedby="site-search-desc"
+    tabindex="-1"
+    data-search-panel
+  >
+    <div class="search-panel-header">
+      <div>
+        <h2 id="site-search-title">站内搜索</h2>
+        <p id="site-search-desc">按标题和正文检索，直接跳转到原文。</p>
+        <p class="search-shortcut"><kbd>⌘</kbd><kbd>K</kbd><span>/</span><kbd>Ctrl</kbd><kbd>K</kbd></p>
+      </div>
+
+      <button class="search-close" type="button" data-search-close aria-label="关闭搜索">
+        关闭
+      </button>
+    </div>
+
+    <div class="search-panel-body">
+      <div class="search-input-wrap">
+        <input
+          class="search-input"
+          id="search-input"
+          name="q"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="搜索文章标题或正文…"
+          aria-label="搜索文章标题或正文"
+        >
+      </div>
+      <div class="search-stats" id="search-stats" aria-live="polite"></div>
+      <p class="search-empty" id="search-empty">输入关键词开始检索。</p>
+      <div id="search-hits" class="search-hits"></div>
+    </div>
+  </div>
+</section>
+
+
+
+    <footer class="site-footer">
+  
+  
+  
+  
+  
+    
+  
+  
+  
+    
+  
+
+  <div class="site-footer-shell">
+    <nav class="site-footer-nav" aria-label="Footer">
+      <a href="/about/">About</a>
+      <a href="/index.xml">RSS</a>
+      
+      <a href="https://github.com/jeremyyin2012" target="_blank" rel="noreferrer">GitHub</a>
+      
+    </nav>
+
+    <p class="site-footer-line">
+      <span>Writing on engineering, systems, and tools.</span>
+    </p>
+    <p class="site-footer-line">
+      <span>Copyright © Since 2016 Jeremy Notes. All Rights Reserved.</span>
+    </p>
+    
+  </div>
+</footer>
+
+
+    <script src="https://jeremyyin.com/jeremy/js/main.js"></script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const layer = document.getElementById("site-search");
+    const input = document.getElementById("search-input");
+    const emptyState = document.getElementById("search-empty");
+    const stats = document.getElementById("search-stats");
+    const hitsContainer = document.getElementById("search-hits");
+
+    if (!layer || !input || !emptyState || !stats || !hitsContainer) {
+      return;
+    }
+
+    const sectionLabels = {
+      post: "文章",
+      note: "笔记",
+      python: "Python",
+      rust: "Rust",
+      tornado: "翻译",
+      saleor: "翻译"
+    };
+
+    const endpoint = "https://5AK65RDSWI-dsn.algolia.net/1/indexes/" + encodeURIComponent("jeremyyin.com") + "/query";
+    const headers = {
+      "X-Algolia-Application-Id": "5AK65RDSWI",
+      "X-Algolia-API-Key": "5cb2e03f3d9cc9b8f4ecac0245ec0a8d",
+      "Content-Type": "application/json"
+    };
+
+    let debounceTimer = null;
+    let activeController = null;
+    let searchVersion = 0;
+
+    const formatDate = function (unixTimestamp) {
+      if (!unixTimestamp) {
+        return "";
+      }
+
+      const date = new Date(unixTimestamp * 1000);
+      return new Intl.DateTimeFormat("zh-CN", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+      }).format(date);
+    };
+
+    const escapeHtml = function (value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    };
+
+    const renderHighlight = function (value) {
+      const openToken = "__ALGOLIA_EM_OPEN__";
+      const closeToken = "__ALGOLIA_EM_CLOSE__";
+      const text = String(value || "")
+        .replace(/\\\"/g, "\"")
+        .replace(/<em\b[^>]*>/gi, openToken)
+        .replace(/<\/em>/gi, closeToken);
+
+      return escapeHtml(text)
+        .replace(new RegExp(openToken, "g"), "<mark>")
+        .replace(new RegExp(closeToken, "g"), "</mark>");
+    };
+
+    const clearSearchResult = function () {
+      searchVersion += 1;
+      if (activeController) {
+        activeController.abort();
+        activeController = null;
+      }
+
+      hitsContainer.innerHTML = "";
+      stats.textContent = "";
+      emptyState.hidden = false;
+      layer.dataset.hasQuery = "false";
+    };
+
+    const renderResults = function (response) {
+      const nbHits = typeof response.nbHits === "number" ? response.nbHits : 0;
+      const processingTimeMS = typeof response.processingTimeMS === "number" ? response.processingTimeMS : 0;
+
+      stats.textContent = nbHits + " 条结果 · " + processingTimeMS + " ms";
+      emptyState.hidden = true;
+
+      if (!response.hits || response.hits.length === 0) {
+        hitsContainer.innerHTML = '<p class="search-no-result">没有找到结果，试试更短的关键词。</p>';
+        return;
+      }
+
+      const html = response.hits.map(function (hit) {
+        const titleValue = hit._highlightResult && hit._highlightResult.title
+          ? hit._highlightResult.title.value
+          : hit.title;
+        const contentValue = hit._snippetResult && hit._snippetResult.content
+          ? hit._snippetResult.content.value
+          : (hit.content || "").slice(0, 140);
+        const relpermalink = escapeHtml(hit.relpermalink || "#");
+        const date = formatDate(hit.date);
+        const section = sectionLabels[hit.section] || hit.section || "";
+
+        return (
+          '<article class="post-item">' +
+            '<p class="post-item-meta">' + [date, section].filter(Boolean).join(" · ") + "</p>" +
+            '<h3><a class="post-link" href="' + relpermalink + '">' + renderHighlight(titleValue) + "</a></h3>" +
+            '<div class="post-snippet">' + renderHighlight(contentValue) + "</div>" +
+          "</article>"
+        );
+      }).join("");
+
+      hitsContainer.innerHTML = html;
+    };
+
+    const renderError = function () {
+      stats.textContent = "";
+      emptyState.hidden = true;
+      hitsContainer.innerHTML = '<p class="search-no-result">搜索服务暂时不可用，请稍后再试。</p>';
+    };
+
+    const performSearch = async function (query) {
+      const trimmedQuery = query.trim();
+      if (!trimmedQuery) {
+        clearSearchResult();
+        return;
+      }
+
+      const requestVersion = ++searchVersion;
+      if (activeController) {
+        activeController.abort();
+      }
+
+      activeController = new AbortController();
+      layer.dataset.hasQuery = "true";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify({
+            query: trimmedQuery,
+            hitsPerPage: 12,
+            attributesToRetrieve: ["title", "content", "relpermalink", "date", "section"],
+            attributesToHighlight: ["title", "content"],
+            attributesToSnippet: ["content:128"],
+            snippetEllipsisText: "…",
+            restrictSearchableAttributes: ["title", "content"]
+          }),
+          signal: activeController.signal
+        });
+
+        if (!response.ok) {
+          throw new Error("HTTP " + response.status);
+        }
+
+        const payload = await response.json();
+        if (requestVersion !== searchVersion) {
+          return;
+        }
+
+        renderResults(payload);
+      } catch (error) {
+        if (error && error.name === "AbortError") {
+          return;
+        }
+        renderError();
+      }
+    };
+
+    input.addEventListener("input", function () {
+      const query = input.value.trim();
+      if (debounceTimer) {
+        window.clearTimeout(debounceTimer);
+      }
+
+      if (!query) {
+        clearSearchResult();
+        return;
+      }
+
+      emptyState.hidden = true;
+      debounceTimer = window.setTimeout(function () {
+        performSearch(query);
+      }, 180);
+    });
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter") {
+        return;
+      }
+
+      const firstResult = hitsContainer.querySelector(".post-link");
+      if (firstResult) {
+        window.location.href = firstResult.getAttribute("href");
+      }
+    });
+
+    layer.addEventListener("search:clear", clearSearchResult);
+  });
 </script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
-    </body>
 
+    
+  </body>
 </html>
